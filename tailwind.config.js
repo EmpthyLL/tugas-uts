@@ -1,14 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./views/**/*.ejs", // Adjust the path to your EJS views
-    "./public/**/*.html", // If you have any HTML files in public
-  ],
+  content: ["./views/**/*.{ejs,html}", "node_modules/preline/dist/*.js"],
   theme: {
     extend: {},
   },
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
+  plugins: [require("preline/plugin")],
 };
