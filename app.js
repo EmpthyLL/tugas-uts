@@ -62,6 +62,16 @@ app.get("/home", (req, res) => {
 //   );
 // });
 
+app.use((req, res) => {
+  res.status(404);
+  res.render("error/404", {
+    layout: "error/error_view",
+    title: "404 Page Not Found",
+    code: "4 0 4",
+    message: "<b>Whoops!</b> We couldn't find what you were looking for.",
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server is now running at http://localhost:${port}`);
 });
