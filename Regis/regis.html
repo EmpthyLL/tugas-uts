@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Login Page</title>
+
+   <!-- Tailwind CSS CDN -->
+   <script src="https://cdn.tailwindcss.com"></script>
+
+   <!-- Tailwind Elements (TWE) JS CDN -->
+   <script src="https://cdn.jsdelivr.net/npm/tw-elements@latest/dist/js/index.min.js"></script>
+</head>
+
+<body class="bg-gray-100">
+   <section class="h-screen">
+      <div class="h-full flex items-center justify-center">
+         <!-- Left column: Image -->
+         <div class="hidden lg:flex w-6/12">
+            <img src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" class="w-full"
+               alt="Sample image" />
+         </div>
+
+         <!-- Right column: Login form -->
+         <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+            <form>
+
+               <div class="relative mb-6">
+                  <h1 class="text-center text-3xl font-bold">Login</h1>
+               </div>
+               <!-- Email input -->
+               <div class="relative mb-6">
+                  <input type="email" id="emailInput"
+                     class="peer w-full rounded border bg-transparent px-3 py-4 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-transparent"
+                     placeholder="Email address" required />
+                  <label for="emailInput"
+                     class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 transition-all duration-300 scale-100 origin-[0] peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:translate-y-0 peer-focus:scale-75">
+                     Email address
+                  </label>
+               </div>
+
+               <!-- Password input -->
+               <div class="relative mb-6">
+                  <input type="password" id="passwordInput"
+                     class="peer w-full rounded border bg-transparent px-3 py-4 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-transparent"
+                     placeholder="Password" required />
+                  <label for="passwordInput"
+                     class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 transition-all duration-300 scale-100 origin-[0] peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:translate-y-0 peer-focus:scale-75">
+                     Password
+                  </label>
+               </div>
+
+               <!-- Remember Me + Forgot Password -->
+               <div class="mb-6 flex items-center justify-between">
+                  <div class="flex items-center">
+                     <input type="checkbox" id="rememberMe"
+                        class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                     <label for="rememberMe" class="ml-2 text-sm text-gray-700">Remember me</label>
+                  </div>
+                  <a href="#!" class="text-sm text-blue-500 hover:underline">Forgot password?</a>
+               </div>
+
+               <!-- Login button -->
+               <button type="submit"
+                  class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                  Login
+               </button>
+
+               <!-- Register link -->
+               <p class="mt-4 text-center text-sm">
+                  Don't have an account?
+                  <a href="#!" class="text-blue-500 hover:underline">Register</a>
+               </p>
+            </form>
+         </div>
+      </div>
+   </section>
+
+   <script>
+      // Initialize TWE components
+      import { Input, Ripple, initTE } from "tw-elements";
+      initTE({ Input, Ripple });
+   </script>
+</body>
+
+</html>
