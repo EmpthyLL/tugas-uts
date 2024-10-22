@@ -46,21 +46,63 @@ function getSession(req, res) {
 
 // Function to render EJS templates
 function renderEjs(page, data, res) {
-  const filePath = path.join(__dirname, page + ".ejs"); // Ensure it looks for .ejs file
-  console.log(`Rendering EJS file from path: ${filePath}`); // Debug log
+  const pagePath = path.join(__dirname, page + ".ejs");
+  const layoutPath = path.join(__dirname, "views", data.layout + ".ejs");
 
-  fs.readFile(filePath, "utf-8", (err, content) => {
+  // Render the main page content
+  fs.readFile(pagePath, "utf-8", (err, pageContent) => {
     if (err) {
-      console.error("Error loading page:", err); // Log detailed error
+      console.error("Error loading page:", err);
       res.writeHead(404);
       res.end("Error: Page not found");
-    } else {
-      const rendered = ejs.render(content, data);
-      res.writeHead(200, { "Content-Type": "text/html" });
-      res.end(rendered);
+      return;
     }
+
+    // Inject the page content into the layout
+    fs.readFile(layoutPath, "utf-8", (layoutErr, layoutContent) => {
+      if (layoutErr) {
+        console.error("Error loading layout:", layoutErr);
+        res.writeHead(500);
+        res.end("Error: Layout not found");
+        return;
+      }
+
+      // Render the page content and inject it into the layout
+      const renderedPage = ejs.render(pageContent, data);
+      const finalHtml = ejs.render(layoutContent, {
+        ...data,
+        body: renderedPage,
+      });
+
+      res.writeHead(200, { "Content-Type": "text/html" });
+      res.end(finalHtml);
+    });
   });
 }
+
+const serveStatic = (req, res) => {
+  const filePath = path.join(__dirname, "public", req.url);
+
+  fs.readFile(filePath, (err, data) => {
+    if (err) {
+      console.error("File not found:", filePath); // Log the error for debugging
+      res.writeHead(404, { "Content-Type": "text/html" });
+      res.end("<h1>404 - File Not Found</h1>");
+    } else {
+      // Set content type based on file extension
+      const ext = path.extname(filePath);
+      const contentType =
+        ext === ".js"
+          ? "application/javascript"
+          : ext === ".css"
+          ? "text/css"
+          : "text/html";
+
+      res.writeHead(200, { "Content-Type": contentType });
+      res.end(data);
+    }
+  });
+};
 
 // Handle routing and sessions
 function handleRequest(req, res) {
@@ -72,7 +114,7 @@ function handleRequest(req, res) {
 
   if (pathname === "/" || pathname === "/home") {
     renderEjs(
-      "views/home",
+      "views/index",
       { title: "Home Page", layout: "components/layout" },
       res
     );
@@ -101,28 +143,36 @@ function handleRequest(req, res) {
     // 404 Error
     renderEjs(
       "views/error/404",
-      { title: "Page Not Found", layout: "error/error_view" },
+      {
+        title: "Page Not Found",
+        layout: "error/error_view",
+        code: "4 0 4",
+        message: "<b>Whoops!</b> We couldn't find what you were looking for.",
+      },
       res
     );
   }
 }
 
-// Middleware to handle file uploads
 const uploadSingle = upload("images").single("image");
-
-// Create the HTTP server
+console.log(uploadSingle.filename);
 const server = http.createServer((req, res) => {
   if (req.method === "GET") {
-    handleRequest(req, res);
+    if (req.method === "GET") {
+      // Check if the request is for a static file (CSS or JS)
+      if (req.url.startsWith("/css") || req.url.startsWith("/node_modules")) {
+        serveStatic(req, res); // Serve the static file
+      } else {
+        handleRequest(req, res); // Handle other routes
+      }
+    }
   } else if (req.method === "POST") {
     if (req.url === "/upload") {
-      // Handle file upload with multer
       uploadSingle(req, res, function (err) {
         if (err) {
           res.writeHead(500, { "Content-Type": "text/html" });
           res.end("Error: File upload failed");
         } else {
-          // Successfully uploaded
           res.writeHead(200, { "Content-Type": "text/html" });
           res.end("File uploaded successfully");
         }
@@ -132,7 +182,7 @@ const server = http.createServer((req, res) => {
 });
 
 // Start the server
-const port = 3000;
+const port = 3001;
 server.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
