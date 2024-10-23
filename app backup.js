@@ -7,10 +7,10 @@ const flash = require("connect-flash");
 const methodOverride = require("method-override");
 const auth = require("./app/middlewares/auth");
 const upload = require("./Utils/upload");
-const HomeController = require("./app/controllers/HomeController");
+const { home } = require("./app/controllers/HomeController");
 
 const app = express();
-const port = 3001;
+const port = 3000;
 
 app.set("view engine", "ejs");
 app.use(exlay);
@@ -32,42 +32,39 @@ app.use(flash());
 
 app.use(auth);
 
-//controllers
-const homeController = new HomeController();
-
 app.get("/", (req, res) => {
-  homeController.index(req, res);
+  home(req, res);
 });
 app.get("/home", (req, res) => {
-  homeController.index(req, res);
+  home(req, res);
 });
 
-// Route to serve the form for image upload
-app.get("/upload", (req, res) => {
-  res.send(`
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-      <input type="file" name="image" accept="image/*" required />
-      <button type="submit">Upload Image</button>
-    </form>
-  `);
-});
+// // Route to serve the form for image upload
+// app.get("/upload", (req, res) => {
+//   res.send(`
+//     <form action="/upload" method="POST" enctype="multipart/form-data">
+//       <input type="file" name="image" accept="image/*" required />
+//       <button type="submit">Upload Image</button>
+//     </form>
+//   `);
+// });
 
-const userPP = upload("ProfilePic");
-// Route to handle image upload
-app.post("/upload", userPP.single("image"), (req, res) => {
-  if (!req.file) {
-    return res.status(400).send("No file uploaded.");
-  }
+// const userPP = upload("ProfilePic");
+// // Route to handle image upload
+// app.post("/upload", userPP.single("image"), (req, res) => {
+//   if (!req.file) {
+//     return res.status(400).send("No file uploaded.");
+//   }
 
-  // Successfully uploaded
-  res.send(
-    `Image uploaded successfully: <a href="/uploads/ProfilePic/${req.file.filename}">View Image</a>`
-  );
-});
+//   // Successfully uploaded
+//   res.send(
+//     `Image uploaded successfully: <a href="/uploads/${req.file.filename}">View Image</a>`
+//   );
+// });
 
 app.use((req, res) => {
   res.status(404);
-  res.render("error/error", {
+  res.render("error/404", {
     layout: "error/error_view",
     title: "404 Page Not Found",
     code: "4 0 4",
