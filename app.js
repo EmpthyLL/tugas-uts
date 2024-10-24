@@ -40,7 +40,7 @@ const loginController = new LoginController("login", "plain");
 const registerController = new RegisterController("register", "plain");
 
 app.get("/", (req, res) => {
-  res.redirect();
+  res.redirect("/home");
 });
 app.get("/home", (req, res) => {
   homeController.index(req, res);
