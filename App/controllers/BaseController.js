@@ -1,6 +1,5 @@
 const fs = require("fs");
 const path = require("path");
-const { title } = require("process");
 
 class BaseController {
   constructor(view, layout) {
@@ -9,7 +8,7 @@ class BaseController {
     this.menus = [
       {
         title: "Home",
-        href: "/",
+        href: "/home",
       },
       {
         title: "About",
@@ -17,20 +16,23 @@ class BaseController {
       },
     ];
   }
-  viewExists() {
-    const viewPath = path.join(__dirname, "../../views", `${this.view}.ejs`);
-    return fs.existsSync(viewPath);
-  }
 
   renderView(res, options) {
+    const layoutPath = path.join(
+      __dirname,
+      "../../views/components",
+      `${this.layout}.ejs`
+    );
+    const viewPath = path.join(__dirname, "../../views", `${this.view}.ejs`);
+
     try {
-      if (!this.viewExists(this.view)) {
+      if (!fs.existsSync(viewPath) || !fs.existsSync(layoutPath)) {
         throw new Error(`View "${this.view}" not found`);
       }
 
       res.render(this.view, options);
     } catch (error) {
-      this.handleError(res, error.message, 500);
+      this.handleError(res, error.message);
     }
   }
 
