@@ -1,0 +1,8 @@
+data user : {
+	
+}
+
+login
+register
+forgot password => otp sistem : real email/alert/tampilkan bawah input
+home => promo, 

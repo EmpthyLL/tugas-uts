@@ -1,19 +1,34 @@
 const fs = require("fs");
 const path = require("path");
+const { title } = require("process");
 
 class BaseController {
-  viewExists(view) {
-    const viewPath = path.join(__dirname, "../../views", `${view}.ejs`);
+  constructor(view, layout) {
+    this.view = view;
+    this.layout = layout;
+    this.menus = [
+      {
+        title: "Home",
+        href: "/",
+      },
+      {
+        title: "About",
+        href: "/about",
+      },
+    ];
+  }
+  viewExists() {
+    const viewPath = path.join(__dirname, "../../views", `${this.view}.ejs`);
     return fs.existsSync(viewPath);
   }
 
-  renderView(res, view, options = {}) {
+  renderView(res, options) {
     try {
-      if (!this.viewExists(view)) {
-        throw new Error(`View "${view}" not found`);
+      if (!this.viewExists(this.view)) {
+        throw new Error(`View "${this.view}" not found`);
       }
 
-      res.render(view, options);
+      res.render(this.view, options);
     } catch (error) {
       this.handleError(res, error.message, 500);
     }
