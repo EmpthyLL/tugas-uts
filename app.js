@@ -35,9 +35,9 @@ app.use(flash());
 app.use(auth);
 
 //controllers
-const homeController = new HomeController();
-const loginController = new LoginController();
-const registerController = new RegisterController();
+const homeController = new HomeController("index", "layout");
+const loginController = new LoginController("login", "plain");
+const registerController = new RegisterController("register", "plain");
 
 app.get("/", (req, res) => {
   homeController.index(req, res);
