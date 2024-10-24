@@ -8,6 +8,8 @@ const methodOverride = require("method-override");
 const auth = require("./app/middlewares/auth");
 const upload = require("./Utils/upload");
 const HomeController = require("./app/controllers/HomeController");
+const LoginController = require("./app/controllers/LoginController");
+const RegisterController = require("./app/controllers/RegisterController");
 
 const app = express();
 const port = 3001;
@@ -34,12 +36,20 @@ app.use(auth);
 
 //controllers
 const homeController = new HomeController();
+const loginController = new LoginController();
+const registerController = new RegisterController();
 
 app.get("/", (req, res) => {
   homeController.index(req, res);
 });
 app.get("/home", (req, res) => {
   homeController.index(req, res);
+});
+app.get("/login", (req, res) => {
+  loginController.index(req, res);
+});
+app.get("/register", (req, res) => {
+  registerController.index(req, res);
 });
 
 // Route to serve the form for image upload

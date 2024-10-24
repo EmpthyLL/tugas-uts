@@ -1,18 +1,20 @@
 const BaseController = require("./BaseController");
 
-class HomeController extends BaseController {
+class RegisterController extends BaseController {
   index(req, res) {
     try {
       const options = {
-        layout: "components/layout",
         title: "Home Page",
       };
 
-      this.renderView(res, "index", options);
+      this.renderView(res, "register", options);
     } catch (error) {
       this.handleError(res, "Failed to render home page", 500);
     }
   }
+  store() {
+    //
+  }
 }
 
-module.exports = HomeController;
+module.exports = RegisterController;
