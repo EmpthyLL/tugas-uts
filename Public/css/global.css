@@ -2226,6 +2226,10 @@ video {
     background-color: rgb(51 65 85 / var(--tw-bg-opacity));
   }
 
+  .md\:hover\:bg-transparent:hover {
+    background-color: transparent;
+  }
+
   .md\:hover\:text-lime-500:hover {
     --tw-text-opacity: 1;
     color: rgb(132 204 22 / var(--tw-text-opacity));
