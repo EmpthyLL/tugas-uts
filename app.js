@@ -41,7 +41,7 @@ const registerController = new RegisterController();
 const homeController = new HomeController();
 const aboutController = new AboutController();
 
-app.get("/login", (req, res) => {
+app.get("/sign-in", (req, res) => {
   loginController.index(req, res);
 });
 app.get("/register", (req, res) => {

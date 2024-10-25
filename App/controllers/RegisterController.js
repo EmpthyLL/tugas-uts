@@ -3,7 +3,7 @@ const BaseController = require("./BaseController");
 class RegisterController extends BaseController {
   constructor() {
     super();
-    this.view = "login";
+    this.view = "register";
     this.layout = "plain";
     this.title = "Register Page";
   }
