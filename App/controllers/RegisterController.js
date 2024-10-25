@@ -1,11 +1,17 @@
 const BaseController = require("./BaseController");
 
 class RegisterController extends BaseController {
+  constructor() {
+    super();
+    this.view = "login";
+    this.layout = "plain";
+    this.title = "Register Page";
+  }
   index(req, res) {
     try {
       const options = {
         layout: `components/${this.layout}`,
-        title: "Home Page",
+        title: this.title,
       };
 
       this.renderView(res, options);

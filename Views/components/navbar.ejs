@@ -1,6 +1,6 @@
 <!-- ========== HEADER ========== -->
 <header
-  class="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full py-3 bg-slate-900 shadow-lg"
+  class="flex sticky top-0 flex-wrap md:justify-start md:flex-nowrap z-50 w-full py-3 bg-slate-900 shadow-lg"
 >
   <nav
     class="relative max-w-7xl w-full flex flex-wrap md:grid md:grid-cols-12 items-center px-4 md:px-8 mx-auto"
@@ -23,7 +23,7 @@
     >
       <button
         type="button"
-        class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl bg-white border border-gray-300 text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-white/10 dark:text-white dark:hover:text-white"
+        class="py-2 px-3 whitespace-nowrap inline-flex items-center gap-x-2 text-sm font-medium rounded-xl bg-white border border-gray-300 text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-white/10 dark:text-white dark:hover:text-white"
       >
         Sign in
       </button>
@@ -37,7 +37,7 @@
       <div class="md:hidden">
         <button
           type="button"
-          class="hs-collapse-toggle flex justify-center items-center text-sm font-semibold rounded-xl border border-gray-300 text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+          class="hs-collapse-toggle flex justify-center items-center text-sm font-semibold rounded-xl border border-gray-300 text-white hover:bg-slate-400 focus:outline-none focus:bg-slate-400 p-1 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
           id="hs-navbar-hcail-collapse"
           aria-expanded="false"
           aria-controls="hs-navbar-hcail"
@@ -92,7 +92,7 @@
         <% menus.forEach(menu => { %>
         <div>
           <a
-            class="relative inline-block text-white hover:text-lime-500 <%= req.url.startsWith(menu.href) ? 'text-lime-400 border-b-2 p-1' : '' %> focus:outline-none"
+            class="relative inline-block md:rounded-none rounded-lg w-full transition md:p-1 p-2 <%= req.url.startsWith(menu.href) ? ' text-white md:hover:text-lime-500 md:border-b-2 md:bg-transparent bg-slate-700' : 'text-white md:hover:border-b-2 hover:bg-slate-700 md:hover:text-lime-500' %> focus:outline-none"
             href="<%= menu.href %>"
             aria-current="<%= req.url.startsWith(menu.href) ? 'page' : 'false' %>"
           >
