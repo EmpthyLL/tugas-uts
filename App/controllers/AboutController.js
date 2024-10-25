@@ -1,17 +1,19 @@
 const BaseController = require("./BaseController");
 
-class LoginController extends BaseController {
+class AboutController extends BaseController {
   constructor() {
     super();
-    this.view = "login";
-    this.layout = "plain";
-    this.title = "Login Page";
+    this.view = "about";
+    this.layout = "layout";
+    this.title = "About Us";
   }
   index(req, res) {
     try {
       const options = {
         layout: `components/${this.layout}`,
         title: this.title,
+        req,
+        menus: this.menus,
       };
 
       this.renderView(res, options);
@@ -19,9 +21,6 @@ class LoginController extends BaseController {
       this.handleError(res, "Failed to render home page", 500);
     }
   }
-  login() {
-    //
-  }
 }
 
-module.exports = LoginController;
+module.exports = AboutController;

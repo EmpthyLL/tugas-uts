@@ -2,9 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 class BaseController {
-  constructor(view, layout) {
-    this.view = view;
-    this.layout = layout;
+  constructor() {
     this.menus = [
       {
         title: "Home",

@@ -10,6 +10,7 @@ const upload = require("./Utils/upload");
 const HomeController = require("./app/controllers/HomeController");
 const LoginController = require("./app/controllers/LoginController");
 const RegisterController = require("./app/controllers/RegisterController");
+const AboutController = require("./app/controllers/AboutController");
 
 const app = express();
 const port = 3001;
@@ -35,21 +36,25 @@ app.use(flash());
 app.use(auth);
 
 //controllers
-const homeController = new HomeController("index", "layout");
-const loginController = new LoginController("login", "plain");
-const registerController = new RegisterController("register", "plain");
+const loginController = new LoginController();
+const registerController = new RegisterController();
+const homeController = new HomeController();
+const aboutController = new AboutController();
 
+app.get("/login", (req, res) => {
+  loginController.index(req, res);
+});
+app.get("/register", (req, res) => {
+  registerController.index(req, res);
+});
 app.get("/", (req, res) => {
   res.redirect("/home");
 });
 app.get("/home", (req, res) => {
   homeController.index(req, res);
 });
-app.get("/login", (req, res) => {
-  loginController.index(req, res);
-});
-app.get("/register", (req, res) => {
-  registerController.index(req, res);
+app.get("/about", (req, res) => {
+  aboutController.index(req, res);
 });
 
 // Route to serve the form for image upload

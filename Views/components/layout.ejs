@@ -16,7 +16,11 @@
     </script>
   </head>
   <body>
-    <div><%- include('./navbar') %> <%- body %></div>
+    <div>
+      <%- include('./navbar') %>
+      <div class="min-h-[100vh]"><%- body %></div>
+      <%- include('./footer') %>
+    </div>
   </body>
   <script src="/node_modules/preline/dist/preline.js"></script>
 </html>
