@@ -1,188 +1,95 @@
-const http = require("http");
-const fs = require("fs");
-const path = require("path");
-const crypto = require("crypto");
-const url = require("url");
-const ejs = require("ejs");
-const upload = require("./utils/upload");
+const express = require("express");
+const exlay = require("express-ejs-layouts");
+const { check, body, validationResult } = require("express-validator");
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
+const flash = require("connect-flash");
+const methodOverride = require("method-override");
+const auth = require("./app/middlewares/auth");
+const upload = require("./Utils/upload");
+const HomeController = require("./app/controllers/HomeController");
+const LoginController = require("./app/controllers/LoginController");
+const RegisterController = require("./app/controllers/RegisterController");
+const AboutController = require("./app/controllers/AboutController");
 
-// In-memory session store
-const sessionStore = {};
+const app = express();
+const port = 3001;
 
-// Function to parse cookies
-function parseCookies(req) {
-  const list = {};
-  const cookieHeader = req.headers.cookie;
+app.set("view engine", "ejs");
+app.use(exlay);
+app.use(express.static("public"));
+app.use("/node_modules", express.static(__dirname + "/node_modules"));
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
 
-  if (cookieHeader) {
-    cookieHeader.split(";").forEach((cookie) => {
-      let parts = cookie.split("=");
-      list[parts.shift().trim()] = decodeURI(parts.join("="));
-    });
-  }
-  return list;
-}
+app.use(cookieParser("secret"));
+app.use(
+  session({
+    cookie: { maxAge: 6000 },
+    secret: "secret",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+app.use(flash());
 
-// Function to create a new session
-function createSession(res) {
-  const sessionId = crypto.randomBytes(16).toString("hex");
-  sessionStore[sessionId] = { createdAt: Date.now() };
-  res.setHeader("Set-Cookie", `sessionId=${sessionId}; HttpOnly`);
-  return sessionId;
-}
+app.use(auth);
 
-// Function to get or create a session
-function getSession(req, res) {
-  const cookies = parseCookies(req);
-  let sessionId = cookies["sessionId"];
+//controllers
+const loginController = new LoginController();
+const registerController = new RegisterController();
+const homeController = new HomeController();
+const aboutController = new AboutController();
 
-  if (sessionId && sessionStore[sessionId]) {
-    return sessionStore[sessionId];
-  } else {
-    sessionId = createSession(res);
-    return sessionStore[sessionId];
-  }
-}
-
-// Function to render EJS templates
-function renderEjs(page, data, res) {
-  const pagePath = path.join(__dirname, page + ".ejs");
-  const layoutPath = path.join(__dirname, "views", data.layout + ".ejs");
-
-  // Render the main page content
-  fs.readFile(pagePath, "utf-8", (err, pageContent) => {
-    if (err) {
-      console.error("Error loading page:", err);
-      res.writeHead(404);
-      res.end("Error: Page not found");
-      return;
-    }
-
-    // Inject the page content into the layout
-    fs.readFile(layoutPath, "utf-8", (layoutErr, layoutContent) => {
-      if (layoutErr) {
-        console.error("Error loading layout:", layoutErr);
-        res.writeHead(500);
-        res.end("Error: Layout not found");
-        return;
-      }
-
-      // Render the page content and inject it into the layout
-      const renderedPage = ejs.render(pageContent, data);
-      const finalHtml = ejs.render(layoutContent, {
-        ...data,
-        body: renderedPage,
-      });
-
-      res.writeHead(200, { "Content-Type": "text/html" });
-      res.end(finalHtml);
-    });
-  });
-}
-
-const serveStatic = (req, res) => {
-  const filePath = path.join(__dirname, "public", req.url);
-
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
-      console.error("File not found:", filePath); // Log the error for debugging
-      res.writeHead(404, { "Content-Type": "text/html" });
-      res.end("<h1>404 - File Not Found</h1>");
-    } else {
-      // Set content type based on file extension
-      const ext = path.extname(filePath);
-      const contentType =
-        ext === ".js"
-          ? "application/javascript"
-          : ext === ".css"
-          ? "text/css"
-          : "text/html";
-
-      res.writeHead(200, { "Content-Type": contentType });
-      res.end(data);
-    }
-  });
-};
-
-// Handle routing and sessions
-function handleRequest(req, res) {
-  const parsedUrl = url.parse(req.url, true);
-  const pathname = parsedUrl.pathname;
-
-  // Get the session or create a new one
-  const session = getSession(req, res);
-
-  if (pathname === "/" || pathname === "/home") {
-    renderEjs(
-      "views/index",
-      { title: "Home Page", layout: "components/layout" },
-      res
-    );
-  } else if (pathname === "/about") {
-    renderEjs(
-      "views/about",
-      { title: "About Us", layout: "components/layout" },
-      res
-    );
-  } else if (pathname === "/contact") {
-    renderEjs(
-      "views/contact",
-      { title: "Contact Us", layout: "components/layout" },
-      res
-    );
-  } else if (pathname === "/upload" && req.method === "GET") {
-    // Serve an upload form
-    res.writeHead(200, { "Content-Type": "text/html" });
-    res.end(`
-      <form action="/upload" method="POST" enctype="multipart/form-data">
-        <input type="file" name="image" accept="image/*" required />
-        <button type="submit">Upload Image</button>
-      </form>
-    `);
-  } else {
-    // 404 Error
-    renderEjs(
-      "views/error/404",
-      {
-        title: "Page Not Found",
-        layout: "error/error_view",
-        code: "4 0 4",
-        message: "<b>Whoops!</b> We couldn't find what you were looking for.",
-      },
-      res
-    );
-  }
-}
-
-const uploadSingle = upload("images").single("image");
-console.log(uploadSingle.filename);
-const server = http.createServer((req, res) => {
-  if (req.method === "GET") {
-    if (req.method === "GET") {
-      // Check if the request is for a static file (CSS or JS)
-      if (req.url.startsWith("/css") || req.url.startsWith("/node_modules")) {
-        serveStatic(req, res); // Serve the static file
-      } else {
-        handleRequest(req, res); // Handle other routes
-      }
-    }
-  } else if (req.method === "POST") {
-    if (req.url === "/upload") {
-      uploadSingle(req, res, function (err) {
-        if (err) {
-          res.writeHead(500, { "Content-Type": "text/html" });
-          res.end("Error: File upload failed");
-        } else {
-          res.writeHead(200, { "Content-Type": "text/html" });
-          res.end("File uploaded successfully");
-        }
-      });
-    }
-  }
+app.get("/login", (req, res) => {
+  loginController.index(req, res);
+});
+app.get("/register", (req, res) => {
+  registerController.index(req, res);
+});
+app.get("/", (req, res) => {
+  res.redirect("/home");
+});
+app.get("/home", (req, res) => {
+  homeController.index(req, res);
+});
+app.get("/about", (req, res) => {
+  aboutController.index(req, res);
 });
 
-// Start the server
-const port = 3001;
-server.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+// Route to serve the form for image upload
+app.get("/upload", (req, res) => {
+  res.send(`
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+      <input type="file" name="image" accept="image/*" required />
+      <button type="submit">Upload Image</button>
+    </form>
+  `);
+});
+
+const userPP = upload("ProfilePic");
+// Route to handle image upload
+app.post("/upload", userPP.single("image"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).send("No file uploaded.");
+  }
+
+  // Successfully uploaded
+  res.send(
+    `Image uploaded successfully: <a href="/uploads/ProfilePic/${req.file.filename}">View Image</a>`
+  );
+});
+
+app.use((req, res) => {
+  res.status(404);
+  res.render("error/error", {
+    layout: "error/error_view",
+    title: "404 Page Not Found",
+    code: "4 0 4",
+    message: "<b>Whoops!</b> We couldn't find what you were looking for.",
+  });
+});
+
+app.listen(port, () => {
+  console.log(`Server is now running at http://localhost:${port}`);
 });
