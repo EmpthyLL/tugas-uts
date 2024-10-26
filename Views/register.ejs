@@ -1,15 +1,6 @@
 <section class="h-screen">
   <div class="h-full flex items-center justify-center">
     <!-- Left column: Image -->
-    <div class="hidden lg:flex w-6/12">
-      <img
-        src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-        class="w-full"
-        alt="Sample image"
-      />
-    </div>
-
-    <!-- Right column: Forms Container -->
     <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
       <!-- Register Form -->
       <form id="registerForm" class="space-y-6">
@@ -22,7 +13,7 @@
             type="text"
             id="username"
             name="username"
-            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
             autocomplete="off"
             placeholder="Type your username"
             required
@@ -84,9 +75,18 @@
         <!-- Login link -->
         <p class="text-center">
           Already have an account?
-          <a href="/sign-in" class="text-blue-500 hover:underline">Login</a>
+          <a href="/sign-in" class="text-lime-500 hover:text-lime-700 hover:underline">Login</a>
         </p>
       </form>
+    </div>
+
+    <!-- Right column: Forms Container -->
+    <div class="hidden lg:flex w-6/12">
+      <img
+        src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+        class="w-full"
+        alt="Sample image"
+      />
     </div>
   </div>
 </section>
