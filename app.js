@@ -11,6 +11,7 @@ const HomeController = require("./app/controllers/HomeController");
 const LoginController = require("./app/controllers/LoginController");
 const RegisterController = require("./app/controllers/RegisterController");
 const AboutController = require("./app/controllers/AboutController");
+const ForgotPassController = require("./app/controllers/ForgotPassController");
 
 const app = express();
 const port = 3001;
@@ -40,12 +41,16 @@ const loginController = new LoginController();
 const registerController = new RegisterController();
 const homeController = new HomeController();
 const aboutController = new AboutController();
+const forgotpassController = new ForgotPassController();
 
 app.get("/sign-in", (req, res) => {
   loginController.index(req, res);
 });
 app.get("/register", (req, res) => {
   registerController.index(req, res);
+});
+app.get("/forgot-password", (req, res) => {
+  forgotpassController.index(req, res);
 });
 app.get("/", (req, res) => {
   res.redirect("/home");
