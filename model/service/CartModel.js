@@ -1,6 +1,10 @@
 const Model = require("./Model");
 
 class CartModel extends Model {
+  constructor() {
+    this.source = "users";
+    super();
+  }
   getCartItems() {
     return this.data;
   }

@@ -1,16 +1,16 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./views/**/*.{html,js,jsx,ts,tsx,ejs}",
-    "node_modules/preline/dist/*.js",
+    "./**/*.ejs",
+    "./node_modules/preline/dist/*.js",
+    "./node_modules/flowbite/**/*.js",
   ],
   theme: {
     extend: {
       screens: {
         c1: "1000px",
-        xs: "480px",
+        xs: "380px",
       },
     },
   },
-  plugins: [require("preline/plugin")],
+  plugins: [require("preline/plugin"), require("flowbite/plugin")],
 };

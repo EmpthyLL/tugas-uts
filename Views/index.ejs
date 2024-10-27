@@ -82,3 +82,220 @@
     </div>
   </div>
 </div>
+
+<button
+  type="button"
+  class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+  aria-haspopup="dialog"
+  aria-expanded="false"
+  aria-controls="hs-offcanvas-example"
+  data-hs-overlay="#hs-offcanvas-example"
+>
+  Open offcanvas
+</button>
+
+<div
+  id="hs-offcanvas-example"
+  class="hs-overlay hs-overlay-open:translate-x-0 hidden -translate-x-full fixed top-0 start-0 transition-all duration-300 transform h-full max-w-xs w-full z-[80] bg-white border-e dark:bg-neutral-800 dark:border-neutral-700"
+  role="dialog"
+  tabindex="-1"
+  aria-labelledby="hs-offcanvas-example-label"
+>
+  <div
+    class="flex justify-between items-center py-3 px-4 border-b dark:border-neutral-700"
+  >
+    <h3
+      id="hs-offcanvas-example-label"
+      class="font-bold text-gray-800 dark:text-white"
+    >
+      Offcanvas title
+    </h3>
+    <button
+      type="button"
+      class="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-neutral-400 dark:focus:bg-neutral-600"
+      aria-label="Close"
+      data-hs-overlay="#hs-offcanvas-example"
+    >
+      <span class="sr-only">Close</span>
+      <svg
+        class="shrink-0 size-4"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M18 6 6 18"></path>
+        <path d="m6 6 12 12"></path>
+      </svg>
+    </button>
+  </div>
+  <div class="p-4">
+    <p class="text-gray-800 dark:text-neutral-400">
+      Some text as placeholder. In real life you can have the elements you have
+      chosen. Like, text, images, lists, etc.
+    </p>
+  </div>
+</div>
+<div class="hs-dropdown relative inline-flex">
+  <button
+    id="hs-dropdown-default"
+    type="button"
+    class="hs-dropdown-toggle py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+    aria-haspopup="menu"
+    aria-expanded="false"
+    aria-label="Dropdown"
+  >
+    Actions
+    <svg
+      class="hs-dropdown-open:rotate-180 size-4"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  </button>
+
+  <div
+    class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-white shadow-md rounded-lg mt-2 dark:bg-neutral-800 dark:border dark:border-neutral-700 dark:divide-neutral-700 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full"
+    role="menu"
+    aria-orientation="vertical"
+    aria-labelledby="hs-dropdown-default"
+  >
+    <div class="p-1 space-y-0.5">
+      <a
+        class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700"
+        href="#"
+      >
+        Newsletter
+      </a>
+      <a
+        class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700"
+        href="#"
+      >
+        Purchases
+      </a>
+      <a
+        class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700"
+        href="#"
+      >
+        Downloads
+      </a>
+      <a
+        class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700"
+        href="#"
+      >
+        Team Account
+      </a>
+    </div>
+  </div>
+</div>
+
+<button
+  data-popover-target="popover-top"
+  data-popover-placement="top"
+  type="button"
+  class="text-white mb-3 me-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+>
+  Top popover
+</button>
+
+<div
+  data-popover
+  id="popover-top"
+  role="tooltip"
+  class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+>
+  <div
+    class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+  >
+    <h3 class="font-semibold text-gray-900 dark:text-white">Popover top</h3>
+  </div>
+  <div class="px-3 py-2">
+    <p>And here's some amazing content. It's very engaging. Right?</p>
+  </div>
+  <div data-popper-arrow></div>
+</div>
+<button
+  data-popover-target="popover-right"
+  data-popover-placement="right"
+  type="button"
+  class="text-white mb-3 me-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+>
+  Right popover
+</button>
+<div
+  data-popover
+  id="popover-right"
+  role="tooltip"
+  class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+>
+  <div
+    class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+  >
+    <h3 class="font-semibold text-gray-900 dark:text-white">Popover right</h3>
+  </div>
+  <div class="px-3 py-2">
+    <p>And here's some amazing content. It's very engaging. Right?</p>
+  </div>
+  <div data-popper-arrow></div>
+</div>
+<button
+  data-popover-target="popover-bottom"
+  data-popover-placement="bottom"
+  type="button"
+  class="text-white mb-3 me-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+>
+  Bottom popover
+</button>
+<div
+  data-popover
+  id="popover-bottom"
+  role="tooltip"
+  class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+>
+  <div
+    class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+  >
+    <h3 class="font-semibold text-gray-900 dark:text-white">Popover bottom</h3>
+  </div>
+  <div class="px-3 py-2">
+    <p>And here's some amazing content. It's very engaging. Right?</p>
+  </div>
+  <div data-popper-arrow></div>
+</div>
+<button
+  data-popover-target="popover-left"
+  data-popover-placement="left"
+  type="button"
+  class="text-white mb-3 me-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+>
+  Left popover
+</button>
+<div
+  data-popover
+  id="popover-left"
+  role="tooltip"
+  class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+>
+  <div
+    class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+  >
+    <h3 class="font-semibold text-gray-900 dark:text-white">Popover left</h3>
+  </div>
+  <div class="px-3 py-2">
+    <p>And here's some amazing content. It's very engaging. Right?</p>
+  </div>
+  <div data-popper-arrow></div>
+</div>

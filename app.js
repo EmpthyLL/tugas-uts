@@ -62,12 +62,12 @@ app.get("/", (req, res) => {
 app.get("/about", (req, res) => {
   aboutController.index(req, res);
 });
-app.get("/reset-password", (req, res) =>{
-  resetpassController.index(req, res)
-})
-app.get("/verify", (req,res) => {
-  verifyController.index(req,res)
-})
+app.get("/reset-password", (req, res) => {
+  resetpassController.index(req, res);
+});
+app.get("/verify-account", (req, res) => {
+  verifyController.index(req, res);
+});
 
 // Route to serve the form for image upload
 app.get("/upload", (req, res) => {
