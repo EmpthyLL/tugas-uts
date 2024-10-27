@@ -5,13 +5,16 @@
       <img src="/img/logo_A3Mart.png" class="w-full" alt="Sample image" />
     </div>
 
-    <!-- Right column: Forms Container -->
-    <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+  <!-- Right column: Forms Container -->
+  <div class="flex py-6 justify-center items-center">
+    <div
+      class="xs:max-w-md w-full p-6 flex flex-col items-center justify-center bg-slate-200 rounded-lg shadow-lg"
+    >
       <!-- Login Form -->
       <form id="loginForm" class="space-y-6">
         <h1 class="text-center text-3xl text-gray-800 font-bold">Sign In</h1>
 
-        <!-- Email input -->
+        <!-- Username input -->
         <div class="mb-6">
           <label for="email" class="block text-gray-700">Username</label>
           <input
@@ -56,6 +59,15 @@
           <a href="/register" class="text-lime-600 hover:text-lime-700 hover:underline">Register</a>
         </p>
       </form>
+
+      <!-- Image for small screens -->
+      <div class="lg:hidden flex justify-center items-center mt-6">
+        <img
+          src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+          class="w-full h-full object-cover rounded-lg"
+          alt="Sample image"
+        />
+      </div>
     </div>
   </div>
 </section>

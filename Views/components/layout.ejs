@@ -7,11 +7,27 @@
     <link href="/css/global.css" rel="stylesheet" />
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
 
     <!-- Tailwind CDN Configuration for Preline -->
     <script>
       tailwind.config = {
         content: ["./**/*.{ejs}", "./node_modules/preline/dist/*.js"],
+        theme: {
+          extend: {
+            screens: {
+              c1: "1000px",
+              xs: "500px",
+            },
+          },
+        },
       };
     </script>
   </head>

@@ -12,11 +12,19 @@
     <script>
       tailwind.config = {
         content: ["./**/*.{ejs}", "./node_modules/preline/dist/*.js"],
+        theme: {
+          extend: {
+            screens: {
+              c1: "1000px",
+              xs: "500px",
+            },
+          },
+        },
       };
     </script>
   </head>
   <body>
-    <div class="min-h-[100vh]"><%- body %></div>
+    <div class="min-h-[100vh] w-full bg-slate-800"><%- body %></div>
   </body>
   <script src="/node_modules/preline/dist/preline.js"></script>
 </html>
