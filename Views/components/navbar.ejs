@@ -42,7 +42,6 @@
       >
         Register
       </a>
-
       <div class="md:hidden">
         <button
           type="button"
@@ -96,7 +95,33 @@
       class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block md:w-auto md:basis-auto md:order-2 md:col-span-6"
       aria-labelledby="hs-navbar-hcail-collapse"
     >
-      <div
+      <div>
+        <form
+          class="flex flex-grow mt-2 items-center bg-white space-x-2 py-2 px-3 rounded-xl border-gray-300 text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-white/10 dark:text-white dark:hover:text-white"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-search"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
+          </svg>
+          <input
+            type="text"
+            placeholder="Search..."
+            class="w-full bg-transparent text-sm font-medium focus:outline-none"
+          />
+        </form>
+      </div>
+      <!-- <div
         class="flex flex-col gap-y-4 gap-x-0 mt-5 md:flex-row md:justify-center md:items-center md:gap-y-0 md:gap-x-7 md:mt-0"
       >
         <div>
@@ -110,7 +135,7 @@
               />
             </form>
       </div>
-    </div>
+    </div>-->
     <!-- End Collapse -->
   </nav>
 </header>

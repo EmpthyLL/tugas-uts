@@ -1,14 +1,27 @@
-<section class="min-h-screen flex items-center justify-center my-8">
-  <div class="h-full flex items-center justify-center">
-    <!-- Left column: Image -->
-    <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+<section class="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+  <!-- Left column: Image -->
+  <div
+    class="hidden lg:flex min-h-screen p-12 bg-slate-400 rounded-r-xl items-center justify-center"
+  >
+    <img
+      src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+      class="w-full"
+      alt="Sample image"
+    />
+  </div>
+
+  <!-- Right column: Forms Container -->
+  <div class="flex py-6 justify-center items-center">
+    <div
+      class="xs:max-w-md w-full p-6 flex flex-col items-center justify-center bg-slate-200 rounded-lg shadow-lg"
+    >
       <!-- Register Form -->
-      <form id="registerForm" class="space-y-6">
+      <form id="registerForm" class="space-y-6 w-full mx-auto">
         <h1 class="text-center text-3xl font-bold">Register</h1>
 
         <!-- Username input -->
         <div class="mb-6">
-          <label for="text" class="block text-gray-900">Username</label>
+          <label for="username" class="block text-gray-900">Username</label>
           <input
             type="text"
             id="username"
@@ -20,6 +33,20 @@
           />
         </div>
 
+        <!-- Phone Number input -->
+        <div class="mb-6">
+          <label for="phone" class="block text-gray-900">No HP</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
+            autocomplete="off"
+            placeholder="Type your phone number"
+            required
+          />
+        </div>
+
         <!-- Email input -->
         <div class="mb-6">
           <label for="email" class="block text-gray-900">Email Address</label>
@@ -27,7 +54,7 @@
             type="text"
             id="email"
             name="email"
-            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
             autocomplete="off"
             placeholder="Type your email"
             required
@@ -41,7 +68,7 @@
             type="password"
             id="password"
             name="password"
-            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
             autocomplete="off"
             placeholder="Type your password"
             required
@@ -50,16 +77,16 @@
 
         <!-- Confirm Password input -->
         <div class="mb-4">
-          <label for="password" class="block text-gray-800"
+          <label for="confirmpassword" class="block text-gray-800"
             >Confirm Password</label
           >
           <input
             type="password"
             id="confirmpassword"
             name="confirmpassword"
-            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
             autocomplete="off"
-            placeholder="Same with password"
+            placeholder="Confirm your password"
             required
           />
         </div>
@@ -67,7 +94,7 @@
         <!-- Register button -->
         <button
           type="submit"
-          class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 focus:ring-2 focus:ring-blue-300"
+          class="w-full bg-lime-500 text-white py-2 rounded hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-lime-300"
         >
           Register
         </button>
@@ -75,18 +102,21 @@
         <!-- Login link -->
         <p class="text-center">
           Already have an account?
-          <a href="/sign-in" class="text-lime-500 hover:text-lime-700 hover:underline">Login</a>
+          <a
+            href="/sign-in"
+            class="text-lime-500 hover:text-lime-700 hover:underline"
+            >Login</a
+          >
         </p>
       </form>
-    </div>
-
-    <!-- Right column: Forms Container -->
-    <div class="hidden lg:flex w-6/12">
-      <img
-        src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-        class="w-full"
-        alt="Sample image"
-      />
+      <!-- Image for small screens -->
+      <div class="lg:hidden flex justify-center items-center mt-6">
+        <img
+          src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+          class="w-full h-full object-cover rounded-lg"
+          alt="Sample image"
+        />
+      </div>
     </div>
   </div>
 </section>

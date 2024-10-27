@@ -12,6 +12,14 @@
     <script>
       tailwind.config = {
         content: ["./**/*.{ejs}", "./node_modules/preline/dist/*.js"],
+        theme: {
+          extend: {
+            screens: {
+              c1: "1000px",
+              xs: "500px",
+            },
+          },
+        },
       };
     </script>
   </head>
