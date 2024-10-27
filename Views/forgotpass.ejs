@@ -1,18 +1,7 @@
-<title>Forgot Password</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/tw-elements@latest/dist/js/index.min.js"></script>
-
 <section class="h-screen">
-    <div class="h-full flex items-center justify-center">
-        <!-- Left column: Image -->
-        <div class="hidden lg:flex w-6/12">
-            <img src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" class="w-full"
-                alt="Sample image" />
-        </div>
-
-        <!-- Right column: Forms Container -->
-        <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg" onsubmit="">
+    <div class="h-full flex items-center justify-center bg-gray-900 relative">
+        <!-- Form Container -->
+        <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg z-10">
             <!-- Forgot Password Form -->
             <form id="loginForm" class="space-y-6">
                 <h1 class="text-center text-3xl font-bold">Forgot Password</h1>
@@ -20,19 +9,38 @@
                 <!-- Email input -->
                 <div class="mb-6">
                     <label for="email" class="block text-gray-900">Email Address</label>
-                    <input type="text" id="email" name="email"
-                        class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    <input type="email" id="email" name="email"
+                        class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
                         autocomplete="off" required />
                 </div>
 
                 <!-- PIN button -->
-                <button type="submit"
-                    class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
-                    Send PIN
+                <button type="submit" id="sendPin"
+                    class="w-full bg-lime-500 text-white py-2 rounded hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-300">
+                    Send OTP
                 </button>
             </form>
         </div>
+
+        <!-- Background Image -->
+        <img src="/img/logo_A3Mart.png" alt="Background Logo"
+            class="absolute inset-0 w-full h-full object-contain opacity-10" />
     </div>
 </section>
 
-<script src="forgotpass.js"></script>
+<script>
+    const sendPin = document.getElementById('sendPin');
+    function SendPIN(event){
+        event.preventDefault();
+        const email = document.getElementById('email').value;
+        if(!email){
+            alert('Please input your email first!')
+            return;
+        }
+
+        const pin = Math.floor(100000 + Math.random() * 900000);
+        alert(`Dear ${email}, here is your OTP ${pin}`);
+        window.location.href = '/verify';
+    }
+    sendPin.addEventListener('click',SendPIN)
+</script>

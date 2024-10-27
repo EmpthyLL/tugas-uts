@@ -1,11 +1,11 @@
 const Controller = require("./Controller");
 
-class ForgotPassController extends Controller {
+class ResetPassController extends Controller {
   constructor() {
     super();
-    this.view = "forgotpass";
+    this.view = "resetpass";
     this.layout = "plain";
-    this.title = "Forgot Password";
+    this.title = "Reset Password";
   }
   index(req, res) {
     try {
@@ -19,9 +19,9 @@ class ForgotPassController extends Controller {
       this.handleError(res, "Failed to render home page", 500);
     }
   }
-  sendOTP() {
+  store() {
     //
   }
 }
 
-module.exports = ForgotPassController;
+module.exports = ResetPassController;

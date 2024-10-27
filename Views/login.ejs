@@ -1,28 +1,24 @@
-<section class="min-h-screen flex items-center justify-center">
+<section class="min-h-screen flex items-center justify-center bg-gray-900">
   <div class="h-full flex items-center justify-center">
     <!-- Left column: Image -->
-    <div class="hidden lg:flex w-6/12">
-      <img
-        src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-        class="w-full"
-        alt="Sample image"
-      />
+    <div class="hidden lg:flex w-7/12 mr-20">
+      <img src="/img/logo_A3Mart.png" class="w-full" alt="Sample image" />
     </div>
 
     <!-- Right column: Forms Container -->
     <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
       <!-- Login Form -->
       <form id="loginForm" class="space-y-6">
-        <h1 class="text-center text-3xl text-gray-800 font-bold">Login</h1>
+        <h1 class="text-center text-3xl text-gray-800 font-bold">Sign In</h1>
 
         <!-- Email input -->
         <div class="mb-6">
-          <label for="email" class="block text-gray-800">Email Address</label>
+          <label for="email" class="block text-gray-700">Username</label>
           <input
             type="text"
-            id="email"
-            name="email"
-            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
+            id="username"
+            name="username"
+            class="w-full border border-gray-300 rounded py-3 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-lime-500"
             autocomplete="off"
             required
           />
@@ -30,35 +26,34 @@
 
         <!-- Password input -->
         <div class="mb-4">
-          <label for="password" class="block text-gray-800">Password</label>
+          <label for="password" class="block text-gray-700">Password</label>
           <input
             type="password"
             id="password"
             name="password"
-            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
+            class="w-full border border-gray-300 rounded py-3 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-lime-500"
             autocomplete="off"
             required
           />
         </div>
 
         <!-- Forgot Password -->
-        <div class="mb-6 flex items-center justify-items-end">
-          <a href="forgotpass.ejs" class="text-sm text-lime-500 hover:text-lime-700 hover:underline">Forgot password?</a
-          >
+        <div class="mb-6 flex items-center justify-end">
+          <a href="/forgot-password" class="text-sm text-lime-600 hover:text-lime-700 hover:underline">Forgot password?</a>
         </div>
 
         <!-- Login button -->
         <button
           type="submit"
-          class="w-full bg-lime-500 text-white py-2 rounded hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-300"
+          class="w-full bg-lime-500 text-white py-2 rounded hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-300"
         >
-          Login
+          Sign In
         </button>
 
         <!-- Register link -->
-        <p class="mt-4 text-center text-sm">
+        <p class="mt-4 text-center text-sm text-gray-600">
           Don't have an account?
-          <a href="/register" class="text-lime-500 hover:text-lime-700 hover:underline">Register</a>
+          <a href="/register" class="text-lime-600 hover:text-lime-700 hover:underline">Register</a>
         </p>
       </form>
     </div>
