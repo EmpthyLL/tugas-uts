@@ -1,27 +1,27 @@
-<section class="min-h-screen flex items-center justify-center bg-gray-900">
-  <div class="h-full flex items-center justify-center">
-    <!-- Left column: Image -->
-    <div class="hidden lg:flex w-7/12 mr-20">
-      <img src="/img/logo_A3Mart.png" class="w-full" alt="Sample image" />
-    </div>
+<section class="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+  <!-- Left column: Image -->
+  <div class="hidden lg:flex min-h-screen pl-8 items-center justify-center">
+    <img src="/img/logo_A3Mart.png" class="w-full" alt="Sample image" />
+  </div>
 
   <!-- Right column: Forms Container -->
   <div class="flex py-6 justify-center items-center">
     <div
-      class="xs:max-w-md w-full p-6 flex flex-col items-center justify-center bg-slate-200 rounded-lg shadow-lg"
+      class="xs:max-w-md w-full p-6 flex flex-col items-center xs:mx-6 justify-center bg-white rounded-lg shadow-lg"
     >
       <!-- Login Form -->
-      <form id="loginForm" class="space-y-6">
-        <h1 class="text-center text-3xl text-gray-800 font-bold">Sign In</h1>
+      <form id="loginForm" class="space-y-6 w-full mx-auto">
+        <h1 class="text-center text-3xl text-gray-800 font-bold">Login</h1>
 
-        <!-- Username input -->
+        <!-- Email input -->
         <div class="mb-6">
-          <label for="email" class="block text-gray-700">Username</label>
+          <label for="email" class="block text-gray-800">Email Address</label>
           <input
             type="text"
-            id="username"
-            name="username"
-            class="w-full border border-gray-300 rounded py-3 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-lime-500"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
             autocomplete="off"
             required
           />
@@ -29,12 +29,13 @@
 
         <!-- Password input -->
         <div class="mb-4">
-          <label for="password" class="block text-gray-700">Password</label>
+          <label for="password" class="block text-gray-800">Password</label>
           <input
             type="password"
             id="password"
             name="password"
-            class="w-full border border-gray-300 rounded py-3 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-lime-500"
+            placeholder="Enter your password"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
             autocomplete="off"
             required
           />
@@ -42,31 +43,37 @@
 
         <!-- Forgot Password -->
         <div class="mb-6 flex items-center justify-end">
-          <a href="/forgot-password" class="text-sm text-lime-600 hover:text-lime-700 hover:underline">Forgot password?</a>
+          <a
+            href="/forgot-password"
+            class="text-sm text-lime-500 hover:text-lime-700 hover:underline"
+            >Forgot password?</a
+          >
         </div>
 
         <!-- Login button -->
         <button
           type="submit"
-          class="w-full bg-lime-500 text-white py-2 rounded hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-300"
+          class="w-full bg-lime-500 text-white py-2 rounded hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-lime-300"
         >
-          Sign In
+          Login
         </button>
 
         <!-- Register link -->
-        <p class="mt-4 text-center text-sm text-gray-600">
+        <p class="mt-4 text-center text-sm">
           Don't have an account?
-          <a href="/register" class="text-lime-600 hover:text-lime-700 hover:underline">Register</a>
+          <a
+            href="/register"
+            class="text-lime-500 hover:text-lime-700 hover:underline"
+            >Register</a
+          >
         </p>
       </form>
 
       <!-- Image for small screens -->
-      <div class="lg:hidden flex justify-center items-center mt-6">
-        <img
-          src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-          class="w-full h-full object-cover rounded-lg"
-          alt="Sample image"
-        />
+      <div
+        class="lg:hidden flex justify-center items-center mt-6 bg-slate-900 rounded-lg p-3"
+      >
+        <img src="/img/logo_A3Mart.png" class="w-full" alt="Sample image" />
       </div>
     </div>
   </div>

@@ -7,6 +7,10 @@ const Model = require("./Model");
 const SECRET_KEY = "rahasia";
 
 class UserModel extends Model {
+  constructor() {
+    this.source = "users";
+    super();
+  }
   loadUsers() {
     this.dirExist();
     const data = fs.readFileSync(this.source, "utf8");

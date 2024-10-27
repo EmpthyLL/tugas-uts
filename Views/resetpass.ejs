@@ -1,41 +1,65 @@
-<title>Forgot Password</title>
+<section class="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+  <!-- Left column: Image -->
+  <div class="hidden lg:flex min-h-screen pl-8 items-center justify-center">
+    <img src="/img/logo_A3Mart.png" class="w-full" alt="Sample image" />
+  </div>
 
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/tw-elements@latest/dist/js/index.min.js"></script>
+  <!-- Right column: Forms Container -->
+  <div class="flex py-6 justify-center items-center">
+    <div
+      class="xs:max-w-md w-full p-6 flex flex-col items-center justify-center bg-white rounded-lg shadow-lg"
+    >
+      <!-- Register Form -->
+      <form id="registerForm" class="space-y-6 w-full mx-auto">
+        <h1 class="text-center text-3xl font-bold">Reset Password</h1>
 
-<section class="h-screen">
-    <div class="h-full flex items-center justify-center">
-        <!-- Left column: Image -->
-        <div class="hidden lg:flex w-6/12">
-            <img src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" class="w-full"
-                alt="Sample image" />
+        <!-- Password input -->
+        <div class="mb-4">
+          <label for="newpassword" class="block text-gray-800"
+            >New Password</label
+          >
+          <input
+            type="newpassword"
+            id="newpassword"
+            name="newpassword"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
+            autocomplete="off"
+            placeholder="Type your new password"
+            required
+          />
         </div>
 
-        <!-- Right column: Forms Container -->
-        <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
-            <!-- Reset Password Form -->
-            <form id="resetForm" class="space-y-6">
-                <h1 class="text-center text-3xl font-bold">Reset Password</h1>
-
-                <div class="mb-6">
-                    <label for="newPassword" class="block text-gray-900">New Password</label>
-                    <input type="password" id="newPassword" name="newPassword"
-                        class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
-                        placeholder="Enter your new password" required />
-                </div>
-
-                <div class="mb-6">
-                    <label for="confirmNewPassword" class="block text-gray-900">Confirm New Password</label>
-                    <input type="password" id="confirmNewPassword" name="confirmNewPassword"
-                        class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
-                        placeholder="Same with password" required />
-                </div>
-
-                <button type="submit" class="w-full bg-lime-500 text-white py-2 rounded hover:bg-lime-600">Reset
-                    Password</button>
-            </form>
-
+        <!-- Confirm Password input -->
+        <div class="mb-4">
+          <label for="confirmnewpassword" class="block text-gray-800"
+            >Confirm New Password</label
+          >
+          <input
+            type="confirmnewpassword"
+            id="confirmnewpassword"
+            name="confirmnewpassword"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
+            autocomplete="off"
+            placeholder="Confirm your new password"
+            required
+          />
         </div>
+
+        <!-- Register button -->
+        <button
+          type="submit"
+          class="w-full bg-lime-500 text-white py-2 rounded hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-lime-300"
+        >
+          Register
+        </button>
+      </form>
+
+      <!-- Image for small screens -->
+      <div
+        class="lg:hidden flex justify-center items-center mt-6 bg-slate-900 rounded-lg p-3"
+      >
+        <img src="/img/logo_A3Mart.png" class="w-full" alt="Sample image" />
+      </div>
     </div>
+  </div>
 </section>
-

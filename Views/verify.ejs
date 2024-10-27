@@ -1,58 +1,81 @@
 <section class="h-screen">
-    <div class="h-full flex items-center justify-center">
-        <!-- Right column: Forms Container -->
-        <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
-            <!-- Verify Form input -->
-            <form id="verifyForm" class="space-y-6" >
-                <h1 class="text-center text-3xl font-bold">Verify OTP</h1>
-                <p class="text-center text-gray-500">Enter the 6-digit OTP sent to your email.</p>
+  <div class="h-full flex items-center justify-center">
+    <!-- Right column: Forms Container -->
+    <div
+      class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg z-10"
+      data-hs-pin-input=""
+    >
+      <!-- Verify Form input -->
+      <form id="verifyForm" class="space-y-6">
+        <h1 class="text-center text-3xl font-bold">Verify OTP</h1>
+        <p class="text-center text-gray-500">
+          Enter the 6-digit OTP sent to your email.
+        </p>
 
-                <div class="flex space-x-2 justify-center">
-                    <input type="text"
-                        class="block w-12 h-12 text-center bg-gray-200 border-transparent rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:border-transparent dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                        placeholder="⚬" data-hs-pin-input-item="">
-                    <input type="text"
-                        class="block w-12 h-12 text-center bg-gray-200 border-transparent rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:border-transparent dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                        placeholder="⚬" data-hs-pin-input-item="">
-                    <input type="text"
-                        class="block w-12 h-12 text-center bg-gray-200 border-transparent rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:border-transparent dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                        placeholder="⚬" data-hs-pin-input-item="">
-                    <input type="text"
-                        class="block w-12 h-12 text-center bg-gray-200 border-transparent rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:border-transparent dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                        placeholder="⚬" data-hs-pin-input-item="">
-                    <input type="text"
-                        class="block w-12 h-12 text-center bg-gray-200 border-transparent rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:border-transparent dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                        placeholder="⚬" data-hs-pin-input-item="">
-                    <input type="text"
-                        class="block w-12 h-12 text-center bg-gray-200 border-transparent rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:border-transparent dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                        placeholder="⚬" data-hs-pin-input-item="">
-                </div>
-
-                <button type="submit"
-                    class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Verify</button>
-            </form>
-
-            <!-- Reset Password Form -->
-            <form id="resetForm" class="space-y-6 hidden">
-                <h1 class="text-center text-3xl font-bold">Reset Password</h1>
-
-                <div class="mb-6">
-                    <label for="newPassword" class="block text-gray-900">New Password</label>
-                    <input type="password" id="newPassword" name="newPassword"
-                        class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Enter your new password" required />
-                </div>
-
-                <div class="mb-6">
-                    <label for="confirmNewPassword" class="block text-gray-900">Confirm New Password</label>
-                    <input type="password" id="confirmNewPassword" name="confirmNewPassword"
-                        class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Same with password" required />
-                </div>
-
-                <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Reset
-                    Password</button>
-            </form>
+        <div class="flex space-x-2 justify-center">
+          <input
+            type="text"
+            maxlength="1"
+            class="block w-12 h-12 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
+            placeholder="⚬"
+            oninput="moveFocus(this)"
+            data-hs-pin-input-item=""
+          />
+          <input
+            type="text"
+            maxlength="1"
+            class="block w-12 h-12 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
+            placeholder="⚬"
+            oninput="moveFocus(this)"
+            data-hs-pin-input-item=""
+          />
+          <input
+            type="text"
+            maxlength="1"
+            class="block w-12 h-12 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
+            placeholder="⚬"
+            oninput="moveFocus(this)"
+            data-hs-pin-input-item=""
+          />
+          <input
+            type="text"
+            maxlength="1"
+            class="block w-12 h-12 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
+            placeholder="⚬"
+            oninput="moveFocus(this)"
+            data-hs-pin-input-item=""
+          />
+          <input
+            type="text"
+            maxlength="1"
+            class="block w-12 h-12 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
+            placeholder="⚬"
+            oninput="moveFocus(this)"
+            data-hs-pin-input-item=""
+          />
+          <input
+            type="text"
+            maxlength="1"
+            class="block w-12 h-12 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
+            placeholder="⚬"
+            oninput="moveFocus(this)"
+            data-hs-pin-input-item=""
+          />
         </div>
+
+        <button
+          type="submit"
+          class="w-full bg-lime-500 text-white py-2 rounded hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-lime-300"
+        >
+          Verify
+        </button>
+      </form>
     </div>
+    <!-- Background Image -->
+    <img
+      src="/img/logo_A3Mart.png"
+      alt="Background Logo"
+      class="absolute inset-0 w-full h-full object-contain opacity-10"
+    />
+  </div>
 </section>

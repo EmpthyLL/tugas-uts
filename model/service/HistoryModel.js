@@ -1,6 +1,10 @@
 const Model = require("./Model");
 
 class HistoryModel extends Model {
+  constructor() {
+    this.source = "users";
+    super();
+  }
   getHistoryItems() {
     return this.data;
   }

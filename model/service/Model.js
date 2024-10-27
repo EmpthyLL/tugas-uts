@@ -2,8 +2,8 @@ const fs = require("fs");
 const path = require("path");
 
 class Model {
-  constructor(source) {
-    this.source = source;
+  constructor() {
+    this.source = `./json/${this.source}`;
     this.dirExist();
     this.data = this.loadData();
   }
