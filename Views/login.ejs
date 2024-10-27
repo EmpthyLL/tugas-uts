@@ -1,18 +1,22 @@
-<section class="min-h-screen flex items-center justify-center">
-  <div class="h-full flex items-center justify-center">
-    <!-- Left column: Image -->
-    <div class="hidden lg:flex w-6/12">
-      <img
-        src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-        class="w-full"
-        alt="Sample image"
-      />
-    </div>
+<section class="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+  <!-- Left column: Image -->
+  <div
+    class="hidden lg:flex min-h-screen p-12 bg-slate-400 rounded-r-xl items-center justify-center"
+  >
+    <img
+      src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+      class="w-full"
+      alt="Sample image"
+    />
+  </div>
 
-    <!-- Right column: Forms Container -->
-    <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+  <!-- Right column: Forms Container -->
+  <div class="flex py-6 justify-center items-center">
+    <div
+      class="xs:max-w-md w-full p-6 flex flex-col items-center justify-center bg-slate-200 rounded-lg shadow-lg"
+    >
       <!-- Login Form -->
-      <form id="loginForm" class="space-y-6">
+      <form id="loginForm" class="space-y-6 w-full mx-auto">
         <h1 class="text-center text-3xl text-gray-800 font-bold">Login</h1>
 
         <!-- Email input -->
@@ -22,6 +26,7 @@
             type="text"
             id="email"
             name="email"
+            placeholder="Enter your email"
             class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
             autocomplete="off"
             required
@@ -35,6 +40,7 @@
             type="password"
             id="password"
             name="password"
+            placeholder="Enter your password"
             class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
             autocomplete="off"
             required
@@ -42,15 +48,18 @@
         </div>
 
         <!-- Forgot Password -->
-        <div class="mb-6 flex items-center justify-items-end">
-          <a href="forgotpass.ejs" class="text-sm text-lime-500 hover:text-lime-700 hover:underline">Forgot password?</a
+        <div class="mb-6 flex items-center justify-end">
+          <a
+            href="/forgot-password"
+            class="text-sm text-lime-500 hover:text-lime-700 hover:underline"
+            >Forgot password?</a
           >
         </div>
 
         <!-- Login button -->
         <button
           type="submit"
-          class="w-full bg-lime-500 text-white py-2 rounded hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-300"
+          class="w-full bg-lime-500 text-white py-2 rounded hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-lime-300"
         >
           Login
         </button>
@@ -58,9 +67,22 @@
         <!-- Register link -->
         <p class="mt-4 text-center text-sm">
           Don't have an account?
-          <a href="/register" class="text-lime-500 hover:text-lime-700 hover:underline">Register</a>
+          <a
+            href="/register"
+            class="text-lime-500 hover:text-lime-700 hover:underline"
+            >Register</a
+          >
         </p>
       </form>
+
+      <!-- Image for small screens -->
+      <div class="lg:hidden flex justify-center items-center mt-6">
+        <img
+          src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+          class="w-full h-full object-cover rounded-lg"
+          alt="Sample image"
+        />
+      </div>
     </div>
   </div>
 </section>

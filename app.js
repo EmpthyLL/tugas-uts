@@ -53,9 +53,6 @@ app.get("/forgot-password", (req, res) => {
   forgotpassController.index(req, res);
 });
 app.get("/", (req, res) => {
-  res.redirect("/home");
-});
-app.get("/home", (req, res) => {
   homeController.index(req, res);
 });
 app.get("/about", (req, res) => {
