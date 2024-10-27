@@ -1,6 +1,6 @@
-const BaseController = require("./BaseController");
+const Controller = require("./Controller");
 
-class RegisterController extends BaseController {
+class RegisterController extends Controller {
   constructor() {
     super();
     this.view = "register";
