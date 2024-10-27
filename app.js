@@ -12,6 +12,8 @@ const LoginController = require("./app/controllers/LoginController");
 const RegisterController = require("./app/controllers/RegisterController");
 const AboutController = require("./app/controllers/AboutController");
 const ForgotPassController = require("./app/controllers/ForgotPassController");
+const ResetPassController = require("./app/controllers/ResetPassController");
+const VerifyController = require("./app/controllers/VerifyController");
 
 const app = express();
 const port = 3001;
@@ -42,6 +44,8 @@ const registerController = new RegisterController();
 const homeController = new HomeController();
 const aboutController = new AboutController();
 const forgotpassController = new ForgotPassController();
+const resetpassController = new ResetPassController();
+const verifyController = new VerifyController();
 
 app.get("/sign-in", (req, res) => {
   loginController.index(req, res);
@@ -58,6 +62,12 @@ app.get("/", (req, res) => {
 app.get("/about", (req, res) => {
   aboutController.index(req, res);
 });
+app.get("/reset-password", (req, res) =>{
+  resetpassController.index(req, res)
+})
+app.get("/verify", (req,res) => {
+  verifyController.index(req,res)
+})
 
 // Route to serve the form for image upload
 app.get("/upload", (req, res) => {

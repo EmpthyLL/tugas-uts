@@ -1,14 +1,9 @@
-<section class="min-h-screen grid grid-cols-1 lg:grid-cols-2">
-  <!-- Left column: Image -->
-  <div
-    class="hidden lg:flex min-h-screen p-12 bg-slate-400 rounded-r-xl items-center justify-center"
-  >
-    <img
-      src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-      class="w-full"
-      alt="Sample image"
-    />
-  </div>
+<section class="min-h-screen flex items-center justify-center bg-gray-900">
+  <div class="h-full flex items-center justify-center">
+    <!-- Left column: Image -->
+    <div class="hidden lg:flex w-7/12 mr-20">
+      <img src="/img/logo_A3Mart.png" class="w-full" alt="Sample image" />
+    </div>
 
   <!-- Right column: Forms Container -->
   <div class="flex py-6 justify-center items-center">
@@ -16,18 +11,17 @@
       class="xs:max-w-md w-full p-6 flex flex-col items-center justify-center bg-slate-200 rounded-lg shadow-lg"
     >
       <!-- Login Form -->
-      <form id="loginForm" class="space-y-6 w-full mx-auto">
-        <h1 class="text-center text-3xl text-gray-800 font-bold">Login</h1>
+      <form id="loginForm" class="space-y-6">
+        <h1 class="text-center text-3xl text-gray-800 font-bold">Sign In</h1>
 
-        <!-- Email input -->
+        <!-- Username input -->
         <div class="mb-6">
-          <label for="email" class="block text-gray-800">Email Address</label>
+          <label for="email" class="block text-gray-700">Username</label>
           <input
             type="text"
-            id="email"
-            name="email"
-            placeholder="Enter your email"
-            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
+            id="username"
+            name="username"
+            class="w-full border border-gray-300 rounded py-3 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-lime-500"
             autocomplete="off"
             required
           />
@@ -35,13 +29,12 @@
 
         <!-- Password input -->
         <div class="mb-4">
-          <label for="password" class="block text-gray-800">Password</label>
+          <label for="password" class="block text-gray-700">Password</label>
           <input
             type="password"
             id="password"
             name="password"
-            placeholder="Enter your password"
-            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
+            class="w-full border border-gray-300 rounded py-3 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-lime-500"
             autocomplete="off"
             required
           />
@@ -49,29 +42,21 @@
 
         <!-- Forgot Password -->
         <div class="mb-6 flex items-center justify-end">
-          <a
-            href="/forgot-password"
-            class="text-sm text-lime-500 hover:text-lime-700 hover:underline"
-            >Forgot password?</a
-          >
+          <a href="/forgot-password" class="text-sm text-lime-600 hover:text-lime-700 hover:underline">Forgot password?</a>
         </div>
 
         <!-- Login button -->
         <button
           type="submit"
-          class="w-full bg-lime-500 text-white py-2 rounded hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-lime-300"
+          class="w-full bg-lime-500 text-white py-2 rounded hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-300"
         >
-          Login
+          Sign In
         </button>
 
         <!-- Register link -->
-        <p class="mt-4 text-center text-sm">
+        <p class="mt-4 text-center text-sm text-gray-600">
           Don't have an account?
-          <a
-            href="/register"
-            class="text-lime-500 hover:text-lime-700 hover:underline"
-            >Register</a
-          >
+          <a href="/register" class="text-lime-600 hover:text-lime-700 hover:underline">Register</a>
         </p>
       </form>
 
