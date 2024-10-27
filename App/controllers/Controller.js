@@ -5,12 +5,8 @@ class BaseController {
   constructor() {
     this.menus = [
       {
-        title: "Home",
-        href: "/home",
-      },
-      {
-        title: "About",
-        href: "/about",
+        title: "",
+        href: "",
       },
     ];
   }
