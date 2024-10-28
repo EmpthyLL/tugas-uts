@@ -4,30 +4,18 @@ const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const Model = require("./Model");
 
-const SECRET_KEY = "rahasia";
+const SECRET_KEY = "T0l0NGj4g4Rahasia";
 
 class UserModel extends Model {
   constructor() {
-    this.source = "users";
     super();
-  }
-  loadUsers() {
-    this.dirExist();
-    const data = fs.readFileSync(this.source, "utf8");
-    return JSON.parse(data);
-  }
-
-  saveUsers() {
-    fs.writeFileSync(this.source, JSON.stringify(this.users, null, 2));
+    this.source = "users";
   }
 
   isEmailUnique(email) {
     return !this.users.some((user) => user.email === email);
   }
-
   async register({ fullname, no_hp, email, password }) {
-    if (!this.isEmailUnique(email)) throw new Error("Email already in use.");
-
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = {
       uuid: uuidv4(),
@@ -41,8 +29,8 @@ class UserModel extends Model {
       history: [],
     };
 
-    this.users.push(newUser);
-    this.saveUsers();
+    this.data.push(newUser);
+    this.saveData();
     return newUser;
   }
 
