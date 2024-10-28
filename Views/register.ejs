@@ -10,21 +10,56 @@
       class="xs:max-w-md w-full p-6 flex flex-col items-center justify-center bg-white rounded-lg shadow-lg"
     >
       <!-- Register Form -->
-      <form id="registerForm" class="space-y-6 w-full mx-auto">
+      <form
+        id="registerForm"
+        method="post"
+        action="/register"
+        class="space-y-6 w-full mx-auto"
+        novalidate
+      >
         <h1 class="text-center text-3xl font-bold">Register</h1>
+
+        <% if (errors.length > 0) { %>
+        <div
+          id="alertBox"
+          class="p-4 mb-4 border border-red-400 text-red-700 bg-red-100 rounded-lg relative"
+          role="alert"
+        >
+          <strong class="font-bold">Oops! Something went wrong:</strong>
+          <ul class="mt-2">
+            <% errors.forEach(error => { %>
+            <li class="ml-4 list-disc"><%= error.msg %></li>
+            <% }) %>
+          </ul>
+          <button
+            onclick="closeAlert()"
+            class="absolute top-1 right-1 text-red-700 hover:text-red-900 focus:outline-none"
+          >
+            &times;
+          </button>
+        </div>
+        <% } %>
+
+        <script>
+          function closeAlert() {
+            document.getElementById("alertBox").style.display = "none";
+          }
+        </script>
 
         <!-- Username input -->
         <div class="mb-6">
-          <label for="username" class="block text-gray-900">Username</label>
+          <label for="fullname" class="block text-gray-900">Full Name</label>
           <input
             type="text"
-            id="username"
-            name="username"
+            id="fullname"
+            name="fullname"
             class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
-            autocomplete="off"
-            placeholder="Type your username"
+            placeholder="Type your full name"
             required
           />
+          <div id="nameError" class="italic text-red-600 hidden">
+            Full name is required.
+          </div>
         </div>
 
         <!-- Phone Number input -->
@@ -35,24 +70,30 @@
             id="phone"
             name="phone"
             class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
-            autocomplete="off"
             placeholder="Type your phone number"
             required
+            pattern="^0\d{9,13}$"
           />
+          <div id="phoneError" class="italic text-red-600 hidden">
+            Enter a valid phone number.
+          </div>
         </div>
 
         <!-- Email input -->
         <div class="mb-6">
           <label for="email" class="block text-gray-900">Email Address</label>
           <input
-            type="text"
+            type="email"
             id="email"
             name="email"
             class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
-            autocomplete="off"
             placeholder="Type your email"
             required
+            pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
           />
+          <div id="emailError" class="italic text-red-600 hidden">
+            Enter a valid email address.
+          </div>
         </div>
 
         <!-- Password input -->
@@ -63,10 +104,14 @@
             id="password"
             name="password"
             class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
-            autocomplete="off"
             placeholder="Type your password"
             required
+            pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}"
           />
+          <div id="passwordError" class="italic text-red-600 hidden">
+            Password must contain an uppercase letter, lowercase letter, number,
+            and special character.
+          </div>
         </div>
 
         <!-- Confirm Password input -->
@@ -79,10 +124,12 @@
             id="confirmpassword"
             name="confirmpassword"
             class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
-            autocomplete="off"
             placeholder="Confirm your password"
             required
           />
+          <div id="passError" class="italic text-red-600 hidden">
+            Passwords do not match!
+          </div>
         </div>
 
         <!-- Register button -->
@@ -113,3 +160,144 @@
     </div>
   </div>
 </section>
+
+<script>
+  const form = document.getElementById("registerForm");
+  const inputs = form.querySelectorAll("input[required]");
+  const pass = document.getElementById("password");
+  const conpass = document.getElementById("confirmpassword");
+  const email = document.getElementById("email");
+  const phone = document.getElementById("phone");
+  const error = document.getElementById("passError");
+  const passwordError = document.getElementById("passwordError");
+  const emailError = document.getElementById("emailError");
+  const phoneError = document.getElementById("phoneError");
+  const nameError = document.getElementById("nameError");
+
+  function inputCheck() {
+    // Reset error messages
+    passwordError.classList.add("hidden");
+    emailError.classList.add("hidden");
+    phoneError.classList.add("hidden");
+    nameError.classList.add("hidden");
+
+    // Full Name validation
+    if (!document.getElementById("fullname").value) {
+      nameError.classList.remove("hidden");
+    }
+
+    if (email.value || !validateEmail()) {
+      // Email validation
+      if (!validateEmail()) {
+        emailError.classList.remove("hidden");
+        emailError.innerText = "Email address is not valid.";
+      }
+      if (!email.value) {
+        emailError.classList.remove("hidden");
+        emailError.innerHTML = "Email address  is required";
+      }
+    }
+
+    if (phone.value || !validatePhone()) {
+      // Phone validation
+      if (!validatePhone()) {
+        phoneError.classList.remove("hidden");
+        phoneError.innerText = "Phone number is not valid.";
+      }
+      if (!phone.value) {
+        phoneError.classList.remove("hidden");
+        phoneError.innerHTML = "Phone number is required";
+      }
+    }
+
+    // Confirm Password validation
+    if (!conpass.value) {
+      error.classList.remove("hidden");
+      error.innerText = "Confirm password is required.";
+    }
+  }
+
+  form.addEventListener("submit", (e) => {
+    let isValid = true;
+
+    inputs.forEach((input) => {
+      if (!input.checkValidity()) {
+        isValid = false;
+        input.classList.add("border-red-600");
+      } else {
+        input.classList.remove("border-red-600");
+      }
+    });
+
+    inputCheck();
+
+    // Check password validity
+    if (!validatePasswords()) {
+      isValid = false;
+      inputs[4].classList.add("border-red-600");
+    }
+
+    if (!isValid) e.preventDefault();
+  });
+
+  function validatePasswords() {
+    let messages = [];
+    if (pass.value) {
+      // Check confirm password
+      if (conpass.value !== pass.value) {
+        error.classList.remove("hidden");
+        if (conpass.value) {
+          error.innerText = "Passwords do not match!";
+          messages.push("Passwords do not match!");
+        } else {
+          error.innerText = "Confirm password is required.";
+        }
+      } else {
+        error.classList.add("hidden");
+      }
+
+      if (!validatePassword()) {
+        const requirements = checkPasswordRequirements();
+        if (requirements.length == 1) {
+          passwordError.classList.remove("hidden");
+          passwordError.innerHTML =
+            "Password must contain " + requirements.join(", ");
+        } else {
+          passwordError.classList.remove("hidden");
+          passwordError.innerHTML = "Password is not strong enough.";
+        }
+        return false;
+      } else {
+        passwordError.classList.add("hidden");
+      }
+      return true;
+    } else {
+      passwordError.classList.remove("hidden");
+      passwordError.innerHTML = "Password is required";
+    }
+  }
+
+  function checkPasswordRequirements() {
+    const requirements = [];
+    if (!/[A-Z]/.test(pass.value)) requirements.push("an uppercase letter");
+    if (!/[a-z]/.test(pass.value)) requirements.push("a lowercase letter");
+    if (!/\d/.test(pass.value)) requirements.push("a number");
+    if (!/[\W_]/.test(pass.value)) requirements.push("a special character");
+    if (pass.value.length < 8) requirements.push("at least 8 characters");
+    return requirements;
+  }
+
+  function validatePassword() {
+    return checkPasswordRequirements().length === 0;
+  }
+
+  function validateEmail() {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email.value);
+  }
+
+  function validatePhone() {
+    const phonePattern = /^[0-9]{10,14}$/;
+    return phonePattern.test(phone.value);
+  }
+</script>

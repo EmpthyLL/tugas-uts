@@ -14,6 +14,7 @@ const AboutController = require("./app/controllers/AboutController");
 const ForgotPassController = require("./app/controllers/ForgotPassController");
 const ResetPassController = require("./app/controllers/ResetPassController");
 const VerifyController = require("./app/controllers/VerifyController");
+const UserModel = require("./model/service/UserModel");
 
 const app = express();
 const port = 3001;
@@ -52,6 +53,9 @@ app.get("/sign-in", (req, res) => {
 });
 app.get("/register", (req, res) => {
   registerController.index(req, res);
+});
+app.post("/register", (req, res) => {
+  registerController.store(req, res);
 });
 app.get("/forgot-password", (req, res) => {
   forgotpassController.index(req, res);
