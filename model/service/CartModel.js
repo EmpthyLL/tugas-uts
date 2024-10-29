@@ -2,8 +2,7 @@ const Model = require("./Model");
 
 class CartModel extends Model {
   constructor() {
-    this.source = "users";
-    super();
+    super("users");
   }
   getCartItems() {
     return this.data;

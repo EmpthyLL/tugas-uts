@@ -2,31 +2,31 @@ const fs = require("fs");
 const path = require("path");
 
 class Model {
-  constructor() {
-    this.dir = `./json/${this.source}.json`;
+  constructor(source) {
+    this.source = `./json/${source}.json`;
     this.dirExist();
     this.data = this.loadData();
   }
 
   dirExist() {
-    const dirPath = path.dirname(this.dir);
+    const dirPath = path.dirname(this.source);
 
     if (!fs.existsSync(dirPath)) {
       fs.mkdirSync(dirPath, { recursive: true });
     }
 
-    if (!fs.existsSync(this.dir)) {
-      fs.writeFileSync(this.dir, "[]");
+    if (!fs.existsSync(this.source)) {
+      fs.writeFileSync(this.source, "[]");
     }
   }
 
   loadData() {
-    const rawData = fs.readFileSync(this.dir, "utf8");
+    const rawData = fs.readFileSync(this.source, "utf8");
     return JSON.parse(rawData);
   }
 
-  saveData(data) {
-    fs.writeFileSync(this.dir, JSON.stringify(data, null, 2));
+  saveData() {
+    fs.writeFileSync(this.source, JSON.stringify(this.data, null, 2));
   }
 }
 

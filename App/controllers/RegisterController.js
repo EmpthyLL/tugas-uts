@@ -30,6 +30,7 @@ class RegisterController extends Controller {
       };
 
       const user = new UserModel();
+      console.log(user.source);
       await user.register(userData);
 
       res.redirect("/sign-in");
