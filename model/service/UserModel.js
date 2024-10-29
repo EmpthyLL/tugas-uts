@@ -8,8 +8,7 @@ const SECRET_KEY = "T0l0NGj4g4Rahasia";
 
 class UserModel extends Model {
   constructor() {
-    super();
-    this.source = "users";
+    super("users");
   }
 
   isEmailUnique(email) {
