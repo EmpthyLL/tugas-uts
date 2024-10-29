@@ -11,10 +11,6 @@ const HomeController = require("./app/controllers/HomeController");
 const LoginController = require("./app/controllers/LoginController");
 const RegisterController = require("./app/controllers/RegisterController");
 const AboutController = require("./app/controllers/AboutController");
-const ForgotPassController = require("./app/controllers/ForgotPassController");
-const ResetPassController = require("./app/controllers/ResetPassController");
-const VerifyController = require("./app/controllers/VerifyController");
-const UserModel = require("./model/service/UserModel");
 
 const app = express();
 const port = 3001;
@@ -44,34 +40,49 @@ const loginController = new LoginController();
 const registerController = new RegisterController();
 const homeController = new HomeController();
 const aboutController = new AboutController();
-const forgotpassController = new ForgotPassController();
-const resetpassController = new ResetPassController();
-const verifyController = new VerifyController();
 
 app.get("/sign-in", (req, res) => {
   loginController.index(req, res);
 });
 app.get("/register", (req, res) => {
+  res.redirect("/register/input-number");
+});
+app.get("/register/input-number", (req, res) => {
   registerController.index(req, res);
 });
-app.post("/register", (req, res) => {
+app.get("/register/verify-number", (req, res) => {
+  registerController.index(req, res);
+});
+app.get("/register/user-data", (req, res) => {
+  registerController.index(req, res);
+});
+app.post("/register/input-number", (req, res) => {
+  registerController.step1(req, res);
+});
+app.post("/register/verify-number", (req, res) => {
+  registerController.step2(req, res);
+});
+app.post("/register/user-data", (req, res) => {
   registerController.store(req, res);
 });
-app.get("/forgot-password", (req, res) => {
-  forgotpassController.index(req, res);
-});
+// app.get("/email-verification", (req, res) => {
+//   emailverifyController.index(req, res);
+// });
+// app.get("/forgot-password", (req, res) => {
+//   forgotpassController.index(req, res);
+// });
 app.get("/", (req, res) => {
   homeController.index(req, res);
 });
 app.get("/about", (req, res) => {
   aboutController.index(req, res);
 });
-app.get("/reset-password", (req, res) => {
-  resetpassController.index(req, res);
-});
-app.get("/verify-account", (req, res) => {
-  verifyController.index(req, res);
-});
+// app.get("/reset-password", (req, res) => {
+//   resetpassController.index(req, res);
+// });
+// app.get("/verify-number", (req, res) => {
+//   verifyController.index(req, res);
+// });
 
 // Route to serve the form for image upload
 app.get("/upload", (req, res) => {

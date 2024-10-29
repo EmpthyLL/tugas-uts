@@ -1,0 +1,179 @@
+<section class="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+  <!-- Left column: Image -->
+  <div class="hidden lg:flex min-h-screen pl-8 items-center justify-center">
+    <img src="/img/logo_A3Mart.png" class="w-full" alt="Sample image" />
+  </div>
+
+  <!-- Right column: Forms Container -->
+  <div class="flex py-6 justify-center items-center">
+    <div
+      class="xs:max-w-md w-full p-6 flex flex-col items-center justify-center bg-white rounded-lg shadow-lg"
+    >
+      <!-- Register Form -->
+      <form
+        id="registerForm"
+        method="post"
+        action="/register"
+        class="space-y-6 w-full mx-auto"
+        novalidate
+      >
+        <h1 class="text-center text-3xl font-bold">User Data</h1>
+
+        <script>
+          function closeAlert() {
+            document.getElementById("alertBox").style.display = "none";
+          }
+        </script>
+
+        <input type="hidden" name="step" value="3" />
+        <!-- Username input -->
+        <div class="mb-6">
+          <label for="fullname" class="block text-gray-900">Full Name</label>
+          <input
+            type="text"
+            id="fullname"
+            name="fullname"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
+            placeholder="Type your full name"
+            required
+          />
+          <div id="nameError" class="italic text-red-600 hidden">
+            Full name is required.
+          </div>
+        </div>
+
+        <!-- no_hp Number input -->
+        <div class="mb-6">
+          <label for="no_hp" class="block text-gray-900">No HP</label>
+          <input
+            type="tel"
+            id="no_hp"
+            name="no_hp"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
+            placeholder="Type your phone number"
+            required
+            pattern="^0\d{9,13}$"
+          />
+          <div id="no_hpError" class="italic text-red-600 hidden">
+            Enter a valid no_hp number.
+          </div>
+        </div>
+
+        <!-- Email input -->
+        <div class="mb-6">
+          <label for="email" class="block text-gray-900">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
+            placeholder="Type your email"
+            required
+            pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+          />
+          <div id="emailError" class="italic text-red-600 hidden">
+            Enter a valid email address.
+          </div>
+        </div>
+
+        <!-- Register button -->
+        <button
+          type="submit"
+          class="w-full bg-lime-500 text-white py-2 rounded hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-lime-300"
+        >
+          Register
+        </button>
+
+        <!-- Login link -->
+        <p class="text-center">
+          Already have an account?
+          <a
+            href="/sign-in"
+            class="text-lime-500 hover:text-lime-700 hover:underline"
+            >Login</a
+          >
+        </p>
+      </form>
+
+      <!-- Image for small screens -->
+      <div
+        class="lg:hidden flex justify-center items-center mt-6 bg-slate-900 rounded-lg p-3"
+      >
+        <img src="/img/logo_A3Mart.png" class="w-full" alt="Sample image" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById("registerForm");
+  const inputs = form.querySelectorAll("input[required]");
+  const email = document.getElementById("email");
+  const no_hp = document.getElementById("no_hp");
+  const emailError = document.getElementById("emailError");
+  const no_hpError = document.getElementById("no_hpError");
+  const nameError = document.getElementById("nameError");
+
+  function inputCheck() {
+    // Reset error messages
+    emailError.classList.add("hidden");
+    no_hpError.classList.add("hidden");
+    nameError.classList.add("hidden");
+
+    // Full Name validation
+    if (!document.getElementById("fullname").value) {
+      nameError.classList.remove("hidden");
+    }
+
+    if (email.value || !validateEmail()) {
+      // Email validation
+      if (!validateEmail()) {
+        emailError.classList.remove("hidden");
+        emailError.innerText = "Email address is not valid.";
+      }
+      if (!email.value) {
+        emailError.classList.remove("hidden");
+        emailError.innerHTML = "Email address  is required";
+      }
+    }
+
+    if (no_hp.value || !validateno_hp()) {
+      // no_hp validation
+      if (!validateno_hp()) {
+        no_hpError.classList.remove("hidden");
+        no_hpError.innerText = "no_hp number is not valid.";
+      }
+      if (!no_hp.value) {
+        no_hpError.classList.remove("hidden");
+        no_hpError.innerHTML = "no_hp number is required";
+      }
+    }
+  }
+
+  form.addEventListener("submit", (e) => {
+    let isValid = true;
+
+    inputs.forEach((input) => {
+      if (!input.checkValidity()) {
+        isValid = false;
+        input.classList.add("border-red-600");
+      } else {
+        input.classList.remove("border-red-600");
+      }
+    });
+
+    inputCheck();
+
+    if (!isValid) e.preventDefault();
+  });
+
+  function validateEmail() {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email.value);
+  }
+
+  function validateno_hp() {
+    const no_hpPattern = /^[0-9]{10,14}$/;
+    return no_hpPattern.test(no_hp.value);
+  }
+</script>

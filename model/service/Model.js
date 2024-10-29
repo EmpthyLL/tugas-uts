@@ -3,7 +3,7 @@ const path = require("path");
 
 class Model {
   constructor(source) {
-    this.source = `./json/${source}.json`;
+    this.source = `./../json/${source}.json`;
     this.dirExist();
     this.data = this.loadData();
   }

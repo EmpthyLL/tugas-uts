@@ -1,3 +1,4 @@
+<%- include('/verify.ejs') %>
 <section class="min-h-screen grid grid-cols-1 lg:grid-cols-2">
   <!-- Left column: Image -->
   <div class="hidden lg:flex min-h-screen pl-8 items-center justify-center">
@@ -76,7 +77,7 @@
           </div>
         </div>
 
-        <!-- Phone Number input -->
+        <!-- no_hp Number input -->
         <div class="mb-6">
           <label for="no_hp" class="block text-gray-900">No HP</label>
           <input
@@ -84,12 +85,12 @@
             id="no_hp"
             name="no_hp"
             class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
-            placeholder="Type your phone number"
+            placeholder="Type your no_hp number"
             required
             pattern="^0\d{9,13}$"
           />
-          <div id="phoneError" class="italic text-red-600 hidden">
-            Enter a valid phone number.
+          <div id="no_hpError" class="italic text-red-600 hidden">
+            Enter a valid no_hp number.
           </div>
         </div>
 
@@ -282,18 +283,18 @@
   const pass = document.getElementById("password");
   const conpass = document.getElementById("confirmpassword");
   const email = document.getElementById("email");
-  const phone = document.getElementById("phone");
+  const no_hp = document.getElementById("no_hp");
   const error = document.getElementById("passError");
   const passwordError = document.getElementById("passwordError");
   const emailError = document.getElementById("emailError");
-  const phoneError = document.getElementById("phoneError");
+  const no_hpError = document.getElementById("no_hpError");
   const nameError = document.getElementById("nameError");
 
   function inputCheck() {
     // Reset error messages
     passwordError.classList.add("hidden");
     emailError.classList.add("hidden");
-    phoneError.classList.add("hidden");
+    no_hpError.classList.add("hidden");
     nameError.classList.add("hidden");
 
     // Full Name validation
@@ -313,15 +314,15 @@
       }
     }
 
-    if (phone.value || !validatePhone()) {
-      // Phone validation
-      if (!validatePhone()) {
-        phoneError.classList.remove("hidden");
-        phoneError.innerText = "Phone number is not valid.";
+    if (no_hp.value || !validateno_hp()) {
+      // no_hp validation
+      if (!validateno_hp()) {
+        no_hpError.classList.remove("hidden");
+        no_hpError.innerText = "no_hp number is not valid.";
       }
-      if (!phone.value) {
-        phoneError.classList.remove("hidden");
-        phoneError.innerHTML = "Phone number is required";
+      if (!no_hp.value) {
+        no_hpError.classList.remove("hidden");
+        no_hpError.innerHTML = "no_hp number is required";
       }
     }
 
@@ -411,8 +412,8 @@
     return emailPattern.test(email.value);
   }
 
-  function validatePhone() {
-    const phonePattern = /^[0-9]{10,14}$/;
-    return phonePattern.test(phone.value);
+  function validateno_hp() {
+    const no_hpPattern = /^[0-9]{10,14}$/;
+    return no_hpPattern.test(no_hp.value);
   }
 </script>

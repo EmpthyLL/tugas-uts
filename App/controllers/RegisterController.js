@@ -1,23 +1,32 @@
 const UserModel = require("../../model/service/UserModel");
 const Controller = require("./Controller");
 
-const { validationResult } = require("express-validator");
-
 class RegisterController extends Controller {
   constructor() {
     super();
-    this.view = "register";
+    this.view = ["input_phone", "verify", "user_data"];
     this.layout = "plain";
-    this.title = "Register Page";
+    this.title = ["Input Phone", "Verify Number", "User Data"];
   }
 
   index(req, res) {
+    this.step = req.body.step || 0;
     const options = {
       layout: `components/${this.layout}`,
-      title: this.title,
+      title: this.title[this.step],
       errors: req.flash("errors") || [],
+      no_hp: req.body.no_hp || "",
     };
-    this.renderView(res, options);
+    console.log(req.body);
+    this.renderView(res, this.view[this.step], options);
+  }
+
+  step1(req, res) {
+    this.index(req, res);
+  }
+
+  step2(req, res) {
+    this.index(req, res);
   }
 
   async store(req, res) {
@@ -30,14 +39,13 @@ class RegisterController extends Controller {
       };
 
       const user = new UserModel();
-      console.log(user.source);
       await user.register(userData);
 
-      res.redirect("/sign-in");
+      // Redirect with no_hp as a query parameter
+      res.redirect(`/sign-in`);
     } catch (error) {
-      // req.flash("errors", [{ msg: "Failed to register. Try again." }]);
-      req.flash("errors", [{ msg: error.message }]);
-      res.redirect("/register");
+      req.flash("errors", [{ msg: "Failed to register. Try again." }]);
+      res.redirect("/register/user-data");
     }
   }
 }
