@@ -16,7 +16,7 @@ class AboutController extends Controller {
         menus: this.menus,
       };
 
-      this.renderView(res, options);
+      this.renderView(res, this.view, options);
     } catch (error) {
       this.handleError(res, "Failed to render home page", 500);
     }

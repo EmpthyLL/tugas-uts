@@ -1,22 +1,28 @@
-<section class="h-screen">
-  <div class="h-full flex items-center justify-center">
+<section id="otp" class="h-screen">
+  <div class="h-full flex items-center justify-center bg-gray-900 relative">
     <!-- Right column: Forms Container -->
     <div
-      class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg z-10"
+      class="w-full xs:mx-10 xs:max-w-md p-6 bg-white rounded-lg shadow-lg z-10"
       data-hs-pin-input=""
     >
       <!-- Verify Form input -->
-      <form id="verifyForm" class="space-y-6">
+      <form
+        id="verifyForm"
+        method="post"
+        action="/register/verify-number"
+        class="space-y-6"
+      >
         <h1 class="text-center text-3xl font-bold">Verify OTP</h1>
         <p class="text-center text-gray-500">
-          Enter the 6-digit OTP sent to your email.
+          Enter the 6-digit OTP sent to your phone number.
         </p>
 
+        <input type="hidden" name="step" value="2" />
         <div class="flex space-x-2 justify-center">
           <input
             type="text"
             maxlength="1"
-            class="block w-12 h-12 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
+            class="block xs:w-12 xs:h-12 w-11 h-11 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
             placeholder="⚬"
             oninput="moveFocus(this)"
             data-hs-pin-input-item=""
@@ -24,7 +30,7 @@
           <input
             type="text"
             maxlength="1"
-            class="block w-12 h-12 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
+            class="block xs:w-12 xs:h-12 w-11 h-11 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
             placeholder="⚬"
             oninput="moveFocus(this)"
             data-hs-pin-input-item=""
@@ -32,7 +38,7 @@
           <input
             type="text"
             maxlength="1"
-            class="block w-12 h-12 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
+            class="block xs:w-12 xs:h-12 w-11 h-11 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
             placeholder="⚬"
             oninput="moveFocus(this)"
             data-hs-pin-input-item=""
@@ -40,7 +46,7 @@
           <input
             type="text"
             maxlength="1"
-            class="block w-12 h-12 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
+            class="block xs:w-12 xs:h-12 w-11 h-11 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
             placeholder="⚬"
             oninput="moveFocus(this)"
             data-hs-pin-input-item=""
@@ -48,7 +54,7 @@
           <input
             type="text"
             maxlength="1"
-            class="block w-12 h-12 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
+            class="block xs:w-12 xs:h-12 w-11 h-11 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
             placeholder="⚬"
             oninput="moveFocus(this)"
             data-hs-pin-input-item=""
@@ -56,7 +62,7 @@
           <input
             type="text"
             maxlength="1"
-            class="block w-12 h-12 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
+            class="block xs:w-12 xs:h-12 w-11 h-11 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
             placeholder="⚬"
             oninput="moveFocus(this)"
             data-hs-pin-input-item=""
@@ -70,12 +76,20 @@
           Verify
         </button>
       </form>
+
+      <!-- Image for small screens -->
+      <div
+        class="sm:hidden flex justify-center items-center mt-6 bg-slate-900 rounded-lg p-3"
+      >
+        <img src="/img/logo_A3Mart.png" class="w-full" alt="Sample image" />
+      </div>
     </div>
-    <!-- Background Image -->
-    <img
-      src="/img/logo_A3Mart.png"
-      alt="Background Logo"
-      class="absolute inset-0 w-full h-full object-contain opacity-10"
-    />
   </div>
+
+  <!-- Background Image -->
+  <img
+    src="/img/logo_A3Mart.png"
+    alt="Background Logo"
+    class="xs:block hidden absolute inset-0 w-full h-full object-contain opacity-10"
+  />
 </section>

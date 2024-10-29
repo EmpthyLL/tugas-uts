@@ -1,0 +1,132 @@
+<section class="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+  <div class="hidden lg:flex min-h-screen pl-8 items-center justify-center">
+    <img src="/img/logo_A3Mart.png" class="w-full" alt="Sample image" />
+  </div>
+
+  <div class="flex py-6 justify-center items-center">
+    <div
+      class="xs:max-w-md w-full p-6 flex flex-col items-center justify-center bg-white rounded-lg shadow-lg"
+    >
+      <form
+        id="registerForm"
+        method="post"
+        action="/register/verify-number"
+        class="space-y-6 w-full mx-auto"
+        novalidate
+      >
+        <h1 class="text-center text-3xl font-bold">Input Phone Number</h1>
+
+        <% if (errors.length > 0) { %>
+        <div
+          id="alertBox"
+          class="p-4 mb-4 border border-red-400 text-red-700 bg-red-100 rounded-lg relative"
+          role="alert"
+        >
+          <strong class="font-bold">Oops! Something went wrong:</strong>
+          <ul class="mt-2">
+            <% errors.forEach(error => { %>
+            <li class="ml-4 list-disc"><%= error.msg %></li>
+            <% }) %>
+          </ul>
+          <button
+            onclick="closeAlert()"
+            class="absolute top-1 right-1 text-red-700 hover:text-red-900 focus:outline-none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-x"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+        </div>
+        <% } %>
+        <input type="hidden" name="step" value="1" />
+        <div class="mb-6">
+          <label for="no_hp" class="block text-gray-900">No HP</label>
+          <input
+            type="tel"
+            id="no_hp"
+            name="no_hp"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
+            placeholder="Type your phone number"
+            required
+            pattern="^0\\d{9,13}$"
+          />
+          <div id="no_hpError" class="italic text-red-600 hidden">
+            Enter a valid phone number.
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-lime-500 text-white py-2 rounded hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-lime-300"
+        >
+          Send OTP
+        </button>
+
+        <p class="text-center">
+          Already have an account?
+          <a
+            href="/sign-in"
+            class="text-lime-500 hover:text-lime-700 hover:underline"
+            >Login</a
+          >
+        </p>
+      </form>
+
+      <div
+        class="lg:hidden flex justify-center items-center mt-6 bg-slate-900 rounded-lg p-3"
+      >
+        <img src="/img/logo_A3Mart.png" class="w-full" alt="Sample image" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function closeAlert() {
+    document.getElementById("alertBox").style.display = "none";
+  }
+
+  const form = document.getElementById("registerForm");
+  const no_hp = document.getElementById("no_hp");
+  const no_hpError = document.getElementById("no_hpError");
+
+  form.addEventListener("submit", (e) => {
+    let isValid = true;
+
+    if (no_hp.value) {
+      if (!validateno_hp()) {
+        isValid = false;
+        no_hp.classList.add("border-red-600");
+        no_hpError.classList.remove("hidden");
+        no_hpError.innerText = "Phone number is invalid.";
+      } else {
+        no_hp.classList.remove("border-red-600");
+        no_hpError.classList.add("hidden");
+      }
+    } else {
+      isValid = false;
+      no_hp.classList.add("border-red-600");
+      no_hpError.classList.remove("hidden");
+      no_hpError.innerText = "Phone number is required.";
+    }
+
+    if (!isValid) e.preventDefault();
+  });
+
+  function validateno_hp() {
+    const no_hpPattern = /^0\d{9,13}$/;
+    return no_hpPattern.test(no_hp.value);
+  }
+</script>

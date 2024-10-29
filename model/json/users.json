@@ -1,11 +1,10 @@
 [
   {
-    "uuid": "",
-    "fullname": "",
-    "no_hp": "",
-    "email": "",
-    "password": "",
-    "profile": null,
+    "uuid": "9c293f29-9aa2-490c-b3c9-97495e0d7362",
+    "fullname": "Howard Javier",
+    "no_hp": "0596487535",
+    "email": "javileh40@gmail.com",
+    "profile_pic": null,
     "balance": 0,
     "cart": [],
     "history": []

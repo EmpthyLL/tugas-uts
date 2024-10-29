@@ -1,7 +1,5 @@
-const { data } = require("autoprefixer");
 const fs = require("fs");
 const path = require("path");
-const { title } = require("process");
 
 class BaseController {
   constructor() {
@@ -23,20 +21,20 @@ class BaseController {
     ];
   }
 
-  renderView(res, options) {
+  renderView(res, view, options) {
     const layoutPath = path.join(
       __dirname,
       "../../views/components",
       `${this.layout}.ejs`
     );
-    const viewPath = path.join(__dirname, "../../views", `${this.view}.ejs`);
+    const viewPath = path.join(__dirname, "../../views", `${view}.ejs`);
 
     try {
       if (!fs.existsSync(viewPath) || !fs.existsSync(layoutPath)) {
-        throw new Error(`View "${this.view}" not found`);
+        throw new Error(`View "${view}" not found`);
       }
 
-      res.render(this.view, options);
+      res.render(view, options);
     } catch (error) {
       this.handleError(res, error.message);
     }

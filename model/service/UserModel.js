@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const Model = require("./Model");
+const { verify } = require("crypto");
 
 const SECRET_KEY = "T0l0NGj4g4Rahasia";
 
@@ -14,15 +15,15 @@ class UserModel extends Model {
   isEmailUnique(email) {
     return !this.users.some((user) => user.email === email);
   }
-  async register({ fullname, no_hp, email, password }) {
-    const hashedPassword = await bcrypt.hash(password, 10);
+  async register({ fullname, no_hp, email }) {
     const newUser = {
       uuid: uuidv4(),
       fullname,
       no_hp,
       email,
-      password: hashedPassword,
-      profile: null,
+      verify: false,
+      verify_date: null,
+      profile_pic: null,
       balance: 0,
       cart: [],
       history: [],
