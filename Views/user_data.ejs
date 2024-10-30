@@ -19,6 +19,40 @@
       >
         <h1 class="text-center text-3xl font-bold">User Data</h1>
 
+        <% if (errors.length > 0) { %>
+        <div
+          id="alertBox"
+          class="p-4 mb-4 border border-red-400 text-red-700 bg-red-100 rounded-lg relative"
+          role="alert"
+        >
+          <strong class="font-bold">Oops! Something went wrong:</strong>
+          <ul class="mt-2">
+            <% errors.forEach(error => { %>
+            <li class="ml-4 list-disc"><%= error.msg %></li>
+            <% }) %>
+          </ul>
+          <button
+            onclick="closeAlert()"
+            class="absolute top-1 right-1 text-red-700 hover:text-red-900 focus:outline-none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-x"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+        </div>
+        <% } %>
         <script>
           function closeAlert() {
             document.getElementById("alertBox").style.display = "none";

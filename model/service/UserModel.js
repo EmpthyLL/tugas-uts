@@ -1,21 +1,33 @@
 const { v4: uuidv4 } = require("uuid");
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const Model = require("./Model");
-const { verify } = require("crypto");
 
 const SECRET_KEY = "T0l0NGj4g4Rahasia";
 
 class UserModel extends Model {
   constructor() {
     super("users");
+    this.sessions = {}; // Simple in-memory session store
+  }
+
+  isPhoneUnique(no_hp) {
+    return !this.data.some((user) => user.no_hp === no_hp);
   }
 
   isEmailUnique(email) {
-    return !this.users.some((user) => user.email === email);
+    return !this.data.some((user) => user.email === email);
   }
+
   async register({ fullname, no_hp, email }) {
+    // Check if phone number or email is already in use
+    if (!this.isPhoneUnique(no_hp)) {
+      throw new Error("Phone number is already registered.");
+    }
+    if (!this.isEmailUnique(email)) {
+      throw new Error("Email is already registered.");
+    }
+
     const newUser = {
       uuid: uuidv4(),
       fullname,
@@ -28,46 +40,43 @@ class UserModel extends Model {
       cart: [],
       history: [],
     };
-
     this.data.push(newUser);
     this.saveData();
-    return newUser;
+
+    // Automatically log in the user by creating a session token
+    const token = this.createSessionToken(newUser.uuid);
+    return { user: newUser, token };
   }
 
-  async login({ email, password }) {
-    const user = this.users.find((user) => user.email === email);
-    if (!user) throw new Error("Invalid email or password.");
+  login({ no_hp }) {
+    const user = this.users.find((user) => user.no_hp === no_hp);
+    if (!user) throw new Error("User not found.");
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) throw new Error("Invalid email or password.");
-
-    const token = jwt.sign({ userId: user.uuid }, SECRET_KEY, {
-      expiresIn: "1h",
-    });
-    this.storeToken(token);
+    // Generate a session token for the user
+    const token = this.createSessionToken(user.uuid);
     return token;
   }
 
-  storeToken(token) {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("token", token);
-    }
+  createSessionToken(userId) {
+    const token = jwt.sign({ userId }, SECRET_KEY, { expiresIn: "1h" });
+    this.sessions[userId] = token; // Store token in session store
+    return token;
   }
 
-  logout() {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("token");
-    }
-  }
-
-  verifyToken(token) {
+  verifySessionToken(token) {
     try {
       const decoded = jwt.verify(token, SECRET_KEY);
+      const sessionToken = this.sessions[decoded.userId];
+      if (sessionToken !== token) throw new Error("Invalid session.");
+
       return decoded;
     } catch (err) {
-      this.logout(); // Logout if token is expired or invalid
-      throw new Error("Session expired. Please log in again.");
+      throw new Error("Session expired or invalid. Please log in again.");
     }
+  }
+
+  logout(userId) {
+    delete this.sessions[userId]; // Remove session token
   }
 
   addToCart(userId, product) {
