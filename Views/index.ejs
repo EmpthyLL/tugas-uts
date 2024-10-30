@@ -1,7 +1,7 @@
 <div id="dropdown-container" class="my-4">
   <label for="category-dropdown" class="mr-2">Select Category:</label>
   <select id="category-dropdown" class="border border-gray-300 rounded p-2">
-      <option value="" default>-- Select a category --</option>
+    <option value="" default>-- Select a category --</option>
   </select>
 </div>
 
@@ -10,113 +10,120 @@
 <div id="categories" class="font-bold text-xl"></div>
 
 <script>
-  function capitalize(string){
-    if(!string){
+  function capitalize(string) {
+    if (!string) {
       return string
     } else {
       return string.charAt(0).toUpperCase() + string.slice(1);
     }
   }
   async function fetchProducts() {
-      try {
-          const response = await fetch('https://dummyjson.com/products');
-          if (!response.ok) {
-              throw new Error('Failed to fetch products');
-          }
-          const data = await response.json();
-          return data.products; 
-      } catch (error) {
-          console.error('Error fetching products:', error);
+    try {
+      const response = await fetch('https://dummyjson.com/products');
+      if (!response.ok) {
+        throw new Error('Failed to fetch products');
       }
+      const data = await response.json();
+      return data.products;
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
   }
-  
+
   function groupByCategory(products) {
-      const groupedProducts = {}; 
-  
-      products.forEach(product => {
-          const category = product.category;
-  
-          if (!groupedProducts[category]) {
-              groupedProducts[category] = [];
-          }
-  
-          groupedProducts[category].push(product);
-      });
-  
-      return groupedProducts; 
-  }
-  
-  async function displayProductsByCategory() {
-      const products = await fetchProducts(); 
-      const groupedProducts = groupByCategory(products);
-  
-      const dropdown = document.getElementById('category-dropdown');
-      for (const category in groupedProducts) {
-        const option = document.createElement('option');
-        option.value = category;
-        option.innerText = capitalize(category);
-        dropdown.appendChild(option);
+    const groupedProducts = {};
+
+    products.forEach(product => {
+      const category = product.category;
+
+      if (!groupedProducts[category]) {
+        groupedProducts[category] = [];
       }
-      
-      const categoriesContainer = document.getElementById('categories');
-      categoriesContainer.innerHTML = '';
-  
-      dropdown.addEventListener('change', (event) => {
-        const selectedCategory = event.target.value;
-        displayProducts(selectedCategory,groupedProducts);
-      });
+
+      groupedProducts[category].push(product);
+    });
+
+    return groupedProducts;
+  }
+
+  function displayProducts(selectedCategory, groupedProducts) {
+    const categoriesContainer = document.getElementById('categories');
+    categoriesContainer.innerHTML = ''; 
+
+    if (selectedCategory && groupedProducts[selectedCategory]) {
+      renderCategory(selectedCategory, groupedProducts[selectedCategory]);
+    } else {
+      for (const category in groupedProducts) {
+        renderCategory(category, groupedProducts[category]);
+      }
+    }
+  }
+
+  function renderCategory(category, products) {
+    const categoriesContainer = document.getElementById('categories');
+
+    const categoryDiv = document.createElement('div');
+    categoryDiv.className = 'my-6';
+
+    const categoryTitle = document.createElement('h2');
+    categoryTitle.className = 'm-2 text-2xl font-semibold mb-4';
+    categoryTitle.innerText = capitalize(category);
+
+    const cardContainer = document.createElement('div');
+    cardContainer.className = 'm-2 flex flex-wrap justify-start';
+
+    products.forEach(product => {
+      const productCard = document.createElement('div');
+      productCard.className = "card w-1/4 m-2 bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105";
+
+      const productImage = document.createElement('img');
+      productImage.src = product.images[0];
+      productImage.alt = product.title;
+      productImage.className = 'flex items-center justify-center h-72 w-full object-cover';
+
+      const cardBody = document.createElement('div');
+      cardBody.className = 'p-4';
+
+      const productTitle = document.createElement('span');
+      productTitle.className = 'font-semibold text-lg mb-1';
+      productTitle.innerText = product.title;
+
+      const productPrice = document.createElement('p');
+      productPrice.className = 'text-gray-800 text-base';
+      productPrice.innerText = `Rp ${Math.floor(product.price * 15000).toLocaleString('id-ID')}`;
+
+      cardBody.appendChild(productPrice);
+      cardBody.appendChild(productTitle);
+      productCard.appendChild(productImage);
+      productCard.appendChild(cardBody);
+
+      cardContainer.appendChild(productCard);
+    });
+
+    categoryDiv.appendChild(categoryTitle);
+    categoryDiv.appendChild(cardContainer);
+    categoriesContainer.appendChild(categoryDiv);
+  }
+
+  async function initialize() {
+    const products = await fetchProducts();
+    const groupedProducts = groupByCategory(products);
+
+    const dropdown = document.getElementById('category-dropdown');
+    for (const category in groupedProducts) {
+      const option = document.createElement('option');
+      option.value = category;
+      option.innerText = capitalize(category);
+      dropdown.appendChild(option);
     }
 
-    function displayProducts(selectedCategory,groupedProducts){
-      const categoriesContainer = document.getElementById('categories');
-      categoriesContainer.innerHTML = ''
-      if(selectedCategory && groupedProducts[selectedCategory]){
-        const categoryDiv = document.createElement('div');
-        categoryDiv.className = 'my-6';
+    displayProducts('', groupedProducts);
 
-        const categoryTitle = document.createElement('h2');
-        categoryTitle.className = 'm-2 text-2xl font-semibold mb-4';
-        categoryTitle.innerText = capitalize(category); 
-        categoriesContainer.appendChild(categoryTitle);
-        categoriesContainer.appendChild(categoryDiv);
+    dropdown.addEventListener('change', (event) => {
+      const selectedCategory = event.target.value;
+      displayProducts(selectedCategory, groupedProducts);
+    });
+  }
 
-        const cardContainer = document.createElement('div');
-        cardContainer.className = 'm-2 flex flex-wrap justify-start';
-
-        groupedProducts[category].forEach(product => {
-            const productCard = document.createElement('div');
-            productCard.className = "card w-1/4 m-2 bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105";
-
-            const productImage = document.createElement('img');
-            productImage.src = product.images[0];
-            productImage.alt = product.title;
-            productImage.className = 'flex items-center justify-center h-72 w-full object-center group-hover:opacity-75';
-
-            const cardBody = document.createElement('div');
-            cardBody.className = 'p-4';
-
-            const productTitle = document.createElement('span');
-            productTitle.className = 'font-semibold text-lg mb-1';
-            productTitle.innerText = product.title;
-            
-            const productPrice = document.createElement('p');
-            productPrice.className = 'text-gray-800 text-base';
-            productPrice.innerText = `Rp ${Math.floor(product.price * 15000).toLocaleString('id-ID')}`;
-
-            cardBody.appendChild(productPrice);
-            cardBody.appendChild(productTitle);
-            productCard.appendChild(productImage);
-            productCard.appendChild(cardBody);
-
-            cardContainer.appendChild(productCard);
-        });
-        categoryDiv.appendChild(cardContainer);
-        categoriesContainer.appendChild(categoryDiv);
-      } else {
-        for (const category in groupedProducts){
-          displayProducts(category,groupedProducts);
-        }
-      }         
-    }
-  document.addEventListener('DOMContentLoaded', displayProductsByCategory);
-</script>  
+  document.addEventListener('DOMContentLoaded', initialize);
+</script>
