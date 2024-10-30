@@ -13,7 +13,7 @@
       <form
         id="registerForm"
         method="post"
-        action="/register"
+        action="/register/user-data"
         class="space-y-6 w-full mx-auto"
         novalidate
       >
@@ -33,7 +33,7 @@
             type="text"
             id="fullname"
             name="fullname"
-            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500 disabled:bg-gray-100 disabled:text-gray-500 disabled:border-gray-300"
             placeholder="Type your full name"
             required
           />
@@ -49,13 +49,15 @@
             type="tel"
             id="no_hp"
             name="no_hp"
-            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500 disabled:bg-gray-100 disabled:text-gray-500 disabled:border-gray-300"
             placeholder="Type your phone number"
             required
+            disabled
+            value="<%= no_hp %>"
             pattern="^0\d{9,13}$"
           />
           <div id="no_hpError" class="italic text-red-600 hidden">
-            Enter a valid no_hp number.
+            Enter a valid phone number.
           </div>
         </div>
 
@@ -66,7 +68,7 @@
             type="email"
             id="email"
             name="email"
-            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500 disabled:bg-gray-100 disabled:text-gray-500 disabled:border-gray-300"
             placeholder="Type your email"
             required
             pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
@@ -141,11 +143,11 @@
       // no_hp validation
       if (!validateno_hp()) {
         no_hpError.classList.remove("hidden");
-        no_hpError.innerText = "no_hp number is not valid.";
+        no_hpError.innerText = "Phone number is not valid.";
       }
       if (!no_hp.value) {
         no_hpError.classList.remove("hidden");
-        no_hpError.innerHTML = "no_hp number is required";
+        no_hpError.innerHTML = "Phone number is required";
       }
     }
   }

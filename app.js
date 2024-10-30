@@ -1,6 +1,5 @@
 const express = require("express");
 const exlay = require("express-ejs-layouts");
-const { check, body, validationResult } = require("express-validator");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
@@ -48,12 +47,16 @@ app.get("/register", (req, res) => {
   res.redirect("/register/input-number");
 });
 app.get("/register/input-number", (req, res) => {
+  registerController.step = 0;
+  registerController.no_hp = "";
   registerController.index(req, res);
 });
 app.get("/register/verify-number", (req, res) => {
+  registerController.step = 1;
   registerController.index(req, res);
 });
 app.get("/register/user-data", (req, res) => {
+  registerController.step = 2;
   registerController.index(req, res);
 });
 app.post("/register/input-number", (req, res) => {
