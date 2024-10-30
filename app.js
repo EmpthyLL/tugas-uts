@@ -57,6 +57,7 @@ app.get("/register/verify-number", (req, res) => {
 });
 app.get("/register/user-data", (req, res) => {
   registerController.step = 2;
+  registerController.email = "";
   registerController.index(req, res);
 });
 app.post("/register/input-number", (req, res) => {

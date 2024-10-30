@@ -8,7 +8,9 @@ class RegisterController extends Controller {
     this.layout = "plain";
     this.title = ["Input Phone", "Verify Number", "User Data"];
     this.no_hp = "";
+    this.nama = "";
     this.step = 0;
+    this.model = new UserModel();
   }
 
   index(req, res) {
@@ -17,17 +19,24 @@ class RegisterController extends Controller {
       title: this.title[this.step],
       errors: req.flash("errors") || [],
       no_hp: this.no_hp,
+      fullname: this.fullname,
+      email: this.email,
     };
-    console.log(this.step);
-    console.log(this.no_hp);
-    console.log(req.path);
     this.renderView(res, this.view[this.step], options);
   }
 
   step1(req, res) {
     if (req.path !== "/register/verify-number") {
       this.no_hp = req.body.no_hp;
-      res.redirect("/register/verify-number");
+      try {
+        if (!this.model.isPhoneUnique(this.no_hp)) {
+          throw new Error("Phone number is already registered.");
+        }
+        res.redirect("/register/verify-number");
+      } catch (error) {
+        req.flash("errors", [{ msg: error.message }]);
+        res.redirect("/register");
+      }
     }
   }
 
@@ -40,20 +49,21 @@ class RegisterController extends Controller {
 
   async store(req, res) {
     try {
+      this.email = req.body.email;
+      this.fullname = req.body.fullname;
       const userData = {
-        fullname: req.body.fullname,
-        no_hp: req.body.no_hp,
-        email: req.body.email,
-        password: req.body.password,
+        fullname: this.fullname,
+        no_hp: this.no_hp,
+        email: this.email,
       };
 
-      const user = new UserModel();
-      await user.register(userData);
+      const { user, token } = await this.model.register(userData);
 
-      // Redirect with no_hp as a query parameter
+      req.session.token = token;
+
       res.redirect(`/sign-in`);
     } catch (error) {
-      req.flash("errors", [{ msg: "Failed to register. Try again." }]);
+      req.flash("errors", [{ msg: error.message }]);
       res.redirect("/register/user-data");
     }
   }
