@@ -2,71 +2,78 @@
   <div class="h-full flex items-center justify-center bg-gray-900 relative">
     <!-- Right column: Forms Container -->
     <div
-      class="w-full xs:mx-10 xs:max-w-md p-6 bg-white rounded-lg shadow-lg z-10"
+      class="w-full xs:mx-10 xs:max-w-md p-6 flex flex-col gap-4 bg-white rounded-lg shadow-lg z-10"
       data-hs-pin-input=""
     >
+      <h1 class="text-center text-3xl font-bold">Verify OTP</h1>
+      <p class="text-center text-gray-500">
+        Enter the 6-digit OTP sent to your phone number.
+        <button
+          type="button"
+          class="text-lime-500 hover:text-lime-700 inline-block hover:underline"
+          onclick="resendOtp()"
+        >
+          Resend OTP
+        </button>
+      </p>
       <!-- Verify Form input -->
       <form
         id="verifyForm"
         method="post"
         action="/register/verify-number"
-        class="space-y-6"
+        class="flex flex-col gap-4"
+        onsubmit="handleSubmit(event)"
       >
-        <h1 class="text-center text-3xl font-bold">Verify OTP</h1>
-        <p class="text-center text-gray-500">
-          Enter the 6-digit OTP sent to your phone number.
-        </p>
-
-        <input type="hidden" name="step" value="2" />
+        <input type="hidden" name="no_hp" value="<%= no_hp %>" />
         <div class="flex space-x-2 justify-center">
+          <!-- OTP inputs -->
           <input
             type="text"
             maxlength="1"
-            class="block xs:w-12 xs:h-12 w-11 h-11 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
+            class="otp-input block w-11 h-11 xs:w-12 xs:h-12 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
             placeholder="⚬"
-            oninput="moveFocus(this)"
             data-hs-pin-input-item=""
           />
           <input
             type="text"
             maxlength="1"
-            class="block xs:w-12 xs:h-12 w-11 h-11 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
+            class="otp-input block w-11 h-11 xs:w-12 xs:h-12 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
             placeholder="⚬"
-            oninput="moveFocus(this)"
             data-hs-pin-input-item=""
           />
           <input
             type="text"
             maxlength="1"
-            class="block xs:w-12 xs:h-12 w-11 h-11 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
+            class="otp-input block w-11 h-11 xs:w-12 xs:h-12 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
             placeholder="⚬"
-            oninput="moveFocus(this)"
             data-hs-pin-input-item=""
           />
           <input
             type="text"
             maxlength="1"
-            class="block xs:w-12 xs:h-12 w-11 h-11 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
+            class="otp-input block w-11 h-11 xs:w-12 xs:h-12 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
             placeholder="⚬"
-            oninput="moveFocus(this)"
             data-hs-pin-input-item=""
           />
           <input
             type="text"
             maxlength="1"
-            class="block xs:w-12 xs:h-12 w-11 h-11 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
+            class="otp-input block w-11 h-11 xs:w-12 xs:h-12 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
             placeholder="⚬"
-            oninput="moveFocus(this)"
             data-hs-pin-input-item=""
           />
           <input
             type="text"
             maxlength="1"
-            class="block xs:w-12 xs:h-12 w-11 h-11 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
+            class="otp-input block w-11 h-11 xs:w-12 xs:h-12 text-center bg-gray-200 border border-gray-300 rounded-md text-sm focus:border-lime-500 focus:ring-lime-500"
             placeholder="⚬"
-            oninput="moveFocus(this)"
             data-hs-pin-input-item=""
           />
+        </div>
+
+        <!-- Invalid OTP message -->
+        <div id="invalidOtpMessage" class="text-red-500 hidden text-center">
+          Invalid OTP. Please try again.
         </div>
 
         <button
@@ -76,13 +83,6 @@
           Verify
         </button>
       </form>
-
-      <!-- Image for small screens -->
-      <div
-        class="sm:hidden flex justify-center items-center mt-6 bg-slate-900 rounded-lg p-3"
-      >
-        <img src="/img/logo_A3Mart.png" class="w-full" alt="Sample image" />
-      </div>
     </div>
   </div>
 
@@ -93,3 +93,83 @@
     class="xs:block hidden absolute inset-0 w-full h-full object-contain opacity-10"
   />
 </section>
+
+<script>
+  let otp = "";
+  function generateOtp() {
+    otp = Math.floor(100000 + Math.random() * 900000).toString();
+    setTimeout(() => {
+      alert(`Your OTP is: ${otp}`);
+    }, 5000);
+  }
+
+  function resendOtp() {
+    generateOtp();
+
+    let inputs = document.querySelectorAll(".otp-input");
+    inputs.forEach((input) => {
+      input.classList.remove(
+        "border-red-500",
+        "bg-red-50",
+        "placeholder-red-500"
+      );
+    });
+    document.getElementById("invalidOtpMessage").classList.add("hidden");
+  }
+
+  function handleSubmit(event) {
+    let inputs = document.querySelectorAll(".otp-input");
+    let isFormValid = true;
+    let otpValue = "";
+    inputs.forEach((input) => {
+      if (!input.value) {
+        isFormValid = false;
+        input.classList.add(
+          "border-red-500",
+          "bg-red-50",
+          "placeholder-red-500"
+        );
+        document.getElementById("invalidOtpMessage").classList.add("hidden");
+      } else {
+        input.classList.remove(
+          "border-red-500",
+          "bg-red-50",
+          "placeholder-red-500"
+        );
+        otpValue += input.value;
+      }
+    });
+    if (otpValue.length == 0 || otpValue.length <= 5 || otpValue !== otp) {
+      isFormValid = false;
+      inputs.forEach((input) => {
+        input.classList.add(
+          "border-red-500",
+          "bg-red-50",
+          "placeholder-red-500"
+        );
+      });
+      if (otpValue.length == 0) {
+        document.getElementById("invalidOtpMessage").classList.remove("hidden");
+        document.getElementById("invalidOtpMessage").innerHTML =
+          "OTP has not been filled!";
+      } else if (otpValue.length <= 5) {
+        document.getElementById("invalidOtpMessage").classList.remove("hidden");
+        document.getElementById("invalidOtpMessage").innerHTML =
+          "OTP is not complete!";
+      } else if (otpValue !== otp) {
+        document.getElementById("invalidOtpMessage").classList.remove("hidden");
+        document.getElementById("invalidOtpMessage").innerHTML =
+          "Invalid OTP. Please try again.";
+      }
+    }
+
+    if (!isFormValid) {
+      event.preventDefault(); // Prevent form submission if invalid
+    }
+  }
+
+  // Start OTP generation on load
+  document.addEventListener("DOMContentLoaded", () => {
+    generateOtp();
+  });
+</script>
