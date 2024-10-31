@@ -51,7 +51,7 @@
         </div>
         <% } %>
         <div class="mb-6">
-          <label for="no_hp" class="block text-gray-900">No HP</label>
+          <label for="no_hp" class="block text-gray-900">Phone Number</label>
           <input
             type="tel"
             id="no_hp"
@@ -107,16 +107,16 @@
     if (no_hp.value) {
       if (!validateno_hp()) {
         isValid = false;
-        no_hp.classList.add("border-red-600");
+        no_hp.classList.add("border-red-600", "placeholder:text-red-600");
         no_hpError.classList.remove("hidden");
         no_hpError.innerText = "Phone number is invalid.";
       } else {
-        no_hp.classList.remove("border-red-600");
+        no_hp.classList.remove("border-red-600", "placeholder:text-red-600");
         no_hpError.classList.add("hidden");
       }
     } else {
       isValid = false;
-      no_hp.classList.add("border-red-600");
+      no_hp.classList.add("border-red-600", "placeholder:text-red-600");
       no_hpError.classList.remove("hidden");
       no_hpError.innerText = "Phone number is required.";
     }
@@ -125,7 +125,8 @@
   });
 
   function validateno_hp() {
-    const no_hpPattern = /^0\d{9,13}$/;
+    // Remove the quotes around the regex and correct the pattern
+    const no_hpPattern = /^0\d{9,13}$/; // Correct regex pattern
     return no_hpPattern.test(no_hp.value);
   }
 </script>

@@ -19,13 +19,41 @@
       >
         <h1 class="text-center text-3xl font-bold">User Data</h1>
 
-        <script>
-          function closeAlert() {
-            document.getElementById("alertBox").style.display = "none";
-          }
-        </script>
+        <% if (errors.length > 0) { %>
+        <div
+          id="alertBox"
+          class="p-4 mb-4 border border-red-400 text-red-700 bg-red-100 rounded-lg relative"
+          role="alert"
+        >
+          <strong class="font-bold">Oops! Something went wrong:</strong>
+          <ul class="mt-2">
+            <% errors.forEach(error => { %>
+            <li class="ml-4 list-disc"><%= error.msg %></li>
+            <% }) %>
+          </ul>
+          <button
+            onclick="closeAlert()"
+            class="absolute top-1 right-1 text-red-700 hover:text-red-900 focus:outline-none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-x"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+        </div>
+        <% } %>
 
-        <input type="hidden" name="step" value="3" />
         <!-- Username input -->
         <div class="mb-6">
           <label for="fullname" class="block text-gray-900">Full Name</label>
@@ -33,7 +61,8 @@
             type="text"
             id="fullname"
             name="fullname"
-            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500 disabled:bg-gray-100 disabled:text-gray-500 disabled:border-gray-300"
+            value="<%= fullname %>"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500 read-only:bg-gray-100 read-only:text-gray-500 read-only:border-gray-300"
             placeholder="Type your full name"
             required
           />
@@ -46,13 +75,13 @@
         <div class="mb-6">
           <label for="no_hp" class="block text-gray-900">No HP</label>
           <input
-            type="tel"
+            type="text"
             id="no_hp"
             name="no_hp"
-            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500 disabled:bg-gray-100 disabled:text-gray-500 disabled:border-gray-300"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500 read-only:bg-gray-100 read-only:text-gray-500 read-only:border-gray-300"
             placeholder="Type your phone number"
             required
-            disabled
+            readonly
             value="<%= no_hp %>"
             pattern="^0\d{9,13}$"
           />
@@ -68,7 +97,8 @@
             type="email"
             id="email"
             name="email"
-            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500 disabled:bg-gray-100 disabled:text-gray-500 disabled:border-gray-300"
+            value="<%= email %>"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500 read-only:bg-gray-100 read-only:text-gray-500 read-only:border-gray-300"
             placeholder="Type your email"
             required
             pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
@@ -116,6 +146,10 @@
   const no_hpError = document.getElementById("no_hpError");
   const nameError = document.getElementById("nameError");
 
+  function closeAlert() {
+    document.getElementById("alertBox").style.display = "none";
+  }
+
   function inputCheck() {
     // Reset error messages
     emailError.classList.add("hidden");
@@ -158,9 +192,9 @@
     inputs.forEach((input) => {
       if (!input.checkValidity()) {
         isValid = false;
-        input.classList.add("border-red-600");
+        input.classList.add("border-red-600", "placeholder:text-red-600");
       } else {
-        input.classList.remove("border-red-600");
+        input.classList.remove("border-red-600", "placeholder:text-red-600");
       }
     });
 

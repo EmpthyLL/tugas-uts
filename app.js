@@ -10,6 +10,7 @@ const HomeController = require("./app/controllers/HomeController");
 const LoginController = require("./app/controllers/LoginController");
 const RegisterController = require("./app/controllers/RegisterController");
 const AboutController = require("./app/controllers/AboutController");
+const guest = require("./app/middlewares/guest");
 
 const app = express();
 const port = 3001;
@@ -32,8 +33,6 @@ app.use(
 );
 app.use(flash());
 
-app.use(auth);
-
 //controllers
 const loginController = new LoginController();
 const registerController = new RegisterController();
@@ -43,20 +42,30 @@ const aboutController = new AboutController();
 app.get("/sign-in", (req, res) => {
   loginController.index(req, res);
 });
+app.get("/sign-in/verify-account", (req, res) => {
+  loginController.index(req, res);
+});
+app.post("/sign-in", (req, res) => {
+  loginController.login(req, res);
+});
+app.post("/sign-in/verify-account", (req, res) => {
+  loginController.login(req, res);
+});
 app.get("/register", (req, res) => {
   res.redirect("/register/input-number");
 });
-app.get("/register/input-number", (req, res) => {
+app.get("/register/input-number", guest, (req, res) => {
   registerController.step = 0;
   registerController.no_hp = "";
   registerController.index(req, res);
 });
-app.get("/register/verify-number", (req, res) => {
+app.get("/register/verify-number", guest, (req, res) => {
   registerController.step = 1;
   registerController.index(req, res);
 });
-app.get("/register/user-data", (req, res) => {
+app.get("/register/user-data", guest, (req, res) => {
   registerController.step = 2;
+  registerController.email = "";
   registerController.index(req, res);
 });
 app.post("/register/input-number", (req, res) => {
