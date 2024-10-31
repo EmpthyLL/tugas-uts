@@ -1,6 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
 const jwt = require("jsonwebtoken");
-const fs = require("fs");
 const Model = require("./Model");
 
 const SECRET_KEY = "T0l0NGj4g4Rahasia";
@@ -8,7 +7,14 @@ const SECRET_KEY = "T0l0NGj4g4Rahasia";
 class UserModel extends Model {
   constructor() {
     super("users");
-    this.sessions = {}; // Simple in-memory session store
+  }
+
+  getUserById(userId) {
+    return this.data.find((user) => user.uuid === userId);
+  }
+
+  findUserByPhone(no_hp) {
+    return this.data.find((user) => user.no_hp === no_hp);
   }
 
   isPhoneUnique(no_hp) {
@@ -20,7 +26,6 @@ class UserModel extends Model {
   }
 
   async register({ fullname, no_hp, email }) {
-    // Check if phone number or email is already in use
     if (!this.isPhoneUnique(no_hp)) {
       throw new Error("Phone number is already registered.");
     }
@@ -33,8 +38,6 @@ class UserModel extends Model {
       fullname,
       no_hp,
       email,
-      verify: false,
-      verify_date: null,
       profile_pic: null,
       balance: 0,
       cart: [],
@@ -44,39 +47,36 @@ class UserModel extends Model {
     this.saveData();
 
     // Automatically log in the user by creating a session token
-    const token = this.createSessionToken(newUser.uuid);
+    const token = jwt.sign({ userId: newUser.uuid }, SECRET_KEY, {
+      expiresIn: "1h",
+    });
     return { user: newUser, token };
   }
 
-  login({ no_hp }) {
-    const user = this.users.find((user) => user.no_hp === no_hp);
+  login(req, no_hp) {
+    const user = this.data.find((user) => user.no_hp === no_hp);
     if (!user) throw new Error("User not found.");
 
-    // Generate a session token for the user
-    const token = this.createSessionToken(user.uuid);
+    const token = jwt.sign({ userId: user.uuid }, SECRET_KEY, {
+      expiresIn: "1h",
+    });
+    req.session.token = token;
+    req.session.user = user.uuid;
+
     return token;
   }
 
-  createSessionToken(userId) {
-    const token = jwt.sign({ userId }, SECRET_KEY, { expiresIn: "1h" });
-    this.sessions[userId] = token; // Store token in session store
-    return token;
+  logout(req) {
+    req.session.destroy();
   }
 
   verifySessionToken(token) {
     try {
       const decoded = jwt.verify(token, SECRET_KEY);
-      const sessionToken = this.sessions[decoded.userId];
-      if (sessionToken !== token) throw new Error("Invalid session.");
-
       return decoded;
     } catch (err) {
       throw new Error("Session expired or invalid. Please log in again.");
     }
-  }
-
-  logout(userId) {
-    delete this.sessions[userId]; // Remove session token
   }
 
   addToCart(userId, product) {

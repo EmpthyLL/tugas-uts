@@ -20,7 +20,8 @@
       <form
         id="verifyForm"
         method="post"
-        action="/register/verify-number"
+        <form
+        action="<%= login ? '/sign-in/verify-account' : '/register/verify-number' %>"
         class="flex flex-col gap-4"
         onsubmit="handleSubmit(event)"
       >
