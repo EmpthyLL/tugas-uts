@@ -1,13 +1,8 @@
 const jwt = require("jsonwebtoken");
-const UserModel = require("../../model/service/UserModel");
-const secretKey = "T0l0NGj4g4Rahasia";
-
-const userModel = new UserModel();
+const SECRET_KEY = "T0l0NGj4g4Rahasia";
 
 async function auth(req, res, next) {
-  // Check for token in cookies
-  const token = req.cookies.token;
-
+  const token = req.cookies.auth_token;
   req.isAuthenticated = false;
 
   if (!token) {
@@ -15,20 +10,19 @@ async function auth(req, res, next) {
   }
 
   try {
-    const decoded = jwt.verify(token, secretKey);
-    const userId = decoded.userId;
-    const user = await userModel.getUserById(userId);
-
-    if (!user) {
-      return res.redirect("/register");
-    }
+    const decoded = jwt.verify(token, SECRET_KEY);
+    console.log(decoded);
 
     req.isAuthenticated = true;
+
     req.user = user;
-    return next();
+    next();
   } catch (error) {
+    if (error.name === "TokenExpiredError") {
+      return next();
+    }
     console.error("Token verification error:", error);
-    return res.status(401).json({ message: "Unauthorized" });
+    return next();
   }
 }
 

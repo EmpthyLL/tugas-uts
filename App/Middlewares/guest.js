@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const secretKey = "T0l0NGj4g4Rahasia";
 
 function guest(req, res, next) {
-  const token = req.cookies.token;
+  const token = req.cookies.auth_token;
 
   if (!token) {
     return next();

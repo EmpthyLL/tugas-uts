@@ -8,9 +8,9 @@
       class="xs:max-w-md w-full p-6 flex flex-col items-center justify-center bg-white rounded-lg shadow-lg"
     >
       <form
-        id="registerForm"
+        id="loginForm"
         method="post"
-        action="/register/input-number"
+        action="/sign-in"
         class="space-y-6 w-full mx-auto"
         novalidate
       >
@@ -98,7 +98,7 @@
     document.getElementById("alertBox").style.display = "none";
   }
 
-  const form = document.getElementById("registerForm");
+  const form = document.getElementById("loginForm");
   const no_hp = document.getElementById("no_hp");
   const no_hpError = document.getElementById("no_hpError");
 

@@ -1,3 +1,4 @@
+const { default: axios } = require("axios");
 const Controller = require("./Controller");
 
 class HomeController extends Controller {
@@ -7,13 +8,15 @@ class HomeController extends Controller {
     this.layout = "layout";
     this.title = "Home Page";
   }
-  index(req, res) {
+  async index(req, res) {
+    const categories = await axios("https://dummyjson.com/products/categories");
     try {
       const options = {
         layout: `components/${this.layout}`,
         title: this.title,
         req,
         menus: this.menus,
+        categories,
       };
 
       this.renderView(res, this.view, options);
@@ -21,6 +24,7 @@ class HomeController extends Controller {
       this.handleError(res, "Failed to render home page", 500);
     }
   }
+  fetchData() {}
 }
 
 module.exports = HomeController;

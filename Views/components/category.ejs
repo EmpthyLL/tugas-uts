@@ -1,0 +1,80 @@
+<div class="container mx-auto px-4">
+  <h1 class="font-bold text-4xl md:text-5xl my-6 text-center">Category</h1>
+
+  <!-- Carousel Wrapper -->
+  <div id="category-carousel" class="relative w-full" data-carousel="static">
+    <!-- Carousel inner container for slides with gradient background -->
+    <div
+      class="relative overflow-hidden rounded-lg lg:h-[200px] md:h-[450px] sm:h-[930px] bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200"
+    >
+      <!-- Nested Loop for Carousel Slides -->
+      <% for (let i = 0; i < categories.data.length; i += 8) { %>
+      <div
+        class="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 p-4 duration-700 ease-in-out"
+        data-carousel-item
+      >
+        <% for (let j = i; j < i + 8 && j < categories.data.length; j++) { %>
+        <a
+          href="/category/<%= categories.data[j].slug %>"
+          class="bg-white rounded-lg shadow-lg p-2 flex flex-col justify-center items-center cursor-pointer transition-transform transform hover:scale-105"
+        >
+          <!-- Image for each category -->
+          <img src="<%= "/img/category/" + categories.data[j].slug + '.png' %>"
+          alt="<%= categories.data[j].name %>" class="w-full max-h-24
+          object-cover rounded-t-lg" />
+          <h2
+            class="text-sm md:text-md text-center font-semibold text-black mt-2"
+          >
+            <%= categories.data[j].name %>
+          </h2>
+        </a>
+        <% } %>
+      </div>
+      <% } %>
+    </div>
+
+    <!-- Carousel Controls -->
+    <button
+      type="button"
+      class="absolute top-1/2 left-2 transform -translate-y-1/2 z-30 flex items-center justify-center h-10 w-10 bg-white/30 dark:bg-gray-800/30 rounded-full group focus:outline-none"
+      data-carousel-prev
+    >
+      <svg
+        class="w-5 h-5 text-gray-700 dark:text-white"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M15 19l-7-7 7-7"
+        />
+      </svg>
+      <span class="sr-only">Previous</span>
+    </button>
+    <button
+      type="button"
+      class="absolute top-1/2 right-2 transform -translate-y-1/2 z-30 flex items-center justify-center h-10 w-10 bg-white/30 dark:bg-gray-800/30 rounded-full group focus:outline-none"
+      data-carousel-next
+    >
+      <svg
+        class="w-5 h-5 text-gray-700 dark:text-white"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5l7 7-7 7"
+        />
+      </svg>
+      <span class="sr-only">Next</span>
+    </button>
+  </div>
+</div>
