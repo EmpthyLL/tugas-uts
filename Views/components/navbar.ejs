@@ -1,109 +1,65 @@
 <!-- ========== HEADER ========== -->
 
-<header
-  class="flex sticky top-0 flex-wrap md:justify-start md:flex-nowrap z-50 w-full py-4 bg-slate-950 shadow-lg"
->
-  <nav
-    class="relative w-full flex flex-wrap md:grid md:grid-cols-12 items-center px-4 md:px-8 mx-auto"
-  >
+<header class="flex sticky top-0 flex-wrap md:justify-start md:flex-nowrap z-50 w-full py-4 bg-slate-950 shadow-lg">
+  <nav class="relative w-full flex flex-wrap md:grid md:grid-cols-12 items-center px-4 md:px-8 mx-auto">
     <div class="md:col-span-3">
       <!-- Logo -->
-      <a
-        class="flex-none rounded-xl text-3xl text-teal-400 inline-block font-semibold focus:outline-none focus:opacity-80"
-        href="../templates/creative-agency/index.html"
-        aria-label="Preline"
-      >
+      <a class="flex-none rounded-xl text-3xl text-teal-400 inline-block font-semibold focus:outline-none focus:opacity-80"
+        href="../templates/creative-agency/index.html" aria-label="Preline">
         <img src="/img/logo_A3Mart.png" class="max-w-44" alt="" />
       </a>
       <!-- End Logo -->
     </div>
 
     <!-- Button Group -->
-    <div
-      class="flex items-center gap-x-1 md:gap-x-2 ms-auto py-1 md:ps-6 md:order-3 md:col-span-3"
-    >
+    <div class="flex items-center gap-x-1 md:gap-x-2 ms-auto py-1 md:ps-6 md:order-3 md:col-span-3">
       <div class="flex gap-2 items-center">
-        <a
-          href="/sign-in"
-          type="button"
-          class="py-2 px-3 whitespace-nowrap inline-flex items-center gap-x-2 text-sm font-medium rounded-xl bg-white border border-gray-300 text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-white/10 dark:text-white dark:hover:text-white"
-        >
+        <a href="/sign-in" type="button"
+          class="py-2 px-3 whitespace-nowrap inline-flex items-center gap-x-2 text-sm font-medium rounded-xl bg-white border border-gray-300 text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-white/10 dark:text-white dark:hover:text-white">
           Sign in
         </a>
-        <a
-          href="/register"
-          type="button"
-          class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl border border-transparent bg-lime-500 text-white hover:bg-lime-600 focus:outline-none focus:bg-lime-600 transition disabled:opacity-50 disabled:pointer-events-none"
-        >
+        <a href="/register" type="button"
+          class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl border border-transparent bg-lime-500 text-white hover:bg-lime-600 focus:outline-none focus:bg-lime-600 transition disabled:opacity-50 disabled:pointer-events-none">
           Register
         </a>
       </div>
       <div class="md:flex hidden gap-2 items-center justify-center">
-        <% menus.forEach(menu => { %> <% if (menu.href) { %>
-        <a href="<%- menu.href %>"> <%- menu.icon %> </a>
-        <% } else { %>
-        <button href="<%- menu.href %>"><%- menu.icon %></button>
-        <% } %> <% }) %>
+        <% menus.forEach(menu=> { %> <% if (menu.href) { %>
+            <a href="<%- menu.href %>"> <%- menu.icon %> </a>
+            <% } else { %>
+              <button href="<%- menu.href %>"><%- menu.icon %></button>
+              <% } %>
+                <% }) %>
 
-        <a
-          href="/profile"
-          class="flex flex-shrink-0 bg-gradient-to-r items-center from-emerald-400 to-lime-300 rounded-lg px-4 py-3 shadow-lg"
-        >
-          <div class="flex items-center gap-2">
-            <!-- Profile Image -->
-            <div
-              class="rounded-full overflow-hidden flex items-center justify-center w-8 h-8 shadow-md bg-white dark:bg-neutral-800"
-            >
-              <img
-                src="/img/profile.webp"
-                alt="profile"
-                class="w-full h-full object-cover"
-              />
-            </div>
+                  <a href="/profile"
+                    class="flex flex-shrink-0 bg-gradient-to-r items-center from-emerald-400 to-lime-300 rounded-lg px-4 py-3 shadow-lg">
+                    <div class="flex items-center gap-2">
+                      <!-- Profile Image -->
+                      <div
+                        class="rounded-full overflow-hidden flex items-center justify-center w-8 h-8 shadow-md bg-white dark:bg-neutral-800">
+                        <img src="/img/profile.webp" alt="profile" class="w-full h-full object-cover" />
+                      </div>
 
-            <!-- Text Content -->
-            <div class="text-white font-semibold text-lg">Firstname</div>
-          </div>
-        </a>
+                      <!-- Text Content -->
+                      <div class="text-white font-semibold text-lg">Firstname</div>
+                    </div>
+                  </a>
       </div>
       <div class="md:hidden">
-        <button
-          type="button"
+        <button type="button"
           class="hs-collapse-toggle flex justify-center items-center text-sm font-semibold rounded-xl border border-gray-300 text-white hover:bg-slate-400 focus:outline-none focus:bg-slate-400 p-1 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-          id="hs-navbar-hcail-collapse"
-          aria-expanded="false"
-          aria-controls="hs-navbar-hcail"
-          aria-label="Toggle navigation"
-          data-hs-collapse="#hs-navbar-hcail"
-        >
-          <svg
-            class="hs-collapse-open:hidden shrink-0"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
+          id="hs-navbar-hcail-collapse" aria-expanded="false" aria-controls="hs-navbar-hcail"
+          aria-label="Toggle navigation" data-hs-collapse="#hs-navbar-hcail">
+          <svg class="hs-collapse-open:hidden shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
             <line x1="3" x2="21" y1="6" y2="6" />
             <line x1="3" x2="21" y1="12" y2="12" />
             <line x1="3" x2="21" y1="18" y2="18" />
           </svg>
-          <svg
-            class="hs-collapse-open:block hidden shrink-0"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
+          <svg class="hs-collapse-open:block hidden shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
             <path d="M18 6 6 18" />
             <path d="m6 6 12 12" />
           </svg>
@@ -114,80 +70,54 @@
     <!-- End Button Group -->
 
     <!-- Collapse -->
-    <div
-      id="hs-navbar-hcail"
+    <div id="hs-navbar-hcail"
       class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block md:w-auto md:basis-auto md:order-2 md:col-span-6"
-      aria-labelledby="hs-navbar-hcail-collapse"
-    >
-      <a
-        href="/sign-in"
-        class="md:hidden flex flex-shrink-0 mt-2 bg-gradient-to-r from-emerald-400 to-lime-300 rounded-lg px-4 py-3 shadow-lg"
-      >
+      aria-labelledby="hs-navbar-hcail-collapse">
+      <a href="/sign-in"
+        class="md:hidden flex flex-shrink-0 mt-2 bg-gradient-to-r from-emerald-400 to-lime-300 rounded-lg px-4 py-3 shadow-lg">
         <div class="flex items-center gap-4">
           <!-- Profile Image -->
           <div
-            class="rounded-full overflow-hidden flex items-center justify-center w-12 h-12 shadow-md bg-white dark:bg-neutral-800"
-          >
-            <img
-              src="/img/profile.webp"
-              alt="profile"
-              class="w-full h-full object-cover"
-            />
+            class="rounded-full overflow-hidden flex items-center justify-center w-12 h-12 shadow-md bg-white dark:bg-neutral-800">
+            <img src="/img/profile.webp" alt="profile" class="w-full h-full object-cover" />
           </div>
 
           <!-- Text Content -->
           <div class="text-white font-semibold text-xl">
             Hi, User!
-            <span class="block text-lg font-light"
-              >Please login to get more access!</span
-            >
+            <span class="block text-lg font-light">Please login to get more access!</span>
           </div>
         </div>
       </a>
       <div class="flex items-center md:mt-0 mt-3 gap-4 justify-center">
         <form
-          class="flex flex-grow justify-center items-center bg-white space-x-2 px-2 rounded-xl border border-gray-300 text-black shadow-sm disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-white/10 dark:text-white"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-search"
-          >
+          class="flex flex-grow justify-center items-center bg-white space-x-2 px-2 rounded-xl border border-gray-300 text-black shadow-sm disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-white/10 dark:text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-search">
             <circle cx="11" cy="11" r="8" />
             <path d="m21 21-4.3-4.3" />
           </svg>
-          <input
-            type="search"
-            placeholder="Search for product..."
-            class="w-full bg-transparent font-light text-base flex items-center justify-center focus:outline-none border-none ring-0 focus:ring-0 placeholder-gray-400 dark:placeholder-gray-500"
-          />
+          <input type="search" placeholder="Search for product..."
+            class="w-full bg-transparent font-light text-base flex items-center justify-center focus:outline-none border-none ring-0 focus:ring-0 placeholder-gray-400 dark:placeholder-gray-500" />
         </form>
 
         <!-- Dynamic Menu for Mobile View -->
         <div class="md:hidden justify-center items-center flex gap-2">
-          <% menus.forEach(menu => { %> <% if (menu.href) { %>
-          <a
-            href="<%- menu.href %>"
-            class="p-2 rounded-md text-gray-600 border-white border flex items-center justify-center text-center hover:bg-slate-600 bg-slate-700 dark:text-gray-300 dark:hover:bg-neutral-800 transition-colors duration-150 ease-in-out"
-            aria-label="Menu item"
-          >
-            <%- menu.icon %>
-          </a>
-          <% } else { %>
-          <button
-            class="p-2 rounded-md text-gray-600 border-white border flex items-center justify-center text-center hover:bg-slate-600 bg-slate-700 dark:text-gray-300 dark:hover:bg-neutral-800 transition-colors duration-150 ease-in-out"
-            aria-label="Menu button"
-          >
-            <%- menu.icon %>
-          </button>
-          <% } %> <% }) %>
+          <% menus.forEach(menu=> { %> <% if (menu.href) { %>
+              <a href="<%- menu.href %>"
+                class="p-2 rounded-md text-gray-600 border-white border flex items-center justify-center text-center hover:bg-slate-600 bg-slate-700 dark:text-gray-300 dark:hover:bg-neutral-800 transition-colors duration-150 ease-in-out"
+                aria-label="Menu item">
+                <%- menu.icon %>
+              </a>
+              <% } else { %>
+                <button
+                  class="p-2 rounded-md text-gray-600 border-white border flex items-center justify-center text-center hover:bg-slate-600 bg-slate-700 dark:text-gray-300 dark:hover:bg-neutral-800 transition-colors duration-150 ease-in-out"
+                  aria-label="Menu button">
+                  <%- menu.icon %>
+                </button>
+                <% } %>
+                  <% }) %>
         </div>
       </div>
 
@@ -210,3 +140,12 @@
   </nav>
 </header>
 <!-- ========== END HEADER ========== -->
+<script>
+  let input = document.querySelector("input[type='search']");
+  input.addEventListener('keydown', function (event) {
+    if (event.key == 'Enter') {
+      event.preventDefault();
+      let inputValue = input.value;
+    }
+  });
+</script>
