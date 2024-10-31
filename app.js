@@ -10,7 +10,7 @@ const HomeController = require("./app/controllers/HomeController");
 const LoginController = require("./app/controllers/LoginController");
 const RegisterController = require("./app/controllers/RegisterController");
 const AboutController = require("./app/controllers/AboutController");
-
+const CategoryController = require("./app/controllers/CategoryController")
 const app = express();
 const port = 3001;
 
@@ -39,6 +39,7 @@ const loginController = new LoginController();
 const registerController = new RegisterController();
 const homeController = new HomeController();
 const aboutController = new AboutController();
+const categoryController = new CategoryController();
 
 app.get("/sign-in", (req, res) => {
   loginController.index(req, res);
@@ -80,6 +81,9 @@ app.get("/", (req, res) => {
 });
 app.get("/about", (req, res) => {
   aboutController.index(req, res);
+});
+app.get("/category/:categoryName", (req, res) => {
+  categoryController.index(req, res);
 });
 // app.get("/reset-password", (req, res) => {
 //   resetpassController.index(req, res);
