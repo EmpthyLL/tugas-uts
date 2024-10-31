@@ -50,6 +50,7 @@ class UserModel extends Model {
     const token = jwt.sign({ userId: newUser.uuid }, SECRET_KEY, {
       expiresIn: "1h",
     });
+
     return { user: newUser, token };
   }
 

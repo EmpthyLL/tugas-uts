@@ -22,13 +22,17 @@ app.use("/node_modules", express.static(__dirname + "/node_modules"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
-app.use(cookieParser("secret"));
+app.use(cookieParser());
 app.use(
   session({
-    cookie: { maxAge: 6000 },
-    secret: "secret",
-    resave: false,
-    saveUninitialized: true,
+    secret: "your-secret-key",
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000,
+      path: "/",
+      secure: false,
+      httpOnly: true,
+    },
   })
 );
 app.use(flash());
@@ -39,19 +43,19 @@ const registerController = new RegisterController();
 const homeController = new HomeController();
 const aboutController = new AboutController();
 
-app.get("/sign-in", (req, res) => {
+app.get("/sign-in", guest, (req, res) => {
   loginController.index(req, res);
 });
-app.get("/sign-in/verify-account", (req, res) => {
+app.get("/sign-in/verify-account", guest, (req, res) => {
   loginController.index(req, res);
 });
-app.post("/sign-in", (req, res) => {
+app.post("/sign-in", guest, (req, res) => {
   loginController.login(req, res);
 });
-app.post("/sign-in/verify-account", (req, res) => {
+app.post("/sign-in/verify-account", guest, (req, res) => {
   loginController.login(req, res);
 });
-app.get("/register", (req, res) => {
+app.get("/register", guest, (req, res) => {
   res.redirect("/register/input-number");
 });
 app.get("/register/input-number", guest, (req, res) => {
@@ -68,13 +72,14 @@ app.get("/register/user-data", guest, (req, res) => {
   registerController.email = "";
   registerController.index(req, res);
 });
-app.post("/register/input-number", (req, res) => {
+app.post("/register/input-number", guest, (req, res) => {
   registerController.step1(req, res);
 });
-app.post("/register/verify-number", (req, res) => {
+app.post("/register/verify-number", guest, (req, res) => {
+  console.log(req.isAuthenticated);
   registerController.step2(req, res);
 });
-app.post("/register/user-data", (req, res) => {
+app.post("/register/user-data", guest, (req, res) => {
   registerController.store(req, res);
 });
 // app.get("/email-verification", (req, res) => {
@@ -83,10 +88,11 @@ app.post("/register/user-data", (req, res) => {
 // app.get("/forgot-password", (req, res) => {
 //   forgotpassController.index(req, res);
 // });
-app.get("/", (req, res) => {
+app.get("/", auth, (req, res) => {
+  console.log(req.isAuthenticated);
   homeController.index(req, res);
 });
-app.get("/about", (req, res) => {
+app.get("/about", auth, (req, res) => {
   aboutController.index(req, res);
 });
 // app.get("/reset-password", (req, res) => {

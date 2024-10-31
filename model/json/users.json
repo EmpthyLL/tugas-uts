@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "uuid": "57b2d000-d9c4-4012-a763-0578dea21464",
+    "fullname": "Howard Javier",
+    "no_hp": "049374341324",
+    "email": "javileh40@gmail.com",
+    "profile_pic": null,
+    "balance": 0,
+    "cart": [],
+    "history": []
+  }
+]

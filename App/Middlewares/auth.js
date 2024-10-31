@@ -5,7 +5,8 @@ const secretKey = "T0l0NGj4g4Rahasia";
 const userModel = new UserModel();
 
 async function auth(req, res, next) {
-  const token = req.session?.token;
+  // Check for token in cookies
+  const token = req.cookies.token;
 
   req.isAuthenticated = false;
 
@@ -16,19 +17,18 @@ async function auth(req, res, next) {
   try {
     const decoded = jwt.verify(token, secretKey);
     const userId = decoded.userId;
-
     const user = await userModel.getUserById(userId);
+
     if (!user) {
-      return next();
+      return res.redirect("/register");
     }
 
-    req.user = user;
     req.isAuthenticated = true;
-    next();
+    req.user = user;
+    return next();
   } catch (error) {
-    return res.status(401).json({
-      message: "Session expired or invalid token. Please log in again.",
-    });
+    console.error("Token verification error:", error);
+    return res.status(401).json({ message: "Unauthorized" });
   }
 }
 
