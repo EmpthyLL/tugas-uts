@@ -53,13 +53,7 @@
           </button>
         </div>
         <% } %>
-        <script>
-          function closeAlert() {
-            document.getElementById("alertBox").style.display = "none";
-          }
-        </script>
 
-        <input type="hidden" name="step" value="3" />
         <!-- Username input -->
         <div class="mb-6">
           <label for="fullname" class="block text-gray-900">Full Name</label>
@@ -67,7 +61,8 @@
             type="text"
             id="fullname"
             name="fullname"
-            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500 disabled:bg-gray-100 disabled:text-gray-500 disabled:border-gray-300"
+            value="<%= fullname %>"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500 read-only:bg-gray-100 read-only:text-gray-500 read-only:border-gray-300"
             placeholder="Type your full name"
             required
           />
@@ -80,13 +75,13 @@
         <div class="mb-6">
           <label for="no_hp" class="block text-gray-900">No HP</label>
           <input
-            type="tel"
+            type="text"
             id="no_hp"
             name="no_hp"
-            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500 disabled:bg-gray-100 disabled:text-gray-500 disabled:border-gray-300"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500 read-only:bg-gray-100 read-only:text-gray-500 read-only:border-gray-300"
             placeholder="Type your phone number"
             required
-            disabled
+            readonly
             value="<%= no_hp %>"
             pattern="^0\d{9,13}$"
           />
@@ -102,7 +97,8 @@
             type="email"
             id="email"
             name="email"
-            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500 disabled:bg-gray-100 disabled:text-gray-500 disabled:border-gray-300"
+            value="<%= email %>"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500 read-only:bg-gray-100 read-only:text-gray-500 read-only:border-gray-300"
             placeholder="Type your email"
             required
             pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
@@ -150,6 +146,10 @@
   const no_hpError = document.getElementById("no_hpError");
   const nameError = document.getElementById("nameError");
 
+  function closeAlert() {
+    document.getElementById("alertBox").style.display = "none";
+  }
+
   function inputCheck() {
     // Reset error messages
     emailError.classList.add("hidden");
@@ -192,9 +192,9 @@
     inputs.forEach((input) => {
       if (!input.checkValidity()) {
         isValid = false;
-        input.classList.add("border-red-600");
+        input.classList.add("border-red-600", "placeholder:text-red-600");
       } else {
-        input.classList.remove("border-red-600");
+        input.classList.remove("border-red-600", "placeholder:text-red-600");
       }
     });
 

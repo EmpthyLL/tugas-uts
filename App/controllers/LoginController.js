@@ -1,25 +1,30 @@
+const UserModel = require("../../model/service/UserModel");
 const Controller = require("./Controller");
 
 class LoginController extends Controller {
   constructor() {
     super();
-    this.view = "login";
+    this.view = ["login", "verify"];
     this.layout = "plain";
-    this.title = "Login Page";
+    this.title = ["Input Phone", "Verify Account"];
+    this.no_hp = "";
+    this.step = 0;
+    this.model = new UserModel();
   }
   index(req, res) {
-    try {
-      const options = {
-        layout: `components/${this.layout}`,
-        title: this.title,
-      };
-
-      this.renderView(res, this.view, options);
-    } catch (error) {
-      this.handleError(res, "Failed to render home page", 500);
-    }
+    const options = {
+      layout: `components/${this.layout}`,
+      title: this.title[this.step],
+      errors: req.flash("errors") || [],
+      no_hp: this.no_hp,
+      login: true,
+    };
+    this.renderView(res, this.view[this.step], options);
   }
   login() {
+    //
+  }
+  verify() {
     //
   }
 }

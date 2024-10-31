@@ -1,38 +1,76 @@
 <section class="min-h-screen grid grid-cols-1 lg:grid-cols-2">
-  <!-- Left column: Image -->
   <div class="hidden lg:flex min-h-screen pl-8 items-center justify-center">
     <img src="/img/logo_A3Mart.png" class="w-full" alt="Sample image" />
   </div>
 
-  <!-- Right column: Forms Container -->
   <div class="flex py-6 justify-center items-center">
     <div
-      class="xs:max-w-md w-full p-6 flex flex-col items-center xs:mx-6 justify-center bg-white rounded-lg shadow-lg"
+      class="xs:max-w-md w-full p-6 flex flex-col items-center justify-center bg-white rounded-lg shadow-lg"
     >
-      <!-- Login Form -->
-      <form id="loginForm" class="space-y-6 w-full mx-auto">
-        <h1 class="text-center text-3xl text-gray-800 font-bold">Sign In</h1>
+      <form
+        id="registerForm"
+        method="post"
+        action="/register/input-number"
+        class="space-y-6 w-full mx-auto"
+        novalidate
+      >
+        <h1 class="text-center text-3xl font-bold">Sign In</h1>
 
-        <!-- Email input -->
+        <% if (errors.length > 0) { %>
+        <div
+          id="alertBox"
+          class="p-4 mb-4 border border-red-400 text-red-700 bg-red-100 rounded-lg relative"
+          role="alert"
+        >
+          <strong class="font-bold">Oops! Something went wrong:</strong>
+          <ul class="mt-2">
+            <% errors.forEach(error => { %>
+            <li class="ml-4 list-disc"><%= error.msg %></li>
+            <% }) %>
+          </ul>
+          <button
+            onclick="closeAlert()"
+            class="absolute top-1 right-1 text-red-700 hover:text-red-900 focus:outline-none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-x"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+        </div>
+        <% } %>
         <div class="mb-6">
-          <label for="email" class="block text-gray-800">Phone Number</label>
+          <label for="no_hp" class="block text-gray-900">Phone Number</label>
           <input
-            type="text"
-            id="email"
-            name="email"
-            placeholder="Enter your phone number"
+            type="tel"
+            id="no_hp"
+            name="no_hp"
             class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
-            autocomplete="off"
+            placeholder="Type your phone number"
             required
+            pattern="^0\\d{9,13}$"
           />
+          <div id="no_hpError" class="italic text-red-600 hidden">
+            Enter a valid phone number.
+          </div>
         </div>
 
-        <!-- Login button -->
         <button
           type="submit"
           class="w-full bg-lime-500 text-white py-2 rounded hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-lime-300"
         >
-          Login
+          Sign In
         </button>
 
         <!-- Register link -->
@@ -46,7 +84,6 @@
         </p>
       </form>
 
-      <!-- Image for small screens -->
       <div
         class="lg:hidden flex justify-center items-center mt-6 bg-slate-900 rounded-lg p-3"
       >
@@ -55,3 +92,41 @@
     </div>
   </div>
 </section>
+
+<script>
+  function closeAlert() {
+    document.getElementById("alertBox").style.display = "none";
+  }
+
+  const form = document.getElementById("registerForm");
+  const no_hp = document.getElementById("no_hp");
+  const no_hpError = document.getElementById("no_hpError");
+
+  form.addEventListener("submit", (e) => {
+    let isValid = true;
+
+    if (no_hp.value) {
+      if (!validateno_hp()) {
+        isValid = false;
+        no_hp.classList.add("border-red-600", "placeholder:text-red-600");
+        no_hpError.classList.remove("hidden");
+        no_hpError.innerText = "Phone number is invalid.";
+      } else {
+        no_hp.classList.remove("border-red-600", "placeholder:text-red-600");
+        no_hpError.classList.add("hidden");
+      }
+    } else {
+      isValid = false;
+      no_hp.classList.add("border-red-600", "placeholder:text-red-600");
+      no_hpError.classList.remove("hidden");
+      no_hpError.innerText = "Phone number is required.";
+    }
+
+    if (!isValid) e.preventDefault();
+  });
+
+  function validateno_hp() {
+    const no_hpPattern = /^0\d{9,13}$/;
+    return no_hpPattern.test(no_hp.value);
+  }
+</script>
