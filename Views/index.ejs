@@ -6,10 +6,7 @@
 
 <script>
   function capitalize(string) {
-    if (!string) {
-      return string;
-    }
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    return string ? string.charAt(0).toUpperCase() + string.slice(1) : string;
   }
 
   async function fetchProducts() {
@@ -50,7 +47,9 @@
 
       itemCategoryContainer.lastChild.addEventListener("click", () => {
         displayProducts(category, groupedProducts);
+
       });
+
     }
   }
 
@@ -58,12 +57,8 @@
     const categoriesContainer = document.getElementById("categories");
     categoriesContainer.innerHTML = "";
 
-    if (selectedCategory && groupedProducts[selectedCategory]) {
-      renderCategory(selectedCategory, groupedProducts[selectedCategory]);
-    } else {
-      for (const category in groupedProducts) {
-        renderCategory(category, groupedProducts[category]);
-      }
+    for (const category in groupedProducts) {
+      renderCategory(category, groupedProducts[category]);
     }
   }
 
@@ -98,6 +93,7 @@
       `;
 
       cardContainer.insertAdjacentHTML("beforeend", productCard);
+
     });
   }
 
