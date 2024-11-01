@@ -1,38 +1,34 @@
-const fetch = require('node-fetch');
+const { default: axios } = require("axios");
 const Controller = require("./Controller");
 
 class CategoryController extends Controller {
   constructor() {
     super();
-    this.layout = 'layout';
-    this.title = 'Products';
+    this.layout = "layout";
   }
 
   async index(req, res) {
     try {
       const categoryName = req.params.categoryName;
 
-      const response = await fetch('https://dummyjson.com/products?limit=194');
-      const data = await response.json();
-      const products = data.products;
-
-      // Filter produk berdasarkan kategori
-      const filteredProducts = categoryName
-        ? products.filter(product => product.category === categoryName)
-        : products;
-
+      const response = await axios(
+        `https://dummyjson.com/products/category/${categoryName}`
+      );
+      const title = response.data.products[0].category
+        .split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
       const options = {
         layout: `components/${this.layout}`,
-        title: `${categoryName ? categoryName + ' ' : ''}${this.title}`,
+        title: `${title} Products`,
         req,
         menus: this.menus,
-        categoryName,
-        products: filteredProducts,
+        products: response.data.products,
       };
 
-      this.renderView(res, categoryName ? 'category' : 'index', options);
+      this.renderView(res, categoryName ? "category" : "index", options);
     } catch (error) {
-      this.handleError(res, 'Failed to render category page', 500);
+      this.handleError(res, "Failed to render category page", 500);
     }
   }
 }
