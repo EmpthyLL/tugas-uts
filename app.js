@@ -46,16 +46,19 @@ const aboutController = new AboutController();
 const categoryController = new CategoryController();
 
 app.get("/sign-in", guest, (req, res) => {
+  loginController.step = 0;
+  registerController.no_hp = "";
   loginController.index(req, res);
 });
 app.get("/sign-in/verify-account", guest, (req, res) => {
+  loginController.step = 1;
   loginController.index(req, res);
 });
 app.post("/sign-in", guest, (req, res) => {
   loginController.login(req, res);
 });
 app.post("/sign-in/verify-account", guest, (req, res) => {
-  loginController.login(req, res);
+  loginController.verify(req, res);
 });
 app.get("/register", guest, (req, res) => {
   res.redirect("/register/input-number");

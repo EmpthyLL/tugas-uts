@@ -9,8 +9,14 @@ class UserModel extends Model {
     super("users");
   }
 
-  getUserById(userId) {
-    return this.data.find((user) => user.uuid === userId);
+  generateToken(user, hour) {
+    return jwt.sign({ userId: user.uuid }, SECRET_KEY, {
+      expiresIn: `${hour}h`,
+    });
+  }
+
+  getUserByUuid(uuid) {
+    return this.data.find((user) => user.uuid === uuid);
   }
 
   findUserByPhone(no_hp) {
@@ -46,38 +52,19 @@ class UserModel extends Model {
     this.data.push(newUser);
     this.saveData();
 
-    // Automatically log in the user by creating a session token
-    const token = jwt.sign({ userId: newUser.uuid }, SECRET_KEY, {
-      expiresIn: "1h",
-    });
-
-    return { user: newUser, token };
-  }
-
-  login(req, no_hp) {
-    const user = this.data.find((user) => user.no_hp === no_hp);
-    if (!user) throw new Error("User not found.");
-
-    const token = jwt.sign({ userId: user.uuid }, SECRET_KEY, {
-      expiresIn: "1h",
-    });
-    req.session.token = token;
-    req.session.user = user.uuid;
+    const token = this.generateToken(newUser, 1);
+    console.log(token);
 
     return token;
   }
 
-  logout(req) {
-    req.session.destroy();
-  }
+  async login(no_hp) {
+    const user = this.findUserByPhone(no_hp);
+    if (!user) throw new Error("User not found.");
 
-  verifySessionToken(token) {
-    try {
-      const decoded = jwt.verify(token, SECRET_KEY);
-      return decoded;
-    } catch (err) {
-      throw new Error("Session expired or invalid. Please log in again.");
-    }
+    const token = this.generateToken(user, 1);
+
+    return token;
   }
 
   addToCart(userId, product) {

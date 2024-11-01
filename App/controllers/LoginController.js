@@ -1,4 +1,5 @@
 const UserModel = require("../../model/service/UserModel");
+const { setCookie, removeCookie } = require("../../utils/cookie");
 const Controller = require("./Controller");
 
 class LoginController extends Controller {
@@ -21,11 +22,34 @@ class LoginController extends Controller {
     };
     this.renderView(res, this.view[this.step], options);
   }
-  login() {
-    //
+  login(req, res) {
+    this.no_hp = req.body.no_hp;
+    try {
+      if (!this.model.findUserByPhone(this.no_hp)) {
+        throw new Error("Phone number is not yet registered.");
+      }
+      res.redirect("/sign-in/verify-account");
+    } catch (error) {
+      req.flash("errors", [{ msg: error.message }]);
+      res.redirect("/sign-in");
+    }
   }
-  verify() {
-    //
+  async verify(req, res) {
+    try {
+      this.no_hp = req.body.no_hp;
+      console.log(this.no_hp);
+      const token = await this.model.login(this.no_hp);
+
+      setCookie(res, "auth_token", token);
+      res.redirect("/");
+    } catch (error) {
+      console.log(error);
+      req.flash("errors", [{ msg: error.message }]);
+      res.redirect("/sign-in/verify-account");
+    }
+  }
+  logout(req, res) {
+    removeCookie(res, "auth_token");
   }
 }
 

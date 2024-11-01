@@ -1,5 +1,4 @@
-<h1 class="font-bold text-5xl m-2 text-center">Category</h1>
-<div id="itemCategory" class="m-4 flex flex-wrap justify-center"></div>
+<%- include('./components/category') %>
 
 <!-- Product Section -->
 <h1 class="font-bold text-5xl m-2 text-center">Products</h1>
@@ -12,18 +11,18 @@
 
   async function fetchProducts() {
     try {
-      const response = await fetch('https://dummyjson.com/products?limit=194');
-      if (!response.ok) throw new Error('Failed to fetch products');
+      const response = await fetch("https://dummyjson.com/products?limit=194");
+      if (!response.ok) throw new Error("Failed to fetch products");
       const data = await response.json();
       return data.products;
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error("Error fetching products:", error);
     }
   }
 
   function groupByCategory(products) {
     const groupedProducts = {};
-    products.forEach(product => {
+    products.forEach((product) => {
       const category = product.category;
       if (!groupedProducts[category]) {
         groupedProducts[category] = [];
@@ -34,31 +33,29 @@
   }
 
   function displayCategories(groupedProducts) {
-    const itemCategoryContainer = document.getElementById('itemCategory');
-    itemCategoryContainer.innerHTML = '';
+    const itemCategoryContainer = document.getElementById("itemCategory");
+    itemCategoryContainer.innerHTML = "";
 
     for (const category in groupedProducts) {
-      const categoryCard = document.createElement('div');
-      categoryCard.className =
-        'card w-1/5 m-4 bg-blue-100 rounded-lg shadow-md p-4 text-center cursor-pointer transition-transform transform hover:scale-105';
+      const categoryCard = `
+        <div class="card w-1/5 m-4 bg-blue-100 rounded-lg shadow-md p-4 text-center cursor-pointer transition-transform transform hover:scale-105">
+          <h2 class="text-xl font-bold">${capitalize(category)}</h2>
+        </div>
+      `;
 
-      const categoryName = document.createElement('h2');
-      categoryName.className = 'text-xl font-bold';
-      categoryName.innerText = capitalize(category);
+      itemCategoryContainer.insertAdjacentHTML("beforeend", categoryCard);
 
-      categoryCard.appendChild(categoryName);
-      itemCategoryContainer.appendChild(categoryCard);
+      itemCategoryContainer.lastChild.addEventListener("click", () => {
+        displayProducts(category, groupedProducts);
 
-      categoryCard.addEventListener('click', () => {
-        window.location.href = `/category/${category}`;
       });
 
     }
   }
 
-  function displayProducts(groupedProducts) {
-    const categoriesContainer = document.getElementById('categories');
-    categoriesContainer.innerHTML = '';
+  function displayProducts(selectedCategory, groupedProducts) {
+    const categoriesContainer = document.getElementById("categories");
+    categoriesContainer.innerHTML = "";
 
     for (const category in groupedProducts) {
       renderCategory(category, groupedProducts[category]);
@@ -66,51 +63,38 @@
   }
 
   function renderCategory(category, products) {
-    const categoriesContainer = document.getElementById('categories');
+    const categoriesContainer = document.getElementById("categories");
 
-    const categoryDiv = document.createElement('div');
-    categoryDiv.className = 'my-6';
+    const categoryDiv = `
+      <div class="my-6">
+        <h2 class="m-2 text-2xl font-semibold mb-4">${capitalize(category)}</h2>
+        <div class="m-2 flex flex-wrap justify-start" id="${category}-products">
+        </div>
+      </div>
+    `;
 
-    const categoryTitle = document.createElement('h2');
-    categoryTitle.className = 'm-2 text-2xl font-semibold mb-4';
-    categoryTitle.innerText = capitalize(category);
+    categoriesContainer.insertAdjacentHTML("beforeend", categoryDiv);
 
-    const cardContainer = document.createElement('div');
-    cardContainer.className = 'm-2 flex flex-wrap justify-start';
+    const cardContainer = document.getElementById(`${category}-products`);
 
-    products.forEach(product => {
-      const productCard = document.createElement('div');
-      productCard.className = 'card w-1/4 m-2 bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105';
+    products.forEach((product) => {
+      const productCard = `
+        <div class="card w-1/4 m-2 bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105">
+          <img src="${product.images[0]}" alt="${
+        product.title
+      }" class="flex items-center justify-center h-72 w-full object-cover">
+          <div class="p-4">
+            <span class="font-semibold text-lg mb-1">${product.title}</span>
+            <p class="text-gray-800 text-base">Rp ${Math.floor(
+              product.price * 15000
+            ).toLocaleString("id-ID")}</p>
+          </div>
+        </div>
+      `;
 
-      const productImage = document.createElement('img');
-      productImage.src = product.images[0];
-      productImage.alt = product.title;
-      productImage.className = 'flex items-center justify-center h-72 w-full object-cover';
+      cardContainer.insertAdjacentHTML("beforeend", productCard);
 
-      const cardBody = document.createElement('div');
-      cardBody.className = 'p-4';
-
-      const productTitle = document.createElement('span');
-      productTitle.className = 'font-semibold text-lg mb-1';
-      productTitle.innerText = product.title;
-
-      const productPrice = document.createElement('p');
-      productPrice.className = 'text-gray-800 text-base';
-      productPrice.innerText = `Rp ${Math.floor(
-        product.price * 15000
-      ).toLocaleString('id-ID')}`;
-
-      cardBody.appendChild(productPrice);
-      cardBody.appendChild(productTitle);
-      productCard.appendChild(productImage);
-      productCard.appendChild(cardBody);
-
-      cardContainer.appendChild(productCard);
     });
-
-    categoryDiv.appendChild(categoryTitle);
-    categoryDiv.appendChild(cardContainer);
-    categoriesContainer.appendChild(categoryDiv);
   }
 
   async function initialize() {
@@ -118,7 +102,7 @@
     const groupedProducts = groupByCategory(products);
 
     displayCategories(groupedProducts);
-    displayProducts(groupedProducts);
+    displayProducts("", groupedProducts);
   }
-  document.addEventListener('DOMContentLoaded', initialize);
+  document.addEventListener("DOMContentLoaded", initialize);
 </script>

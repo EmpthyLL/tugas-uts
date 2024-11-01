@@ -1,6 +1,6 @@
 const UserModel = require("../../model/service/UserModel");
+const { setCookie } = require("../../utils/cookie");
 const Controller = require("./Controller");
-const cookie = require("cookie");
 
 class RegisterController extends Controller {
   constructor() {
@@ -51,23 +51,13 @@ class RegisterController extends Controller {
       this.email = req.body.email;
       this.fullname = req.body.fullname;
 
-      const { user, token } = await this.model.register({
+      const token = await this.model.register({
         fullname: this.fullname,
         no_hp: this.no_hp,
         email: this.email,
       });
 
-      res.setHeader(
-        "Set-Cookie",
-        cookie.serialize("token", token, {
-          httpOnly: true,
-          maxAge: 60 * 60,
-          path: "/",
-          secure: process.env.NODE_ENV === "production",
-        })
-      );
-
-      req.session.userId = user.uuid;
+      setCookie(res, "auth_token", token);
 
       res.redirect(`/`);
     } catch (error) {
