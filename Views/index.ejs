@@ -1,4 +1,4 @@
-<%- include('./components/category') %>
+<%- include('./components/categories') %>
 
 <!-- Product Section -->
 <h1 class="font-bold text-5xl m-2 text-center">Products</h1>
@@ -47,9 +47,7 @@
 
       itemCategoryContainer.lastChild.addEventListener("click", () => {
         displayProducts(category, groupedProducts);
-
       });
-
     }
   }
 
@@ -93,7 +91,6 @@
       `;
 
       cardContainer.insertAdjacentHTML("beforeend", productCard);
-
     });
   }
 
