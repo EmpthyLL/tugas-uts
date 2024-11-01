@@ -10,7 +10,7 @@ const HomeController = require("./app/controllers/HomeController");
 const LoginController = require("./app/controllers/LoginController");
 const RegisterController = require("./app/controllers/RegisterController");
 const AboutController = require("./app/controllers/AboutController");
-const CategoryController = require("./app/controllers/CategoryController")
+const CategoryController = require("./app/controllers/CategoryController");
 const guest = require("./app/middlewares/guest");
 
 const app = express();
@@ -81,7 +81,6 @@ app.post("/register/input-number", guest, (req, res) => {
   registerController.step1(req, res);
 });
 app.post("/register/verify-number", guest, (req, res) => {
-  console.log(req.isAuthenticated);
   registerController.step2(req, res);
 });
 app.post("/register/user-data", guest, (req, res) => {
@@ -94,7 +93,6 @@ app.post("/register/user-data", guest, (req, res) => {
 //   forgotpassController.index(req, res);
 // });
 app.get("/", auth, (req, res) => {
-  console.log(req.isAuthenticated);
   homeController.index(req, res);
 });
 app.get("/about", auth, (req, res) => {
