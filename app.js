@@ -14,7 +14,7 @@ const CategoryController = require("./app/controllers/CategoryController");
 const guest = require("./app/middlewares/guest");
 
 const app = express();
-const port = 3001;
+const port = 3002;
 
 app.set("view engine", "ejs");
 app.use(exlay);
