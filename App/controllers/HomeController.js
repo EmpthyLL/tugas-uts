@@ -9,7 +9,9 @@ class HomeController extends Controller {
     this.title = "Home Page";
   }
   async index(req, res) {
-    const categories = await axios("https://dummyjson.com/products/categories");
+    const categories = await this.fetcCategories();
+    const products = await this.fetchData();
+
     try {
       const options = {
         layout: `components/${this.layout}`,
@@ -17,6 +19,7 @@ class HomeController extends Controller {
         req,
         menus: this.menus,
         categories,
+        products,
       };
 
       this.renderView(res, this.view, options);
@@ -24,7 +27,24 @@ class HomeController extends Controller {
       this.handleError(res, "Failed to render home page", 500);
     }
   }
-  fetchData() {}
+  async fetchData() {
+    const categories = await this.fetcCategories();
+    const res = await Promise.all(
+      categories.map(async (category) => {
+        const productRes = await axios(
+          `https://dummyjson.com/products/category/${category.slug}`
+        );
+        const products = productRes.data.products;
+
+        return [category.name, products];
+      })
+    );
+    return res;
+  }
+  async fetcCategories() {
+    const res = await axios("https://dummyjson.com/products/categories");
+    return res.data;
+  }
 }
 
 module.exports = HomeController;

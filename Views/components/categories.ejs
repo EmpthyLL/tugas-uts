@@ -1,6 +1,6 @@
 <div class="mx-2">
   <h1
-    class="font-bold text-3xl sm:text-4xl md:text-5xl my-4 sm:my-6 text-center"
+    class="font-bold text-xl sm:text-2xl md:text-3xl my-1 sm:my-3 text-center"
   >
     Category
   </h1>
@@ -12,7 +12,7 @@
       "isInfiniteLoop": true,
       "slidesQty": 1
     }'
-    class="relative"
+    class="relative w-full"
   >
     <div
       class="hs-carousel relative overflow-hidden w-full min-h-96 md:min-h-60 rounded-lg bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200"
@@ -21,24 +21,23 @@
         class="hs-carousel-body absolute top-0 bottom-0 start-0 flex items-center transition-transform duration-700 opacity-0"
       >
         <!-- Nested Loop for Carousel Slides -->
-        <% for (let i = 0; i < categories.data.length; i += 8) { %>
+        <% for (let i = 0; i < categories.length; i += 8) { %>
         <div class="hs-carousel-slide w-full flex justify-center">
           <div class="grid grid-cols-4 md:grid-cols-8 gap-2 p-1 sm:p-2 w-full">
-            <% for (let j = i; j < i + 8 && j < categories.data.length; j++) {
-            %>
+            <% for (let j = i; j < i + 8 && j < categories.length; j++) { %>
             <a
-              href="/category/<%= categories.data[j].slug %>"
-              class="bg-white rounded-lg shadow-md p-1 flex flex-col justify-center items-center cursor-pointer transition-transform transform hover:scale-105 h-52"
+              href="/category/<%= categories[j].slug %>"
+              class="bg-white rounded-lg shadow-md p-1 flex flex-col justify-center items-center cursor-pointer transition-transform transform hover:scale-105 md:h-52 h-44"
             >
               <img
-                src="<%= '/img/category/' + categories.data[j].slug + '.png' %>"
-                alt="<%= categories.data[j].name %>"
-                class="w-full h-40 object-cover rounded-t-lg"
+                src="<%= '/img/category/' + categories[j].slug + '.png' %>"
+                alt="<%= categories[j].name %>"
+                class="w-full md:max-h-38 max-h-[144px] object-cover rounded-t-lg"
               />
               <h2
                 class="text-[10px] sm:text-xs md:text-sm lg:text-[16px] xl:text-lg text-center font-semibold text-black mt-1"
               >
-                <%= categories.data[j].name %>
+                <%= categories[j].name %>
               </h2>
             </a>
             <% } %>
