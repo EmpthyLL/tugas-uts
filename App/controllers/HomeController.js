@@ -58,7 +58,6 @@ class HomeController extends Controller {
       const products = searchResponse.data.products.filter(
         (product) => !this.brand || product.brand === this.brand
       );
-
       const brands = [...new Set(products.map((product) => product.brand))];
 
       return { products, brands };

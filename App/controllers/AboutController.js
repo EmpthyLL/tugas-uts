@@ -14,6 +14,7 @@ class AboutController extends Controller {
         title: this.title,
         req,
         menus: this.menus,
+        keyword,
       };
 
       this.renderView(res, this.view, options);
