@@ -58,9 +58,6 @@
 
   <!-- Product Grid -->
 <div class="p-4 space-y-8">
-  <h1 class="text-5xl font-bold text-center my-4">
-    Search for <%= keyword %> result in <%= products.length %>
-  </h1>
 
   <!-- Informational Alert for No Products -->
   <% if (products.length === 0) { %>
@@ -89,6 +86,16 @@
         </div>
       <% }) %>
     </div>
+    
+    <!-- Pagination Controls -->
+  <div class="flex justify-center space-x-2 my-4">
+    <% for (let i = 1; i <= totalPages; i++) { %>
+      <a href="?page=<%= i %>&sortBy=<%= sortBy %>&order=<%= order %>&search=<%= keyword %>&brand=<%= selectedBrand %>" class="px-4 py-2 border rounded-lg <%= i === page ? 'bg-indigo-600 text-white' : 'bg-white text-gray-700' %>">
+        <%= i %>
+      </a>
+    <% } %>
+  </div>
+
   <% } %>
 </div>
 
