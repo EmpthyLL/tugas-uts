@@ -31,9 +31,18 @@ class CategoryController extends Controller {
 
       // Sort products
       products.sort((a, b) => {
-        const priceA = a.price;
-        const priceB = b.price;
-        return order === "asc" ? priceA - priceB : priceB - priceA;
+        if (sortBy === "price") {
+          // use the local sortBy variable
+          const priceA = a.price;
+          const priceB = b.price;
+          return order === "asc" ? priceA - priceB : priceB - priceA; // use the local order variable
+        } else {
+          const titleA = a.title.toLowerCase();
+          const titleB = b.title.toLowerCase();
+          return order === "asc"
+            ? titleA.localeCompare(titleB) // Corrected: Title should compare correctly
+            : titleB.localeCompare(titleA);
+        }
       });
 
       const title = response.data.products[0].category
@@ -50,7 +59,11 @@ class CategoryController extends Controller {
         sortBy,
         order,
         selectedBrand,
-        brands: [...new Set(response.data.products.map((p) => p.brand))], // Extract unique brands
+        brands: [
+          ...new Set(
+            response.data.products.map((p) => p.brand).filter((brand) => brand)
+          ),
+        ],
       };
 
       this.renderView(res, categoryName ? "category" : "index", options);

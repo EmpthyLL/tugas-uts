@@ -7,30 +7,32 @@ class HomeController extends Controller {
     this.view = "index";
     this.layout = "layout";
     this.title = "Home Page";
-    this.keyword = "";
     this.search = "";
     this.page = 1;
+    this.limit = 10; // Set the number of products per page
     this.sortBy = "price";
-    this.order = "desc";
+    this.order = "asc";
+    this.totalPage = 0;
+    this.brands = [];
     this.brand = "";
   }
 
   async index(req, res) {
-    this.search = req.query.search || "";
-    this.page = req.query.page || 1;
-    this.sortBy = req.query.sortBy || "price";
-    this.order = req.query.order || "asc";
-    this.brand = req.query.brand || "";
-
-    this.keyword = this.search;
-    if (this.keyword) {
-      this.view = "search";
-    }
-
-    const categories = await this.fetchCategories();
-    const { products, brands } = await this.fetchData();
-
     try {
+      this.search = req.query.search || "";
+      this.page = parseInt(req.query.page) || 1;
+      this.sortBy = req.query.sortBy || "price";
+      this.order = req.query.order || "asc";
+      this.brand = req.query.brand || "";
+
+      const categories = await this.fetchCategories();
+      const products = await this.fetchData();
+
+      if (this.search) {
+        this.view = "search";
+      } else {
+        this.view = "index";
+      }
       const options = {
         layout: `components/${this.layout}`,
         title: this.title,
@@ -38,11 +40,14 @@ class HomeController extends Controller {
         menus: this.menus,
         categories,
         products,
-        brands,
-        keyword: this.keyword,
+        keyword: this.search,
         selectedBrand: this.brand,
         sortBy: this.sortBy,
         order: this.order,
+        brands: this.brands,
+        selectedBrand: this.brand,
+        totalPage: this.totalPage,
+        page: this.page,
       };
       this.renderView(res, this.view, options);
     } catch (error) {
@@ -51,39 +56,81 @@ class HomeController extends Controller {
   }
 
   async fetchData() {
-    if (this.keyword) {
-      const searchResponse = await axios.get(
-        `https://dummyjson.com/products/search?q=${this.keyword}&sortBy=${this.sortBy}&order=${this.order}`
-      );
-      const products = searchResponse.data.products.filter(
-        (product) => !this.brand || product.brand === this.brand
-      );
-      const brands = [...new Set(products.map((product) => product.brand))];
+    if (this.search) {
+      try {
+        const res = await axios(
+          `https://dummyjson.com/products/search?q=${this.search}`
+        );
 
-      return { products, brands };
+        let { total } = res.data;
+
+        const uniqueBrands = new Set();
+        let allProducts = [];
+
+        const fetchBrandPromises = [];
+        this.totalPage = Math.ceil(total / 30);
+
+        for (let i = 0; i < this.totalPage; i++) {
+          fetchBrandPromises.push(
+            axios(
+              `https://dummyjson.com/products/search?q=${this.search}&skip=${
+                i * 30
+              }&limit=30`
+            ).then((brandRes) => {
+              brandRes.data.products.forEach((product) => {
+                if (product.brand) {
+                  uniqueBrands.add(product.brand);
+                }
+                allProducts.push(product);
+              });
+            })
+          );
+        }
+
+        await Promise.all(fetchBrandPromises);
+
+        allProducts.sort((a, b) => {
+          if (this.sortBy === "price") {
+            // use the local sortBy variable
+            const priceA = a.price;
+            const priceB = b.price;
+            return this.order === "asc" ? priceA - priceB : priceB - priceA; // use the local order variable
+          } else {
+            const titleA = a.title.toLowerCase();
+            const titleB = b.title.toLowerCase();
+            return this.order === "asc"
+              ? titleA.localeCompare(titleB) // Corrected: Title should compare correctly
+              : titleB.localeCompare(titleA);
+          }
+        });
+
+        this.brands = Array.from(uniqueBrands);
+
+        // Filter by brand if selected
+        if (this.brand) {
+          allProducts = allProducts.filter(
+            (product) => product.brand === this.brand
+          );
+          this.totalPage = Math.ceil(allProducts.length / 30);
+        }
+        return allProducts;
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        this.handleError(res, "Failed to fetch product data", 500);
+      }
     } else {
       const categories = await this.fetchCategories();
       const categoryData = await Promise.all(
         categories.map(async (category) => {
           const productRes = await axios.get(
-            `https://dummyjson.com/products/category/${category.slug}?sortBy=${this.sortBy}&order=${this.order}`
+            `https://dummyjson.com/products/category/${category.slug}`
           );
           let products = productRes.data.products;
-
-          if (this.brand) {
-            products = products.filter(
-              (product) => product.brand === this.brand
-            );
-          }
 
           return { name: category.name, products };
         })
       );
-
-      const products = categoryData.flatMap((category) => category.products);
-      const brands = [...new Set(products.map((product) => product.brand))];
-
-      return { products: categoryData, brands };
+      return categoryData;
     }
   }
 

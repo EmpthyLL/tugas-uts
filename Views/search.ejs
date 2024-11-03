@@ -3,64 +3,62 @@
     Search for <%= keyword %> result in <%= products.length %>
   </h1>
 
-  <!-- Filter Options -->
-  <div class="flex items-center justify-between space-x-4 mb-4">
-    <!-- Sort By Dropdown -->
-    <div class="w-1/2 md:w-1/4">
-      <label for="sortBy" class="block mb-1 text-sm font-medium text-gray-700">Sort By</label>
-      <select
-        id="sortBy"
-        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200"
-        onchange="window.location.href = `?sortBy=${this.value}&order=<%= order %>&search=<%= keyword %>&brand=<%= selectedBrand %>`"
-      >
-        <option value="price" <%= sortBy === 'price' ? 'selected' : '' %>>
-          Price
-        </option>
-        <option value="title" <%= sortBy === 'title' ? 'selected' : '' %>>
-          Title
-        </option>
-      </select>
-    </div>
-
-    <!-- Order Dropdown -->
-    <div class="w-1/2 md:w-1/4">
-      <label for="order" class="block mb-1 text-sm font-medium text-gray-700">Order</label>
-      <select
-        id="order"
-        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200"
-        onchange="window.location.href = `?order=${this.value}&sortBy=<%= sortBy %>&search=<%= keyword %>&brand=<%= selectedBrand %>`"
-      >
-        <option value="asc" <%= order === 'asc' ? 'selected' : '' %>>
-          Ascending
-        </option>
-        <option value="desc" <%= order === 'desc' ? 'selected' : '' %>>
-          Descending
-        </option>
-      </select>
-    </div>
-
-    <!-- Brand Dropdown -->
-    <div class="w-1/2 md:w-1/4">
-      <label for="brand" class="block mb-1 text-sm font-medium text-gray-700">Filter by Brand</label>
-      <select
-        id="brand"
-        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200"
-        onchange="window.location.href = `?brand=${this.value}&search=<%= keyword %>&sortBy=<%= sortBy %>&order=<%= order %>`"
-        <%= brands.length === 0 ? 'disabled' : '' %> 
-      >
-        <option value="">All Brands</option>
-        <% brands.forEach(brand => { %>
-          <option value="<%= brand %>" <%= selectedBrand === brand ? 'selected' : '' %>><%= brand %></option>
-        <% }) %>
-      </select>
-    </div>
+<!-- Filter Options -->
+<div class="flex items-start justify-between space-x-4 mb-4">
+  <!-- Sort By Dropdown -->
+  <div class="w-1/2 md:w-1/4">
+    <label for="sortBy" class="block mb-1 text-sm font-medium text-gray-700">Sort By</label>
+    <select
+      id="sortBy"
+      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200 hover:border-indigo-400"
+      onchange="window.location.href = `?sortBy=${this.value}&order=<%= order %>&search=<%= keyword %>&brand=<%= selectedBrand %>&page=1`"
+    >
+      <option value="price" <%= sortBy === 'price' ? 'selected' : '' %>>Price</option>
+      <option value="title" <%= sortBy === 'title' ? 'selected' : '' %>>Title</option>
+    </select>
   </div>
+
+  <!-- Order Dropdown -->
+  <div class="w-1/2 md:w-1/4">
+    <label for="order" class="block mb-1 text-sm font-medium text-gray-700">Order</label>
+    <select
+      id="order"
+      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200 hover:border-indigo-400"
+      onchange="window.location.href = `?order=${this.value}&sortBy=<%= sortBy %>&search=<%= keyword %>&brand=<%= selectedBrand %>&page=1`"
+    >
+      <% if (sortBy === "price") { %>
+        <option value="asc" <%= order === 'asc' ? 'selected' : '' %>>Ascending</option>
+        <option value="desc" <%= order === 'desc' ? 'selected' : '' %>>Descending</option>
+      <% } else { %>
+        <option value="asc" <%= order === 'asc' ? 'selected' : '' %>>A-Z</option>
+        <option value="desc" <%= order === 'desc' ? 'selected' : '' %>>Z-A</option>
+      <% } %>
+    </select>
+  </div>
+
+  <!-- Brand Dropdown -->
+  <div class="w-1/2 md:w-1/4">
+    <label for="brand" class="block mb-1 text-sm font-medium text-gray-700">Filter by Brand</label>
+    <select
+      id="brand"
+      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200 
+        <%= brands.length === 0 ? 'bg-gray-200 cursor-not-allowed' : 'hover:border-indigo-400' %>"
+      onchange="window.location.href = `?brand=${this.value}&search=<%= keyword %>&sortBy=<%= sortBy %>&order=<%= order %>&page=1`"
+      <%= brands.length === 0 ? 'disabled' : '' %>
+    >
+      <option value="">All Brands</option>
+      <% brands.forEach(brand => { %>
+        <option value="<%= brand %>" <%= selectedBrand === brand ? 'selected' : '' %>><%= brand %></option>
+      <% }) %>
+    </select>
+    <% if (brands.length === 0) { %>
+      <p class="text-sm text-gray-500 mt-1">No brands available to filter.</p>
+    <% } %>
+  </div>
+</div>
 
   <!-- Product Grid -->
 <div class="p-4 space-y-8">
-  <h1 class="text-5xl font-bold text-center my-4">
-    Search for <%= keyword %> result in <%= products.length %>
-  </h1>
 
   <!-- Informational Alert for No Products -->
   <% if (products.length === 0) { %>
@@ -89,6 +87,31 @@
         </div>
       <% }) %>
     </div>
+
+    <!-- Pagination Controls -->
+    <div class="flex justify-center space-x-2 my-4">
+      <% for (let i = 1; i <= totalPage; i++) { %>
+        <% if (i === page) { %>
+          <!-- Render the current page as a button -->
+          <button 
+            class="px-4 py-2 border rounded-lg bg-slate-800 text-white shadow-md cursor-default"
+            aria-current="page"
+          >
+            <%= i %>
+          </button>
+        <% } else { %>
+          <!-- Render other pages as links -->
+          <a 
+            href="?page=<%= i %>&sortBy=<%= sortBy %>&order=<%= order %>&search=<%= keyword %>&brand=<%= selectedBrand %>" 
+            class="px-4 py-2 border rounded-lg transition duration-300 ease-in-out border-slate-300
+                  bg-white text-gray-800 hover:bg-gray-200 hover:text-gray-900"
+          >
+            <%= i %>
+          </a>
+        <% } %>
+      <% } %>
+    </div>
+
   <% } %>
 </div>
 
