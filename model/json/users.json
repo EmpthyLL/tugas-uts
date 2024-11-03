@@ -8,5 +8,15 @@
     "balance": 0,
     "cart": [],
     "history": []
+  },
+  {
+    "uuid": "f6420ecd-b1ef-42f7-b59d-2ed3f45f3826",
+    "fullname": "Nicholas",
+    "no_hp": "081265380344",
+    "email": "hello@gmail.com",
+    "profile_pic": null,
+    "balance": 0,
+    "cart": [],
+    "history": []
   }
 ]
