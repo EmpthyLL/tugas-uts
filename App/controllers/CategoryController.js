@@ -59,7 +59,11 @@ class CategoryController extends Controller {
         sortBy,
         order,
         selectedBrand,
-        brands: [...new Set(response.data.products.map((p) => p.brand))], // Extract unique brands
+        brands: [
+          ...new Set(
+            response.data.products.map((p) => p.brand).filter((brand) => brand)
+          ),
+        ],
       };
 
       this.renderView(res, categoryName ? "category" : "index", options);
