@@ -1,0 +1,17 @@
+<title>
+  <%= product.title %>
+</title>
+
+
+<div class="container mx-auto p-4">
+  <h1 class="text-3xl font-bold text-center mb-4">
+    <%= product.title %>
+  </h1>
+  <img src="<%= product.thumbnail %>" alt="<%= product.title %>" class="w-full h-auto mb-4" />
+  <p class="text-xl font-semibold">Price: Rp <%= Math.floor(product.price * 15000).toLocaleString("id-ID") %>
+  </p>
+  <p class="text-base mt-2">
+    <%= product.description %>
+  </p>
+  <a href="/" class="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded">Back to Products</a>
+</div>
