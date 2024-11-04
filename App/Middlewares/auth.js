@@ -14,7 +14,6 @@ async function auth(req, res, next) {
 
     req.isAuthenticated = true;
 
-    req.uuid = decoded;
     next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {
