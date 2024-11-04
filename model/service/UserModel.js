@@ -48,12 +48,12 @@ class UserModel extends Model {
       balance: 0,
       cart: [],
       history: [],
+      notification: [],
     };
     this.data.push(newUser);
     this.saveData();
 
     const token = this.generateToken(newUser, 1);
-    console.log(token);
 
     return token;
   }
