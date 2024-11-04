@@ -18,5 +18,15 @@
     "balance": 0,
     "cart": [],
     "history": []
+  },
+  {
+    "uuid": "609d932f-8741-4fa5-86d4-1e1dff118f7f",
+    "fullname": "Layla Tymn",
+    "no_hp": "05836734734",
+    "email": "laila.laila@mcsi.co.id",
+    "profile_pic": null,
+    "balance": 0,
+    "cart": [],
+    "history": []
   }
 ]
