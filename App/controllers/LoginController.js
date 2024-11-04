@@ -50,6 +50,7 @@ class LoginController extends Controller {
   }
   logout(req, res) {
     removeCookie(res, "auth_token");
+    res.redirect("/sign-in");
   }
 }
 

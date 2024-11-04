@@ -13,6 +13,7 @@ class HomeController extends Controller {
     this.sortBy = "price";
     this.order = "asc";
     this.totalPage = 0;
+    this.totalItem = 0;
     this.brands = [];
     this.brand = "";
   }
@@ -47,6 +48,7 @@ class HomeController extends Controller {
         brands: this.brands,
         selectedBrand: this.brand,
         totalPage: this.totalPage,
+        totalItem: this.totalItem,
         page: this.page,
       };
       this.renderView(res, this.view, options);
@@ -63,6 +65,7 @@ class HomeController extends Controller {
         );
 
         let { total } = res.data;
+        this.totalItem = total;
 
         const uniqueBrands = new Set();
         let allProducts = [];
@@ -113,7 +116,12 @@ class HomeController extends Controller {
           );
           this.totalPage = Math.ceil(allProducts.length / 30);
         }
-        return allProducts;
+        const itemsPerPage = 30;
+        const startIndex = (this.page - 1) * itemsPerPage;
+        const endIndex = this.page * itemsPerPage;
+        const paginatedProducts = allProducts.slice(startIndex, endIndex);
+
+        return paginatedProducts;
       } catch (error) {
         console.error("Error fetching products:", error);
         this.handleError(res, "Failed to fetch product data", 500);

@@ -14,11 +14,13 @@ function setCookie(res, name, values, options = {}) {
 }
 
 function removeCookie(res, name, options = {}) {
+  console.log(name);
   const cookieOptions = {
     httpOnly: true,
     maxAge: 0,
     path: options.path || "/",
     secure: options.secure || process.env.NODE_ENV === "production",
+    sameSite: options.sameSite || "Lax",
   };
 
   const serializedCookie = cookie.serialize(name, "", cookieOptions);

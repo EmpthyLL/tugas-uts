@@ -4,7 +4,6 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
-const auth = require("./app/middlewares/auth");
 const upload = require("./app/middlewares/upload");
 const HomeController = require("./app/controllers/HomeController");
 const LoginController = require("./app/controllers/LoginController");
@@ -13,6 +12,7 @@ const AboutController = require("./app/controllers/AboutController");
 const CategoryController = require("./app/controllers/CategoryController");
 const ProductController = require("./app/controllers/ProductController");
 const guest = require("./app/middlewares/guest");
+const auth = require("./App/Middlewares/auth");
 
 const app = express();
 const port = 3002;
@@ -61,6 +61,9 @@ app.post("/sign-in", guest, (req, res) => {
 });
 app.post("/sign-in/verify-account", guest, (req, res) => {
   loginController.verify(req, res);
+});
+app.post("/logout", auth, (req, res) => {
+  loginController.logout(req, res);
 });
 app.get("/register", guest, (req, res) => {
   res.redirect("/register/input-number");

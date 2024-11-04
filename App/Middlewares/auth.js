@@ -11,11 +11,9 @@ async function auth(req, res, next) {
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
-    console.log(decoded);
 
     req.isAuthenticated = true;
 
-    req.user = user;
     next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {
