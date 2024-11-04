@@ -11,6 +11,7 @@ const LoginController = require("./app/controllers/LoginController");
 const RegisterController = require("./app/controllers/RegisterController");
 const AboutController = require("./app/controllers/AboutController");
 const CategoryController = require("./app/controllers/CategoryController");
+const ProductController = require("./app/controllers/ProductController");
 const guest = require("./app/middlewares/guest");
 
 const app = express();
@@ -44,6 +45,7 @@ const registerController = new RegisterController();
 const homeController = new HomeController();
 const aboutController = new AboutController();
 const categoryController = new CategoryController();
+const productController = new ProductController();
 
 app.get("/sign-in", guest, (req, res) => {
   loginController.step = 0;
@@ -101,6 +103,9 @@ app.get("/about", auth, (req, res) => {
 app.get("/category/:categoryName", (req, res) => {
   categoryController.index(req, res);
 });
+app.get("/:productName", (req,res) => {
+  productController.index(req,res);
+})
 // app.get("/reset-password", (req, res) => {
 //   resetpassController.index(req, res);
 // });
