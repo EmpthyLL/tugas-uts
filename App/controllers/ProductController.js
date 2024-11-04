@@ -13,11 +13,13 @@ class ProductController extends Controller {
         try {
             const id = req.params.id;
 
-            const response = await axios.get(`https://dummyjson.com/products/${id}`);
-            const product = response.data;
+            const response = await axios(`https://dummyjson.com/products/${id}`);
+            const products = response.data;
+            
+            const product = products.find(p => p.title.toLowerCase() === productName.toLowerCase());
 
             if (!product || !product.title) {
-                console.log("Product not found:", id); 
+                console.log("Product not found:", id);
                 return res.status(404).send("Product not found");
             }
 
@@ -25,7 +27,7 @@ class ProductController extends Controller {
                 layout: `components/${this.layout}`,
                 title: `${product.title} - Product Detail`,
                 req,
-                menus: this.menus,
+                menus: this.menus || [],
                 product,
             };
 
