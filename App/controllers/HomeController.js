@@ -1,15 +1,19 @@
+const UserModel = require("../../model/service/UserModel");
+const jwt = require("jsonwebtoken");
 const { default: axios } = require("axios");
 const Controller = require("./Controller");
+const SECRET_KEY = "T0l0NGj4g4Rahasia";
 
 class HomeController extends Controller {
   constructor() {
     super();
     this.view = "index";
     this.layout = "layout";
-    this.title = "Home Page";
+    this.title = "Welcome to A3 Mart!";
+    this.model = new UserModel();
     this.search = "";
     this.page = 1;
-    this.limit = 10; // Set the number of products per page
+    this.limit = 10;
     this.sortBy = "price";
     this.order = "asc";
     this.totalPage = 0;
@@ -20,6 +24,13 @@ class HomeController extends Controller {
 
   async index(req, res) {
     try {
+      const token = req.cookies.auth_token;
+      let user = "";
+      if (token) {
+        const { userId } = jwt.verify(token, SECRET_KEY);
+        user = this.model.getUserByUuid(userId);
+      }
+
       this.search = req.query.search || "";
       this.page = parseInt(req.query.page) || 1;
       this.sortBy = req.query.sortBy || "price";
@@ -50,6 +61,12 @@ class HomeController extends Controller {
         totalPage: this.totalPage,
         totalItem: this.totalItem,
         page: this.page,
+        user,
+        formatDate(dateString) {
+          const options = { year: "numeric", month: "long", day: "2-digit" };
+          const date = new Date(dateString);
+          return date.toLocaleDateString("en-US", options);
+        },
       };
       this.renderView(res, this.view, options);
     } catch (error) {
