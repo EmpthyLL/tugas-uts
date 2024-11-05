@@ -32,6 +32,7 @@ class ProductController extends Controller {
         product,
         relatedProducts: limitedRelatedProducts,
         keyword: "",
+        categoryName: product.category.toLowerCase().replace(/\s+/g, '-') // Pass category name for URL
       };
 
       this.renderView(res, "productDetail", options);
@@ -43,7 +44,7 @@ class ProductController extends Controller {
 
   async productInCategory(req, res) {
     try {
-      const {categoryName, id} = req.params;
+      const { categoryName, id } = req.params;
 
       const response = await axios(`https://dummyjson.com/products/${id}`);
       const product = response.data;
@@ -66,6 +67,7 @@ class ProductController extends Controller {
         product,
         relatedProducts: limitedRelatedProducts,
         keyword: "",
+        categoryName: categoryName.toLowerCase().replace(/\s+/g, '-')
       };
 
       this.renderView(res, "productDetail", options);

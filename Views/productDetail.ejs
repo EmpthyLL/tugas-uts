@@ -10,8 +10,7 @@
     />
     <div class="flex-grow">
       <p class="text-2xl font-semibold text-gray-900 mb-2">
-        Price: Rp <%= Math.floor(product.price * 15000).toLocaleString("id-ID")
-        %>
+        Price: Rp <%= Math.floor(product.price * 15000).toLocaleString("id-ID") %>
       </p>
       <p class="text-base text-gray-600 mb-2">
         Brand:
@@ -28,9 +27,7 @@
       </p>
       <div class="flex flex-wrap mb-4">
         <% product.tags.forEach(tag => { %>
-        <span
-          class="bg-blue-100 text-blue-600 text-xs font-medium mr-2 mb-2 px-2.5 py-0.5 rounded-full"
-        >
+        <span class="bg-blue-100 text-blue-600 text-xs font-medium mr-2 mb-2 px-2.5 py-0.5 rounded-full">
           <%= tag %>
         </span>
         <% }); %>
@@ -56,7 +53,7 @@
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
     <% relatedProducts.forEach(relatedProduct => { %>
     <a
-      href="/product/<%= relatedProduct.id %>"
+      href="<% if (categoryName) { %>/category/<%= categoryName %>/product/<%= relatedProduct.id %><% } else { %>/product/<%= relatedProduct.id %><% } %>"
       class="card bg-white border rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105"
     >
       <img
@@ -67,8 +64,7 @@
       <div class="p-4 text-center">
         <h3 class="font-semibold text-lg mb-1"><%= relatedProduct.title %></h3>
         <p class="text-gray-800 text-base">
-          Rp <%= Math.floor(relatedProduct.price *
-          15000).toLocaleString("id-ID") %>
+          Rp <%= Math.floor(relatedProduct.price * 15000).toLocaleString("id-ID") %>
         </p>
       </div>
     </a>
