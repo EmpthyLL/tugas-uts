@@ -2,10 +2,6 @@ function closeAlert() {
   document.getElementById("alertBox").style.display = "none";
 }
 
-const form = document.getElementById("registerForm");
-const no_hp = document.getElementById("no_hp");
-const no_hpError = document.getElementById("no_hpError");
-
 form.addEventListener("submit", (e) => {
   let isValid = true;
 
@@ -13,6 +9,8 @@ form.addEventListener("submit", (e) => {
     if (!validateno_hp()) {
       isValid = false;
       no_hp.classList.add("border-red-600", "placeholder:text-red-600");
+      no_hpSection.classList.add("border-red-600");
+      no_hpIcon.classList.add("text-red-600");
       no_hpError.classList.remove("hidden");
       no_hpError.innerText = "Phone number is invalid.";
     } else {
@@ -22,6 +20,8 @@ form.addEventListener("submit", (e) => {
   } else {
     isValid = false;
     no_hp.classList.add("border-red-600", "placeholder:text-red-600");
+    no_hpSection.classList.add("border-red-600");
+    no_hpIcon.classList.add("text-red-600");
     no_hpError.classList.remove("hidden");
     no_hpError.innerText = "Phone number is required.";
   }
@@ -30,7 +30,6 @@ form.addEventListener("submit", (e) => {
 });
 
 function validateno_hp() {
-  // Remove the quotes around the regex and correct the pattern
-  const no_hpPattern = /^0\d{9,13}$/; // Correct regex pattern
+  const no_hpPattern = /^0\d{9,13}$/;
   return no_hpPattern.test(no_hp.value);
 }

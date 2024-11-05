@@ -1,20 +1,21 @@
 const jwt = require("jsonwebtoken");
+const UserModel = require("../model/service/UserModel");
 const SECRET_KEY = "T0l0NGj4g4Rahasia";
 
-function getAuthUser(req, res) {
+function getAuthUser(req) {
   try {
     const token = req.cookies.auth_token;
+    const model = new UserModel();
     let user = "";
 
     if (token) {
       const { userId } = jwt.verify(token, SECRET_KEY);
-      user = this.model.getUserByUuid(userId); // Ensure `this.model` is correctly defined in the calling context
+      user = model.getUserByUuid(userId);
+      return user;
     }
-
-    return user;
+    return 0;
   } catch (error) {
     console.error("Failed to get authenticated user:", error.message);
-    throw new Error("Authentication failed.");
   }
 }
 

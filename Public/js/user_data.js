@@ -6,23 +6,27 @@ const emailError = document.getElementById("emailError");
 const no_hpError = document.getElementById("no_hpError");
 const nameError = document.getElementById("nameError");
 
+const fullnameSection = document.getElementById("fullnameSection");
+const fullnameIcon = document.getElementById("fullnameIcon");
+const no_hpSection = document.getElementById("no_hpSection");
+const no_hpIcon = document.getElementById("no_hpIcon");
+const emailSection = document.getElementById("emailSection");
+const emailIcon = document.getElementById("emailIcon");
+
 function closeAlert() {
   document.getElementById("alertBox").style.display = "none";
 }
 
 function inputCheck() {
-  // Reset error messages
   emailError.classList.add("hidden");
   no_hpError.classList.add("hidden");
   nameError.classList.add("hidden");
 
-  // Full Name validation
   if (!document.getElementById("fullname").value) {
     nameError.classList.remove("hidden");
   }
 
   if (email.value || !validateEmail()) {
-    // Email validation
     if (!validateEmail()) {
       emailError.classList.remove("hidden");
       emailError.innerText = "Email address is not valid.";
@@ -34,7 +38,6 @@ function inputCheck() {
   }
 
   if (no_hp.value || !validateno_hp()) {
-    // no_hp validation
     if (!validateno_hp()) {
       no_hpError.classList.remove("hidden");
       no_hpError.innerText = "Phone number is not valid.";
