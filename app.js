@@ -109,6 +109,9 @@ app.get("/category/:categoryName", (req, res) => {
 app.get("/product/:id", (req, res) => {
   productController.index(req, res);
 });
+app.get("/category/:categoryName/product/:id", (req,res) => {
+  productController.productInCategory(req, res);
+})
 // app.get("/reset-password", (req, res) => {
 //   resetpassController.index(req, res);
 // });

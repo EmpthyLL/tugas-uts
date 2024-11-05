@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products by Category</title>
+  <script>
+    // Fetch all products from the API
+    async function fetchProducts() {
+      try {
+        const response = await fetch('https://dummyjson.com/products');
+        if (!response.ok) {
+          throw new Error('Failed to fetch products');
+        }
+        const data = await response.json();
+        return data.products;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    // Group products by category
+    function groupByCategory(products) {
+      const categoryMap = {};
+      products.forEach(product => {
+        if (!categoryMap[product.category]) {
+          categoryMap[product.category] = [];
+        }
+        categoryMap[product.category].push(product);
+      });
+      return categoryMap;
+    }
+
+    // Render products grouped by category
+    async function displayProductsByCategory() {
+      const products = await fetchProducts();
+      const groupedProducts = groupByCategory(products);
+
+      const categoriesContainer = document.getElementById('categories');
+      categoriesContainer.innerHTML = ''; // Clear the container
+
+      // Iterate over each category and display products
+      for (const category in groupedProducts) {
+        const categoryDiv = document.createElement('div');
+        categoryDiv.className = 'category m-4 p-2 border-b border-gray-300';
+
+        const categoryTitle = document.createElement('h2');
+        categoryTitle.className = 'text-lg font-bold mb-2';
+        categoryTitle.innerText = category;
+        categoryDiv.appendChild(categoryTitle);
+
+        // List products under each category
+        groupedProducts[category].forEach(product => {
+          const productDiv = document.createElement('div');
+          productDiv.className = 'product p-1';
+          productDiv.innerText = product.title;
+          categoryDiv.appendChild(productDiv);
+        });
+
+        // Append the category block to the main container
+        categoriesContainer.appendChild(categoryDiv);
+      }
+    }
+
+    // Execute the display function after DOM loads
+    document.addEventListener('DOMContentLoaded', displayProductsByCategory);
+  </script>
+</head>
+<body>
+  <h1 class="font-bold text-2xl m-2">Products by Category</h1>
+  <div id="categories" class="font-bold text-xl m-2"></div>
+</body>
+</html>
