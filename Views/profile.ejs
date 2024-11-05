@@ -1,0 +1,68 @@
+<div
+  class="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden mt-10 dark:bg-gray-800"
+>
+  <!-- Profile Picture and Name -->
+  <div class="p-6">
+    <div class="flex items-center mb-4">
+      <img
+        src="<%= user.profile_pic || '/img/default-profile.png' %>"
+        alt="Profile Picture"
+        class="w-16 h-16 rounded-full border shadow-sm"
+      />
+      <div class="ml-4">
+        <h2 class="text-xl font-semibold"><%= user.fullname %></h2>
+        <p class="text-sm text-gray-500"><%= user.email %></p>
+      </div>
+    </div>
+
+    <!-- User Info -->
+    <div class="space-y-4">
+      <div>
+        <p class="font-medium text-gray-600 dark:text-gray-300">
+          Phone Number:
+        </p>
+        <p class="text-sm"><%= user.no_hp || "Not provided" %></p>
+        <% if (!user.no_hp) { %>
+        <button class="text-indigo-600 text-sm hover:underline">
+          Add phone number
+        </button>
+        <% } %>
+      </div>
+
+      <div>
+        <p class="font-medium text-gray-600 dark:text-gray-300">Gender:</p>
+        <p class="text-sm"><%= user.gender || "Not specified" %></p>
+        <% if (!user.gender) { %>
+        <button class="text-indigo-600 text-sm hover:underline">
+          Add gender
+        </button>
+        <% } %>
+      </div>
+
+      <div>
+        <p class="font-medium text-gray-600 dark:text-gray-300">Balance:</p>
+        <p class="text-lg font-semibold text-gray-900 dark:text-white">
+          Rp. <%= user.balance %>
+        </p>
+      </div>
+
+      <div>
+        <p class="font-medium text-gray-600 dark:text-gray-300">
+          Member Status:
+        </p>
+        <% if (user.member) { %>
+        <p class="text-green-600 font-semibold">
+          Active since <%= user.member_since ? new
+          Date(user.member_since).toLocaleDateString('en-US', { year: 'numeric',
+          month: 'long', day: '2-digit' }) : "N/A" %>
+        </p>
+        <% } else { %>
+        <p class="text-red-600 font-semibold">Not a member</p>
+        <a href="/become-member" class="text-indigo-600 text-sm hover:underline"
+          >Become a member</a
+        >
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>

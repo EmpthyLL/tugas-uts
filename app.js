@@ -13,6 +13,7 @@ const CategoryController = require("./app/controllers/CategoryController");
 const ProductController = require("./app/controllers/ProductController");
 const guest = require("./app/middlewares/guest");
 const auth = require("./App/Middlewares/auth");
+const ProfileController = require("./app/controllers/ProfileController");
 
 const app = express();
 const port = 3002;
@@ -46,6 +47,7 @@ const homeController = new HomeController();
 const aboutController = new AboutController();
 const categoryController = new CategoryController();
 const productController = new ProductController();
+const profileController = new ProfileController();
 
 app.get("/sign-in", guest, (req, res) => {
   loginController.step = 0;
@@ -91,17 +93,14 @@ app.post("/register/verify-number", guest, (req, res) => {
 app.post("/register/user-data", guest, (req, res) => {
   registerController.store(req, res);
 });
-// app.get("/email-verification", (req, res) => {
-//   emailverifyController.index(req, res);
-// });
-// app.get("/forgot-password", (req, res) => {
-//   forgotpassController.index(req, res);
-// });
 app.get("/", auth, (req, res) => {
   homeController.index(req, res);
 });
 app.get("/about", auth, (req, res) => {
   aboutController.index(req, res);
+});
+app.get("/profile", auth, (req, res) => {
+  profileController.index(req, res);
 });
 app.get("/category/:categoryName", (req, res) => {
   categoryController.index(req, res);
@@ -109,12 +108,6 @@ app.get("/category/:categoryName", (req, res) => {
 app.get("/product/:id", (req, res) => {
   productController.index(req, res);
 });
-// app.get("/reset-password", (req, res) => {
-//   resetpassController.index(req, res);
-// });
-// app.get("/verify-number", (req, res) => {
-//   verifyController.index(req, res);
-// });
 
 // Route to serve the form for image upload
 app.get("/upload", (req, res) => {
