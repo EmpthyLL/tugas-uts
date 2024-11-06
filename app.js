@@ -119,8 +119,6 @@ app.get("/category/:categoryName", auth, (req, res) => {
 app.get("/product/:id", auth, (req, res) => {
   productController.index(req, res);
 });
-
-// Route to serve the form for image upload
 app.get("/upload", (req, res) => {
   res.send(`
     <form action="/upload" method="POST" enctype="multipart/form-data">
