@@ -105,10 +105,10 @@ app.get("/profile", auth, (req, res) => {
 app.put("/profile", auth, (req, res) => {
   profileController.index(req, res);
 });
-app.get("/category/:categoryName", (req, res) => {
+app.get("/category/:categoryName", auth, (req, res) => {
   categoryController.index(req, res);
 });
-app.get("/product/:id", (req, res) => {
+app.get("/product/:id", auth, (req, res) => {
   productController.index(req, res);
 });
 
