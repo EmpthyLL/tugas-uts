@@ -40,6 +40,8 @@ app.use(
 );
 app.use(flash());
 
+const userPP = upload("ProfilePic");
+
 //controllers
 const loginController = new LoginController();
 const registerController = new RegisterController();
@@ -102,7 +104,13 @@ app.get("/about", auth, (req, res) => {
 app.get("/profile", auth, (req, res) => {
   profileController.index(req, res);
 });
-app.put("/profile", auth, (req, res) => {
+app.put("/profile/biodata", auth, userPP.single("image"), (req, res) => {
+  profileController.index(req, res);
+});
+app.put("/profile/email", auth, (req, res) => {
+  profileController.index(req, res);
+});
+app.put("/profile/phone", auth, (req, res) => {
   profileController.index(req, res);
 });
 app.get("/category/:categoryName", auth, (req, res) => {
@@ -120,7 +128,6 @@ app.get("/upload", (req, res) => {
   `);
 });
 
-const userPP = upload("ProfilePic");
 // Route to handle image upload
 app.post("/upload", userPP.single("image"), (req, res) => {
   if (!req.file) {
