@@ -6,7 +6,7 @@ async function auth(req, res, next) {
   req.isAuthenticated = false;
 
   if (!token) {
-    if (req.url !== "/") {
+    if (req.url === "/profile") {
       res.redirect("/");
     }
     return next();

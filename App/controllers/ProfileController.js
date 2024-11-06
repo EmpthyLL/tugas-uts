@@ -6,13 +6,13 @@ class ProfileController extends Controller {
     super();
     this.view = "profile";
     this.layout = "layout";
-    this.title = "About Us";
+    this.title = "";
     this.user = {};
   }
   index(req, res) {
     try {
       this.user = getAuthUser(req);
-
+      this.title = this.user.fullname + " - Profile";
       const options = {
         layout: `components/${this.layout}`,
         title: this.title,
