@@ -7,7 +7,8 @@
     >
       <h1 class="text-center text-3xl font-bold">Verify OTP</h1>
       <p class="text-center text-gray-500">
-        Enter the 6-digit OTP sent to your phone number.
+        Enter the 6-digit OTP sent to your <%= isEmail ? "email address" :
+        "phone number" %>.
         <button
           type="button"
           class="text-lime-500 hover:text-lime-700 inline-block hover:underline"
@@ -20,11 +21,20 @@
       <form
         id="verifyForm"
         method="post"
-        action="<%= login ? '/sign-in/verify-account' : '/register/verify-number' %>"
+        action="<%= isAuth? login ? '/sign-in/verify-account' : email ? '/register/verify-email' : '/register/verify-number' : isEmail ? "/profile/email?_method=PUT" : "/profile/phone?_method=PUT" %>"
         class="flex flex-col gap-4"
         onsubmit="handleSubmit(event)"
       >
+        <% if (isAuth) { %>
         <input type="hidden" name="no_hp" value="<%= no_hp %>" />
+        <% if (!login) { %>
+        <input type="hidden" name="email" value="<%= email %>" />
+        <input type="hidden" name="fullname" value="<%= fullname %>" />
+        <% } %> <% } else { %> <% if (isEmail) { %>
+        <input type="hidden" name="email" value="<%= email %>" />
+        <% } else { %>
+        <input type="hidden" name="no_hp" value="<%= no_hp %>" />
+        <% } %> <% } %>
         <div class="flex space-x-2 justify-center">
           <!-- OTP inputs -->
           <input

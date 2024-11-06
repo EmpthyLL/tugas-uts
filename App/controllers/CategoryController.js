@@ -12,9 +12,9 @@ class CategoryController extends Controller {
     try {
       this.user = getAuthUser(req);
       const categoryName = req.params.categoryName;
-      const sortBy = req.query.sortBy || "price"; // Default sort by price
-      const order = req.query.order || "asc"; // Default order is ascending
-      const selectedBrand = req.query.brand || ""; // Selected brand filter
+      const sortBy = req.query.sortBy || "price";
+      const order = req.query.order || "asc";
+      const selectedBrand = req.query.brand || "";
 
       // Fetch the products
       const response = await axios(

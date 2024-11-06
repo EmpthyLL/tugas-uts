@@ -20,6 +20,8 @@ class LoginController extends Controller {
         errors: req.flash("errors") || [],
         no_hp: this.no_hp,
         login: true,
+        isAuth: true,
+        isEmail: false,
       };
       this.renderView(res, this.view[this.step], options);
     } catch (error) {
@@ -42,7 +44,6 @@ class LoginController extends Controller {
   async verify(req, res) {
     try {
       this.no_hp = req.body.no_hp;
-      console.log(this.no_hp);
       const token = await this.model.login(this.no_hp);
 
       setCookie(res, "auth_token", token);
