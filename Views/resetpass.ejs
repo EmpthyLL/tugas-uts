@@ -1,0 +1,65 @@
+<section class="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+  <!-- Left column: Image -->
+  <div class="hidden lg:flex min-h-screen pl-8 items-center justify-center">
+    <img src="/img/logo_A3Mart.png" class="w-full" alt="Sample image" />
+  </div>
+
+  <!-- Right column: Forms Container -->
+  <div class="flex py-6 justify-center items-center">
+    <div
+      class="xs:max-w-md w-full p-6 flex flex-col items-center justify-center bg-white rounded-lg shadow-lg"
+    >
+      <!-- Register Form -->
+      <form id="registerForm" class="space-y-6 w-full mx-auto">
+        <h1 class="text-center text-3xl font-bold">Reset Password</h1>
+
+        <!-- Password input -->
+        <div class="mb-4">
+          <label for="newpassword" class="block text-gray-800"
+            >New Password</label
+          >
+          <input
+            type="newpassword"
+            id="newpassword"
+            name="newpassword"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
+            autocomplete="off"
+            placeholder="Type your new password"
+            required
+          />
+        </div>
+
+        <!-- Confirm Password input -->
+        <div class="mb-4">
+          <label for="confirmnewpassword" class="block text-gray-800"
+            >Confirm New Password</label
+          >
+          <input
+            type="confirmnewpassword"
+            id="confirmnewpassword"
+            name="confirmnewpassword"
+            class="w-full border rounded py-3 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
+            autocomplete="off"
+            placeholder="Confirm your new password"
+            required
+          />
+        </div>
+
+        <!-- Register button -->
+        <button
+          type="submit"
+          class="w-full bg-lime-500 text-white py-2 rounded hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-lime-300"
+        >
+          Register
+        </button>
+      </form>
+
+      <!-- Image for small screens -->
+      <div
+        class="lg:hidden flex justify-center items-center mt-6 bg-slate-900 rounded-lg p-3"
+      >
+        <img src="/img/logo_A3Mart.png" class="w-full" alt="Sample image" />
+      </div>
+    </div>
+  </div>
+</section>
