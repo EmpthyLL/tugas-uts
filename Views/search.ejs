@@ -3,112 +3,117 @@
     Search for <%= keyword %> result in <%= totalItem %>
   </h1>
 
-  <!-- Filter Options -->
-  <div class="flex items-start justify-between space-x-4 mb-4">
-    <!-- Sort By Dropdown -->
-    <div class="w-1/2 md:w-1/4">
-      <label for="sortBy" class="block mb-1 text-sm font-medium text-gray-700">Sort By</label>
-      <select
-        id="sortBy"
-        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200 hover:border-indigo-400"
-        onchange="window.location.href = `?sortBy=${this.value}&order=<%= order %>&search=<%= keyword %>&brand=<%= selectedBrand %>&page=1`"
-      >
-        <option value="price" <%= sortBy === 'price' ? 'selected' : '' %>>Price</option>
-        <option value="title" <%= sortBy === 'title' ? 'selected' : '' %>>Title</option>
-      </select>
-    </div>
-
-    <!-- Order Dropdown -->
-    <div class="w-1/2 md:w-1/4">
-      <label for="order" class="block mb-1 text-sm font-medium text-gray-700">Order</label>
-      <select
-        id="order"
-        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200 hover:border-indigo-400"
-        onchange="window.location.href = `?order=${this.value}&sortBy=<%= sortBy %>&search=<%= keyword %>&brand=<%= selectedBrand %>&page=1`"
-      >
-        <% if (sortBy === "price") { %>
-          <option value="asc" <%= order === 'asc' ? 'selected' : '' %>>Ascending</option>
-          <option value="desc" <%= order === 'desc' ? 'selected' : '' %>>Descending</option>
-        <% } else { %>
-          <option value="asc" <%= order === 'asc' ? 'selected' : '' %>>A-Z</option>
-          <option value="desc" <%= order === 'desc' ? 'selected' : '' %>>Z-A</option>
-        <% } %>
-      </select>
-    </div>
-
-    <!-- Brand Dropdown -->
-    <div class="w-1/2 md:w-1/4">
-      <label for="brand" class="block mb-1 text-sm font-medium text-gray-700">Filter by Brand</label>
-      <select
-        id="brand"
-        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200 
-          <%= brands.length === 0 ? 'bg-gray-200 cursor-not-allowed' : 'hover:border-indigo-400' %>"
-        onchange="window.location.href = `?brand=${this.value}&search=<%= keyword %>&sortBy=<%= sortBy %>&order=<%= order %>&page=1`"
-        <%= brands.length === 0 ? 'disabled' : '' %>
-      >
-        <option value="">All Brands</option>
-        <% brands.forEach(brand => { %>
-          <option value="<%= brand %>" <%= selectedBrand === brand ? 'selected' : '' %>><%= brand %></option>
-        <% }) %>
-      </select>
-      <% if (brands.length === 0) { %>
-        <p class="text-sm text-gray-500 mt-1">No brands available to filter.</p>
-      <% } %>
-    </div>
+<!-- Filter Options -->
+<div class="flex items-start justify-between space-x-4 mb-4">
+  <!-- Sort By Dropdown -->
+  <div class="w-1/2 md:w-1/4">
+    <label for="sortBy" class="block mb-1 text-sm font-medium text-gray-700">Sort By</label>
+    <select
+      id="sortBy"
+      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200 hover:border-indigo-400"
+      onchange="window.location.href = `?sortBy=${this.value}&order=<%= order %>&search=<%= keyword %>&brand=<%= selectedBrand %>&page=1`"
+    >
+      <option value="price" <%= sortBy === 'price' ? 'selected' : '' %>>Price</option>
+      <option value="title" <%= sortBy === 'title' ? 'selected' : '' %>>Title</option>
+    </select>
   </div>
 
-  <!-- Product Grid -->
-  <div class="p-4 space-y-8">
-    <!-- Informational Alert for No Products -->
-    <% if (products.length === 0) { %>
-      <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
-        <p class="font-bold">No Products Found</p>
-        <p>We couldn't find any products matching your search criteria. Please try a different search.</p>
-      </div>
-    <% } else { %>
-      <!-- Product Grid -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-        <% products.forEach(product => { %>
-          <a href="/?search=<%= keyword %>/product/<%= product.id %>"
-            class="card bg-white border rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105">
-            <img
-              src="<%= product.thumbnail %>"
-              alt="<%= product.title %>"
-              class="h-48 w-full object-contain p-2"
-            />
-            <div class="p-4 text-center">
-              <h3 class="font-semibold text-lg mb-1"><%= product.title %></h3>
-              <p class="text-gray-800 text-base">
-                Rp <%= Math.floor(product.price * 15000).toLocaleString("id-ID") %>
-              </p>
-            </div>
-          </a>
-        <% }) %>
-      </div>
+  <!-- Order Dropdown -->
+  <div class="w-1/2 md:w-1/4">
+    <label for="order" class="block mb-1 text-sm font-medium text-gray-700">Order</label>
+    <select
+      id="order"
+      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200 hover:border-indigo-400"
+      onchange="window.location.href = `?order=${this.value}&sortBy=<%= sortBy %>&search=<%= keyword %>&brand=<%= selectedBrand %>&page=1`"
+    >
+      <% if (sortBy === "price") { %>
+        <option value="asc" <%= order === 'asc' ? 'selected' : '' %>>Ascending</option>
+        <option value="desc" <%= order === 'desc' ? 'selected' : '' %>>Descending</option>
+      <% } else { %>
+        <option value="asc" <%= order === 'asc' ? 'selected' : '' %>>A-Z</option>
+        <option value="desc" <%= order === 'desc' ? 'selected' : '' %>>Z-A</option>
+      <% } %>
+    </select>
+  </div>
 
-      <!-- Pagination Controls -->
-      <div class="flex justify-center space-x-2 my-4">
-        <% for (let i = 1; i <= totalPage; i++) { %>
-          <% if (i === page) { %>
-            <!-- Render the current page as a button -->
-            <button 
-              class="px-4 py-2 border rounded-lg bg-slate-800 text-white shadow-md cursor-default"
-              aria-current="page"
-            >
-              <%= i %>
-            </button>
-          <% } else { %>
-            <!-- Render other pages as links -->
-            <a 
-              href="?page=<%= i %>&sortBy=<%= sortBy %>&order=<%= order %>&search=<%= keyword %>&brand=<%= selectedBrand %>" 
-              class="px-4 py-2 border rounded-lg transition duration-300 ease-in-out border-slate-300
-                  bg-white text-gray-800 hover:bg-gray-200 hover:text-gray-900"
-            >
-              <%= i %>
-            </a>
-          <% } %>
-        <% } %>
-      </div>
+  <!-- Brand Dropdown -->
+  <div class="w-1/2 md:w-1/4">
+    <label for="brand" class="block mb-1 text-sm font-medium text-gray-700">Filter by Brand</label>
+    <select
+      id="brand"
+      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200 
+        <%= brands.length === 0 ? 'bg-gray-200 cursor-not-allowed' : 'hover:border-indigo-400' %>"
+      onchange="window.location.href = `?brand=${this.value}&search=<%= keyword %>&sortBy=<%= sortBy %>&order=<%= order %>&page=1`"
+      <%= brands.length === 0 ? 'disabled' : '' %>
+    >
+      <option value="">All Brands</option>
+      <% brands.forEach(brand => { %>
+        <option value="<%= brand %>" <%= selectedBrand === brand ? 'selected' : '' %>><%= brand %></option>
+      <% }) %>
+    </select>
+    <% if (brands.length === 0) { %>
+      <p class="text-sm text-gray-500 mt-1">No brands available to filter.</p>
     <% } %>
   </div>
+</div>
+
+  <!-- Product Grid -->
+<div class="p-4 space-y-8">
+
+  <!-- Informational Alert for No Products -->
+  <% if (products.length === 0) { %>
+    <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
+      <p class="font-bold">No Products Found</p>
+      <p>We couldn't find any products matching your search criteria. Please try a different search.</p>
+    </div>
+  <% } else { %>
+    <!-- Product Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      <% products.forEach(product => { %>
+        <a
+          href="/product/<%= product.id %>"
+          class="card bg-white border rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105"
+        >
+          <img
+            src="<%= product.thumbnail %>"
+            alt="<%= product.title %>"
+            class="h-48 w-full object-contain p-2"
+          />
+          <div class="p-4 text-center">
+            <h3 class="font-semibold text-lg mb-1"><%= product.title %></h3>
+            <p class="text-gray-800 text-base">
+              Rp <%= Math.floor(product.price * 15000).toLocaleString("id-ID") %>
+            </p>
+          </div>
+        </a>
+      <% }) %>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="flex justify-center space-x-2 my-4">
+      <% for (let i = 1; i <= totalPage; i++) { %>
+        <% if (i === page) { %>
+          <!-- Render the current page as a button -->
+          <button 
+            class="px-4 py-2 border rounded-lg bg-slate-800 text-white shadow-md cursor-default"
+            aria-current="page"
+          >
+            <%= i %>
+          </button>
+        <% } else { %>
+          <!-- Render other pages as links -->
+          <a 
+            href="?page=<%= i %>&sortBy=<%= sortBy %>&order=<%= order %>&search=<%= keyword %>&brand=<%= selectedBrand %>" 
+            class="px-4 py-2 border rounded-lg transition duration-300 ease-in-out border-slate-300
+                  bg-white text-gray-800 hover:bg-gray-200 hover:text-gray-900"
+          >
+            <%= i %>
+          </a>
+        <% } %>
+      <% } %>
+    </div>
+
+  <% } %>
+</div>
+
 </div>
