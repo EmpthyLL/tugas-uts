@@ -13,6 +13,7 @@ function getAuthUser(req) {
       user = model.getUserByUuid(userId);
       return user;
     }
+
     return 0;
   } catch (error) {
     console.error("Failed to get authenticated user:", error.message);

@@ -2,6 +2,12 @@ function closeAlert() {
   document.getElementById("alertBox").style.display = "none";
 }
 
+const form = document.getElementById("registerForm");
+const no_hp = document.getElementById("no_hp");
+const no_hpError = document.getElementById("no_hpError");
+const no_hpSection = document.getElementById("no_hpSection");
+const no_hpIcon = document.getElementById("no_hpIcon");
+
 form.addEventListener("submit", (e) => {
   let isValid = true;
 

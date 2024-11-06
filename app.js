@@ -102,6 +102,9 @@ app.get("/about", auth, (req, res) => {
 app.get("/profile", auth, (req, res) => {
   profileController.index(req, res);
 });
+app.put("/profile", auth, (req, res) => {
+  profileController.index(req, res);
+});
 app.get("/category/:categoryName", (req, res) => {
   categoryController.index(req, res);
 });

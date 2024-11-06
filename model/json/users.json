@@ -43,5 +43,20 @@
     "cart": [],
     "history": [],
     "notification": []
+  },
+  {
+    "uuid": "d0ebf64a-1ec6-418e-ac72-47fb31663dec",
+    "fullname": "Farhan Mangkurawa",
+    "no_hp": "0596487535",
+    "email": "mangkurawa.far586@gmail.com",
+    "gender": null,
+    "birth_date": null,
+    "profile_pic": null,
+    "balance": 0,
+    "member": false,
+    "member_since": null,
+    "cart": [],
+    "history": [],
+    "notification": []
   }
 ]

@@ -6,15 +6,18 @@ const emailError = document.getElementById("emailError");
 const no_hpError = document.getElementById("no_hpError");
 const nameError = document.getElementById("nameError");
 
-const fullnameSection = document.getElementById("fullnameSection");
-const fullnameIcon = document.getElementById("fullnameIcon");
-const no_hpSection = document.getElementById("no_hpSection");
-const no_hpIcon = document.getElementById("no_hpIcon");
-const emailSection = document.getElementById("emailSection");
-const emailIcon = document.getElementById("emailIcon");
-
 function closeAlert() {
   document.getElementById("alertBox").style.display = "none";
+}
+
+function validateEmail() {
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailPattern.test(email.value);
+}
+
+function validatePhoneNumber() {
+  const phonePattern = /^0\d{9,13}$/;
+  return phonePattern.test(no_hp.value);
 }
 
 function inputCheck() {
@@ -26,26 +29,18 @@ function inputCheck() {
     nameError.classList.remove("hidden");
   }
 
-  if (email.value || !validateEmail()) {
-    if (!validateEmail()) {
-      emailError.classList.remove("hidden");
-      emailError.innerText = "Email address is not valid.";
-    }
-    if (!email.value) {
-      emailError.classList.remove("hidden");
-      emailError.innerHTML = "Email address  is required";
-    }
+  if (!email.value || !validateEmail()) {
+    emailError.classList.remove("hidden");
+    emailError.innerText = email.value
+      ? "Email address is not valid."
+      : "Email address is required.";
   }
 
-  if (no_hp.value || !validateno_hp()) {
-    if (!validateno_hp()) {
-      no_hpError.classList.remove("hidden");
-      no_hpError.innerText = "Phone number is not valid.";
-    }
-    if (!no_hp.value) {
-      no_hpError.classList.remove("hidden");
-      no_hpError.innerHTML = "Phone number is required";
-    }
+  if (!no_hp.value || !validatePhoneNumber()) {
+    no_hpError.classList.remove("hidden");
+    no_hpError.innerText = no_hp.value
+      ? "Phone number is not valid."
+      : "Phone number is required.";
   }
 }
 
@@ -56,8 +51,16 @@ form.addEventListener("submit", (e) => {
     if (!input.checkValidity()) {
       isValid = false;
       input.classList.add("border-red-600", "placeholder:text-red-600");
+      input.parentElement.classList.add("border-red-600");
+      input.previousElementSibling.firstElementChild.classList.add(
+        "text-red-600"
+      );
     } else {
       input.classList.remove("border-red-600", "placeholder:text-red-600");
+      input.parentElement.classList.remove("border-red-600");
+      input.previousElementSibling.firstElementChild.classList.remove(
+        "text-red-600"
+      );
     }
   });
 
@@ -65,13 +68,3 @@ form.addEventListener("submit", (e) => {
 
   if (!isValid) e.preventDefault();
 });
-
-function validateEmail() {
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailPattern.test(email.value);
-}
-
-function validateno_hp() {
-  const no_hpPattern = /^[0-9]{10,14}$/;
-  return no_hpPattern.test(no_hp.value);
-}

@@ -55,6 +55,7 @@ class RegisterController extends Controller {
     try {
       this.email = req.body.email;
       this.fullname = req.body.fullname;
+      this.no_hp = req.body.no_hp;
 
       const token = await this.model.register({
         fullname: this.fullname,
