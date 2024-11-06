@@ -86,6 +86,33 @@ class UserModel extends Model {
     user.history.push(transaction);
     this.saveUsers();
   }
+
+  editBasicInfo(userId, { fullname, gender, birth_date }) {
+    const user = this.getUserByUuid(userId);
+    if (!user) throw new Error("User not found.");
+
+    user.fullname = fullname || user.fullname;
+    user.gender = gender || user.gender;
+    user.birth_date = birth_date || user.birth_date;
+
+    this.saveData();
+  }
+
+  editEmail(userId, newEmail) {
+    const user = this.getUserByUuid(userId);
+    if (!user) throw new Error("User not found.");
+
+    user.email = newEmail;
+    this.saveData();
+  }
+
+  editPhone(userId, newPhone) {
+    const user = this.getUserByUuid(userId);
+    if (!user) throw new Error("User not found.");
+
+    user.no_hp = newPhone;
+    this.saveData();
+  }
 }
 
 module.exports = UserModel;

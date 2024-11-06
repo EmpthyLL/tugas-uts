@@ -9,6 +9,8 @@ profilePicInput.addEventListener("change", (event) => {
       profilePicture.src = e.target.result;
     };
     reader.readAsDataURL(file);
+  } else {
+    profilePicture.src = "/img/profile.webp";
   }
 });
 
@@ -124,11 +126,20 @@ function resetBiodata() {
   toggleBiodataButton();
 }
 function resetEmail() {
+  email.classList.remove("border-red-600", "placeholder:text-red-600");
+  emailSection.classList.remove("border-red-600");
+  emailIcon.classList.remove("text-red-600");
+  emailError.classList.add("hidden");
   email.value = originalEmail;
   toggleEmailButton();
 }
 function resetPhone() {
+  no_hp.classList.remove("border-red-600", "placeholder:text-red-600");
+  no_hpSection.classList.remove("border-red-600");
+  no_hpIcon.classList.remove("text-red-600");
+  no_hpError.classList.add("hidden");
   no_hp.value = originalNo_hp;
+  togglePhoneButton();
 }
 
 function validateEmail() {

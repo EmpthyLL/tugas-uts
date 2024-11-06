@@ -105,13 +105,13 @@ app.get("/profile", auth, (req, res) => {
   profileController.index(req, res);
 });
 app.put("/profile/biodata", auth, userPP.single("image"), (req, res) => {
-  profileController.index(req, res);
+  profileController.editBiodata(req, res);
 });
 app.put("/profile/email", auth, (req, res) => {
-  profileController.index(req, res);
+  profileController.verify(req, res);
 });
 app.put("/profile/phone", auth, (req, res) => {
-  profileController.index(req, res);
+  profileController.verify(req, res);
 });
 app.get("/category/:categoryName", auth, (req, res) => {
   categoryController.index(req, res);
