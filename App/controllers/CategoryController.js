@@ -1,5 +1,6 @@
 const { default: axios } = require("axios");
 const Controller = require("./Controller");
+const getAuthUser = require("../../utils/user");
 
 class CategoryController extends Controller {
   constructor() {
@@ -9,6 +10,7 @@ class CategoryController extends Controller {
 
   async index(req, res) {
     try {
+      this.user = getAuthUser(req);
       const categoryName = req.params.categoryName;
       const sortBy = req.query.sortBy || "price"; // Default sort by price
       const order = req.query.order || "asc"; // Default order is ascending
@@ -59,6 +61,7 @@ class CategoryController extends Controller {
         sortBy,
         order,
         selectedBrand,
+        user: this.user,
         brands: [
           ...new Set(
             response.data.products.map((p) => p.brand).filter((brand) => brand)
