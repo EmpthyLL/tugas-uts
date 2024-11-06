@@ -45,6 +45,7 @@ class UserModel extends Model {
       no_hp,
       email,
       gender: null,
+      birth_date: null,
       profile_pic: null,
       balance: 0,
       member: false,

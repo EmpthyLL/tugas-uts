@@ -1,12 +1,14 @@
 const jwt = require("jsonwebtoken");
 const SECRET_KEY = "T0l0NGj4g4Rahasia";
-const UserModel = require("../../model/service/UserModel");
 
 async function auth(req, res, next) {
   const token = req.cookies.auth_token;
   req.isAuthenticated = false;
 
   if (!token) {
+    if (req.url !== "/") {
+      res.redirect("/");
+    }
     return next();
   }
 
