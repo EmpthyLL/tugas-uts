@@ -70,7 +70,8 @@
     <!-- Product Grid -->
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
       <% products.forEach(product => { %>
-        <div
+        <a
+          href="/product/<%= product.id %>"
           class="card bg-white border rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105"
         >
           <img
@@ -84,7 +85,7 @@
               Rp <%= Math.floor(product.price * 15000).toLocaleString("id-ID") %>
             </p>
           </div>
-        </div>
+        </a>
       <% }) %>
     </div>
 

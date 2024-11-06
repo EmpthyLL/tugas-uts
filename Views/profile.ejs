@@ -119,9 +119,9 @@
         </button>
       </div>
       <div class="p-4 overflow-y-auto">
-        <form action="/edit-profile" id="EditBiodata" method="post" enctype="multipart/form-data">
+        <form action="/profile/biodata=PUT" id="EditBiodata" method="post" enctype="multipart/form-data">
           <div class="mb-4 relative">
-            <label class="block text-gray-700 dark:text-gray-300 text-lg font-bold mb-2">Profile Picture</label>
+            <label class="block text-gray-700 dark:text-gray-300 text-lg font-bold mb-2" for="profile_pic">Profile Picture</label>
             <div class="relative">
               <input type="file" name="profile_pic" id="profile_pic" class="hidden" accept="image/*" />
               <label for="profile_pic" class="cursor-pointer">
@@ -138,18 +138,18 @@
           </div>
 
           <div class="mb-4">
-            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Name</label>
+            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" id="name">Name</label>
             <div class="flex items-center border border-gray-300 rounded-md dark:border-neutral-600">
               <svg xmlns="http://www.w3.org/2000/svg" class="mx-2 text-gray-400" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-round"><path d="M18 21a8 8 0 0 0-16 0"/><circle cx="10" cy="8" r="5"/><path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"/></svg>
-              <input type="text" placeholder="Type your full name" name="fullname" value="<%= user.fullname %>" class="w-full p-2 border-0 focus:outline-none focus:ring-2 focus:ring-lime-500 dark:bg-gray-700 rounded--l-md border-l border-gray-300 dark:text-white" />
+              <input type="text" placeholder="Type your full name" id="name" name="fullname" value="<%= user.fullname %>" class="w-full p-2 border-0 focus:outline-none focus:ring-2 focus:ring-lime-500 dark:bg-gray-700 rounded--l-md border-l border-gray-300 dark:text-white" />
             </div>
           </div>
 
           <div class="mb-4">
-            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Gender</label>
+            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="gender">Gender</label>
             <div class="flex items-center border border-gray-300 rounded-md dark:border-neutral-600">
               <svg xmlns="http://www.w3.org/2000/svg" class="mx-2 text-gray-400" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-user-round"><path d="M18 21a6 6 0 0 0-12 0"/><circle cx="12" cy="11" r="4"/><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
-              <select name="gender" class="w-full p-2 border-0  rounded--l-md border-l border-gray-300 focus:outline-none focus:ring-2 focus:ring-lime-500 dark:bg-gray-700 dark:text-white">
+              <select name="gender" id="gender" class="w-full p-2 border-0  rounded--l-md border-l border-gray-300 focus:outline-none focus:ring-2 focus:ring-lime-500 dark:bg-gray-700 dark:text-white">
                 <option disabled <%= user.gender === null ? 'selected' : '' %>>Select Gender</option>
                 <option value="male" <%= user.gender === 'male' ? 'selected' : '' %>>Male</option>
                 <option value="female" <%= user.gender === 'female' ? 'selected' : '' %>>Female</option>
@@ -159,10 +159,10 @@
           </div>
 
           <div class="mb-4">
-            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Birth Date</label>
+            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="birth_date">Birth Date</label>
             <div class="flex items-center border border-gray-300 rounded-md dark:border-neutral-600">
               <svg xmlns="http://www.w3.org/2000/svg"  class="mx-2 text-gray-400" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-days"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg>
-              <input type="date" name="birth_date" value="<%= user.birth_date ? new Date(user.birth_date).toISOString().split('T')[0] : '' %>" class="w-full p-2 border-0 focus:outline-none  rounded--l-md border-l border-gray-300 focus:ring-2 focus:ring-lime-500 dark:bg-gray-700 dark:text-white" />
+              <input type="date" name="birth_date" id="birth_date" value="<%= user.birth_date ? new Date(user.birth_date).toISOString().split('T')[0] : '' %>" class="w-full p-2 border-0 focus:outline-none  rounded--l-md border-l border-gray-300 focus:ring-2 focus:ring-lime-500 dark:bg-gray-700 dark:text-white" />
             </div>
           </div>
 
@@ -191,7 +191,7 @@
         </button>
       </div>
       <div class="p-6">
-        <form action="/profile?_method=PUT" method="post">
+        <form action="/profile/email?_method=PUT" method="post">
           <div class="mb-4">
             <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Email Address</label>
             <div class="flex items-center border border-gray-300 rounded-md dark:border-neutral-600">
@@ -222,7 +222,7 @@
         </button>
       </div>
       <div class="p-6">
-        <form action="/edit-phone" method="post">
+        <form action="/profile/phone?_method=PUT" method="post">
           <div class="mb-4">
             <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Phone Number</label>
             <div class="flex items-center border border-gray-300 rounded-md dark:border-neutral-600">

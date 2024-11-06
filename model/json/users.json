@@ -58,5 +58,20 @@
     "cart": [],
     "history": [],
     "notification": []
+  },
+  {
+    "uuid": "d0b261ed-36fb-4a4b-821a-1dd488f11f21",
+    "fullname": "Sarah Marc",
+    "no_hp": "045847534322",
+    "email": "sarah.marc@gmail.com",
+    "gender": null,
+    "birth_date": null,
+    "profile_pic": null,
+    "balance": 0,
+    "member": false,
+    "member_since": null,
+    "cart": [],
+    "history": [],
+    "notification": []
   }
 ]

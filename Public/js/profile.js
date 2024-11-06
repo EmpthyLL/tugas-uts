@@ -11,5 +11,3 @@ profilePicInput.addEventListener("change", (event) => {
     reader.readAsDataURL(file); // Convert the file to base64 URL
   }
 });
-
-const EditBiodata = document.getElementById("EditBiodata");

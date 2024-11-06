@@ -60,7 +60,8 @@
 
 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
   <% products.forEach(product => { %>
-    <a href="/category/<%= product.category %>/product/<%= product.id %>"
+    <a 
+      href="/product/<%= product.id %>"
       class="card bg-white border rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105">
       <img src="<%= product.thumbnail %>" alt="<%= product.title %>" class="h-48 w-full object-contain p-2" />
       <div class="p-4 text-center">
