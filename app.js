@@ -14,6 +14,7 @@ const ProductController = require("./app/controllers/ProductController");
 const guest = require("./app/middlewares/guest");
 const auth = require("./App/Middlewares/auth");
 const ProfileController = require("./app/controllers/ProfileController");
+const TopupController = require("./app/controllers/TopupController");
 
 const app = express();
 const port = 3002;
@@ -50,6 +51,7 @@ const aboutController = new AboutController();
 const categoryController = new CategoryController();
 const productController = new ProductController();
 const profileController = new ProfileController();
+const topupController = new TopupController();
 
 app.get("/sign-in", guest, (req, res) => {
   loginController.step = 0;
@@ -118,6 +120,9 @@ app.get("/category/:categoryName", auth, (req, res) => {
 });
 app.get("/product/:id", auth, (req, res) => {
   productController.index(req, res);
+});
+app.get("/topup", auth, (req,res) => {
+  topupController.index(req,res);
 });
 app.get("/upload", (req, res) => {
   res.send(`
