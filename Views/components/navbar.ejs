@@ -248,7 +248,7 @@
               class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-white overflow-hidden flex items-center justify-center shadow-md bg-white dark:bg-neutral-800"
             >
               <img
-                src="/img/profile.webp"
+                src="<%= user.profile_pic || '/img/profile.webp' %>"
                 alt="profile"
                 class="w-full h-full object-cover"
               />
@@ -272,7 +272,7 @@
             <!-- Profile Picture and Basic Info -->
             <a href="/profile" class="flex items-center mb-3">
               <img
-                class="w-12 h-12 rounded-full border-2 shadow-sm border-gray-600"
+                class="w-12 h-12 object-cover rounded-full border-2 shadow-sm border-gray-600"
                 src="<%= user.profile_pic || '/img/profile.webp' %>"
                 alt="Profile Picture"
               />
@@ -411,11 +411,9 @@
           <div
             class="rounded-full overflow-hidden flex items-center justify-center w-12 h-12 shadow-md bg-white dark:bg-neutral-800"
           >
-            <img
-              src="/img/profile.webp"
-              alt="profile"
-              class="w-full h-full object-cover"
-            />
+            <img src="<%= req.isAuthenticated ? user.profile_pic ||
+            '/img/profile.webp' : "/img/profile.webp"%>" alt="profile"
+            class="w-full h-full object-cover" />
           </div>
 
           <!-- Text Content -->

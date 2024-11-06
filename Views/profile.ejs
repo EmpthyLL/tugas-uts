@@ -11,7 +11,7 @@
 
   <!-- Profile Picture and Name -->
   <div class="flex items-center mb-8">
-    <img src="<%= user.profile_pic || '/img/profile.webp' %>" alt="Profile Picture" class="w-28 h-28 rounded-full border-4 border-green-500 shadow-md" />
+    <img src="<%= user.profile_pic || '/img/profile.webp' %>" alt="Profile Picture" class="w-28 h-28 object-cover rounded-full border-4 border-green-500 shadow-md" />
     <div class="ml-6">
       <h2 class="text-3xl font-bold text-gray-900 dark:text-white flex items-center">
         <%= user.fullname %>
@@ -109,7 +109,7 @@
   <div class="hs-overlay-animation-target hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 opacity-0 ease-in-out transition-all duration-200 sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center">
     <div class="w-full flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto dark:bg-neutral-800 dark:border-neutral-700 dark:shadow-neutral-700/70">
       <div class="flex justify-between items-center py-3 px-4 border-b dark:border-neutral-700">
-        <h3 id="editProfileModal-label" class="font-bold text-gray-800 dark:text-white">Edit Profile</h3>
+        <h3 id="editProfileModal-label" class="font-bold text-gray-800 text-xl dark:text-white">Edit Biodata</h3>
         <button type="button" class="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-neutral-400 dark:focus:bg-neutral-600" aria-label="Close" data-hs-overlay="#editProfileModal">
           <span class="sr-only">Close</span>
           <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -119,14 +119,14 @@
         </button>
       </div>
       <div class="p-4 overflow-y-auto">
-        <form action="/profile/biodata=PUT" id="editBiodata" method="post" enctype="multipart/form-data">
+        <form action="/profile/biodata?_method=PUT" id="editBiodata" method="post" enctype="multipart/form-data">
           <div class="mb-4 relative">
             <label class="block text-gray-700 dark:text-gray-300 text-lg font-bold mb-2" for="profile_pic">Profile Picture</label>
             <div class="relative">
               <input type="file" name="profile_pic" id="profile_pic" class="hidden" accept="image/*" />
               <label for="profile_pic" class="cursor-pointer">
                 <div class="w-32 h-32 flex items-center justify-center border-2 border-dashed border-gray-300 dark:border-neutral-600 rounded-full overflow-hidden relative group">
-                  <img id="profilePicture" src="<%= user.profile_pic_url || '/img/profile.webp' %>" alt="Profile Picture" class="w-full h-full object-cover rounded-full" />
+                  <img id="profilePicture" src="<%= user.profile_pic || '/img/profile.webp' %>" alt="Profile Picture" class="w-full h-full object-cover rounded-full" />
                   <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black bg-opacity-50">
                     <span class="flex flex-col items-center text-white">
                       <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-camera"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
@@ -151,9 +151,9 @@
               <svg xmlns="http://www.w3.org/2000/svg" class="mx-2 text-gray-400" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-user-round"><path d="M18 21a6 6 0 0 0-12 0"/><circle cx="12" cy="11" r="4"/><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
               <select name="gender" data-original="<%= user.gender %>" id="gender" class="w-full p-2 border-0  rounded-r-md border-l border-gray-300 focus:outline-none focus:ring-2 focus:ring-lime-500 dark:bg-gray-700 dark:text-white">
                 <option class="" value="" <%= user.gender === null ? 'selected' : '' %>>Select Gender</option>
-                <option value="male" <%= user.gender === 'male' ? 'selected' : '' %>>Male</option>
-                <option value="female" <%= user.gender === 'female' ? 'selected' : '' %>>Female</option>
-                <option value="female" <%= user.gender === 'other' ? 'selected' : '' %>>Other</option>
+                <option value="Male" <%= user.gender === 'Male' ? 'selected' : '' %>>Male</option>
+                <option value="Female" <%= user.gender === 'Female' ? 'selected' : '' %>>Female</option>
+                <option value="Other" <%= user.gender === 'Other' ? 'selected' : '' %>>Other</option>
               </select>
             </div>
           </div>
@@ -182,7 +182,7 @@
   <div class="hs-overlay-animation-target hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 opacity-0 transition-all duration-200 flex items-center justify-center min-h-screen">
     <div class="w-full max-w-md bg-white border shadow-lg rounded-xl pointer-events-auto dark:bg-neutral-800 dark:border-neutral-700">
       <div class="flex justify-between items-center p-4 border-b dark:border-neutral-700">
-        <h3 id="editEmailModal-label" class="text-lg font-semibold text-gray-800 dark:text-white">Edit Email</h3>
+        <h3 id="editEmailModal-label" class="text-lg font-semibold text-gray-800 dark:text-white">Edit Email Address</h3>
         <button type="button" class="inline-flex items-center justify-center p-2 rounded-full text-gray-600 hover:bg-gray-200 dark:hover:bg-neutral-600" aria-label="Close" data-hs-overlay="#editEmailModal">
           <span class="sr-only">Close</span>
           <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
@@ -191,7 +191,7 @@
         </button>
       </div>
       <div class="p-6">
-        <form action="/profile/email?_method=PUT" method="post" id="editEmail" novalidate>
+        <form action="/profile/verify-email?_method=PUT" method="post" id="editEmail" novalidate>
           <div class="mb-4">
             <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Email Address</label>
             <div class="flex items-center border border-gray-300 rounded-md dark:border-neutral-600" id="emailSection">
@@ -230,7 +230,7 @@
         </button>
       </div>
       <div class="p-6">
-        <form action="/profile/phone?_method=PUT" method="post" id="editPhone" novalidate>
+        <form action="/profile/verify-number?_method=PUT" method="post" id="editPhone" novalidate>
           <div class="mb-4">
             <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Phone Number</label>
             <div class="flex items-center border border-gray-300 rounded-md dark:border-neutral-600" id="no_hpSection">
@@ -254,4 +254,70 @@
     </div>
   </div>
 </div>
+
+<div id="successModal" class="fixed inset-0 items-center justify-center bg-gray-800 bg-opacity-50 hidden animate-fadeIn">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+    <!-- Lottie Check Animation -->
+    <div class="flex justify-center mb-4">
+      <lottie-player src="https://lottie.host/84c3eccc-dfd2-4e9c-97e0-f6f83b8cfa3c/xJNoCodpPq.json" 
+                     background="transparent" 
+                     speed="1" 
+                     style="width: 80px; height: 80px;" 
+                     autoplay></lottie-player>
+    </div>
+    <p class="text-green-600 font-semibold text-lg" id="successText"><%= success %></p>
+    <button id="closeSuccess" 
+            class="mt-6 bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-full shadow-md transition duration-300">
+      Close
+    </button>
+  </div>
+</div>
+<div id="failedModal" class="fixed inset-0 items-center justify-center bg-gray-800 bg-opacity-50 hidden animate-fadeIn">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+    <!-- Lottie Check Animation -->
+    <div class="flex justify-center mb-4">
+      <lottie-player src="https://lottie.host/dfe8a85b-7ffb-4fdf-b083-ad9cd0fe56da/oc2UgEy8Ox.json" 
+                     background="transparent" 
+                     speed="1" 
+                     style="width: 80px; height: 80px;" 
+                     autoplay></lottie-player>
+    </div>
+    <p class="text-red-600 font-semibold text-lg" id="errorText"><%= error %></p>
+    <button id="closeFailed" 
+            class="mt-6 bg-red-600 hover:bg-red-700 text-white py-2 px-6 rounded-full shadow-md transition duration-300">
+      Close
+    </button>
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const successMessage = "<%= success %>";
+
+    if (successMessage) {
+      // Show the success modal
+      document.getElementById("successModal").classList.remove("hidden");
+      document.getElementById("successModal").classList.add("flex");
+      document.getElementById("failedModal").innerHTML = successMessage;
+    }
+
+    // Close modal on button click
+    document.getElementById("closeSuccess").addEventListener("click", function() {
+      document.getElementById("successModal").classList.add("hidden");
+      document.getElementById("successModal").classList.remove("flex");
+    });
+
+    const errorMessage = "<%= error %>";
+
+    if (errorMessage) {
+      document.getElementById("failedModal").classList.remove("hidden");
+      document.getElementById("failedModal").classList.add("flex");
+      document.getElementById("errorText").classList.add("flex");
+    }
+
+    document.getElementById("closeFailed").addEventListener("click", function() {
+      document.getElementById("failedModal").classList.add("hidden");
+      document.getElementById("failedText").innerHTML = errorMessage;
+    });
+  });
+</script>
 <script src="/js/profile.js"></script>

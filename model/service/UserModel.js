@@ -71,29 +71,14 @@ class UserModel extends Model {
     return token;
   }
 
-  addToCart(userId, product) {
-    const user = this.users.find((user) => user.uuid === userId);
-    if (!user) throw new Error("User not found.");
-
-    user.cart.push(product);
-    this.saveUsers();
-  }
-
-  addToHistory(userId, transaction) {
-    const user = this.users.find((user) => user.uuid === userId);
-    if (!user) throw new Error("User not found.");
-
-    user.history.push(transaction);
-    this.saveUsers();
-  }
-
-  editBasicInfo(userId, { fullname, gender, birth_date }) {
+  editBasicInfo(userId, { profile_pic, fullname, gender, birth_date }) {
     const user = this.getUserByUuid(userId);
+    console.log(userId);
     if (!user) throw new Error("User not found.");
-
+    user.profile_pic = profile_pic || user.profile_pic;
     user.fullname = fullname || user.fullname;
-    user.gender = gender || user.gender;
-    user.birth_date = birth_date || user.birth_date;
+    user.gender = gender;
+    user.birth_date = birth_date;
 
     this.saveData();
   }

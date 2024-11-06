@@ -79,11 +79,17 @@ app.get("/register/input-number", guest, (req, res) => {
 });
 app.get("/register/verify-number", guest, (req, res) => {
   registerController.step = 1;
+  registerController.isEmail = false;
   registerController.index(req, res);
 });
 app.get("/register/user-data", guest, (req, res) => {
   registerController.step = 2;
   registerController.email = "";
+  registerController.index(req, res);
+});
+app.get("/register/verify-email", guest, (req, res) => {
+  registerController.step = 3;
+  registerController.isEmail = true;
   registerController.index(req, res);
 });
 app.post("/register/input-number", guest, (req, res) => {
@@ -93,6 +99,9 @@ app.post("/register/verify-number", guest, (req, res) => {
   registerController.step2(req, res);
 });
 app.post("/register/user-data", guest, (req, res) => {
+  registerController.step3(req, res);
+});
+app.post("/register/verify-email", guest, (req, res) => {
   registerController.store(req, res);
 });
 app.get("/", auth, (req, res) => {
@@ -102,16 +111,38 @@ app.get("/about", auth, (req, res) => {
   aboutController.index(req, res);
 });
 app.get("/profile", auth, (req, res) => {
+  profileController.step = 0;
+  profileController.layout = "layout";
   profileController.index(req, res);
 });
-app.put("/profile/biodata", auth, userPP.single("image"), (req, res) => {
+app.get("/profile/verify-email", auth, (req, res) => {
+  profileController.step = 1;
+  profileController.isEmail = true;
+  profileController.layout = "plain";
+  profileController.index(req, res);
+});
+app.get("/profile/verify-number", auth, (req, res) => {
+  profileController.step = 1;
+  profileController.isEmail = false;
+  profileController.layout = "plain";
+  profileController.index(req, res);
+});
+app.put("/profile/biodata", auth, userPP.single("profile_pic"), (req, res) => {
   profileController.editBiodata(req, res);
 });
+app.put("/profile/verify-email", auth, (req, res) => {
+  profileController.isEmail = true;
+  profileController.verify(req, res);
+});
 app.put("/profile/email", auth, (req, res) => {
+  profileController.editDataEmail(req, res);
+});
+app.put("/profile/verify-number", auth, (req, res) => {
+  profileController.isEmail = false;
   profileController.verify(req, res);
 });
 app.put("/profile/phone", auth, (req, res) => {
-  profileController.verify(req, res);
+  profileController.editDataPhone(req, res);
 });
 app.get("/category/:categoryName", auth, (req, res) => {
   categoryController.index(req, res);

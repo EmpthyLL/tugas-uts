@@ -5,13 +5,14 @@ const Controller = require("./Controller");
 class RegisterController extends Controller {
   constructor() {
     super();
-    this.view = ["input_phone", "verify", "user_data"];
+    this.view = ["input_phone", "verify", "user_data", "verify"];
     this.layout = "plain";
-    this.title = ["Input Phone", "Verify Number", "User Data"];
+    this.title = ["Input Phone", "Verify Number", "User Data", "Verify Email"];
     this.no_hp = "";
     this.email = "";
     this.nama = "";
     this.step = 0;
+    this.isEmail = false;
     this.model = new UserModel();
   }
 
@@ -25,6 +26,8 @@ class RegisterController extends Controller {
         fullname: this.fullname,
         email: this.email,
         login: false,
+        isAuth: true,
+        isEmail: this.isEmail,
       };
       this.renderView(res, this.view[this.step], options);
     } catch (error) {
@@ -49,6 +52,13 @@ class RegisterController extends Controller {
   step2(req, res) {
     this.no_hp = req.body.no_hp;
     res.redirect("/register/user-data");
+  }
+
+  step3(req, res) {
+    this.email = req.body.email;
+    this.fullname = req.body.fullname;
+    this.no_hp = req.body.no_hp;
+    res.redirect("/register/verify-email");
   }
 
   async store(req, res) {
