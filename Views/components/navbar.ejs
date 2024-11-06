@@ -272,8 +272,8 @@
             <!-- Profile Picture and Basic Info -->
             <a href="/profile" class="flex items-center mb-3">
               <img
-                class="w-12 h-12 rounded-full border-2 shadow-sm border-gray-600 dark:border-gray-700"
-                src="/img/profile.webp"
+                class="w-12 h-12 rounded-full border-2 shadow-sm border-gray-600"
+                src="<%= user.profile_pic || '/img/profile.webp' %>"
                 alt="Profile Picture"
               />
               <div class="ml-3">

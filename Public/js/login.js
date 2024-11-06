@@ -5,6 +5,8 @@ function closeAlert() {
 const form = document.getElementById("loginForm");
 const no_hp = document.getElementById("no_hp");
 const no_hpError = document.getElementById("no_hpError");
+const no_hpSection = document.getElementById("no_hpSection");
+const no_hpIcon = document.getElementById("no_hpIcon");
 
 form.addEventListener("submit", (e) => {
   let isValid = true;
@@ -13,6 +15,8 @@ form.addEventListener("submit", (e) => {
     if (!validateno_hp()) {
       isValid = false;
       no_hp.classList.add("border-red-600", "placeholder:text-red-600");
+      no_hpSection.classList.add("border-red-600");
+      no_hpIcon.classList.add("text-red-600");
       no_hpError.classList.remove("hidden");
       no_hpError.innerText = "Phone number is invalid.";
     } else {
@@ -22,6 +26,8 @@ form.addEventListener("submit", (e) => {
   } else {
     isValid = false;
     no_hp.classList.add("border-red-600", "placeholder:text-red-600");
+    no_hpSection.classList.add("border-red-600");
+    no_hpIcon.classList.add("text-red-600");
     no_hpError.classList.remove("hidden");
     no_hpError.innerText = "Phone number is required.";
   }
