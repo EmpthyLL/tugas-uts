@@ -16,16 +16,21 @@ class RegisterController extends Controller {
   }
 
   index(req, res) {
-    const options = {
-      layout: `components/${this.layout}`,
-      title: this.title[this.step],
-      errors: req.flash("errors") || [],
-      no_hp: this.no_hp,
-      fullname: this.fullname,
-      email: this.email,
-      login: false,
-    };
-    this.renderView(res, this.view[this.step], options);
+    try {
+      const options = {
+        layout: `components/${this.layout}`,
+        title: this.title[this.step],
+        errors: req.flash("errors") || [],
+        no_hp: this.no_hp,
+        fullname: this.fullname,
+        email: this.email,
+        login: false,
+      };
+      this.renderView(res, this.view[this.step], options);
+    } catch (error) {
+      console.log(error);
+      this.handleError(res, "Failed to render register page", 500);
+    }
   }
 
   step1(req, res) {
@@ -50,6 +55,7 @@ class RegisterController extends Controller {
     try {
       this.email = req.body.email;
       this.fullname = req.body.fullname;
+      this.no_hp = req.body.no_hp;
 
       const token = await this.model.register({
         fullname: this.fullname,

@@ -10,6 +10,6 @@ input.addEventListener("keydown", function (event) {
 input.addEventListener("input", function () {
   const trimmedValue = this.value.trim();
   if (trimmedValue === "") {
-    form.submit();
+    form.onsubmit();
   }
 });
