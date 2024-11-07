@@ -1,15 +1,18 @@
 const { default: axios } = require("axios");
 const Controller = require("./Controller");
+const getAuthUser = require("../../utils/user");
 
 class ProductController extends Controller {
   constructor() {
     super();
     this.layout = "layout";
+    this.user = {};
   }
 
   // Render standalone product page (productDetail.ejs)
   async index(req, res) {
     try {
+      this.user = getAuthUser(req);
       const id = req.params.id;
 
       const response = await axios(`https://dummyjson.com/products/${id}`);
@@ -33,7 +36,8 @@ class ProductController extends Controller {
         product,
         relatedProducts: limitedRelatedProducts,
         keyword: "",
-        categoryName: product.category.toLowerCase().replace(/\s+/g, '-') 
+        user: this.user,
+        categoryName: product.category.toLowerCase().replace(/\s+/g, "-"),
       };
 
       this.renderView(res, "productDetail", options);
@@ -69,7 +73,7 @@ class ProductController extends Controller {
         product,
         relatedProducts: limitedRelatedProducts,
         keyword: "",
-        categoryName: categoryName.toLowerCase().replace(/\s+/g, '-') 
+        categoryName: categoryName.toLowerCase().replace(/\s+/g, "-"),
       };
 
       this.renderView(res, "productDetail", options);
