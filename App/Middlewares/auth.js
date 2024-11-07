@@ -1,21 +1,19 @@
 const jwt = require("jsonwebtoken");
-const MemberStatus = require("../../utils/check_member");
 const SECRET_KEY = "T0l0NGj4g4Rahasia";
 
 async function auth(req, res, next) {
-  const token = req.cookies.auth_token;
-  req.isAuthenticated = false;
-
-  if (!token) {
-    if (req.url.startsWith("/profile")) {
-      res.redirect("/");
-    }
-    return next();
-  }
-
   try {
-    const decode = jwt.verify(token, SECRET_KEY);
-    MemberStatus(decode);
+    const token = req.cookies.auth_token;
+    req.isAuthenticated = false;
+
+    if (!token) {
+      if (req.url.startsWith("/profile")) {
+        res.redirect("/");
+      }
+      return next();
+    }
+
+    jwt.verify(token, SECRET_KEY);
     req.isAuthenticated = true;
 
     next();
