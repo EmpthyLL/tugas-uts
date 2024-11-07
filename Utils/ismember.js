@@ -1,18 +1,15 @@
 const UserModel = require("../model/service/UserModel");
+const getAuthUser = require("./user");
 
-function MemberStatus(uuid) {
+function isMember() {
   try {
+    const user = getAuthUser(req);
     const model = new UserModel();
 
-    if (token) {
-      model.checkMembership(uuid);
-      return true;
-    }
-
-    return 0;
+    model.checkMembership(uuid);
   } catch (error) {
     console.error("Failed to get authenticated user:", error.message);
   }
 }
 
-module.exports = MemberStatus;
+module.exports = isMember;

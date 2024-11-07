@@ -109,6 +109,7 @@ class UserModel extends Model {
 
     user.member = isMember;
     this.saveData();
+    return user.member;
   }
 }
 
