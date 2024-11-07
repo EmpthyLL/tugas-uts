@@ -6,6 +6,7 @@ class CategoryController extends Controller {
   constructor() {
     super();
     this.layout = "layout";
+    this.user = {};
   }
 
   async index(req, res) {

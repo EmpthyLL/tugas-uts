@@ -104,11 +104,13 @@ class UserModel extends Model {
     if (!user) throw new Error("User not found.");
 
     const now = new Date();
-    const isMember =
+    const isMemberValid =
       user.member && (!user.member_until || new Date(user.member_until) > now);
 
-    user.member = isMember;
-    this.saveData();
+    if (user.member !== isMemberValid) {
+      user.member = isMemberValid;
+      this.saveData();
+    }
     return user.member;
   }
 }

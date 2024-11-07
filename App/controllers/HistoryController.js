@@ -1,20 +1,24 @@
+const getAuthUser = require("../../utils/user");
 const Controller = require("./Controller");
 
 class History extends Controller {
   constructor() {
     super();
-    this.view = "about";
+    this.view = "history";
     this.layout = "layout";
-    this.title = "Add To Cart";
+    this.title = "Order History";
+    this.user = {};
   }
   index(req, res) {
     try {
+      this.user = getAuthUser(req);
       const options = {
         layout: `components/${this.layout}`,
         title: this.title,
         req,
         menus: this.menus,
         keyword,
+        user: this.user,
       };
 
       this.renderView(res, this.view, options);

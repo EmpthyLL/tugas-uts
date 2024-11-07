@@ -12,6 +12,7 @@ class ProductController extends Controller {
   async index(req, res) {
     try {
       this.user = getAuthUser(req);
+
       const id = req.params.id;
 
       const response = await axios(`https://dummyjson.com/products/${id}`);
