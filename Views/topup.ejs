@@ -27,43 +27,86 @@
               placeholder="Enter amount">
           </div>
 
+
           <div class="flex justify-between">
-            <button class="border-none rounded-3xl mt-20 bg-gray-300 w-28 text-lg font-bold h-10 text-center flex items-center justify-center focus:outline-none focus:border-lime-500 focus:ring-2 focus:ring-lime-500">
-              9,5
+            <button id="first"
+              class="border-none rounded-3xl mt-16 bg-gray-300 w-28 text-lg font-bold h-10 text-center flex items-center justify-center focus:outline-none focus:border-lime-500 focus:ring-2 focus:ring-lime-500">
+              18.5k
             </button>
-            <button class="border-none rounded-3xl mt-20 bg-gray-300 w-28 text-lg font-bold h-10 text-center flex items-center justify-center focus:outline-none focus:border-lime-500 focus:ring-2 focus:ring-lime-500">
-              18,5
+            <button id="second"
+              class="border-none rounded-3xl mt-16 bg-gray-300 w-28 text-lg font-bold h-10 text-center flex items-center justify-center focus:outline-none focus:border-lime-500 focus:ring-2 focus:ring-lime-500">
+              48.5k
             </button>
-            <button class="border-none rounded-3xl mt-20 bg-gray-300 w-28 text-lg font-bold h-10 text-center flex items-center justify-center focus:outline-none focus:border-lime-500 focus:ring-2 focus:ring-lime-500">
-              181,5
-            </button> 
-          </div>
-          
-          <div class="flex justify-between">
-            <button class="border-none rounded-3xl mt-10 bg-gray-300 w-28 text-lg font-bold h-10 text-center flex items-center justify-center focus:outline-none focus:border-lime-500 focus:ring-2 focus:ring-lime-500">
-              9,5
-            </button>
-            <button class="border-none rounded-3xl mt-10 bg-gray-300 w-28 text-lg font-bold h-10 text-center flex items-center justify-center focus:outline-none focus:border-lime-500 focus:ring-2 focus:ring-lime-500">
-              18,5
-            </button>
-            <button class="border-none rounded-3xl mt-10 bg-gray-300 w-28 text-lg font-bold h-10 text-center flex items-center justify-center focus:outline-none focus:border-lime-500 focus:ring-2 focus:ring-lime-500">
-              181,5
+            <button id="third"
+              class="border-none rounded-3xl mt-16 bg-gray-300 w-28 text-lg font-bold h-10 text-center flex items-center justify-center focus:outline-none focus:border-lime-500 focus:ring-2 focus:ring-lime-500">
+              98.5k
             </button>
           </div>
-  
-        </div>
-      </div>
-    </div>    
+
+          <div class="flex justify-between">
+            <button id="fourth"
+              class="border-none rounded-3xl mt-10 bg-gray-300 w-28 text-lg font-bold h-10 text-center flex items-center justify-center focus:outline-none focus:border-lime-500 focus:ring-2 focus:ring-lime-500">
+              198.5k
+            </button>
+            <button id="fifth"
+              class="border-none rounded-3xl mt-10 bg-gray-300 w-28 text-lg font-bold h-10 text-center flex items-center justify-center focus:outline-none focus:border-lime-500 focus:ring-2 focus:ring-lime-500">
+              298.5k
+            </button>
+            <button id="sixth"
+              class="border-none rounded-3xl mt-10 bg-gray-300 w-28 text-lg font-bold h-10 text-center flex items-center justify-center focus:outline-none focus:border-lime-500 focus:ring-2 focus:ring-lime-500">
+              498.5k
+            </button>
+          </div>
 
         </div>
       </div>
-    </div>    
-
-    <div id="bar-with-underline-2" class="hidden" role="tabpanel" aria-labelledby="bar-with-underline-item-2">
-      <p class="text-gray-500 dark:text-neutral-400">
-        This is the <em class="font-semibold text-gray-800 dark:text-neutral-200">second</em> item's tab body.
-      </p>
     </div>
+
   </div>
+</div>
+
+
+<div id="bar-with-underline-2" class="hidden" role="tabpanel" aria-labelledby="bar-with-underline-item-2">
+  <p class="text-gray-500 dark:text-neutral-400">
+    This is the <em class="font-semibold text-gray-800 dark:text-neutral-200">second</em> item's tab body.
+  </p>
+</div>
+</div>
 
 </div>
+
+<script>
+  const amount = document.getElementById('amount');
+  let first = document.getElementById('first');
+  let second = document.getElementById('second');
+  let third = document.getElementById('third');
+  let fourth = document.getElementById('fourth');
+  let fifth = document.getElementById('fifth');
+  let sixth = document.getElementById('sixth');
+
+  amount.addEventListener('input', function () {
+    let value = amount.value.replace(/\./g, '');
+    if (value) {
+        amount.value = parseInt(value, 10).toLocaleString('id-ID');
+    }
+});
+
+  first.addEventListener('click', function () {
+    amount.value = (18500).toLocaleString('id-ID');
+  })
+  second.addEventListener('click', function () {
+    amount.value = (48500).toLocaleString('id-ID');
+  })
+  third.addEventListener('click', function () {
+    amount.value = (98500).toLocaleString('id-ID');
+  })
+  fourth.addEventListener('click', function () {
+    amount.value = (198500).toLocaleString('id-ID');
+  })
+  fifth.addEventListener('click', function () {
+    amount.value = (298500).toLocaleString('id-ID');
+  })
+  sixth.addEventListener('click', function () {
+    amount.value = (498500).toLocaleString('id-ID');
+  })
+</script>
