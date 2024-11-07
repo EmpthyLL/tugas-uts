@@ -1,3 +1,4 @@
+const getAuthUser = require("../../utils/user");
 const Controller = require("./Controller");
 
 class AboutController extends Controller {
@@ -6,9 +7,11 @@ class AboutController extends Controller {
     this.view = "about";
     this.layout = "layout";
     this.title = "About Us";
+    this.user = {};
   }
   index(req, res) {
     try {
+      this.user = getAuthUser(req);
       const options = {
         layout: `components/${this.layout}`,
         title: this.title,
