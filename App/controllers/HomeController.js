@@ -1,6 +1,7 @@
 const { default: axios } = require("axios");
 const Controller = require("./Controller");
 const getAuthUser = require("../../utils/user");
+const formatDate = require("../../utils/formateDate");
 
 class HomeController extends Controller {
   constructor() {
@@ -55,11 +56,7 @@ class HomeController extends Controller {
         totalItem: this.totalItem,
         page: this.page,
         user: this.user,
-        formatDate(dateString) {
-          const options = { year: "numeric", month: "long", day: "2-digit" };
-          const date = new Date(dateString);
-          return date.toLocaleDateString("en-US", options);
-        },
+        formatDate,
       };
       this.renderView(res, this.view, options);
     } catch (error) {

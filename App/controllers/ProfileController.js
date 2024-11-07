@@ -1,4 +1,5 @@
 const UserModel = require("../../model/service/UserModel");
+const formatDate = require("../../utils/formateDate");
 const getAuthUser = require("../../utils/user");
 const Controller = require("./Controller");
 const fs = require("fs");
@@ -36,6 +37,7 @@ class ProfileController extends Controller {
         isEmail: this.isEmail,
         no_hp: this.no_hp,
         email: this.email,
+        formatDate,
       };
 
       this.renderView(res, this.view[this.step], options);

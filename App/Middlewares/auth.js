@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const MemberStatus = require("../../utils/check_member");
 const SECRET_KEY = "T0l0NGj4g4Rahasia";
 
 async function auth(req, res, next) {
@@ -13,8 +14,8 @@ async function auth(req, res, next) {
   }
 
   try {
-    jwt.verify(token, SECRET_KEY);
-
+    const decode = jwt.verify(token, SECRET_KEY);
+    MemberStatus(decode);
     req.isAuthenticated = true;
 
     next();

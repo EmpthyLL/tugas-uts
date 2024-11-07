@@ -24,6 +24,10 @@ class CategoryController extends Controller {
       // Get products and apply filters/sorting
       let products = response.data.products;
 
+      if (!products || Object.keys(products).length === 0) {
+        throw new Error("No results found.");
+      }
+
       // Filter by brand if selected
       if (selectedBrand) {
         products = products.filter(
@@ -72,7 +76,12 @@ class CategoryController extends Controller {
       this.renderView(res, categoryName ? "category" : "index", options);
     } catch (error) {
       console.log(error);
-      this.handleError(res, "Failed to render category page", 500);
+      if (error.message === "No results found.") {
+        this.handleError(res, "Category is not available", 404);
+      } else {
+        console.log(error.message);
+        this.handleError(res, "Failed to render category page", 500);
+      }
     }
   }
 }

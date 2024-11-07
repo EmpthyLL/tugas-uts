@@ -109,6 +109,7 @@ app.post("/register/verify-email", guest, (req, res) => {
   registerController.store(req, res);
 });
 app.get("/", auth, (req, res) => {
+  homeController.search === "";
   homeController.index(req, res);
 });
 app.get("/about", auth, (req, res) => {
@@ -154,28 +155,8 @@ app.get("/category/:categoryName", auth, (req, res) => {
 app.get("/product/:id", auth, (req, res) => {
   productController.index(req, res);
 });
-app.get("/topup", auth, (req,res) => {
-  topupController.index(req,res);
-});
-app.get("/upload", (req, res) => {
-  res.send(`
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-      <input type="file" name="image" accept="image/*" required />
-      <button type="submit">Upload Image</button>
-    </form>
-  `);
-});
-
-// Route to handle image upload
-app.post("/upload", userPP.single("image"), (req, res) => {
-  if (!req.file) {
-    return res.status(400).send("No file uploaded.");
-  }
-
-  // Successfully uploaded
-  res.send(
-    `Image uploaded successfully: <a href="/uploads/ProfilePic/${req.file.filename}">View Image</a>`
-  );
+app.get("/topup", auth, (req, res) => {
+  topupController.index(req, res);
 });
 
 app.use((req, res) => {
