@@ -13,7 +13,7 @@ include('./components/categories') %>
     >
       <% item.products.forEach(product => { %>
       <div
-        class="card bg-white border rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105 relative"
+        class="card bg-white border rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105 flex flex-col"
       >
         <a href="/product/<%= product.id %>" class="block">
           <img
@@ -22,24 +22,21 @@ include('./components/categories') %>
             class="h-48 w-full object-contain p-2"
           />
           <div class="p-4 text-center">
-            <h3 class="font-semibold text-lg mb-1"><%= product.title %></h3>
+            <h3 class="font-semibold text-lg mb-1 h-12 line-clamp-2">
+              <%= product.title %>
+            </h3>
           </div>
         </a>
-
-        <div class="flex items-center justify-between p-4">
+        <div class="flex items-end justify-between p-4 mt-auto">
           <p class="text-gray-800 font-semibold text-lg">
             Rp <%= Math.floor(product.price * 15000).toLocaleString("id-ID") %>
           </p>
-          <div
-            id="quantity-<%= product.id %>"
-            class="flex items-center space-x-2"
-          >
-            <!-- Initial Add Button -->
+          <% if (req.isAuthenticated) { %>
+          <div id="quantity-<%= product.id %>" class="flex items-end space-x-2">
             <button
               onclick="addQuantity(event, '<%= product.id %>')"
               class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center transition hover:bg-blue-600 shadow-md"
             >
-              <!-- Plus Icon -->
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -57,6 +54,7 @@ include('./components/categories') %>
               </svg>
             </button>
           </div>
+          <% } %>
         </div>
       </div>
       <% }) %>

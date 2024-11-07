@@ -5,11 +5,12 @@
     "no_hp": "049374341324",
     "email": "javileh40@gmail.com",
     "gender": null,
-    "birth_date": null,
+    "birth_date": "2005-06-18",
     "profile_pic": "/img/uploads/ProfilePic/1730942577840.jpg",
     "balance": 0,
     "member": false,
     "member_since": null,
+    "member_until": null,
     "cart": [],
     "history": [],
     "notification": []
@@ -40,6 +41,7 @@
     "balance": 0,
     "member": false,
     "member_since": null,
+    "member_until": null,
     "cart": [],
     "history": [],
     "notification": []
@@ -50,11 +52,12 @@
     "no_hp": "0596487535",
     "email": "mangkurawa.far586@gmail.com",
     "gender": null,
-    "birth_date": null,
+    "birth_date": "2004-07-29",
     "profile_pic": null,
     "balance": 0,
     "member": false,
     "member_since": null,
+    "member_until": null,
     "cart": [],
     "history": [],
     "notification": []
@@ -70,6 +73,7 @@
     "balance": 0,
     "member": false,
     "member_since": null,
+    "member_until": null,
     "cart": [],
     "history": [],
     "notification": []
@@ -85,6 +89,7 @@
     "balance": 0,
     "member": false,
     "member_since": null,
+    "member_until": null,
     "cart": [],
     "history": [],
     "notification": []
@@ -100,6 +105,7 @@
     "balance": 0,
     "member": false,
     "member_since": null,
+    "member_until": null,
     "cart": [],
     "history": [],
     "notification": []

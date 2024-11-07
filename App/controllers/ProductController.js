@@ -9,7 +9,6 @@ class ProductController extends Controller {
     this.user = {};
   }
 
-  // Render standalone product page (productDetail.ejs)
   async index(req, res) {
     try {
       this.user = getAuthUser(req);
@@ -17,6 +16,10 @@ class ProductController extends Controller {
 
       const response = await axios(`https://dummyjson.com/products/${id}`);
       const product = response.data;
+
+      if (!product || Object.keys(product).length === 0) {
+        throw new Error("No results found.");
+      }
 
       const relatedResponse = await axios(
         `https://dummyjson.com/products/category/${product.category}`
@@ -42,12 +45,16 @@ class ProductController extends Controller {
 
       this.renderView(res, "productDetail", options);
     } catch (error) {
-      console.error("Error fetching product data:", error);
-      this.handleError(res, "Failed to render product page", 500);
+      console.log(error.message);
+      if (error.message === "Request failed with status code 404") {
+        this.handleError(res, "Product is not available", 404);
+      } else {
+        console.log(error.message);
+        this.handleError(res, "Failed to render product page", 500);
+      }
     }
   }
 
-  // Render product page within a category context (detailCategory.ejs)
   async productInCategory(req, res) {
     try {
       const { categoryName, id } = req.params;
@@ -79,7 +86,7 @@ class ProductController extends Controller {
       this.renderView(res, "productDetail", options);
     } catch (error) {
       console.error("Error fetching product data:", error);
-      this.handleError(res, "Failed to render product page", 500);
+      this.handleError(res, error.message, 500);
     }
   }
 }

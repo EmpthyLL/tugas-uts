@@ -41,7 +41,7 @@
       </div>
       <% } else { %>
       <div class="md:flex hidden gap-10 items-center justify-end">
-        <div class="flex items-start gap-4">
+        <div class="flex items-start gap-5">
           <% menus.forEach(menu=> { %> <% if (menu.href) { %>
           <a
             data-popover-placement="bottom"
@@ -68,7 +68,7 @@
             data-popover
             id="<%= menu.title %>Big"
             role="tooltip"
-            class="absolute z-10 invisible inline-block w-80 max-h-96 overflow-y-auto text-sm text-gray-700 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 dark:text-gray-300 dark:border-gray-700 dark:bg-gray-800"
+            class="absolute z-10 invisibleinline-block w-80 max-h-96 overflow-y-auto text-sm text-gray-700 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 dark:text-gray-300 dark:border-gray-700 dark:bg-gray-800"
           >
             <!-- Header -->
             <div
@@ -85,149 +85,92 @@
               </div>
             </div>
 
-            <!-- Notification List -->
-            <div class="divide-y divide-gray-200 dark:divide-gray-700">
-              <!-- Canceled Order Notification -->
-              <div
-                class="flex items-start px-4 py-3 space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
-              >
-                <div
-                  class="flex-shrink-0 bg-red-100 text-red-500 p-2 rounded-full"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="w-5 h-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
+            <div class="p-4 space-y-4 min-h-36">
+              <!-- Cart Section -->
+              <% if (menu.title === "Cart") { %>
+              <div>
+                <% if (user.cart.length > 0) { %>
+                <div class="space-y-2">
+                  <% user.cart.forEach(item => { %>
+                  <div class="flex items-center space-x-3">
+                    <img
+                      src="<%- item.image %>"
+                      alt="Product Image"
+                      class="w-12 h-12 rounded-md"
                     />
-                  </svg>
+                    <div class="flex-grow">
+                      <p
+                        class="text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        <%- item.name %>
+                      </p>
+                      <p class="text-xs text-gray-500 dark:text-gray-400">
+                        Qty: <%- item.quantity %>
+                      </p>
+                      <p class="text-sm text-lime-400 font-semibold">
+                        $<%- item.price %>
+                      </p>
+                    </div>
+                  </div>
+                  <% }) %>
                 </div>
-                <div>
-                  <p class="font-medium text-gray-900 dark:text-white">
-                    Order Canceled
-                  </p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400">
-                    Unfortunately, your order #12346 has been canceled.
-                  </p>
-                  <span class="text-xs text-gray-400 dark:text-gray-500"
-                    >3 hours ago</span
-                  >
-                </div>
+                <% } else { %>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  Your cart is empty.
+                </p>
+                <% } %>
               </div>
 
-              <!-- Order Shipped Notification -->
-              <div
-                class="flex items-start px-4 py-3 space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
-              >
-                <div
-                  class="flex-shrink-0 bg-blue-100 text-blue-500 p-2 rounded-full"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="w-5 h-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 12l2 2 4-4M7 7h.01M12 7h.01M17 7h.01M7 11h10M7 15h10M12 15h.01M7 19h10M3 3v18h18V3H3z"
-                    />
-                  </svg>
+              <!-- History Section -->
+              <% } else if (menu.title === "History") { %>
+              <div>
+                <% if (user.history.length > 0) { %>
+                <div class="space-y-2">
+                  <% user.history.forEach(item => { %>
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p
+                        class="text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        <%- item.date %>
+                      </p>
+                      <p class="text-xs text-gray-500 dark:text-gray-400">
+                        <%- item.status %>
+                      </p>
+                    </div>
+                    <div class="text-gray-500"><%= item.statusIcon %></div>
+                  </div>
+                  <% }) %>
                 </div>
-                <div>
-                  <p class="font-medium text-gray-900 dark:text-white">
-                    Order Shipped
-                  </p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400">
-                    Your order #12345 has been shipped.
-                  </p>
-                  <span class="text-xs text-gray-400 dark:text-gray-500"
-                    >6 hours ago</span
-                  >
-                </div>
+                <% } else { %>
+                <p class="text-sm text-gray-500 flex dark:text-gray-400">
+                  You haven't done any order.
+                </p>
+                <% } %>
               </div>
 
-              <!-- Promo Notification -->
-              <div
-                class="flex items-start px-4 py-3 space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
-              >
-                <div
-                  class="flex-shrink-0 bg-green-100 text-green-500 p-2 rounded-full"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="w-5 h-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 12l2 2 4-4m0-2a5 5 0 110-10 5 5 0 010 10zM15 12l2-2m-2 2l-2 2m6-4h.01M17 7h.01"
-                    />
-                  </svg>
+              <!-- Notification Section -->
+              <% } else if (menu.title === "Notifications") { %>
+              <div>
+                <% if (user.notification.length > 0) { %>
+                <div class="space-y-2">
+                  <% user.notification.forEach(notification => { %>
+                  <div class="flex items-center space-x-3">
+                    <div class="text-lime-400"><%= notification.icon %></div>
+                    <p class="text-sm text-gray-900 dark:text-white">
+                      <%- notification.message %>
+                    </p>
+                  </div>
+                  <% }) %>
                 </div>
-                <div>
-                  <p class="font-medium text-gray-900 dark:text-white">
-                    New Discount Available
-                  </p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400">
-                    Use code GOMART10 to save 10% on your next purchase.
-                  </p>
-                  <span class="text-xs text-gray-400 dark:text-gray-500"
-                    >1 day ago</span
-                  >
-                </div>
+                <% } else { %>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  No notifications yet. Stay tuned!
+                </p>
+                <% } %>
               </div>
 
-              <!-- Order Delivered Notification -->
-              <div
-                class="flex items-start px-4 py-3 space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
-              >
-                <div
-                  class="flex-shrink-0 bg-yellow-100 text-yellow-500 p-2 rounded-full"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="w-5 h-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 12l2 2 4-4M3 3v18h18V3H3z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <p class="font-medium text-gray-900 dark:text-white">
-                    Order Delivered
-                  </p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400">
-                    Your order #12344 has been delivered.
-                  </p>
-                  <span class="text-xs text-gray-400 dark:text-gray-500"
-                    >2 days ago</span
-                  >
-                </div>
-              </div>
-
-              <!-- More notifications as needed -->
+              <% } %>
             </div>
 
             <!-- Popover Arrow -->
@@ -500,148 +443,24 @@
             </div>
 
             <!-- Notification List -->
-            <div class="divide-y divide-gray-200 dark:divide-gray-700">
-              <!-- Canceled Order Notification -->
-              <div
-                class="flex items-start px-4 py-3 space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
-              >
-                <div
-                  class="flex-shrink-0 bg-red-100 text-red-500 p-2 rounded-full"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="w-5 h-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <p class="font-medium text-gray-900 dark:text-white">
-                    Order Canceled
+            <div>
+              <h4 class="font-semibold text-lg mb-2">Notifications</h4>
+              <% if (user.notification.length > 0) { %>
+              <div class="space-y-2">
+                <% user.notification.forEach(notification => { %>
+                <div class="flex items-center space-x-3">
+                  <div class="text-lime-400"><%= notification.icon %></div>
+                  <p class="text-sm text-gray-900 dark:text-white">
+                    <%- notification.message %>
                   </p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400">
-                    Unfortunately, your order #12346 has been canceled.
-                  </p>
-                  <span class="text-xs text-gray-400 dark:text-gray-500"
-                    >3 hours ago</span
-                  >
                 </div>
+                <% }) %>
               </div>
-
-              <!-- Order Shipped Notification -->
-              <div
-                class="flex items-start px-4 py-3 space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
-              >
-                <div
-                  class="flex-shrink-0 bg-blue-100 text-blue-500 p-2 rounded-full"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="w-5 h-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 12l2 2 4-4M7 7h.01M12 7h.01M17 7h.01M7 11h10M7 15h10M12 15h.01M7 19h10M3 3v18h18V3H3z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <p class="font-medium text-gray-900 dark:text-white">
-                    Order Shipped
-                  </p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400">
-                    Your order #12345 has been shipped.
-                  </p>
-                  <span class="text-xs text-gray-400 dark:text-gray-500"
-                    >6 hours ago</span
-                  >
-                </div>
-              </div>
-
-              <!-- Promo Notification -->
-              <div
-                class="flex items-start px-4 py-3 space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
-              >
-                <div
-                  class="flex-shrink-0 bg-green-100 text-green-500 p-2 rounded-full"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="w-5 h-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 12l2 2 4-4m0-2a5 5 0 110-10 5 5 0 010 10zM15 12l2-2m-2 2l-2 2m6-4h.01M17 7h.01"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <p class="font-medium text-gray-900 dark:text-white">
-                    New Discount Available
-                  </p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400">
-                    Use code GOMART10 to save 10% on your next purchase.
-                  </p>
-                  <span class="text-xs text-gray-400 dark:text-gray-500"
-                    >1 day ago</span
-                  >
-                </div>
-              </div>
-
-              <!-- Order Delivered Notification -->
-              <div
-                class="flex items-start px-4 py-3 space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
-              >
-                <div
-                  class="flex-shrink-0 bg-yellow-100 text-yellow-500 p-2 rounded-full"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="w-5 h-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 12l2 2 4-4M3 3v18h18V3H3z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <p class="font-medium text-gray-900 dark:text-white">
-                    Order Delivered
-                  </p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400">
-                    Your order #12344 has been delivered.
-                  </p>
-                  <span class="text-xs text-gray-400 dark:text-gray-500"
-                    >2 days ago</span
-                  >
-                </div>
-              </div>
-
-              <!-- More notifications as needed -->
+              <% } else { %>
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                No new notifications.
+              </p>
+              <% } %>
             </div>
 
             <!-- Popover Arrow -->

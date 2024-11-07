@@ -47,7 +47,8 @@
     <div class="border rounded-lg p-4 bg-gray-50 dark:bg-gray-700 shadow-sm">
       <p class="font-semibold text-gray-700 dark:text-gray-300 text-lg">Member Status:</p>
       <% if (user.member) { %>
-        <p class="text-lg font-bold text-emerald-600">Active since <%= user.member_since ? new Date(user.member_since).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) : "N/A" %></p>
+        <p class="text-lg font-bold text-emerald-600">Active since <%= user.member_since ? formatDate(member_since) : "N/A" %></p>
+        <p class="text-lg font-bold text-red-600">Active until <%= user.member_until ? formatDate(member_until) : "N/A" %></p>
       <% } else { %>
         <p class="text-lg font-bold text-red-600">Inactive</p>
         <a href="/become-member" class="inline-block mt-3 px-4 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all duration-200">Become a member</a>
@@ -98,7 +99,7 @@
       <div class="flex justify-between items-center mb-4">
         <div>
           <p class="font-semibold text-gray-700 dark:text-gray-300">Birth Date:</p>
-          <p class="text-base"><%= user.birth_date ? new Date(user.birth_date).toLocaleDateString() : "Not specified" %></p>
+          <p class="text-base"><%= user.birth_date ? formatDate(user.birth_date) : "Not specified" %></p>
         </div>
       </div>
     </div>

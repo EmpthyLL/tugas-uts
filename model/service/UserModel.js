@@ -50,6 +50,7 @@ class UserModel extends Model {
       balance: 0,
       member: false,
       member_since: null,
+      member_until: null,
       cart: [],
       history: [],
       notification: [],
@@ -96,6 +97,17 @@ class UserModel extends Model {
     if (!user) throw new Error("User not found.");
 
     user.no_hp = newPhone;
+    this.saveData();
+  }
+  checkMembership(userId) {
+    const user = this.getUserByUuid(userId);
+    if (!user) throw new Error("User not found.");
+
+    const now = new Date();
+    const isMember =
+      user.member && (!user.member_until || new Date(user.member_until) > now);
+
+    user.member = isMember;
     this.saveData();
   }
 }
