@@ -15,6 +15,8 @@ const guest = require("./app/middlewares/guest");
 const auth = require("./App/Middlewares/auth");
 const ProfileController = require("./app/controllers/ProfileController");
 const TopupController = require("./app/controllers/TopupController");
+const CartController = require("./app/controllers/CartController");
+const isMember = require("./utils/ismember");
 
 const app = express();
 const port = 3002;
@@ -52,6 +54,7 @@ const categoryController = new CategoryController();
 const productController = new ProductController();
 const profileController = new ProfileController();
 const topupController = new TopupController();
+const cartController = new CartController();
 
 app.get("/sign-in", guest, (req, res) => {
   loginController.step = 0;
@@ -106,25 +109,25 @@ app.post("/register/user-data", guest, (req, res) => {
 app.post("/register/verify-email", guest, (req, res) => {
   registerController.store(req, res);
 });
-app.get("/", auth, (req, res) => {
+app.get("/", auth, isMember, (req, res) => {
   homeController.search === "";
   homeController.index(req, res);
 });
-app.get("/about", auth, (req, res) => {
+app.get("/about", auth, isMember, (req, res) => {
   aboutController.index(req, res);
 });
-app.get("/profile", auth, (req, res) => {
+app.get("/profile", auth, isMember, (req, res) => {
   profileController.step = 0;
   profileController.layout = "layout";
   profileController.index(req, res);
 });
-app.get("/profile/verify-email", auth, (req, res) => {
+app.get("/profile/verify-email", auth, isMember, (req, res) => {
   profileController.step = 1;
   profileController.isEmail = true;
   profileController.layout = "plain";
   profileController.index(req, res);
 });
-app.get("/profile/verify-number", auth, (req, res) => {
+app.get("/profile/verify-number", auth, isMember, (req, res) => {
   profileController.step = 1;
   profileController.isEmail = false;
   profileController.layout = "plain";
@@ -144,18 +147,43 @@ app.put("/profile/verify-number", auth, (req, res) => {
   profileController.isEmail = false;
   profileController.verify(req, res);
 });
-app.put("/profile/phone", auth, (req, res) => {
+app.put("/profile/phone", auth, isMember, (req, res) => {
   profileController.editDataPhone(req, res);
 });
-app.get("/category/:categoryName", auth, (req, res) => {
+app.get("/category/:categoryName", auth, isMember, (req, res) => {
   categoryController.index(req, res);
 });
-app.get("/product/:id", auth, (req, res) => {
+app.get("/product/:id", auth, isMember, (req, res) => {
   productController.index(req, res);
 });
-app.get("/topup", auth, (req, res) => {
+app.get("/topup", auth, isMember, (req, res) => {
   topupController.index(req, res);
 });
+
+app.post("/cart/add", auth, async (req, res) => {
+  try {
+    await cartController.addToCart(req, res);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.post("/cart/increment", auth, async (req, res) => {
+  try {
+    await cartController.incrementItem(req, res);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.post("/cart/decrement", auth, async (req, res) => {
+  try {
+    await cartController.decrementItem(req, res);
+  } catch (error) {
+    console.log(error);
+  }
+});
+// app.get("/cart", auth, cartController.getCart());
 
 app.use((req, res) => {
   res.status(404);

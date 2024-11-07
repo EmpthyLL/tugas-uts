@@ -63,9 +63,73 @@ include('./components/categories') %>
   <% }) %>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 <script>
+  async function addToCart(productId) {
+    try {
+      const response = await axios.post("/cart/add", { productId });
+      if (response.status === 200) {
+        alert("Item added to cart");
+        updateCartDisplay(productId);
+      } else {
+        alert("Failed to add item");
+      }
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    }
+  }
+
+  async function increment(productId) {
+    try {
+      const response = await axios.post("/cart/increment", { productId });
+      if (response.status === 200) {
+        alert("Item incremented");
+        updateCartDisplay(productId);
+      } else {
+        alert("Failed to increment item");
+      }
+    } catch (error) {
+      console.error("Error incrementing item:", error);
+    }
+  }
+
+  async function decrement(productId) {
+    try {
+      const response = await axios.post("/cart/decrement", { productId });
+      if (response.status === 200) {
+        alert("Item decremented");
+        updateCartDisplay(productId);
+      } else {
+        alert("Failed to decrement item");
+      }
+    } catch (error) {
+      console.error("Error decrementing item:", error);
+    }
+  }
+
+  // Update the display after cart actions
+  async function updateCartDisplay(productId) {
+    try {
+      const response = await axios.get(`/cart/${productId}`);
+      const product = response.data;
+      const quantityDisplay = document.getElementById(
+        `quantity-display-${productId}`
+      );
+      const quantityButton = document.getElementById(`quantity-${productId}`);
+
+      // Update the quantity on the page
+      quantityDisplay.innerText = product.quantity;
+
+      // You can also update other elements, like the cart item count or total price
+    } catch (error) {
+      console.error("Error updating cart display:", error);
+    }
+  }
+
   function addQuantity(event, productId) {
-    event.stopPropagation(); // Prevent link click
+    event.stopPropagation();
+    addToCart(productId); // Add to cart on button click
     const container = document.getElementById(`quantity-${productId}`);
     container.innerHTML = `
       <div class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md">
@@ -94,6 +158,7 @@ include('./components/categories') %>
 
   function increaseQuantity(event, productId) {
     event.stopPropagation(); // Prevent link click
+    increment(productId);
     const display = document.getElementById(`quantity-display-${productId}`);
     let quantity = parseInt(display.innerText, 10);
     display.innerText = quantity + 1;
@@ -106,6 +171,7 @@ include('./components/categories') %>
 
     if (quantity > 1) {
       display.innerText = quantity - 1;
+      decrement(productId);
     } else {
       // Reset to Add Button when quantity reaches 0
       const container = document.getElementById(`quantity-${productId}`);
