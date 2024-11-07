@@ -55,21 +55,3 @@
     </a>
   </div>
 </div>
-<!-- Button that triggers the request -->
-<button id="topup-button">Go to Top Up</button>
-
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-  document.getElementById("topup-button").addEventListener("click", function() {
-    // Make an axios GET request to the /topup route
-    axios.get("/topup")
-      .then(function(response) {
-        // If the request is successful, navigate to /topup
-        window.location.href = "/topup"; // This redirects to the topup page
-      })
-      .catch(function(error) {
-        // Handle error if request fails
-        console.error("Error during top-up request:", error);
-      });
-  });
-</script>
