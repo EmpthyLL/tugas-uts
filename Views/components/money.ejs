@@ -1,3 +1,4 @@
+<!-- money.ejs -->
 <div class="font-bold text-xl sm:text-2xl md:text-3xl my-1 sm:my-3 text-center">
   Balance
 </div>
@@ -6,7 +7,6 @@
   <div
     class="flex items-center justify-between border border-gray-200 rounded-3xl w-[420px] h-20 bg-gradient-to-r from-blue-50 via-white to-green-50 shadow-lg px-6 py-4 hover:shadow-xl transition-shadow duration-300"
   >
-    <!-- Bagian Kiri: Ikon Wallet dan Teks -->
     <div class="flex items-center space-x-2">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -29,27 +29,47 @@
       <p class="text-lg font-semibold text-gray-800">0</p>
     </div>
 
-    <!-- Bagian Kanan: Ikon Plus dan Teks Top Up -->
-    <div
-      class="grid grid-cols-1 items-center text-center transform transition-transform hover:scale-110 cursor-pointer"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="28"
-        height="28"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="#4cbb17"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        class="mx-auto mb-1"
+    <!-- Link to the Top Up page -->
+    <a href="/topup">
+      <div
+        class="grid grid-cols-1 items-center text-center transform transition-transform hover:scale-110 cursor-pointer"
       >
-        <circle cx="12" cy="12" r="10"></circle>
-        <path d="M8 12h8"></path>
-        <path d="M12 8v8"></path>
-      </svg>
-      <div class="text-sm font-medium text-green-600">Top Up</div>
-    </div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#4cbb17"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="mx-auto mb-1"
+        >
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M8 12h8"></path>
+          <path d="M12 8v8"></path>
+        </svg>
+        <div class="text-sm font-medium text-green-600">Top Up</div>
+      </div>
+    </a>
   </div>
 </div>
+<!-- Button that triggers the request -->
+<button id="topup-button">Go to Top Up</button>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  document.getElementById("topup-button").addEventListener("click", function() {
+    // Make an axios GET request to the /topup route
+    axios.get("/topup")
+      .then(function(response) {
+        // If the request is successful, navigate to /topup
+        window.location.href = "/topup"; // This redirects to the topup page
+      })
+      .catch(function(error) {
+        // Handle error if request fails
+        console.error("Error during top-up request:", error);
+      });
+  });
+</script>
