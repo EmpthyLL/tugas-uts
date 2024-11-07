@@ -9,8 +9,6 @@ const HomeController = require("./app/controllers/HomeController");
 const LoginController = require("./app/controllers/LoginController");
 const RegisterController = require("./app/controllers/RegisterController");
 const AboutController = require("./app/controllers/AboutController");
-const AddToCart = require("./app/controllers/AddToCart");
-const History = require("./app/controllers/History");
 const CategoryController = require("./app/controllers/CategoryController");
 const ProductController = require("./app/controllers/ProductController");
 const guest = require("./app/middlewares/guest");
@@ -18,7 +16,6 @@ const auth = require("./App/Middlewares/auth");
 const ProfileController = require("./app/controllers/ProfileController");
 const TopupController = require("./app/controllers/TopupController");
 const CartController = require("./app/controllers/CartController");
-const isMember = require("./utils/ismember");
 
 const app = express();
 const port = 3002;
@@ -111,25 +108,25 @@ app.post("/register/user-data", guest, (req, res) => {
 app.post("/register/verify-email", guest, (req, res) => {
   registerController.store(req, res);
 });
-app.get("/", auth, isMember, (req, res) => {
+app.get("/", auth, (req, res) => {
   homeController.search === "";
   homeController.index(req, res);
 });
-app.get("/about", auth, isMember, (req, res) => {
+app.get("/about", auth, (req, res) => {
   aboutController.index(req, res);
 });
-app.get("/profile", auth, isMember, (req, res) => {
+app.get("/profile", auth, (req, res) => {
   profileController.step = 0;
   profileController.layout = "layout";
   profileController.index(req, res);
 });
-app.get("/profile/verify-email", auth, isMember, (req, res) => {
+app.get("/profile/verify-email", auth, (req, res) => {
   profileController.step = 1;
   profileController.isEmail = true;
   profileController.layout = "plain";
   profileController.index(req, res);
 });
-app.get("/profile/verify-number", auth, isMember, (req, res) => {
+app.get("/profile/verify-number", auth, (req, res) => {
   profileController.step = 1;
   profileController.isEmail = false;
   profileController.layout = "plain";
@@ -149,16 +146,16 @@ app.put("/profile/verify-number", auth, (req, res) => {
   profileController.isEmail = false;
   profileController.verify(req, res);
 });
-app.put("/profile/phone", auth, isMember, (req, res) => {
+app.put("/profile/phone", auth, (req, res) => {
   profileController.editDataPhone(req, res);
 });
-app.get("/category/:categoryName", auth, isMember, (req, res) => {
+app.get("/category/:categoryName", auth, (req, res) => {
   categoryController.index(req, res);
 });
-app.get("/product/:id", auth, isMember, (req, res) => {
+app.get("/product/:id", auth, (req, res) => {
   productController.index(req, res);
 });
-app.get("/topup", auth, isMember, (req, res) => {
+app.get("/topup", auth, (req, res) => {
   topupController.index(req, res);
 });
 
