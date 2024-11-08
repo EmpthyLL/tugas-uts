@@ -68,13 +68,17 @@ class CartController extends Controller {
       const user = getAuthUser(req);
 
       if (user) {
-        await this.cart.incrementItem(user.uuid, Number(productId));
-        res.status(200).json({ message: "Item incremented" });
+        const newQuantity = await this.cart.incrementItem(
+          user.uuid,
+          Number(productId)
+        );
+        res
+          .status(200)
+          .json({ message: "Item incremented", quantity: newQuantity });
       } else {
         res.status(400).json({ message: "User not authenticated" });
       }
     } catch (error) {
-      console.log(error);
       this.handleError(res, "Failed to increment item", 500);
     }
   }
@@ -86,8 +90,13 @@ class CartController extends Controller {
       const user = getAuthUser(req);
 
       if (user) {
-        await this.cart.decrementItem(user.uuid, Number(productId));
-        res.status(200).json({ message: "Item decremented" });
+        const newQuantity = await this.cart.decrementItem(
+          user.uuid,
+          Number(productId)
+        );
+        res
+          .status(200)
+          .json({ message: "Item decremented", quantity: newQuantity });
       } else {
         res.status(400).json({ message: "User not authenticated" });
       }
