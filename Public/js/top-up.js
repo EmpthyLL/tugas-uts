@@ -20,11 +20,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function updateAmount() {
     const amount = amountInput.value.replace(/\D/g, ""); // Remove non-numeric characters
-    if (amount) {
-      selectedAmount = amount;
-      amountValue.value = amount;
-      amountDisplay.textContent = formatAmount(amount);
-    }
+    selectedAmount = amount;
+    amountValue.value = amount;
+    validateConfirmButton();
   }
 
   amountInput.addEventListener("input", function () {

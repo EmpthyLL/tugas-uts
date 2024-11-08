@@ -181,7 +181,7 @@
           <form method="post" action="/top-up">
             <input type="hidden" name="amount" id="amount-value" />
             <button
-              type="submit"
+              onclick="return confirm('Lakukan pembayaran.')"
               class="py-2 px-4 text-sm font-medium rounded-lg border border-transparent bg-lime-500 text-white hover:bg-lime-600 focus:outline-none focus:bg-lime-600 dark:bg-lime-600 dark:hover:bg-lime-700"
             >
               Confirm

@@ -8,7 +8,7 @@ async function auth(req, res, next) {
     req.isAuthenticated = false;
 
     if (!token) {
-      if (req.url.startsWith("/profile")) {
+      if (req.url.startsWith("/profile") || req.url.startsWith("/top-up")) {
         res.redirect("/");
       }
       return next();
