@@ -25,7 +25,7 @@ class HomeController extends Controller {
 
   async index(req, res) {
     try {
-      this.user = getAuthUser(req);
+      this.user = getAuthUser(req, res, false);
 
       this.search = req.query.search || "";
       this.page = parseInt(req.query.page) || 1;
@@ -59,52 +59,11 @@ class HomeController extends Controller {
         page: this.page,
         user: this.user,
         formatDate,
+        cart: this.user.cart,
       };
       this.renderView(res, this.view, options);
     } catch (error) {
       this.handleError(res, "Failed to render home page", 500);
-    }
-  }
-
-  async addToCart(itemId) {
-    const { data } = await axios.get(
-      `https://dummyjson.com/products/${itemId}`
-    );
-    const newItem = {
-      id: data.id,
-      title: data.title,
-      price: data.price,
-      thumbnail: data.thumbnail,
-      quantity: 1,
-    };
-
-    const user = getAuthUser(req);
-    if (user) {
-      this.cart.addItem(user.uuid, newItem);
-    }
-  }
-
-  async incrementItem(itemId) {
-    const user = getAuthUser(req);
-
-    if (user) {
-      try {
-        this.cart.addItem(user.uuid, { id: itemId, quantity: 1 });
-      } catch (error) {
-        this.handleError(res, "Failed to render home page", 500);
-      }
-    }
-  }
-
-  async decrementItem(itemId) {
-    const user = getAuthUser(req);
-
-    if (user) {
-      try {
-        this.cart.decrementItem(user.uuid, itemId);
-      } catch (error) {
-        this.handleError(res, "Failed to render home page", 500);
-      }
     }
   }
 

@@ -11,7 +11,7 @@ class CategoryController extends Controller {
 
   async index(req, res) {
     try {
-      this.user = getAuthUser(req);
+      this.user = getAuthUser(req, res, false);
       const categoryName = req.params.categoryName;
       const sortBy = req.query.sortBy || "price";
       const order = req.query.order || "asc";
@@ -67,6 +67,7 @@ class CategoryController extends Controller {
         order,
         selectedBrand,
         user: this.user,
+        cart: this.user.cart,
         brands: [
           ...new Set(
             response.data.products.map((p) => p.brand).filter((brand) => brand)

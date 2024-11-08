@@ -88,13 +88,13 @@
             <div class="p-4 space-y-4 min-h-36">
               <!-- Cart Section -->
               <% if (menu.title === "Cart") { %>
-              <div>
-                <% if (user.cart.length > 0) { %>
+              <div id="Cart-Pop">
+                <% if (cart.length > 0) { %>
                 <div class="space-y-2">
-                  <% user.cart.forEach(item => { %>
+                  <% cart.forEach(item => { %>
                   <div class="flex items-center space-x-3">
                     <img
-                      src="<%- item.image %>"
+                      src="<%- item.thumbnail %>"
                       alt="Product Image"
                       class="w-12 h-12 rounded-md"
                     />
@@ -102,13 +102,16 @@
                       <p
                         class="text-sm font-medium text-gray-900 dark:text-white"
                       >
-                        <%- item.name %>
+                        <%- item.title %>
                       </p>
                       <p class="text-xs text-gray-500 dark:text-gray-400">
                         Qty: <%- item.quantity %>
                       </p>
-                      <p class="text-sm text-lime-400 font-semibold">
-                        $<%- item.price %>
+                      <p
+                        class="text-gray-800 font-semibold text-lg whitespace-nowrap"
+                      >
+                        Rp <%= Math.floor(item.price *
+                        15000).toLocaleString("id-ID") %>
                       </p>
                     </div>
                   </div>
