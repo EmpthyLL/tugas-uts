@@ -1,12 +1,12 @@
 const UserModel = require("../model/service/UserModel");
 const getAuthUser = require("./user");
 
-function isMember(req) {
+function isMember() {
   try {
     const user = getAuthUser(req);
     const model = new UserModel();
 
-    model.checkMembership(user.uuid);
+    model.checkMembership(uuid);
   } catch (error) {
     console.error("Failed to get authenticated user:", error.message);
   }
