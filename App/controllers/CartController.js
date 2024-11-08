@@ -18,20 +18,6 @@ class CartController extends Controller {
     try {
       this.user = getAuthUser(req);
 
-      this.search = req.query.search || "";
-      this.page = parseInt(req.query.page) || 1;
-      this.sortBy = req.query.sortBy || "price";
-      this.order = req.query.order || "asc";
-      this.brand = req.query.brand || "";
-
-      const categories = await this.fetchCategories();
-      const products = await this.fetchData();
-
-      if (this.search) {
-        this.view = "search";
-      } else {
-        this.view = "index";
-      }
       const options = {
         layout: `components/${this.layout}`,
         title: this.title,
@@ -50,9 +36,9 @@ class CartController extends Controller {
   // Add item to cart
   async addToCart(req, res) {
     try {
-      const { itemId } = req.body;
+      const { productId } = req.body;
       const { data } = await axios.get(
-        `https://dummyjson.com/products/${itemId}`
+        `https://dummyjson.com/products/${productId}`
       );
 
       const newItem = {
@@ -78,16 +64,17 @@ class CartController extends Controller {
   // Increment item quantity in cart
   async incrementItem(req, res) {
     try {
-      const { itemId } = req.body;
+      const { productId } = req.body;
       const user = getAuthUser(req);
 
       if (user) {
-        await this.cart.incrementItem(user.uuid, itemId);
+        await this.cart.incrementItem(user.uuid, Number(productId));
         res.status(200).json({ message: "Item incremented" });
       } else {
         res.status(400).json({ message: "User not authenticated" });
       }
     } catch (error) {
+      console.log(error);
       this.handleError(res, "Failed to increment item", 500);
     }
   }
@@ -95,11 +82,11 @@ class CartController extends Controller {
   // Decrement item quantity in cart
   async decrementItem(req, res) {
     try {
-      const { itemId } = req.body;
+      const { productId } = req.body;
       const user = getAuthUser(req);
 
       if (user) {
-        await this.cart.decrementItem(user.uuid, itemId);
+        await this.cart.decrementItem(user.uuid, Number(productId));
         res.status(200).json({ message: "Item decremented" });
       } else {
         res.status(400).json({ message: "User not authenticated" });
@@ -107,11 +94,6 @@ class CartController extends Controller {
     } catch (error) {
       this.handleError(res, "Failed to decrement item", 500);
     }
-  }
-
-  // Utility method to handle errors
-  handleError(res, message, statusCode) {
-    res.status(statusCode).json({ message });
   }
 }
 

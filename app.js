@@ -22,6 +22,7 @@ const port = 3002;
 
 app.set("view engine", "ejs");
 app.use(exlay);
+app.use(express.json());
 app.use(express.static("public"));
 app.use("/node_modules", express.static(__dirname + "/node_modules"));
 app.use(express.urlencoded({ extended: true }));
@@ -182,7 +183,9 @@ app.post("/cart/decrement", auth, async (req, res) => {
     console.log(error);
   }
 });
-// app.get("/cart", auth, cartController.getCart());
+app.get("/cart", auth, async (req, res) => {
+  cartController.index(req, res);
+});
 
 app.use((req, res) => {
   res.status(404);

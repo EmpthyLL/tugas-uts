@@ -21,8 +21,8 @@ include('./components/categories') %>
             alt="<%= product.title %>"
             class="h-48 w-full object-contain p-2"
           />
-          <div class="p-4 text-center">
-            <h3 class="font-semibold text-lg mb-1 h-12 line-clamp-2">
+          <div class="text-center">
+            <h3 class="font-semibold text-lg mb-1 h-14 line-clamp-2">
               <%= product.title %>
             </h3>
           </div>
@@ -66,98 +66,101 @@ include('./components/categories') %>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
+  const loadingState = {}; // Keeps track of loading state for each product ID
+
   async function addToCart(productId) {
+    if (loadingState[productId]) return; // Prevent double-clicks
+    loadingState[productId] = true;
+    toggleButtonState(productId, true);
+
     try {
       const response = await axios.post("/cart/add", { productId });
       if (response.status === 200) {
-        alert("Item added to cart");
         updateCartDisplay(productId);
-      } else {
-        alert("Failed to add item");
       }
     } catch (error) {
       console.error("Error adding item to cart:", error);
+    } finally {
+      loadingState[productId] = false;
+      toggleButtonState(productId, false);
     }
   }
 
   async function increment(productId) {
+    if (loadingState[productId]) return; // Prevent multiple clicks
+    loadingState[productId] = true;
+    toggleButtonState(productId, true);
+
     try {
       const response = await axios.post("/cart/increment", { productId });
       if (response.status === 200) {
-        alert("Item incremented");
         updateCartDisplay(productId);
-      } else {
-        alert("Failed to increment item");
       }
     } catch (error) {
       console.error("Error incrementing item:", error);
+    } finally {
+      loadingState[productId] = false;
+      toggleButtonState(productId, false);
     }
   }
 
   async function decrement(productId) {
+    if (loadingState[productId]) return; // Prevent multiple clicks
+    loadingState[productId] = true;
+    toggleButtonState(productId, true);
+
     try {
       const response = await axios.post("/cart/decrement", { productId });
       if (response.status === 200) {
-        alert("Item decremented");
         updateCartDisplay(productId);
-      } else {
-        alert("Failed to decrement item");
       }
     } catch (error) {
       console.error("Error decrementing item:", error);
+    } finally {
+      loadingState[productId] = false;
+      toggleButtonState(productId, false);
     }
   }
 
-  // Update the display after cart actions
-  async function updateCartDisplay(productId) {
-    try {
-      const response = await axios.get(`/cart/${productId}`);
-      const product = response.data;
-      const quantityDisplay = document.getElementById(
-        `quantity-display-${productId}`
-      );
-      const quantityButton = document.getElementById(`quantity-${productId}`);
-
-      // Update the quantity on the page
-      quantityDisplay.innerText = product.quantity;
-
-      // You can also update other elements, like the cart item count or total price
-    } catch (error) {
-      console.error("Error updating cart display:", error);
+  // Function to toggle button disabled state
+  function toggleButtonState(productId, isDisabled) {
+    const container = document.getElementById(`quantity-${productId}`);
+    if (container) {
+      container.querySelectorAll("button").forEach((button) => {
+        button.disabled = isDisabled;
+      });
     }
   }
 
   function addQuantity(event, productId) {
     event.stopPropagation();
-    addToCart(productId); // Add to cart on button click
+    addToCart(productId);
     const container = document.getElementById(`quantity-${productId}`);
     container.innerHTML = `
-      <div class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md">
-        <button
-          onclick="decreaseQuantity(event, '${productId}')"
-          class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600"
-        >
-          <!-- Minus Icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
-          </svg>
-        </button>
-        <span id="quantity-display-${productId}" class="text-gray-800 font-semibold">1</span>
-        <button
-          onclick="increaseQuantity(event, '${productId}')"
-          class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-green-600"
-        >
-          <!-- Plus Icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-        </button>
-      </div>
-    `;
+    <div class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md">
+      <button
+        onclick="decreaseQuantity(event, '${productId}')"
+        class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+        </svg>
+      </button>
+      <span id="quantity-display-${productId}" class="text-gray-800 font-semibold">1</span>
+      <button
+        onclick="increaseQuantity(event, '${productId}')"
+        class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-green-600"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+      </button>
+    </div>
+  `;
   }
 
   function increaseQuantity(event, productId) {
-    event.stopPropagation(); // Prevent link click
+    event.stopPropagation();
     increment(productId);
     const display = document.getElementById(`quantity-display-${productId}`);
     let quantity = parseInt(display.innerText, 10);
@@ -165,7 +168,7 @@ include('./components/categories') %>
   }
 
   function decreaseQuantity(event, productId) {
-    event.stopPropagation(); // Prevent link click
+    event.stopPropagation();
     const display = document.getElementById(`quantity-display-${productId}`);
     let quantity = parseInt(display.innerText, 10);
 
@@ -173,19 +176,18 @@ include('./components/categories') %>
       display.innerText = quantity - 1;
       decrement(productId);
     } else {
-      // Reset to Add Button when quantity reaches 0
+      decrement(productId);
       const container = document.getElementById(`quantity-${productId}`);
       container.innerHTML = `
-        <button
-          onclick="addQuantity(event, '${productId}')"
-          class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center transition hover:bg-blue-600 shadow-md"
-        >
-          <!-- Plus Icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-        </button>
-      `;
+      <button
+        onclick="addQuantity(event, '${productId}')"
+        class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center transition hover:bg-blue-600 shadow-md"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+      </button>
+    `;
     }
   }
 </script>

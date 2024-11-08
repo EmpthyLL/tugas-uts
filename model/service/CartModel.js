@@ -29,6 +29,22 @@ class CartModel extends Model {
     this.saveData(this.data);
   }
 
+  incrementItem(userId, itemId) {
+    const user = this.data.find((user) => user.uuid === userId);
+    if (!user) throw new Error("User not found.");
+    const existingItem = user.cart.find((item) => item.id === itemId);
+
+    if (existingItem) {
+      existingItem.quantity += 1;
+      if (existingItem.quantity <= 0) {
+        user.cart = user.cart.filter((item) => item.id !== itemId);
+      }
+      this.saveData(this.data);
+    } else {
+      throw new Error("Item not found in cart.");
+    }
+  }
+
   decrementItem(userId, itemId) {
     const user = this.data.find((user) => user.uuid === userId);
     if (!user) throw new Error("User not found.");
@@ -37,6 +53,7 @@ class CartModel extends Model {
 
     if (existingItem) {
       existingItem.quantity -= 1;
+      console.log(existingItem.quantity);
       if (existingItem.quantity <= 0) {
         user.cart = user.cart.filter((item) => item.id !== itemId);
       }
