@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoMart Driver App</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+        .leaflet-routing-container .leaflet-routing-alt {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>GoMart Driver App</h1>
+    <div id="map"></div>
+
+    <script>
+        const locations = [
+            { name: 'Alfamart', lat: 3.5784, lng: 98.6789 },
+            { name: 'Indomaret', lat: 3.5953, lng: 98.6743 },
+            { name: 'Alfamidi', lat: 3.5952, lng: 98.6780 }
+        ];
+
+        var map = L.map('map').setView([3.5952, 98.6780], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        function calculateDistance(lat1, lng1, lat2, lng2) {
+            const R = 6371; // Earth radius in km
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLng = (lng2 - lng1) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLng / 2) * Math.sin(dLng / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                const userLat = position.coords.latitude;
+                const userLng = position.coords.longitude;
+
+                const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+
+                const userMarker = L.marker([userLat, userLng]).addTo(map);
+                userMarker.bindPopup("You are here").openPopup();
+
+                const startMarker = L.marker([randomLocation.lat, randomLocation.lng]).addTo(map);
+                startMarker.bindPopup(randomLocation.name).openPopup();
+
+                const destinationMarker = L.marker([userLat, userLng]).addTo(map);
+                destinationMarker.bindPopup("Your location").openPopup();
+
+                L.Routing.control({
+                    waypoints: [
+                        L.latLng(randomLocation.lat, randomLocation.lng),
+                        L.latLng(userLat, userLng)
+                    ],
+                    routeWhileDragging: false,
+                    lineOptions: {
+                        styles: [{ color: "green", opacity: 0.7, weight: 5 }]
+                    },
+                    createMarker: function() { return null; } 
+                }).addTo(map);
+
+                map.fitBounds([
+                    [userLat, userLng],
+                    [randomLocation.lat, randomLocation.lng]
+                ]);
+            }, error => {
+                alert('Unable to retrieve your location');
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    </script>
+</body>
+</html>
