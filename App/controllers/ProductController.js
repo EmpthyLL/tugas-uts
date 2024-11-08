@@ -11,7 +11,7 @@ class ProductController extends Controller {
 
   async index(req, res) {
     try {
-      this.user = getAuthUser(req);
+      this.user = getAuthUser(req, res, false);
 
       const id = req.params.id;
 
@@ -42,6 +42,7 @@ class ProductController extends Controller {
         keyword: "",
         user: this.user,
         categoryName: product.category.toLowerCase().replace(/\s+/g, "-"),
+        cart: this.user.cart,
       };
 
       this.renderView(res, "productDetail", options);

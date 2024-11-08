@@ -16,7 +16,7 @@ class CartController extends Controller {
 
   async index(req, res) {
     try {
-      this.user = getAuthUser(req);
+      this.user = getAuthUser(req, res, false);
 
       const options = {
         layout: `components/${this.layout}`,
@@ -26,6 +26,7 @@ class CartController extends Controller {
         keyword: "",
         user: this.user,
         formatDate,
+        cart: this.user.cart,
       };
       this.renderView(res, this.view, options);
     } catch (error) {
@@ -49,7 +50,7 @@ class CartController extends Controller {
         quantity: 1,
       };
 
-      const user = getAuthUser(req);
+      const user = getAuthUser(req, res, true);
       if (user) {
         await this.cart.addItem(user.uuid, newItem);
         res.status(200).json({ message: "Item added to cart", item: newItem });
@@ -65,7 +66,7 @@ class CartController extends Controller {
   async incrementItem(req, res) {
     try {
       const { productId } = req.body;
-      const user = getAuthUser(req);
+      const user = getAuthUser(req, res, true);
 
       if (user) {
         const newQuantity = await this.cart.incrementItem(
@@ -87,7 +88,7 @@ class CartController extends Controller {
   async decrementItem(req, res) {
     try {
       const { productId } = req.body;
-      const user = getAuthUser(req);
+      const user = getAuthUser(req, res, true);
 
       if (user) {
         const newQuantity = await this.cart.decrementItem(

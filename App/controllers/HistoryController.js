@@ -11,7 +11,7 @@ class History extends Controller {
   }
   index(req, res) {
     try {
-      this.user = getAuthUser(req);
+      this.user = getAuthUser(req, res, false);
       const options = {
         layout: `components/${this.layout}`,
         title: this.title,
@@ -19,6 +19,7 @@ class History extends Controller {
         menus: this.menus,
         keyword,
         user: this.user,
+        cart: this.user.cart,
       };
 
       this.renderView(res, this.view, options);

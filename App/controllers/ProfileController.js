@@ -20,7 +20,7 @@ class ProfileController extends Controller {
   }
   index(req, res) {
     try {
-      this.user = getAuthUser(req);
+      this.user = getAuthUser(req, res, false);
       this.title.push(this.user.fullname + " - Profile");
       this.title.push("Verify Number");
       this.title.push("Verify Email");
@@ -38,6 +38,7 @@ class ProfileController extends Controller {
         no_hp: this.no_hp,
         email: this.email,
         formatDate,
+        cart: this.user.cart,
       };
 
       this.renderView(res, this.view[this.step], options);
@@ -66,7 +67,7 @@ class ProfileController extends Controller {
     }
   }
   editBiodata(req, res) {
-    this.user = getAuthUser(req);
+    this.user = getAuthUser(req, res, false);
     let newProfilePic = null;
     if (req.file) {
       newProfilePic = `/img/uploads/ProfilePic/${req.file.filename}`;
@@ -93,14 +94,14 @@ class ProfileController extends Controller {
     res.redirect("/profile");
   }
   editDataEmail(req, res) {
-    this.user = getAuthUser(req);
+    this.user = getAuthUser(req, res, false);
     this.email = req.body.email;
     this.model.editEmail(this.user.uuid, this.email);
     req.flash("success", "Profile updated successfully!");
     res.redirect("/profile");
   }
   editDataPhone(req, res) {
-    this.user = getAuthUser(req);
+    this.user = getAuthUser(req, res, false);
     this.no_hp = req.body.no_hp;
     this.model.editPhone(this.user.uuid, this.no_hp);
     req.flash("success", "Profile updated successfully!");

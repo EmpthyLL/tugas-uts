@@ -147,9 +147,94 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 <script>
+  const loadingStates = {};
+
+  async function addToCart(productId) {
+    if (loadingStates[productId]) return; // Prevent double-clicks
+
+    try {
+      loadingStates[productId] = true;
+      toggleButtons(productId, true); // Disable buttons
+
+      const response = await axios.post("/cart/add", { productId });
+      if (response.status === 200) {
+        updateCartDisplay(response.data.item.id, response.data.item.quantity);
+      }
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    } finally {
+      loadingStates[productId] = false;
+      toggleButtons(productId, false); // Enable buttons
+    }
+  }
+
+  async function increment(productId) {
+    if (loadingStates[productId]) return; // Prevent double-clicks
+
+    try {
+      loadingStates[productId] = true;
+      toggleButtons(productId, true);
+
+      const response = await axios.post("/cart/increment", { productId });
+      if (response.status === 200) {
+        updateCartDisplay(productId, response.data.quantity);
+      }
+    } catch (error) {
+      console.error("Error incrementing item:", error);
+    } finally {
+      loadingStates[productId] = false;
+      toggleButtons(productId, false);
+    }
+  }
+
+  async function decrement(productId) {
+    if (loadingStates[productId]) return;
+
+    try {
+      loadingStates[productId] = true;
+      toggleButtons(productId, true);
+
+      const response = await axios.post("/cart/decrement", { productId });
+      if (response.status === 200) {
+        updateCartDisplay(productId, response.data.quantity);
+      }
+    } catch (error) {
+      console.error("Error decrementing item:", error);
+    } finally {
+      loadingStates[productId] = false;
+      toggleButtons(productId, false);
+    }
+  }
+
+  function updateCartDisplay(productId, quantity) {
+    const quantityDisplay = document.getElementById(
+      `quantity-display-${productId}`
+    );
+    quantityDisplay.innerText = quantity;
+
+    // If quantity is zero, revert to add button
+    if (quantity <= 0) {
+      const container = document.getElementById(`quantity-${productId}`);
+      container.innerHTML = `
+        <button
+          onclick="addQuantity(event, '${productId}')"
+          class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center transition hover:bg-blue-600 shadow-md"
+        >
+          <!-- Plus Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+        </button>
+      `;
+    }
+  }
+
   function addQuantity(event, productId) {
-    event.stopPropagation(); // Prevent link click
+    event.stopPropagation();
+    addToCart(productId);
     const container = document.getElementById(`quantity-${productId}`);
     container.innerHTML = `
       <div class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md">
@@ -177,33 +262,24 @@
   }
 
   function increaseQuantity(event, productId) {
-    event.stopPropagation(); // Prevent link click
-    const display = document.getElementById(`quantity-display-${productId}`);
-    let quantity = parseInt(display.innerText, 10);
-    display.innerText = quantity + 1;
+    event.stopPropagation();
+    increment(productId);
   }
 
   function decreaseQuantity(event, productId) {
-    event.stopPropagation(); // Prevent link click
-    const display = document.getElementById(`quantity-display-${productId}`);
-    let quantity = parseInt(display.innerText, 10);
+    event.stopPropagation();
+    decrement(productId);
+  }
 
-    if (quantity > 1) {
-      display.innerText = quantity - 1;
-    } else {
-      // Reset to Add Button when quantity reaches 0
-      const container = document.getElementById(`quantity-${productId}`);
-      container.innerHTML = `
-        <button
-          onclick="addQuantity(event, '${productId}')"
-          class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center transition hover:bg-blue-600 shadow-md"
-        >
-          <!-- Plus Icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-        </button>
-      `;
-    }
+  function toggleButtons(productId, disable) {
+    const decrementButton = document.querySelector(
+      `#quantity-${productId} button[onclick*="decreaseQuantity"]`
+    );
+    const incrementButton = document.querySelector(
+      `#quantity-${productId} button[onclick*="increaseQuantity"]`
+    );
+
+    if (decrementButton) decrementButton.disabled = disable;
+    if (incrementButton) incrementButton.disabled = disable;
   }
 </script>
