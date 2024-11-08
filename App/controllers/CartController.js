@@ -46,6 +46,8 @@ class CartController extends Controller {
         id: data.id,
         title: data.title,
         price: data.price,
+        brand: data.brand || null,
+        category: data.category,
         thumbnail: data.thumbnail,
         quantity: 1,
       };
@@ -98,6 +100,21 @@ class CartController extends Controller {
         res
           .status(200)
           .json({ message: "Item decremented", quantity: newQuantity });
+      } else {
+        res.status(400).json({ message: "User not authenticated" });
+      }
+    } catch (error) {
+      this.handleError(res, "Failed to decrement item", 500);
+    }
+  }
+
+  async getCartData(req, res) {
+    try {
+      const user = getAuthUser(req, res, true);
+
+      if (user) {
+        const data = await this.cart.getUserCart();
+        res.status(200).json({ message: "Item decremented", data });
       } else {
         res.status(400).json({ message: "User not authenticated" });
       }

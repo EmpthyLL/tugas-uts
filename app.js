@@ -156,7 +156,7 @@ app.get("/category/:categoryName", auth, (req, res) => {
 app.get("/product/:id", auth, (req, res) => {
   productController.index(req, res);
 });
-app.get("/topup", auth, (req, res) => {
+app.get("/top-up", auth, (req, res) => {
   topupController.index(req, res);
 });
 
@@ -183,6 +183,15 @@ app.post("/cart/decrement", auth, async (req, res) => {
     console.log(error);
   }
 });
+
+app.get("/cart/view", auth, async (req, res) => {
+  try {
+    await cartController.getCartData(req, res);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 app.get("/cart", auth, async (req, res) => {
   cartController.index(req, res);
 });

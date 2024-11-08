@@ -17,12 +17,14 @@ class AboutController extends Controller {
         title: this.title,
         req,
         menus: this.menus,
-        keyword,
+        user: this.user,
         cart: this.user.cart,
+        keyword: "",
       };
 
       this.renderView(res, this.view, options);
     } catch (error) {
+      console.log(error);
       this.handleError(res, "Failed to render about page", 500);
     }
   }
