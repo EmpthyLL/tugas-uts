@@ -11,7 +11,7 @@ function getAuthUser(req) {
     if (token) {
       const { userId } = jwt.verify(token, SECRET_KEY);
       user = model.getUserByUuid(userId);
-      // model.checkMembership(user.uuid);
+      model.checkMembership(user.uuid);
       return user;
     }
 
