@@ -58,7 +58,29 @@
     "member": false,
     "member_since": null,
     "member_until": null,
-    "cart": [],
+    "cart": [
+      {
+        "id": 13,
+        "title": "Bedside Table African Cherry",
+        "price": 299.99,
+        "thumbnail": "https://cdn.dummyjson.com/products/images/furniture/Bedside%20Table%20African%20Cherry/thumbnail.png",
+        "quantity": 1
+      },
+      {
+        "id": 9,
+        "title": "Dolce Shine Eau de",
+        "price": 69.99,
+        "thumbnail": "https://cdn.dummyjson.com/products/images/fragrances/Dolce%20Shine%20Eau%20de/thumbnail.png",
+        "quantity": 1
+      },
+      {
+        "id": 7,
+        "title": "Chanel Coco Noir Eau De",
+        "price": 129.99,
+        "thumbnail": "https://cdn.dummyjson.com/products/images/fragrances/Chanel%20Coco%20Noir%20Eau%20De/thumbnail.png",
+        "quantity": 1
+      }
+    ],
     "history": [],
     "notification": []
   },

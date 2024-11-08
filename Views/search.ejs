@@ -92,26 +92,80 @@
         </p>
         <% if (req.isAuthenticated) { %>
         <div id="quantity-<%= product.id %>" class="flex items-end space-x-2">
-          <button
-            onclick="addQuantity(event, '<%= product.id %>')"
-            class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center transition hover:bg-blue-600 shadow-md"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              width="20"
-              height="20"
+            <% if (cart.find(item => item.id === product.id)) { %>
+            <div
+              class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-          </button>
+              <button
+                onclick="decreaseQuantity(event, '${productId}')"
+                class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600"
+              >
+                <!-- Minus Icon -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  width="16"
+                  height="16"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M20 12H4"
+                  />
+                </svg>
+              </button>
+              <span
+                id="quantity-display-${productId}"
+                class="text-gray-800 font-semibold"
+                >1</span
+              >
+              <button
+                onclick="increaseQuantity(event, '${productId}')"
+                class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-green-600"
+              >
+                <!-- Plus Icon -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  width="16"
+                  height="16"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 4v16m8-8H4"
+                  />
+                </svg>
+              </button>
+            </div>
+            <% } else { %>
+            <button
+              onclick="addQuantity(event, '<%= product.id %>')"
+              class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center transition hover:bg-blue-600 shadow-md"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                width="20"
+                height="20"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+            </button>
+            <% } %>
           </div>
           <% } %>
         </div>

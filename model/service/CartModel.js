@@ -23,7 +23,7 @@ class CartModel extends Model {
         user.cart = user.cart.filter((item) => item.id !== newItem.id);
       }
     } else {
-      user.cart.push({ ...newItem, quantity: newItem.quantity || 1 });
+      user.cart.unshift({ ...newItem, quantity: newItem.quantity || 1 });
     }
 
     this.saveData(this.data);
