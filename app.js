@@ -16,6 +16,7 @@ const auth = require("./App/Middlewares/auth");
 const ProfileController = require("./app/controllers/ProfileController");
 const TopupController = require("./app/controllers/TopupController");
 const CartController = require("./app/controllers/CartController");
+const LocationController = require("./app/controllers/LocationController");
 
 const app = express();
 const port = 3002;
@@ -55,6 +56,7 @@ const productController = new ProductController();
 const profileController = new ProfileController();
 const topupController = new TopupController();
 const cartController = new CartController();
+const LocationController = new LocationController();
 
 app.get("/sign-in", guest, (req, res) => {
   loginController.step = 0;
@@ -195,6 +197,10 @@ app.get("/cart/view", auth, async (req, res) => {
 app.get("/cart", auth, async (req, res) => {
   cartController.index(req, res);
 });
+
+app.get("/payment/location", auth, (req,res) => {
+  LocationController.index(req,res);
+})
 
 app.use((req, res) => {
   res.status(404);
