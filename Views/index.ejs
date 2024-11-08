@@ -28,7 +28,7 @@ include('./components/categories') %>
           </div>
         </a>
         <div class="flex items-end justify-between p-4 mt-auto">
-          <p class="text-gray-800 font-semibold text-lg">
+          <p class="text-gray-800 font-semibold whitespace-nowrap text-lg">
             Rp <%= Math.floor(product.price * 15000).toLocaleString("id-ID") %>
           </p>
           <% if (req.isAuthenticated) { %>
@@ -66,69 +66,85 @@ include('./components/categories') %>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
-  const loadingState = {}; // Keeps track of loading state for each product ID
+  const loadingStates = {};
 
   async function addToCart(productId) {
-    if (loadingState[productId]) return; // Prevent double-clicks
-    loadingState[productId] = true;
-    toggleButtonState(productId, true);
+    if (loadingStates[productId]) return; // Prevent double-clicks
 
     try {
+      loadingStates[productId] = true;
+      toggleButtons(productId, true); // Disable buttons
+
       const response = await axios.post("/cart/add", { productId });
       if (response.status === 200) {
-        updateCartDisplay(productId);
+        updateCartDisplay(response.data.item.id, response.data.item.quantity);
       }
     } catch (error) {
       console.error("Error adding item to cart:", error);
     } finally {
-      loadingState[productId] = false;
-      toggleButtonState(productId, false);
+      loadingStates[productId] = false;
+      toggleButtons(productId, false); // Enable buttons
     }
   }
 
   async function increment(productId) {
-    if (loadingState[productId]) return; // Prevent multiple clicks
-    loadingState[productId] = true;
-    toggleButtonState(productId, true);
+    if (loadingStates[productId]) return; // Prevent double-clicks
 
     try {
+      loadingStates[productId] = true;
+      toggleButtons(productId, true);
+
       const response = await axios.post("/cart/increment", { productId });
       if (response.status === 200) {
-        updateCartDisplay(productId);
+        updateCartDisplay(productId, response.data.quantity);
       }
     } catch (error) {
       console.error("Error incrementing item:", error);
     } finally {
-      loadingState[productId] = false;
-      toggleButtonState(productId, false);
+      loadingStates[productId] = false;
+      toggleButtons(productId, false);
     }
   }
 
   async function decrement(productId) {
-    if (loadingState[productId]) return; // Prevent multiple clicks
-    loadingState[productId] = true;
-    toggleButtonState(productId, true);
+    if (loadingStates[productId]) return;
 
     try {
+      loadingStates[productId] = true;
+      toggleButtons(productId, true);
+
       const response = await axios.post("/cart/decrement", { productId });
       if (response.status === 200) {
-        updateCartDisplay(productId);
+        updateCartDisplay(productId, response.data.quantity);
       }
     } catch (error) {
       console.error("Error decrementing item:", error);
     } finally {
-      loadingState[productId] = false;
-      toggleButtonState(productId, false);
+      loadingStates[productId] = false;
+      toggleButtons(productId, false);
     }
   }
 
-  // Function to toggle button disabled state
-  function toggleButtonState(productId, isDisabled) {
-    const container = document.getElementById(`quantity-${productId}`);
-    if (container) {
-      container.querySelectorAll("button").forEach((button) => {
-        button.disabled = isDisabled;
-      });
+  function updateCartDisplay(productId, quantity) {
+    const quantityDisplay = document.getElementById(
+      `quantity-display-${productId}`
+    );
+    quantityDisplay.innerText = quantity;
+
+    // If quantity is zero, revert to add button
+    if (quantity <= 0) {
+      const container = document.getElementById(`quantity-${productId}`);
+      container.innerHTML = `
+        <button
+          onclick="addQuantity(event, '${productId}')"
+          class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center transition hover:bg-blue-600 shadow-md"
+        >
+          <!-- Plus Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+        </button>
+      `;
     }
   }
 
@@ -137,57 +153,49 @@ include('./components/categories') %>
     addToCart(productId);
     const container = document.getElementById(`quantity-${productId}`);
     container.innerHTML = `
-    <div class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md">
-      <button
-        onclick="decreaseQuantity(event, '${productId}')"
-        class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
-        </svg>
-      </button>
-      <span id="quantity-display-${productId}" class="text-gray-800 font-semibold">1</span>
-      <button
-        onclick="increaseQuantity(event, '${productId}')"
-        class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-green-600"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-      </button>
-    </div>
-  `;
+      <div class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md">
+        <button
+          onclick="decreaseQuantity(event, '${productId}')"
+          class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600"
+        >
+          <!-- Minus Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+          </svg>
+        </button>
+        <span id="quantity-display-${productId}" class="text-gray-800 font-semibold">1</span>
+        <button
+          onclick="increaseQuantity(event, '${productId}')"
+          class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-green-600"
+        >
+          <!-- Plus Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+        </button>
+      </div>
+    `;
   }
 
   function increaseQuantity(event, productId) {
     event.stopPropagation();
     increment(productId);
-    const display = document.getElementById(`quantity-display-${productId}`);
-    let quantity = parseInt(display.innerText, 10);
-    display.innerText = quantity + 1;
   }
 
   function decreaseQuantity(event, productId) {
     event.stopPropagation();
-    const display = document.getElementById(`quantity-display-${productId}`);
-    let quantity = parseInt(display.innerText, 10);
+    decrement(productId);
+  }
 
-    if (quantity > 1) {
-      display.innerText = quantity - 1;
-      decrement(productId);
-    } else {
-      decrement(productId);
-      const container = document.getElementById(`quantity-${productId}`);
-      container.innerHTML = `
-      <button
-        onclick="addQuantity(event, '${productId}')"
-        class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center transition hover:bg-blue-600 shadow-md"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-      </button>
-    `;
-    }
+  function toggleButtons(productId, disable) {
+    const decrementButton = document.querySelector(
+      `#quantity-${productId} button[onclick*="decreaseQuantity"]`
+    );
+    const incrementButton = document.querySelector(
+      `#quantity-${productId} button[onclick*="increaseQuantity"]`
+    );
+
+    if (decrementButton) decrementButton.disabled = disable;
+    if (incrementButton) incrementButton.disabled = disable;
   }
 </script>
