@@ -119,7 +119,7 @@ class CartModel extends Model {
       ? Number((cart.cart_total * 0.2).toFixed(2))
       : 0;
 
-    cart.delivery = Math.round((2500 * Math.random() * 15000) / 5000) * 5000;
+    cart.delivery = Number((2500 * Math.ceil(Math.random() * 100)).toFixed(2));
 
     cart.total = Number(
       (
