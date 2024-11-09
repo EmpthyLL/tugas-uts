@@ -1,14 +1,16 @@
-<section class="px-8 py-12">
+<section class="px-4 md:px-20 py-12">
   <h1
-    class="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-500 to-teal-400 bg-clip-text text-transparent"
+    class="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-blue-500 to-teal-400 bg-clip-text text-transparent"
   >
     Membership
   </h1>
-  <p class="text-lg text-gray-600 mb-8">
+  <p class="text-base md:text-lg text-gray-600 mb-8">
     Dengan berlangganan membership, anda bisa menikmati banyak promo menarik
     serta diskon sale yang cukup besar
   </p>
-  <div class="grid md:grid-cols-3 gap-8">
+
+  <!-- Cards Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
     <!-- Card 1 -->
     <div
       class="group relative bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200 overflow-hidden"
@@ -77,8 +79,9 @@
     </div>
   </div>
 
+  <!-- Stats Section -->
   <div
-    class="bg-gradient-to-r from-gray-300 from-10% via-white-300 via-30% to-black-400 to-90% p-6 rounded-lg shadow-md flex justify-around items-center space-x-6 mt-8"
+    class="bg-gradient-to-r from-gray-300 via-white to-gray-500 p-6 rounded-lg shadow-md flex flex-wrap justify-around items-center space-x-6 mt-8"
   >
     <!-- Stat 1 -->
     <div class="flex flex-col items-center">
@@ -105,7 +108,6 @@
       <h2 class="text-2xl font-bold text-gray-800">2,000+</h2>
       <p class="text-gray-600">Market partners</p>
     </div>
-    <!-- Divider -->
     <div class="h-12 border-l border-gray-900"></div>
     <!-- Stat 2 -->
     <div class="flex flex-col items-center">
@@ -124,7 +126,6 @@
       <h2 class="text-2xl font-bold text-gray-800">85%</h2>
       <p class="text-gray-600">Happy customers</p>
     </div>
-    <!-- Divider -->
     <div class="h-12 border-l border-gray-900"></div>
     <!-- Stat 3 -->
     <div class="flex flex-col items-center">
@@ -153,8 +154,9 @@
     </div>
   </div>
 
+  <!-- Pricing Section -->
   <div
-    class="bg-gradient-to-r from-blue-300 from-10% via-green-300 via-30% to-purple-400 to-90% pr-11 pl-11 pt-6 pb-6 rounded-lg shadow-md flex justify-between items-center space-x-10 mt-8"
+    class="bg-gradient-to-r from-blue-300 via-green-300 to-purple-400 pr-11 pl-11 pt-6 pb-6 rounded-lg shadow-md flex justify-between items-center space-x-10 mt-8"
   >
     <!-- Monthly -->
     <div class="flex flex-col items-start">
@@ -171,17 +173,26 @@
         class="lucide lucide-coins"
       >
         <circle cx="8" cy="8" r="6" />
-        <path d="M18.09 10.37A6 6 0 1 1 10.34 18" />
-        <path d="M7 6h1v4" />
-        <path d="m16.71 13.88.7.71-2.82 2.82" />
+        <path d="M18.09 10.37A6 6 0 0 1 12 18" />
       </svg>
-      <h2 class="text-2xl font-bold italic text-black">Rp. 25.000</h2>
-      <p class="text-black italic">Monthly Price</p>
+      <h3 class="text-2xl font-semibold text-gray-800 mb-2">MONTHLY</h3>
+      <h1 class="text-3xl text-blue-700 font-bold mb-4">Rp. 25,000 / month</h1>
+      <p class="text-xl text-gray-600">For Monthly Membership</p>
+      <button
+        id="monthly-button"
+        type="button"
+        aria-haspopup="dialog"
+        aria-expanded="false"
+        aria-controls="confirm-payment"
+        data-hs-overlay="#confirm-payment"
+        class="mt-4 px-6 py-3 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-400"
+      >
+        Select
+      </button>
     </div>
-    <!-- Divider -->
-    <div class="h-12 border-l border-gray-900"></div>
-    <!-- Yearly -->
-    <div class="flex flex-col items-end">
+
+    <!-- Annual -->
+    <div class="flex flex-col items-start">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -192,31 +203,106 @@
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="lucide lucide-coins"
+        class="lucide lucide-trophy"
       >
-        <circle cx="8" cy="8" r="6" />
-        <path d="M18.09 10.37A6 6 0 1 1 10.34 18" />
-        <path d="M7 6h1v4" />
-        <path d="m16.71 13.88.7.71-2.82 2.82" />
+        <path
+          d="M9 2h6M12 2v4m5 2H7c-1.2 0-2 1-2 2v10c0 1 1 2 2 2h12c1 0 2-1 2-2V8c0-1-1-2-2-2zm-5 12V6"
+        />
       </svg>
-      <h2 class="text-2xl font-bold italic text-black">Rp. 280.000</h2>
-      <p class="text-black italic">Yearly Price</p>
+      <h3 class="text-2xl font-semibold text-gray-800 mb-2">ANNUAL</h3>
+      <h1 class="text-3xl text-blue-700 font-bold mb-4">Rp. 270,000 / year</h1>
+      <p class="text-xl text-gray-600">For Annual Membership</p>
+      <button
+        id="annual-button"
+        type="button"
+        aria-haspopup="dialog"
+        aria-expanded="false"
+        aria-controls="confirm-payment"
+        data-hs-overlay="#confirm-payment"
+        class="mt-4 px-6 py-3 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-400"
+      >
+        Select
+      </button>
+    </div>
+    <div
+      id="confirm-payment"
+      class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none bg-opacity-50 bg-black transition-opacity duration-300 ease-in-out"
+      role="dialog"
+      tabindex="-1"
+      aria-labelledby="confirm-payment-label"
+    >
+      <div
+        class="hs-overlay-animation-target hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 opacity-0 ease-in-out transition-all duration-200 sm:max-w-lg sm:w-full m-4 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center justify-center"
+      >
+        <div
+          class="w-full flex flex-col bg-white border shadow-lg rounded-xl pointer-events-auto dark:bg-neutral-800 dark:border-neutral-700 dark:shadow-neutral-700/70"
+        >
+          <div
+            class="flex justify-between items-center py-4 px-6 border-b dark:border-neutral-700"
+          >
+            <h3
+              id="confirm-payment-label"
+              class="font-bold text-xl text-gray-800 dark:text-white"
+            >
+              Payment Confirmation
+            </h3>
+            <button
+              type="button"
+              class="text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 rounded-full p-2"
+              aria-label="Close"
+              data-hs-overlay="#confirm-payment"
+            >
+              <span class="sr-only">Close</span>
+              <svg
+                class="w-6 h-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                viewBox="0 0 24 24"
+              >
+                <path d="M18 6 6 18"></path>
+                <path d="m6 6 12 12"></path>
+              </svg>
+            </button>
+          </div>
+          <div class="p-6">
+            <p
+              class="text-lg text-gray-800 dark:text-neutral-400"
+              id="topup-message"
+            >
+              Join membership for a
+              <span id="select-display">Time</span> for the price of Rp<span
+                id="price-display"
+                >0</span
+              >.
+            </p>
+          </div>
+          <div
+            class="flex justify-end gap-4 py-4 px-6 border-t dark:border-neutral-700"
+          >
+            <button
+              type="button"
+              class="py-2 px-4 text-sm font-medium rounded-lg border border-gray-200 bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:bg-neutral-700 dark:border-neutral-600 dark:text-neutral-400 dark:hover:bg-neutral-600 dark:focus:bg-neutral-600"
+              data-hs-overlay="#confirm-payment"
+            >
+              Close
+            </button>
+            <form method="post" action="/top-up" id="join-">
+              <input type="hidden" name="price" id="price-value" />
+              <button
+                onclick="return confirm('Lakukan pembayaran.')"
+                class="py-2 px-4 text-sm font-medium rounded-lg border border-transparent bg-lime-500 text-white hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-700 dark:bg-lime-600 dark:hover:bg-lime-700 dark:focus:ring-lime-700"
+              >
+                Proceed to Payment
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="flex mt-8 gap-8">
-    <button
-      type="button"
-      class="flex items-center bg-gradient-to-r from-blue-400 to-black hover:from-blue-400 hover:to-blue-400 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-200 w-1/2 justify-center h-12"
-    >
-      Monthly
-    </button>
-
-    <button
-      type="button"
-      class="flex items-center bg-gradient-to-r from-black to-green-400 hover:bg-green-400 hover:from-green-400 hover:to-green-400 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-200 w-1/2 justify-center h-12"
-    >
-      Yearly
-    </button>
-  </div>
 </section>
+<script src="/js/member.js"></script>
