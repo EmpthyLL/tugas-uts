@@ -1,4 +1,5 @@
 const formatDate = require("../../utils/formateDate");
+const getAuthUser = require("../../utils/user");
 const Controller = require("./Controller");
 
 class LocationController extends Controller {
@@ -11,13 +12,12 @@ class LocationController extends Controller {
 
   async index(req, res) {
     try {
-      this.user = getAuthUser(req, res, false); // Assuming this function gets the authenticated user
+      this.user = getAuthUser(req, res, false); 
       const userLocation = {
-        lat: 3.5952, // Example coordinates for the user's location
+        lat: 3.5952, 
         lng: 98.678,
       };
-
-      // List of store locations
+     
       const locations = [
         { name: "Alfamart", lat: 3.5784, lng: 98.6789 },
         { name: "Indomaret", lat: 3.5953, lng: 98.6743 },
@@ -35,7 +35,7 @@ class LocationController extends Controller {
         locations,
       };
 
-      this.renderView(res, this.view, options); // This will render the `location.ejs` template with the above data
+      this.renderView(res, this.view, options);
     } catch (error) {
       console.error("Error rendering map page:", error);
       this.handleError(res, "Failed to render map page", 500);

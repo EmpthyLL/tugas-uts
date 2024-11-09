@@ -212,7 +212,7 @@ app.get("/cart", auth, async (req, res) => {
   cartController.index(req, res);
 });
 
-app.get("/payment/location", auth, (req, res) => {
+app.get("/location", auth, (req, res) => {
   locationController.index(req, res);
 });
 
