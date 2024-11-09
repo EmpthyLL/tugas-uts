@@ -12,12 +12,63 @@
     "member_since": null,
     "member_until": null,
     "cart": {
-      "items": [],
-      "cart_total": 0,
-      "tax": 0,
+      "items": [
+        {
+          "id": 10,
+          "title": "Gucci Bloom Eau de",
+          "price": 79.99,
+          "brand": "Gucci",
+          "category": "fragrances",
+          "thumbnail": "https://cdn.dummyjson.com/products/images/fragrances/Gucci%20Bloom%20Eau%20de/thumbnail.png",
+          "quantity": 4,
+          "total": 319.96
+        },
+        {
+          "id": 8,
+          "title": "Dior J'adore",
+          "price": 89.99,
+          "brand": "Dior",
+          "category": "fragrances",
+          "thumbnail": "https://cdn.dummyjson.com/products/images/fragrances/Dior%20J'adore/thumbnail.png",
+          "quantity": 3,
+          "total": 269.96999999999997
+        },
+        {
+          "id": 4,
+          "title": "Red Lipstick",
+          "price": 12.99,
+          "brand": "Chic Cosmetics",
+          "category": "beauty",
+          "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Red%20Lipstick/thumbnail.png",
+          "quantity": 5,
+          "total": 64.95
+        },
+        {
+          "id": 5,
+          "title": "Red Nail Polish",
+          "price": 8.99,
+          "brand": "Nail Couture",
+          "category": "beauty",
+          "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Red%20Nail%20Polish/thumbnail.png",
+          "quantity": 3,
+          "total": 26.97
+        },
+        {
+          "id": 3,
+          "title": "Powder Canister",
+          "price": 14.99,
+          "brand": "Velvet Touch",
+          "category": "beauty",
+          "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/thumbnail.png",
+          "quantity": 1,
+          "total": 14.99
+        }
+      ],
+      "cart_total": "10452600.00",
+      "tax": "1149786.00",
       "member_discount": 0,
-      "delivery": 0,
-      "total": 0
+      "delivery": 22875000,
+      "total": "34477386.00"
     },
     "history": [],
     "notification": []
@@ -150,33 +201,12 @@
     "member_since": null,
     "member_until": null,
     "cart": {
-      "items": [
-        {
-          "id": 7,
-          "title": "Chanel Coco Noir Eau De",
-          "price": 129.99,
-          "brand": "Chanel",
-          "category": "fragrances",
-          "thumbnail": "https://cdn.dummyjson.com/products/images/fragrances/Chanel%20Coco%20Noir%20Eau%20De/thumbnail.png",
-          "quantity": 1,
-          "total": 129.99
-        },
-        {
-          "id": 8,
-          "title": "Dior J'adore",
-          "price": 89.99,
-          "brand": "Dior",
-          "category": "fragrances",
-          "thumbnail": "https://cdn.dummyjson.com/products/images/fragrances/Dior%20J'adore/thumbnail.png",
-          "quantity": 2,
-          "total": 179.98
-        }
-      ],
-      "cart_total": 309.97,
-      "tax": 34.096700000000006,
+      "items": [],
+      "cart_total": 0,
+      "tax": 0,
       "member_discount": 0,
-      "delivery": 951.5694648108763,
-      "total": 1295.6361648108764
+      "delivery": 0,
+      "total": 0
     },
     "history": [],
     "notification": []
