@@ -16,14 +16,21 @@ class HistoryModel extends Model {
     return this.data;
   }
 
-  addEntry(items) {
+  addEntry(cart) {
     const newHistory = {
       uuid: uuidv4(),
-      items,
-      driver: null,
+      cart,
+      driver: this.driver[Math.floor(Math.random() * 5)],
+      status: "Ongoing",
+      ratting: null,
     };
-    this.data.push(entry);
+    this.data.unshift(newHistory);
     this.saveData(this.data);
+  }
+  getHistoryByUuid(uuid) {
+    const historyItem = this.data.find((item) => item.uuid === uuid);
+    if (!historyItem) throw new Error("History entry not found.");
+    return historyItem;
   }
 }
 

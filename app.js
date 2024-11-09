@@ -222,7 +222,7 @@ app.get("/history", auth, async (req, res) => {
   historyController.index(req, res);
 });
 
-app.get("/payment/location", auth, (req, res) => {
+app.get("/order/:id", auth, (req, res) => {
   locationController.index(req, res);
 });
 
