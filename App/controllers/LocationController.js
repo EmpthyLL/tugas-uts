@@ -2,6 +2,7 @@ const HistoryModel = require("../../model/service/HistoryModel");
 const formatDate = require("../../utils/formateDate");
 const getAuthUser = require("../../utils/user");
 const Controller = require("./Controller");
+const CartModel = require("../../model/service/CartModel");
 
 class LocationController extends Controller {
   constructor() {
@@ -41,6 +42,8 @@ class LocationController extends Controller {
         userLocation,
         formatDate,
         locations,
+        user: this.user,
+        cart: this.user ? this.user.cart : null,
       };
 
       this.renderView(res, this.view, options);
@@ -50,6 +53,20 @@ class LocationController extends Controller {
         this.handleError(res, "Order is not found", 404);
       }
       this.handleError(res, "Failed to render map page", 500);
+    }
+  }
+
+  async getCartData(req, res) {
+    try {
+      const user = getAuthUser(req, res, true); 
+      if (user) {
+        res.status(200).json({ message: "Data has been retrieved", data: user.cart });
+      } else {
+        res.status(400).json({ message: "User not authenticated" });
+      }
+    } catch (error) {
+      console.error("Error retrieving cart data:", error);
+      this.handleError(res, "Failed to retrieve items", 500);
     }
   }
 }
