@@ -58,7 +58,7 @@ const profileController = new ProfileController();
 const topupController = new TopupController();
 const memberController = new MemberController();
 const cartController = new CartController();
-const locationController = new LocationController();
+const locationcontroller = new LocationController();
 
 app.get("/sign-in", guest, (req, res) => {
   loginController.step = 0;
