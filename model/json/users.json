@@ -212,12 +212,33 @@
     "member_since": null,
     "member_until": null,
     "cart": {
-      "items": [],
-      "cart_total": 0,
-      "tax": 0,
+      "items": [
+        {
+          "id": 23,
+          "title": "Eggs",
+          "price": 2.99,
+          "brand": null,
+          "category": "groceries",
+          "thumbnail": "https://cdn.dummyjson.com/products/images/groceries/Eggs/thumbnail.png",
+          "quantity": 3,
+          "total": 8.97
+        },
+        {
+          "id": 19,
+          "title": "Chicken Meat",
+          "price": 9.99,
+          "brand": null,
+          "category": "groceries",
+          "thumbnail": "https://cdn.dummyjson.com/products/images/groceries/Chicken%20Meat/thumbnail.png",
+          "quantity": 5,
+          "total": 49.95
+        }
+      ],
+      "cart_total": 883800,
+      "tax": 97218,
       "member_discount": 0,
-      "delivery": 0,
-      "total": 0
+      "delivery": 17500,
+      "total": 998518
     },
     "history": [],
     "notification": []

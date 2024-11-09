@@ -3,6 +3,8 @@ const Controller = require("./Controller");
 const getAuthUser = require("../../utils/user");
 const formatDate = require("../../utils/formateDate");
 const CartModel = require("../../model/service/CartModel");
+const HistoryModel = require("../../model/service/HistoryModel");
+const cekBalance = require("../../utils/balance");
 
 class CartController extends Controller {
   constructor() {
@@ -12,6 +14,7 @@ class CartController extends Controller {
     this.title = "Your Cart";
     this.user = {};
     this.cart = new CartModel();
+    this.history = new HistoryModel();
   }
 
   async index(req, res) {
@@ -120,6 +123,24 @@ class CartController extends Controller {
     } catch (error) {
       this.handleError(res, "Failed to retrive items", 500);
     }
+  }
+
+  payment(req, res) {
+    this.user = getAuthUser(req, res, false);
+
+    if (this.user.history[0].status === "Ongoing") {
+      res.redirect(`/order/${this.user.history[0].id}`);
+    }
+
+    const price = this.user.cart.total;
+
+    if (!cekBalance(this.user, price, req, res)) return;
+
+    this.cart.resetCart(this.user.uuid);
+
+    this.history.addEntry(this.user.cart);
+
+    res.redirect(`/order/${this.history.data[0].id}`);
   }
 }
 

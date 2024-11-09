@@ -132,6 +132,9 @@ class HomeController extends Controller {
         return paginatedProducts;
       } catch (error) {
         console.error("Error fetching products:", error);
+        if (error.message === "No results found.") {
+          this.handleError(res, "Category is not available", 404);
+        }
         this.handleError(res, "Failed to fetch product data", 500);
       }
     } else {

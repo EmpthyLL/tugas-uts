@@ -18,6 +18,7 @@ const TopupController = require("./app/controllers/TopupController");
 const CartController = require("./app/controllers/CartController");
 const LocationController = require("./app/controllers/LocationController");
 const MemberController = require("./app/controllers/MemberController");
+const HistoryController = require("./app/controllers/HistoryController");
 
 const app = express();
 const port = 3002;
@@ -59,6 +60,7 @@ const topupController = new TopupController();
 const memberController = new MemberController();
 const cartController = new CartController();
 const locationController = new LocationController();
+const historyController = new HistoryController();
 
 app.get("/sign-in", guest, (req, res) => {
   loginController.step = 0;
@@ -212,13 +214,16 @@ app.get("/cart", auth, async (req, res) => {
   cartController.index(req, res);
 });
 
-app.get("/location", auth, async (req, res) => {
-  try {
-    await locationController.index(req, res);
-    await locationController.getCartData(req, res);
-  } catch (error) {
-    console.log(error);
-  }
+app.post("/cart/payment", auth, async (req, res) => {
+  cartController.payment(req, res);
+});
+
+app.get("/history", auth, async (req, res) => {
+  historyController.index(req, res);
+});
+
+app.get("/order/:id", auth, (req, res) => {
+  locationController.index(req, res);
 });
 
 app.use((req, res) => {
