@@ -1,5 +1,6 @@
 const getAuthUser = require("../../utils/user");
 const Controller = require("./Controller");
+const formatDate = require("../../utils/formateDate");
 
 class AboutController extends Controller {
   constructor() {
@@ -19,6 +20,7 @@ class AboutController extends Controller {
         menus: this.menus,
         user: this.user,
         cart: this.user.cart,
+        formatDate,
         keyword: "",
       };
 

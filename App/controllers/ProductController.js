@@ -1,6 +1,7 @@
 const { default: axios } = require("axios");
 const Controller = require("./Controller");
 const getAuthUser = require("../../utils/user");
+const formatDate = require("../../utils/formateDate");
 
 class ProductController extends Controller {
   constructor() {
@@ -42,6 +43,7 @@ class ProductController extends Controller {
         keyword: "",
         user: this.user,
         categoryName: product.category.toLowerCase().replace(/\s+/g, "-"),
+        formatDate,
         cart: this.user.cart,
       };
 

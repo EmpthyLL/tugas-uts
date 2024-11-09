@@ -1,4 +1,5 @@
 const UserModel = require("../../model/service/UserModel");
+const formatDate = require("../../utils/formateDate");
 const getAuthUser = require("../../utils/user");
 const Controller = require("./Controller");
 
@@ -23,6 +24,7 @@ class TopupController extends Controller {
         balance: req.flash("balance") || [],
         keyword: "",
         user: this.user,
+        formatDate,
         cart: this.user.cart,
       };
 

@@ -1,3 +1,4 @@
+const formatDate = require("../../utils/formateDate");
 const getAuthUser = require("../../utils/user");
 const Controller = require("./Controller");
 
@@ -17,6 +18,7 @@ class History extends Controller {
         title: this.title,
         req,
         menus: this.menus,
+        formatDate,
         keyword,
         user: this.user,
         cart: this.user.cart,
