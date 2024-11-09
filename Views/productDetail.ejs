@@ -24,9 +24,8 @@
         <a
           href="/category/<%= product.category.toLowerCase().replace(/\s+/g, '-') %>/product/<%= product.id %>"
           class="font-semibold text-blue-600 hover:underline capitalize"
+          ><%= product.category %></a
         >
-          <%= product.category %>
-        </a>
       </p>
       <div class="flex flex-wrap mb-4">
         <% product.tags.forEach(tag => { %>
@@ -42,12 +41,88 @@
       </p>
       <div class="mt-6">
         <% if (req.isAuthenticated) { %>
-        <button
-          class="w-full bg-green-600 text-white py-3 px-6 rounded-md shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300 ease-in-out text-lg"
-          onclick="addToCart('<%= product.id %>')"
-        >
-          Add to Cart
-        </button>
+        <div class="flex items-center space-x-4">
+          <a
+            class="bg-green-600 text-white py-3 px-6 rounded-md shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300 ease-in-out text-lg"
+            href="/cart"
+          >
+            Your Cart
+          </a>
+          <% if (cart.find(item => item.id === product.id)) { %>
+          <div
+            id="quantity-<%= product.id %>"
+            class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md"
+          >
+            <button
+              onclick="decreaseQuantity(event, '<%= product.id %>')"
+              class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                width="16"
+                height="16"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M20 12H4"
+                />
+              </svg>
+            </button>
+            <span
+              id="quantity-display-<%=product.id%>"
+              class="text-gray-800 font-semibold"
+            >
+              <%= cart.find(item => item.id === product.id).quantity %>
+            </span>
+            <button
+              onclick="increaseQuantity(event, '<%= product.id %>')"
+              class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-green-600"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                width="16"
+                height="16"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+            </button>
+          </div>
+          <% } else { %>
+          <button
+            onclick="addQuantity(event, '<%= product.id %>')"
+            class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center transition hover:bg-blue-600 shadow-md"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              width="20"
+              height="20"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+          </button>
+          <% } %>
+        </div>
         <% } else { %>
         <a
           class="w-full flex items-center justify-center bg-blue-500 text-white py-3 px-6 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300 ease-in-out text-lg"
@@ -86,3 +161,6 @@
     <% }); %>
   </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/js/cartHandle.js"></script>

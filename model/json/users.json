@@ -11,7 +11,107 @@
     "member": false,
     "member_since": null,
     "member_until": null,
-    "cart": [],
+    "cart": [
+      {
+        "id": 110,
+        "title": "Selfie Lamp with iPhone",
+        "price": 14.99,
+        "brand": "GadgetMaster",
+        "category": "mobile-accessories",
+        "thumbnail": "https://cdn.dummyjson.com/products/images/mobile-accessories/Selfie%20Lamp%20with%20iPhone/thumbnail.png",
+        "quantity": 1
+      },
+      {
+        "id": 19,
+        "title": "Chicken Meat",
+        "price": 9.99,
+        "brand": null,
+        "category": "groceries",
+        "thumbnail": "https://cdn.dummyjson.com/products/images/groceries/Chicken%20Meat/thumbnail.png",
+        "quantity": 2
+      },
+      {
+        "id": 3,
+        "title": "Powder Canister",
+        "price": 14.99,
+        "brand": "Velvet Touch",
+        "category": "beauty",
+        "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/thumbnail.png",
+        "quantity": 1
+      },
+      {
+        "id": 5,
+        "title": "Red Nail Polish",
+        "price": 8.99,
+        "brand": "Nail Couture",
+        "category": "beauty",
+        "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Red%20Nail%20Polish/thumbnail.png",
+        "quantity": 2
+      },
+      {
+        "id": 10,
+        "title": "Gucci Bloom Eau de",
+        "price": 79.99,
+        "brand": "Gucci",
+        "category": "fragrances",
+        "thumbnail": "https://cdn.dummyjson.com/products/images/fragrances/Gucci%20Bloom%20Eau%20de/thumbnail.png",
+        "quantity": 2
+      },
+      {
+        "id": 4,
+        "title": "Red Lipstick",
+        "price": 12.99,
+        "brand": "Chic Cosmetics",
+        "category": "beauty",
+        "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Red%20Lipstick/thumbnail.png",
+        "quantity": 1
+      },
+      {
+        "id": 2,
+        "title": "Eyeshadow Palette with Mirror",
+        "price": 19.99,
+        "brand": "Glamour Beauty",
+        "category": "beauty",
+        "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/thumbnail.png",
+        "quantity": 3
+      },
+      {
+        "id": 9,
+        "title": "Dolce Shine Eau de",
+        "price": 69.99,
+        "brand": "Dolce & Gabbana",
+        "category": "fragrances",
+        "thumbnail": "https://cdn.dummyjson.com/products/images/fragrances/Dolce%20Shine%20Eau%20de/thumbnail.png",
+        "quantity": 3
+      },
+      {
+        "id": 12,
+        "title": "Annibale Colombo Sofa",
+        "price": 2499.99,
+        "brand": "Annibale Colombo",
+        "category": "furniture",
+        "thumbnail": "https://cdn.dummyjson.com/products/images/furniture/Annibale%20Colombo%20Sofa/thumbnail.png",
+        "quantity": 1
+      },
+      {
+        "id": 13,
+        "title": "Bedside Table African Cherry",
+        "price": 299.99,
+        "brand": "Furniture Co.",
+        "category": "furniture",
+        "thumbnail": "https://cdn.dummyjson.com/products/images/furniture/Bedside%20Table%20African%20Cherry/thumbnail.png",
+        "quantity": 2
+      },
+      {
+        "id": 14,
+        "title": "Knoll Saarinen Executive Conference Chair",
+        "price": 499.99,
+        "brand": "Knoll",
+        "category": "furniture",
+        "thumbnail": "https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/thumbnail.png",
+        "quantity": 1
+      }
+    ],
     "history": [],
     "notification": []
   },
@@ -60,6 +160,24 @@
     "member_until": null,
     "cart": [
       {
+        "id": 7,
+        "title": "Chanel Coco Noir Eau De",
+        "price": 129.99,
+        "brand": "Chanel",
+        "category": "fragrances",
+        "thumbnail": "https://cdn.dummyjson.com/products/images/fragrances/Chanel%20Coco%20Noir%20Eau%20De/thumbnail.png",
+        "quantity": 2
+      },
+      {
+        "id": 2,
+        "title": "Eyeshadow Palette with Mirror",
+        "price": 19.99,
+        "brand": "Glamour Beauty",
+        "category": "beauty",
+        "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/thumbnail.png",
+        "quantity": 1
+      },
+      {
         "id": 5,
         "title": "Red Nail Polish",
         "price": 8.99,
@@ -84,28 +202,7 @@
         "brand": "Velvet Touch",
         "category": "beauty",
         "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/thumbnail.png",
-        "quantity": 1
-      },
-      {
-        "id": 13,
-        "title": "Bedside Table African Cherry",
-        "price": 299.99,
-        "thumbnail": "https://cdn.dummyjson.com/products/images/furniture/Bedside%20Table%20African%20Cherry/thumbnail.png",
-        "quantity": 1
-      },
-      {
-        "id": 9,
-        "title": "Dolce Shine Eau de",
-        "price": 69.99,
-        "thumbnail": "https://cdn.dummyjson.com/products/images/fragrances/Dolce%20Shine%20Eau%20de/thumbnail.png",
-        "quantity": 1
-      },
-      {
-        "id": 7,
-        "title": "Chanel Coco Noir Eau De",
-        "price": 129.99,
-        "thumbnail": "https://cdn.dummyjson.com/products/images/fragrances/Chanel%20Coco%20Noir%20Eau%20De/thumbnail.png",
-        "quantity": 1
+        "quantity": 2
       }
     ],
     "history": [],
