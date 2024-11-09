@@ -1,3 +1,14 @@
+<style>
+  /* Adjust the container size and overflow */
+  .lottie-container {
+    width: 80px; /* Adjust to crop */
+    height: 80px; /* Adjust to crop */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>
 <div class="bg-gray-100 min-h-screen flex items-center justify-center">
   <div class="flex flex-col items-center space-y-10 px-4 sm:px-6 lg:px-8">
     <!-- Container with input and buttons -->
@@ -196,7 +207,7 @@
             class="text-lg text-gray-800 dark:text-neutral-400"
             id="topup-message"
           >
-            You are about to top up Rp<span id="amount-display">0</span> using
+            You are about to top up Rp. <span id="amount-display">0</span> using
             <span id="store-display">Store Name</span>.
           </p>
         </div>
@@ -225,4 +236,47 @@
   </div>
 </div>
 
+<div
+  id="moneySad"
+  class="fixed inset-0 items-center justify-center bg-gray-800 bg-opacity-50 hidden animate-fadeIn"
+>
+  <div class="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+    <!-- Lottie Check Animation -->
+    <div class="flex justify-center mb-4">
+      <lottie-player
+        src="https://lottie.host/c53db5de-3aca-40e8-a7dc-656ca74b40c2/F4BNPcfMIi.json"
+        background="transparent"
+        speed="1"
+        style="width: 150px; height: 150px; overflow: hidden"
+        autoplay
+        loop
+      ></lottie-player>
+    </div>
+    <p class="text-amber-600 font-semibold text-lg" id="errorText">
+      <%= balance %>
+    </p>
+    <button
+      id="closeBroke"
+      class="mt-6 bg-amber-600 hover:bg-amber-700 text-white py-2 px-6 rounded-full shadow-md transition duration-300"
+    >
+      Close
+    </button>
+  </div>
+</div>
+
+<script>
+  const balanceMessage = "<%= balance %>";
+
+  if (balanceMessage) {
+    // Show the success modal
+    document.getElementById("moneySad").classList.remove("hidden");
+    document.getElementById("moneySad").classList.add("flex");
+  }
+
+  // Close modal on button click
+  document.getElementById("closeBroke").addEventListener("click", function () {
+    document.getElementById("moneySad").classList.add("hidden");
+    document.getElementById("moneySad").classList.remove("flex");
+  });
+</script>
 <script src="/js/top-up.js"></script>

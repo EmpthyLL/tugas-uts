@@ -43,17 +43,41 @@
     </a>
   </div>
 
-    <!-- Member Status -->
-    <div class="border rounded-lg p-4 bg-gray-50 dark:bg-gray-700 shadow-sm">
-      <p class="font-semibold text-gray-700 dark:text-gray-300 text-lg">Member Status:</p>
-      <% if (user.member) { %>
-        <p class="text-lg font-bold text-emerald-600">Active since <%= user.member_since ? formatDate(member_since) : "N/A" %></p>
-        <p class="text-lg font-bold text-red-600">Active until <%= user.member_until ? formatDate(member_until) : "N/A" %></p>
-      <% } else { %>
-        <p class="text-lg font-bold text-red-600">Inactive</p>
-        <a href="/become-member" class="inline-block mt-3 px-4 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all duration-200">Become a member</a>
-      <% } %>
-    </div>
+  <!-- Member Status -->
+  <div class="border rounded-lg p-4 bg-gray-50 dark:bg-gray-700 shadow-sm">
+    <p class="font-semibold text-gray-700 dark:text-gray-300 text-lg mb-2">Member Status:</p>
+    <% if (user.member) { %>
+      <div class="mt-2 flex items-center space-x-2">
+        <span class="text-emerald-600">
+          <!-- Lucide Calendar Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+        </span>
+        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Active since:</p>
+        <p class="text-lg font-bold text-emerald-600"><%= user.member_since ? formatDate(user.member_since) : "N/A" %></p>
+      </div>
+      <div class="mt-2 flex items-center space-x-2">
+        <span class="text-red-600">
+          <!-- Lucide Clock Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </span>
+        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Active until:</p>
+        <p class="text-lg font-bold text-red-600"><%= user.member_until ? formatDate(user.member_until) : "N/A" %></p>
+      </div>
+    <% } else { %>
+      <p class="text-lg font-bold text-red-600">Inactive</p>
+      <a href="/become-member" class="inline-block mt-3 px-4 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all duration-200">
+        Become a member
+      </a>
+    <% } %>
+  </div>
 
     <!-- Contact Information Section -->
     <div class="border rounded-lg p-4 bg-gray-50 dark:bg-gray-700 shadow-sm">
@@ -298,7 +322,6 @@
       // Show the success modal
       document.getElementById("successModal").classList.remove("hidden");
       document.getElementById("successModal").classList.add("flex");
-      document.getElementById("failedModal").innerHTML = successMessage;
     }
 
     // Close modal on button click
@@ -317,7 +340,6 @@
 
     document.getElementById("closeFailed").addEventListener("click", function() {
       document.getElementById("failedModal").classList.add("hidden");
-      document.getElementById("failedText").innerHTML = errorMessage;
     });
   });
 </script>

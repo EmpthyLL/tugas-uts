@@ -24,6 +24,7 @@ class ProfileController extends Controller {
       this.title.push(this.user.fullname + " - Profile");
       this.title.push("Verify Number");
       this.title.push("Verify Email");
+      console.log(this.user);
       const options = {
         layout: `components/${this.layout}`,
         title: this.title[this.step],
