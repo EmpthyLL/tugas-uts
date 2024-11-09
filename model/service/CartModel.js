@@ -109,22 +109,26 @@ class CartModel extends Model {
   }
 
   updateCartTotals(member, cart) {
-    cart.cart_total = (
-      cart.items.reduce((acc, item) => acc + item.total, 0) * 15000
-    ).toFixed(2);
+    cart.cart_total = Number(
+      (cart.items.reduce((acc, item) => acc + item.total, 0) * 15000).toFixed(2)
+    );
 
-    cart.tax = (cart.cart_total * 0.11).toFixed(2);
+    cart.tax = Number((cart.cart_total * 0.11).toFixed(2));
 
-    cart.member_discount = member ? (cart.cart_total * 0.2).toFixed(2) : 0;
+    cart.member_discount = member
+      ? Number((cart.cart_total * 0.2).toFixed(2))
+      : 0;
 
     cart.delivery = Math.round((2500 * Math.random() * 15000) / 5000) * 5000;
 
-    cart.total = (
-      parseFloat(cart.cart_total) +
-      parseFloat(cart.tax) -
-      parseFloat(cart.member_discount) +
-      parseFloat(cart.delivery)
-    ).toFixed(2);
+    cart.total = Number(
+      (
+        parseFloat(cart.cart_total) +
+        parseFloat(cart.tax) -
+        parseFloat(cart.member_discount) +
+        parseFloat(cart.delivery)
+      ).toFixed(2)
+    );
   }
 }
 
