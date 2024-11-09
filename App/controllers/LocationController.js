@@ -6,7 +6,7 @@ const Controller = require("./Controller");
 class LocationController extends Controller {
   constructor() {
     super();
-    this.view = ["location", "detail"];
+    this.view = "location";
     this.layout = "layout";
     this.title = "Order";
     this.history = new HistoryModel();
@@ -16,11 +16,7 @@ class LocationController extends Controller {
   async index(req, res) {
     try {
       this.user = getAuthUser(req, res, false);
-      const id = req.params.id;
-      if (this.user.history.length === 0) {
-        res.redirect("/");
-      }
-      this.order = this.history.getHistoryByUuid(id);
+
       const userLocation = {
         lat: 3.5952,
         lng: 98.678,
@@ -41,6 +37,8 @@ class LocationController extends Controller {
         userLocation,
         formatDate,
         locations,
+        cart: this.user.cart,
+        user: this.user,
       };
 
       this.renderView(res, this.view, options);

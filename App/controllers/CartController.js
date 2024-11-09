@@ -5,6 +5,7 @@ const formatDate = require("../../utils/formateDate");
 const CartModel = require("../../model/service/CartModel");
 const HistoryModel = require("../../model/service/HistoryModel");
 const cekBalance = require("../../utils/balance");
+const UserModel = require("../../model/service/UserModel");
 
 class CartController extends Controller {
   constructor() {
@@ -13,6 +14,7 @@ class CartController extends Controller {
     this.layout = "layout";
     this.title = "Your Cart";
     this.user = {};
+    this.model = new UserModel();
     this.cart = new CartModel();
     this.history = new HistoryModel();
   }
@@ -128,19 +130,15 @@ class CartController extends Controller {
   payment(req, res) {
     this.user = getAuthUser(req, res, false);
 
-    if (this.user.history[0].status === "Ongoing") {
-      res.redirect(`/order/${this.user.history[0].id}`);
-    }
-
     const price = this.user.cart.total;
 
     if (!cekBalance(this.user, price, req, res)) return;
 
+    this.model.pay(this.user.uuid, price);
+
     this.cart.resetCart(this.user.uuid);
 
-    this.history.addEntry(this.user.cart);
-
-    res.redirect(`/order/${this.history.data[0].id}`);
+    res.redirect(`/order`);
   }
 }
 

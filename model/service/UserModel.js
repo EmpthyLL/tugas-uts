@@ -9,6 +9,12 @@ class UserModel extends Model {
     super("users");
   }
 
+  pay(userId, price) {
+    const user = this.getUserByUuid(userId);
+    user.balance -= Number(price);
+    this.saveData();
+  }
+
   generateToken(user, hour) {
     return jwt.sign({ userId: user.uuid }, SECRET_KEY, {
       expiresIn: `${hour}h`,
