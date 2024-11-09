@@ -136,8 +136,6 @@ class CartController extends Controller {
 
     this.model.pay(this.user.uuid, price);
 
-    this.cart.resetCart(this.user.uuid);
-
     res.redirect(`/order`);
   }
 }

@@ -11,6 +11,7 @@ class LocationController extends Controller {
     this.layout = "layout";
     this.title = "Order";
     this.history = new HistoryModel();
+    this.cart = new CartModel();
     this.order = {};
   }
 
@@ -54,9 +55,11 @@ class LocationController extends Controller {
 
   async getCartData(req, res) {
     try {
-      const user = getAuthUser(req, res, true); 
+      const user = getAuthUser(req, res, true);
       if (user) {
-        res.status(200).json({ message: "Data has been retrieved", data: user.cart });
+        res
+          .status(200)
+          .json({ message: "Data has been retrieved", data: user.cart });
       } else {
         res.status(400).json({ message: "User not authenticated" });
       }
@@ -64,6 +67,11 @@ class LocationController extends Controller {
       console.error("Error retrieving cart data:", error);
       this.handleError(res, "Failed to retrieve items", 500);
     }
+  }
+  complete(req, res) {
+    this.user = getAuthUser(req, res, false);
+    this.cart.resetCart(this.user.uuid);
+    res.redirect("/");
   }
 }
 

@@ -226,6 +226,10 @@ app.get("/order", auth, (req, res) => {
   locationController.index(req, res);
 });
 
+app.post("/payment-complete", auth, (req, res) => {
+  locationController.complete(req, res);
+});
+
 app.use((req, res) => {
   res.status(404);
   res.render("error/error", {
