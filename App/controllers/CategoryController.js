@@ -1,6 +1,7 @@
 const { default: axios } = require("axios");
 const Controller = require("./Controller");
 const getAuthUser = require("../../utils/user");
+const formatDate = require("../../utils/formateDate");
 
 class CategoryController extends Controller {
   constructor() {
@@ -68,6 +69,7 @@ class CategoryController extends Controller {
         selectedBrand,
         user: this.user,
         cart: this.user.cart,
+        formatDate,
         brands: [
           ...new Set(
             response.data.products.map((p) => p.brand).filter((brand) => brand)

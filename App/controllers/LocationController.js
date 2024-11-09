@@ -1,3 +1,4 @@
+const formatDate = require("../../utils/formateDate");
 const Controller = require("./Controller");
 
 class LocationController extends Controller {
@@ -30,6 +31,7 @@ class LocationController extends Controller {
         menus: this.menus,
         keyword: "",
         userLocation,
+        formatDate,
         locations,
       };
 

@@ -1,5 +1,6 @@
 const UserModel = require("../../model/service/UserModel");
 const cekBalance = require("../../utils/balance");
+const formatDate = require("../../utils/formateDate");
 const getAuthUser = require("../../utils/user");
 const Controller = require("./Controller");
 
@@ -16,9 +17,6 @@ class MemberController extends Controller {
   index(req, res) {
     try {
       this.user = getAuthUser(req, res, false);
-      if (this.user.member) {
-        res.redirect("/");
-      }
       const options = {
         layout: `components/${this.layout}`,
         title: this.title,
@@ -26,6 +24,7 @@ class MemberController extends Controller {
         menus: this.menus,
         keyword: "",
         user: this.user,
+        formatDate,
         cart: this.user.cart,
       };
 
