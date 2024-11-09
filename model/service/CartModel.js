@@ -42,7 +42,7 @@ class CartModel extends Model {
     }
 
     // Recalculate the cart total, tax, member discount, and delivery
-    this.updateCartTotals(user.cart);
+    this.updateCartTotals(user.member, user.cart);
 
     this.saveData(this.data);
   }
@@ -57,7 +57,7 @@ class CartModel extends Model {
       existingItem.total = existingItem.price * existingItem.quantity;
 
       // Recalculate the cart total, tax, member discount, and delivery
-      this.updateCartTotals(user.cart);
+      this.updateCartTotals(user.member, user.cart);
 
       this.saveData(this.data);
       return existingItem.quantity;
@@ -80,7 +80,7 @@ class CartModel extends Model {
       }
 
       // Recalculate the cart total, tax, member discount, and delivery
-      this.updateCartTotals(user.cart);
+      this.updateCartTotals(user.member, user.cart);
 
       this.saveData(this.data);
       return existingItem.quantity;
@@ -96,7 +96,7 @@ class CartModel extends Model {
     user.cart.items = user.cart.items.filter((item) => item.id !== itemId);
 
     // Recalculate the cart total, tax, member discount, and delivery
-    this.updateCartTotals(user.cart);
+    this.updateCartTotals(user.member, user.cart);
 
     this.saveData(this.data);
   }
@@ -108,11 +108,11 @@ class CartModel extends Model {
     return user.cart.items;
   }
 
-  updateCartTotals(cart) {
+  updateCartTotals(member, cart) {
     cart.cart_total = cart.items.reduce((acc, item) => acc + item.total, 0);
 
     cart.tax = cart.cart_total * 0.11;
-    cart.member_discount = cart.cart_total * 0.2;
+    cart.member_discount = member ? cart.cart_total * 0.2 : 0;
     cart.delivery = 2500 * Math.random();
 
     cart.total =
