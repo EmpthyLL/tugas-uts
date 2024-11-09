@@ -81,17 +81,58 @@
     "gender": null,
     "birth_date": null,
     "profile_pic": "/img/uploads/ProfilePic/1731141676476.jpeg",
-    "balance": 25000,
+    "balance": 43500,
     "member": true,
     "member_since": "2024-11-09T08:49:45.529Z",
     "member_until": "2024-12-09T08:49:45.529Z",
     "cart": {
-      "items": [],
-      "cart_total": 0,
-      "tax": 0,
-      "member_discount": 0,
-      "delivery": 0,
-      "total": 0
+      "items": [
+        {
+          "id": 2,
+          "title": "Eyeshadow Palette with Mirror",
+          "price": 19.99,
+          "brand": "Glamour Beauty",
+          "category": "beauty",
+          "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/thumbnail.png",
+          "quantity": 2,
+          "total": 39.98
+        },
+        {
+          "id": 15,
+          "title": "Wooden Bathroom Sink With Mirror",
+          "price": 799.99,
+          "brand": "Bath Trends",
+          "category": "furniture",
+          "thumbnail": "https://cdn.dummyjson.com/products/images/furniture/Wooden%20Bathroom%20Sink%20With%20Mirror/thumbnail.png",
+          "quantity": 1,
+          "total": 799.99
+        },
+        {
+          "id": 14,
+          "title": "Knoll Saarinen Executive Conference Chair",
+          "price": 499.99,
+          "brand": "Knoll",
+          "category": "furniture",
+          "thumbnail": "https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/thumbnail.png",
+          "quantity": 1,
+          "total": 499.99
+        },
+        {
+          "id": 13,
+          "title": "Bedside Table African Cherry",
+          "price": 299.99,
+          "brand": "Furniture Co.",
+          "category": "furniture",
+          "thumbnail": "https://cdn.dummyjson.com/products/images/furniture/Bedside%20Table%20African%20Cherry/thumbnail.png",
+          "quantity": 1,
+          "total": 299.99
+        }
+      ],
+      "cart_total": 24599250,
+      "tax": 2705917.5,
+      "member_discount": 4919850,
+      "delivery": 19095000,
+      "total": 41480317.5
     },
     "history": [],
     "notification": []
