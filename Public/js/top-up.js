@@ -13,9 +13,25 @@ document.addEventListener("DOMContentLoaded", function () {
   let selectedStore = "";
 
   function formatAmount(value) {
-    return value
-      .replace(/\D/g, "") // Remove non-numeric characters
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"); // Add commas for thousands
+    let formattedValue = originalValue.replace(/\D/g, "");
+
+    formattedValue = formattedValue.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+
+    input.value = formattedValue;
+
+    let newCursorPosition = cursorPosition;
+
+    if (formattedValue !== originalValue) {
+      const numCommasBefore = (
+        originalValue.slice(0, cursorPosition).match(/,/g) || []
+      ).length;
+      const numCommasAfter = (
+        formattedValue.slice(0, cursorPosition).match(/,/g) || []
+      ).length;
+      newCursorPosition += numCommasAfter - numCommasBefore;
+    }
+
+    input.setSelectionRange(newCursorPosition, newCursorPosition);
   }
 
   function updateAmount() {
@@ -25,9 +41,38 @@ document.addEventListener("DOMContentLoaded", function () {
     validateConfirmButton();
   }
 
-  amountInput.addEventListener("input", function () {
-    amountInput.value = formatAmount(amountInput.value);
-    amountValue.value = formatAmount(amountInput.value);
+  function formatAmount(value) {
+    // Remove non-numeric characters
+    value = value.replace(/\D/g, "");
+
+    // Add commas for thousands
+    return value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  }
+
+  amountInput.addEventListener("input", function (e) {
+    const cursorPos = amountInput.selectionStart; // Get current cursor position
+    const oldValue = amountInput.value;
+
+    // Format the value
+    const formattedValue = formatAmount(amountInput.value);
+
+    // Set the formatted value back to the input
+    amountInput.value = formattedValue;
+
+    // Calculate the new cursor position after formatting
+    let newCursorPos = cursorPos;
+    if (formattedValue.length > oldValue.length) {
+      // If we're adding digits (inserting a comma), adjust the cursor position
+      newCursorPos += formattedValue.length - oldValue.length;
+    }
+
+    // Set the cursor position back to where it was before formatting
+    amountInput.setSelectionRange(newCursorPos, newCursorPos);
+
+    // Also update the amountValue input
+    amountValue.value = formattedValue;
+
+    // Call updateAmount function
     updateAmount();
   });
 

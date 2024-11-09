@@ -12,24 +12,32 @@ class HistoryModel extends Model {
       { name: "Michael Johnson", vehicle: "BK 3344 AOJ" },
     ];
   }
-  getHistoryItems() {
-    return this.data;
-  }
 
-  addEntry(cart) {
-    const newHistory = {
+  addEntry(userId, cart) {
+    const user = this.data.find((user) => user.uuid === userId);
+
+    const newHistoryEntry = {
       uuid: uuidv4(),
       cart,
-      driver: this.driver[Math.floor(Math.random() * 5)],
+      driver: this.driver[Math.floor(Math.random() * this.driver.length)],
       status: "Ongoing",
-      ratting: null,
+      rating: null,
     };
-    this.data.unshift(newHistory);
+
+    // Add the new entry to the user's history
+    user.history.unshift(newHistoryEntry);
+
+    // Save the updated data
     this.saveData(this.data);
   }
-  getHistoryByUuid(uuid) {
-    const historyItem = this.data.find((item) => item.uuid === uuid);
+
+  getHistoryByUuid(userId, uuid) {
+    const user = this.data.find((user) => user.uuid === userId);
+    if (!user) throw new Error("User not found.");
+
+    const historyItem = user.history.find((item) => item.uuid === uuid);
     if (!historyItem) throw new Error("History entry not found.");
+
     return historyItem;
   }
 }
