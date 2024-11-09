@@ -40,7 +40,7 @@ include('./components/money') %> <% } %> <%-include('./components/categories')
             >
               <button
                 onclick="decreaseQuantity(event, '<%= product.id %>')"
-                class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600"
+                class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <!-- Minus Icon -->
                 <svg
@@ -67,7 +67,7 @@ include('./components/money') %> <% } %> <%-include('./components/categories')
               >
               <button
                 onclick="increaseQuantity(event, '<%= product.id %>')"
-                class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-green-600"
+                class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <!-- Plus Icon -->
                 <svg

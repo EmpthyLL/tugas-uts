@@ -100,7 +100,7 @@ function addQuantity(event, productId) {
       <div class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md">
         <button
           onclick="decreaseQuantity(event, '${productId}')"
-          class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600"
+          class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <!-- Minus Icon -->
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
@@ -110,7 +110,7 @@ function addQuantity(event, productId) {
         <span id="quantity-display-${productId}" class="text-gray-800 font-semibold">1</span>
         <button
           onclick="increaseQuantity(event, '${productId}')"
-          class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-green-600"
+          class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <!-- Plus Icon -->
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
