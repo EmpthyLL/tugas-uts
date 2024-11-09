@@ -51,7 +51,7 @@ class UserModel extends Model {
       member: false,
       member_since: null,
       member_until: null,
-      cart: [],
+      cart: { item: [], cart_total: 0 },
       history: [],
       notification: [],
     };
