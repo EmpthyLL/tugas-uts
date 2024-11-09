@@ -58,7 +58,7 @@ const profileController = new ProfileController();
 const topupController = new TopupController();
 const memberController = new MemberController();
 const cartController = new CartController();
-const locationcontroller = new LocationController();
+const locationController = new LocationController();
 
 app.get("/sign-in", guest, (req, res) => {
   loginController.step = 0;
@@ -212,8 +212,13 @@ app.get("/cart", auth, async (req, res) => {
   cartController.index(req, res);
 });
 
-app.get("/location", auth, (req, res) => {
-  locationController.index(req, res);
+app.get("/location", auth, async (req, res) => {
+  try {
+    await locationController.index(req, res);
+    await locationController.getCartData(req, res);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 app.use((req, res) => {

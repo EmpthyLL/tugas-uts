@@ -1,108 +1,149 @@
-<title>GoMart Driver App</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
-<style>
-    body {
-        font-family: "Arial", sans-serif;
-        background-color: #f4f7f6;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-    }
+<!DOCTYPE html>
+<html lang="en">
 
-    h1 {
-        font-size: 36px;
-        color: #333;
-        margin-top: 20px;
-        font-weight: bold;
-        text-align: center;
-    }
-
-    #map {
-        width: 100%;
-        height: 500px;
-        margin: 20px 0;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        transition: all 0.3s ease;
-    }
-
-    .leaflet-container {
-        border-radius: 12px;
-    }
-
-    .leaflet-routing-container .leaflet-routing-alt {
-        display: none;
-    }
-
-    #driver {
-        font-size: 18px;
-        font-weight: bold;
-        color: #333;
-        background: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        margin: 20px 0;
-        text-align: center;
-    }
-
-    .driver-info {
-        background-color: #4caf50;
-        color: white;
-        padding: 10px;
-        border-radius: 6px;
-        margin: 10px 0;
-        font-size: 16px;
-    }
-
-    .distance-info {
-        background-color: #ff9800;
-        color: white;
-        padding: 10px;
-        border-radius: 6px;
-        margin: 10px 0;
-        font-size: 16px;
-    }
-
-    .popup-custom {
-        font-weight: bold;
-        color: #4caf50;
-    }
-
-    @media (max-width: 768px) {
-        #map {
-            width: 100%;
-            height: 400px;
-        }
-
+<head>
+    <title>GoMart Driver App</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    <style>
         h1 {
-            font-size: 28px;
+            font-size: 36px;
+            color: #333;
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
         }
 
-        #driver {
-            width: 90%;
+        .leaflet-container {
+            border-radius: 12px;
         }
-    }
-</style>
 
-<body>
-    <h1>GoMart Driver App</h1>
-    <div id="map"></div>
-    <div id="driver"></div>
+        .leaflet-routing-container .leaflet-routing-alt {
+            display: none;
+        }
+
+        .info-box {
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-size: 16px;
+            background-color: #4caf50;
+        }
+
+        .distance-info {
+            background-color: #ff9800;
+        }
+
+        @media (max-width: 768px) {
+            #map {
+                height: 400px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            #driver {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body class="font-sans bg-[#f4f7f6] m-0 p-0 flex flex-col items-center justify-center min-h-screen">
+    <h1 class="text-4xl text-gray-800 mt-5 font-bold text-center">Location</h1>
+    <div id="map" class="w-full h-[500px] my-5 rounded-lg shadow-lg transition-all duration-300 ease-in-out"></div>
+    <div id="driver" class="text-lg font-bold text-gray-800 bg-white p-5 rounded-lg shadow-lg w-full my-5 text-center">
+    </div>
+    <div class="max-w-4xl mx-auto bg-white p-6 my-6 rounded-lg shadow-md">
+        <div>
+            <h2
+                class="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-500 to-purple-950 bg-clip-text text-transparent">
+                Shopping bag
+            </h2>
+
+            <% cart.items.forEach(item=> { %>
+                <div class="flex items-start border-b pb-4 mb-4" id="product-<%= item.id %>">
+                    <a href="/product/<%= item.id %>">
+                        <img src="<%= item.thumbnail %>" alt="<%= item.title %>"
+                            class="w-24 h-24 object-cover rounded-md mr-4" />
+                    </a>
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-lg">
+                            <%= item.title %>
+                        </h3>
+                        <p class="text-gray-500">Price: Rp <%= Math.floor(item.price * 15000).toLocaleString("id-ID") %>
+                        </p>
+                        <p class="text-gray-500">Brand: <%= item.brand %>
+                        </p>
+                        <p class="text-gray-500">Category: <%= item.category %>
+                        </p>
+                    </div>
+                    <div class="flex flex-col items-end ml-6">
+                        <label class="text-gray-500">Quantity</label>
+                        <select class="border-gray-300 rounded-md">
+                            <% for(let i=1; i <=10; i++) { %>
+                                <option value="<%= i %>" <%= item.quantity===i ? 'selected' : '' %>><%= i %>
+                                </option>
+                                <% } %>
+                        </select>
+                        <div class="mt-8 font-bold text-lg">
+                            <p>Rp <%= Math.floor(item.total * 15000).toLocaleString("id-ID")%>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+        </div>
+
+        <!-- Order Summary Section -->
+        <div class="mt-8">
+            <h2
+                class="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-500 to-purple-900 bg-clip-text text-transparent">
+                Order summary</h2>
+            <div class="space-y-2" id="order-summary">
+                <div class="flex justify-between">
+                    <span>Subtotal</span>
+                    <span id="subtotal">
+                        <%= new Intl.NumberFormat('id-ID', { style: 'currency' , currency: 'IDR'
+                            }).format(cart.cart_total) %>
+                    </span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Shipping</span>
+                    <span>
+                        <%= new Intl.NumberFormat('id-ID', { style: 'currency' , currency: 'IDR'
+                            }).format(cart.delivery) %>
+                    </span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Estimated Tax</span>
+                    <span>
+                        <%= new Intl.NumberFormat('id-ID', { style: 'currency' , currency: 'IDR' }).format(cart.tax) %>
+                    </span>
+                </div>
+                <div class="flex justify-between text-red-600">
+                    <span>Member Discount</span>
+                    <span>- <%= new Intl.NumberFormat('id-ID', { style: 'currency' , currency: 'IDR'
+                            }).format(cart.member_discount) %></span>
+                </div>
+            </div>
+            <div class="flex justify-between text-xl font-bold mt-4">
+                <span>Total</span>
+                <span id="total">
+                    <%= new Intl.NumberFormat('id-ID', { style: 'currency' , currency: 'IDR' }).format(cart.total) %>
+                </span>
+            </div>
+        </div>
 </body>
 
 <script>
     const locations = [
         { name: "Alfamart", lat: 3.5784, lng: 98.6789 },
         { name: "Indomaret", lat: 3.5953, lng: 98.6743 },
-        { name: "Alfamidi", lat: 3.5952, lng: 98.678 },
+        { name: "Alfamidi", lat: 3.5952, lng: 98.678 }
     ];
 
     const drivers = [
@@ -114,148 +155,77 @@
     ];
 
     const selectedDriver = drivers[Math.floor(Math.random() * drivers.length)];
-
-    var map = L.map("map").setView([3.5952, 98.678], 13);
+    const map = L.map("map").setView([3.5952, 98.678], 13);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
 
-    const startIcon = L.icon({
-        iconUrl:
-            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [0, -41],
-    });
-
-    const userIcon = L.icon({
-        iconUrl:
-            "https://cdn2.iconfinder.com/data/icons/font-awesome/1792/map-marker-32.png",
-        iconSize: [32, 32],
-        iconAnchor: [16, 32],
-        popupAnchor: [0, -32],
-    });
+    const icons = {
+        start: L.icon({
+            iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [0, -41]
+        }),
+        user: L.icon({
+            iconUrl: "https://cdn2.iconfinder.com/data/icons/font-awesome/1792/map-marker-32.png",
+            iconSize: [32, 32],
+            iconAnchor: [16, 32],
+            popupAnchor: [0, -32]
+        })
+    };
 
     function calculateDistance(lat1, lng1, lat2, lng2) {
         const R = 6371;
         const dLat = ((lat2 - lat1) * Math.PI) / 180;
         const dLng = ((lng2 - lng1) * Math.PI) / 180;
-        const a =
-            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos((lat1 * Math.PI) / 180) *
-            Math.cos((lat2 * Math.PI) / 180) *
-            Math.sin(dLng / 2) *
-            Math.sin(dLng / 2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c;
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) *
+            Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    function displayRoute(startLat, startLng, endLat, endLng, driverInfo) {
+        L.Routing.control({
+            waypoints: [L.latLng(startLat, startLng), L.latLng(endLat, endLng)],
+            routeWhileDragging: false,
+            lineOptions: { styles: [{ color: "green", opacity: 0.7, weight: 5 }] },
+            createMarker: () => null,
+        }).addTo(map);
+
+        map.fitBounds([[startLat, startLng], [endLat, endLng]]);
+        document.getElementById('driver').innerHTML = driverInfo;
+    }
+
+    function handleLocation(lat, lng) {
+        const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+        const distance = calculateDistance(lat, lng, randomLocation.lat, randomLocation.lng).toFixed(2);
+
+        const driverInfo =
+            `<div class="info-box">
+                <strong>Driver:</strong> ${selectedDriver.name}<br>
+                <strong>Vehicle:</strong> ${selectedDriver.vehicle}
+            </div>
+            <div class="info-box distance-info">
+                <strong>Distance:</strong> ${distance} km
+            </div>`
+            ;
+
+        L.marker([lat, lng], { icon: icons.user }).addTo(map).bindPopup("You are here").openPopup();
+        L.marker([randomLocation.lat, randomLocation.lng], { icon: icons.start }).addTo(map).bindPopup(randomLocation.name).openPopup();
+
+        displayRoute(randomLocation.lat, randomLocation.lng, lat, lng, driverInfo);
     }
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const userLat = position.coords.latitude;
-                const userLng = position.coords.longitude;
-
-                const randomLocation =
-                    locations[Math.floor(Math.random() * locations.length)];
-
-                const userMarker = L.marker([userLat, userLng], {
-                    icon: userIcon,
-                }).addTo(map);
-                userMarker.bindPopup("You are here").openPopup();
-
-                const startMarker = L.marker(
-                    [randomLocation.lat, randomLocation.lng],
-                    { icon: startIcon }
-                ).addTo(map);
-                startMarker.bindPopup(randomLocation.name).openPopup();
-
-                const distance = calculateDistance(userLat, userLng, randomLocation.lat, randomLocation.lng);
-
-                const driverInfo = `
-                    <div class="driver-info">
-                        <strong>Driver:</strong> ${selectedDriver.name}<br>
-                        <strong>Vehicle:</strong> ${selectedDriver.vehicle}
-                    </div>
-                    <div class="distance-info">
-                        <strong>Distance:</strong> ${distance.toFixed(2)} km
-                    </div>
-                `;
-                document.getElementById('driver').innerHTML = driverInfo;
-
-                L.Routing.control({
-                    waypoints: [
-                        L.latLng(randomLocation.lat, randomLocation.lng),
-                        L.latLng(userLat, userLng),
-                    ],
-                    routeWhileDragging: false,
-                    lineOptions: {
-                        styles: [{ color: "green", opacity: 0.7, weight: 5 }],
-                    },
-                    createMarker: function () {
-                        return null;
-                    },
-                }).addTo(map);
-
-                map.fitBounds([
-                    [userLat, userLng],
-                    [randomLocation.lat, randomLocation.lng],
-                ]);
-            },
-            (error) => {
-                alert("Unable to retrieve your location. Using default location.");
-                const fallbackLat = 3.5952;
-                const fallbackLng = 98.678;
-
-                const randomLocation =
-                    locations[Math.floor(Math.random() * locations.length)];
-
-                const userMarker = L.marker([fallbackLat, fallbackLng], {
-                    icon: userIcon,
-                }).addTo(map);
-                userMarker.bindPopup("Fallback Location: Medan").openPopup();
-
-                const startMarker = L.marker(
-                    [randomLocation.lat, randomLocation.lng],
-                    { icon: startIcon }
-                ).addTo(map);
-                startMarker.bindPopup(randomLocation.name).openPopup();
-                const distance = calculateDistance(fallbackLat, fallbackLng, randomLocation.lat, randomLocation.lng);
-
-                const driverInfo = `
-                    <div class="driver-info">
-                        <strong>Driver:</strong> ${selectedDriver.name}<br>
-                        <strong>Vehicle:</strong> ${selectedDriver.vehicle}
-                    </div>
-                    <div class="distance-info">
-                        <strong>Distance:</strong> ${distance.toFixed(2)} km
-                    </div>
-                `;
-                document.getElementById('driver').innerHTML = driverInfo;
-
-                L.Routing.control({
-                    waypoints: [
-                        L.latLng(randomLocation.lat, randomLocation.lng),
-                        L.latLng(fallbackLat, fallbackLng),
-                    ],
-                    routeWhileDragging: false,
-                    lineOptions: {
-                        styles: [{ color: "green", opacity: 0.7, weight: 5 }],
-                    },
-                    createMarker: function () {
-                        return null;
-                    },
-                }).addTo(map);
-
-                map.fitBounds([
-                    [fallbackLat, fallbackLng],
-                    [randomLocation.lat, randomLocation.lng],
-                ]);
-            }
+            pos => handleLocation(pos.coords.latitude, pos.coords.longitude),
+            () => handleLocation(3.5952, 98.678)
         );
     } else {
         alert("Geolocation is not supported by this browser.");
     }
 </script>
+
+</html>
