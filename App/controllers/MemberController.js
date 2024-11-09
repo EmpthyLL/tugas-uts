@@ -1,4 +1,5 @@
 const UserModel = require("../../model/service/UserModel");
+const cekBalance = require("../../utils/balance");
 const getAuthUser = require("../../utils/user");
 const Controller = require("./Controller");
 
@@ -15,6 +16,9 @@ class MemberController extends Controller {
   index(req, res) {
     try {
       this.user = getAuthUser(req, res, false);
+      if (this.user.member) {
+        res.redirect("/");
+      }
       const options = {
         layout: `components/${this.layout}`,
         title: this.title,
@@ -31,10 +35,30 @@ class MemberController extends Controller {
       this.handleError(res, "Failed to render top up page", 500);
     }
   }
-  topup(req, res) {
+  month(req, res) {
     this.user = getAuthUser(req, res, false);
-    const amount = req.body.amount;
-    this.model.topUp(this.user.uuid, amount);
+    if (this.user.member) {
+      res.redirect("/");
+    }
+    const price = req.body.price;
+
+    if (!cekBalance(this.user, price, req, res)) return;
+
+    this.model.joinMember(this.user.uuid, Number(price));
+    res.redirect("/");
+  }
+  year(req, res) {
+    this.user = getAuthUser(req, res, false);
+
+    if (this.user.member) {
+      return res.redirect("/");
+    }
+
+    const price = req.body.price;
+
+    if (!cekBalance(this.user, price, req, res)) return;
+
+    this.model.joinMember(this.user.uuid, Number(price), "yearly");
     res.redirect("/");
   }
 }

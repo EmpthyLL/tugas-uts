@@ -125,21 +125,33 @@ class UserModel extends Model {
   }
 
   // New Method to Join Membership
-  async joinMember(userId, membershipDurationInMonths, membershipPrice) {
-    const user = this.getUserByUuid(userId, price);
+  async joinMember(
+    userId,
+    membershipPrice,
+    durationType = "monthly",
+    durationValue = 1
+  ) {
+    const user = this.getUserByUuid(userId);
     if (!user) throw new Error("User not found.");
 
-    if (user.member) {
-      throw new Error("User is already a member.");
-    }
-
+    // Deduct the membership price
     user.balance -= membershipPrice;
 
+    // Update membership status
     user.member = true;
     user.member_since = new Date().toISOString();
-    user.member_until = new Date(
-      new Date().setMonth(new Date().getMonth() + membershipDurationInMonths)
-    ).toISOString();
+
+    // Calculate member_until based on duration type
+    const currentDate = new Date();
+    if (durationType === "monthly") {
+      user.member_until = new Date(
+        currentDate.setMonth(currentDate.getMonth() + durationValue)
+      ).toISOString();
+    } else if (durationType === "yearly") {
+      user.member_until = new Date(
+        currentDate.setFullYear(currentDate.getFullYear() + durationValue)
+      ).toISOString();
+    }
 
     this.saveData();
 

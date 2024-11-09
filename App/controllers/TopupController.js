@@ -20,6 +20,7 @@ class TopupController extends Controller {
         title: this.title,
         req,
         menus: this.menus,
+        balance: req.flash("balance") || [],
         keyword: "",
         user: this.user,
         cart: this.user.cart,
