@@ -17,6 +17,7 @@ const ProfileController = require("./app/controllers/ProfileController");
 const TopupController = require("./app/controllers/TopupController");
 const CartController = require("./app/controllers/CartController");
 const LocationController = require("./app/controllers/LocationController");
+const MemberController = require("./app/controllers/MemberController");
 
 const app = express();
 const port = 3002;
@@ -55,6 +56,7 @@ const categoryController = new CategoryController();
 const productController = new ProductController();
 const profileController = new ProfileController();
 const topupController = new TopupController();
+const memberController = new MemberController();
 const cartController = new CartController();
 const locationController = new LocationController();
 
@@ -163,6 +165,15 @@ app.get("/top-up", auth, (req, res) => {
 });
 app.post("/top-up", auth, (req, res) => {
   topupController.topup(req, res);
+});
+app.get("/become-member", auth, (req, res) => {
+  memberController.index(req, res);
+});
+app.post("/become-member/monthly", auth, (req, res) => {
+  memberController.month(req, res);
+});
+app.post("/become-member/yearly", auth, (req, res) => {
+  memberController.year(req, res);
 });
 
 app.post("/cart/add", auth, async (req, res) => {
