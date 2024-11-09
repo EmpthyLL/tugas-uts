@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Button handlers
   amountButtons.forEach((button) => {
     button.addEventListener("click", function () {
-      amountInput.value = button.textContent.replace(".5k", ",500");
+      amountInput.value = button.textContent.replace(".5k", ",500").trim();
       amountValue.value = button.textContent.replace("00");
       updateAmount();
     });

@@ -2,7 +2,6 @@ const { default: axios } = require("axios");
 const Controller = require("./Controller");
 const getAuthUser = require("../../utils/user");
 const formatDate = require("../../utils/formateDate");
-const CartModel = require("../../model/service/CartModel");
 
 class HomeController extends Controller {
   constructor() {
@@ -20,7 +19,6 @@ class HomeController extends Controller {
     this.brands = [];
     this.brand = "";
     this.user = {};
-    this.cart = new CartModel();
   }
 
   async index(req, res) {

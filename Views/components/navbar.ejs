@@ -92,29 +92,38 @@
                 <% if (cart.length > 0) { %>
                 <div class="space-y-2">
                   <% cart.forEach(item => { %>
-                  <div class="flex items-center space-x-3">
+                  <a
+                    href="/product/<%= item.id %>"
+                    class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
+                  >
                     <img
                       src="<%- item.thumbnail %>"
                       alt="Product Image"
-                      class="w-12 h-12 rounded-md"
+                      class="w-16 h-16 rounded-md object-cover border border-gray-200 dark:border-gray-700"
                     />
-                    <div class="flex-grow">
+                    <div class="flex-grow space-y-1">
                       <p
-                        class="text-sm font-medium text-gray-900 dark:text-white"
+                        class="text-base font-semibold text-gray-900 dark:text-white"
                       >
                         <%- item.title %>
                       </p>
-                      <p class="text-xs text-gray-500 dark:text-gray-400">
-                        Qty: <%- item.quantity %>
+                      <p
+                        class="text-xs text-gray-500 dark:text-gray-400 flex items-center"
+                      >
+                        <span
+                          class="bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-200 px-2 py-0.5 rounded-full font-medium mr-2"
+                        >
+                          Qty: <%- item.quantity %>
+                        </span>
                       </p>
                       <p
-                        class="text-gray-800 font-semibold text-lg whitespace-nowrap"
+                        class="text-gray-800 dark:text-gray-200 font-bold text-lg whitespace-nowrap"
                       >
                         Rp <%= Math.floor(item.price *
                         15000).toLocaleString("id-ID") %>
                       </p>
                     </div>
-                  </div>
+                  </a>
                   <% }) %>
                 </div>
                 <% } else { %>
