@@ -2,7 +2,7 @@ const formatDate = require("../../utils/formateDate");
 const getAuthUser = require("../../utils/user");
 const Controller = require("./Controller");
 
-class History extends Controller {
+class HistoryController extends Controller {
   constructor() {
     super();
     this.view = "history";
@@ -19,16 +19,17 @@ class History extends Controller {
         req,
         menus: this.menus,
         formatDate,
-        keyword,
+        keyword: "",
         user: this.user,
         cart: this.user.cart,
       };
 
       this.renderView(res, this.view, options);
     } catch (error) {
+      console.log(error);
       this.handleError(res, "Failed to render about page", 500);
     }
   }
 }
 
-module.exports = History;
+module.exports = HistoryController;

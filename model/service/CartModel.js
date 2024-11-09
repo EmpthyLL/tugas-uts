@@ -89,18 +89,6 @@ class CartModel extends Model {
     }
   }
 
-  removeItem(userId, itemId) {
-    const user = this.data.find((user) => user.uuid === userId);
-    if (!user) throw new Error("User not found.");
-
-    user.cart.items = user.cart.items.filter((item) => item.id !== itemId);
-
-    // Recalculate the cart total, tax, member discount, and delivery
-    this.updateCartTotals(user.member, user.cart);
-
-    this.saveData(this.data);
-  }
-
   getCartItems(userId) {
     const user = this.data.find((user) => user.uuid === userId);
     if (!user) throw new Error("User not found.");
@@ -129,6 +117,22 @@ class CartModel extends Model {
         parseFloat(cart.delivery)
       ).toFixed(2)
     );
+  }
+  resetCart(userId) {
+    const user = this.data.find((user) => user.uuid === userId);
+    if (!user) throw new Error("User not found.");
+
+    // Reset the user's cart
+    user.cart = {
+      items: [],
+      cart_total: 0,
+      tax: 0,
+      member_discount: 0,
+      delivery: 0,
+      total: 0,
+    };
+
+    this.saveData(this.data);
   }
 }
 
