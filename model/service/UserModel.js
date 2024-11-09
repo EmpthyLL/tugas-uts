@@ -112,6 +112,42 @@ class UserModel extends Model {
       this.saveData();
     }
     return user.member;
+  } // New Method to Top Up User Balance
+  async topUp(userId, amount) {
+    const user = this.getUserByUuid(userId);
+    if (!user) throw new Error("User not found.");
+
+    if (amount <= 0) throw new Error("Amount must be greater than zero.");
+
+    user.balance += Number(amount);
+    this.saveData();
+    return user.balance;
+  }
+
+  // New Method to Join Membership
+  async joinMember(userId, membershipDurationInMonths, membershipPrice) {
+    const user = this.getUserByUuid(userId, price);
+    if (!user) throw new Error("User not found.");
+
+    if (user.member) {
+      throw new Error("User is already a member.");
+    }
+
+    user.balance -= membershipPrice;
+
+    user.member = true;
+    user.member_since = new Date().toISOString();
+    user.member_until = new Date(
+      new Date().setMonth(new Date().getMonth() + membershipDurationInMonths)
+    ).toISOString();
+
+    this.saveData();
+
+    return {
+      message: "Successfully joined the membership!",
+      memberUntil: user.member_until,
+      remainingBalance: user.balance,
+    };
   }
 }
 

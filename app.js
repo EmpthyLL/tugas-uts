@@ -56,7 +56,7 @@ const productController = new ProductController();
 const profileController = new ProfileController();
 const topupController = new TopupController();
 const cartController = new CartController();
-const LocationController = new LocationController();
+const locationController = new LocationController();
 
 app.get("/sign-in", guest, (req, res) => {
   loginController.step = 0;
@@ -161,6 +161,9 @@ app.get("/product/:id", auth, (req, res) => {
 app.get("/top-up", auth, (req, res) => {
   topupController.index(req, res);
 });
+app.post("/top-up", auth, (req, res) => {
+  topupController.topup(req, res);
+});
 
 app.post("/cart/add", auth, async (req, res) => {
   try {
@@ -198,9 +201,9 @@ app.get("/cart", auth, async (req, res) => {
   cartController.index(req, res);
 });
 
-app.get("/payment/location", auth, (req,res) => {
-  LocationController.index(req,res);
-})
+app.get("/payment/location", auth, (req, res) => {
+  locationController.index(req, res);
+});
 
 app.use((req, res) => {
   res.status(404);

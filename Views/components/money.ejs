@@ -25,12 +25,14 @@
         />
         <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
       </svg>
-      <div class="text-lg font-semibold text-gray-800">Rp</div>
-      <p class="text-lg font-semibold text-gray-800">0</p>
+      <p class="text-lg font-semibold text-gray-800">
+        <%= new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR'
+        }).format(user.balance) %>
+      </p>
     </div>
 
     <!-- Link to the Top Up page -->
-    <a href="/topup">
+    <a href="/top-up">
       <div
         class="grid grid-cols-1 items-center text-center transform transition-transform hover:scale-110 cursor-pointer"
       >

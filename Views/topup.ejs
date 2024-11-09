@@ -1,43 +1,75 @@
 <div class="bg-gray-100 min-h-screen flex items-center justify-center">
-  <div class="flex flex-col items-center">
+  <div class="flex flex-col items-center space-y-10 px-4 sm:px-6 lg:px-8">
     <!-- Container with input and buttons -->
     <div
-      class="flex flex-col items-center border rounded-xl shadow-md bg-white p-6 max-w-md w-full space-y-4"
+      class="flex flex-col items-center border rounded-xl shadow-lg bg-white p-8 max-w-md w-full space-y-8"
     >
       <div
-        class="flex items-center space-x-2 text-lg font-extrabold text-gray-700"
+        class="flex items-center space-x-4 text-xl font-extrabold text-gray-800"
       >
-        <span>Rp</span>
+        <span class="text-2xl">Rp</span>
         <input
           id="amount"
           type="text"
-          class="w-full h-12 px-4 rounded-lg bg-gray-50 border border-gray-300 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-lime-500"
+          class="w-full h-16 px-6 md:text-xl sm:text-lg rounded-lg bg-gray-50 border border-gray-300 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-lime-500 transition"
           placeholder="Enter amount"
         />
       </div>
 
-      <div class="grid grid-cols-3 gap-4 mt-8">
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-8 mt-8">
         <!-- Amount selection buttons -->
-        <button id="first" class="amount-button">18.5k</button>
-        <button id="second" class="amount-button">48.5k</button>
-        <button id="third" class="amount-button">98.5k</button>
-        <button id="fourth" class="amount-button">198.5k</button>
-        <button id="fifth" class="amount-button">298.5k</button>
-        <button id="sixth" class="amount-button">498.5k</button>
+        <button
+          id="first"
+          class="amount-button text-base py-3 px-6 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
+        >
+          18.5k
+        </button>
+        <button
+          id="second"
+          class="amount-button text-base py-3 px-6 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
+        >
+          48.5k
+        </button>
+        <button
+          id="third"
+          class="amount-button text-base py-3 px-6 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
+        >
+          98.5k
+        </button>
+        <button
+          id="fourth"
+          class="amount-button text-base py-3 px-6 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
+        >
+          198.5k
+        </button>
+        <button
+          id="fifth"
+          class="amount-button text-base py-3 px-6 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
+        >
+          298.5k
+        </button>
+        <button
+          id="sixth"
+          class="amount-button text-base py-3 px-6 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
+        >
+          498.5k
+        </button>
       </div>
     </div>
 
     <!-- Dropdown menu -->
-    <div class="relative mt-6 w-full max-w-md">
+    <div class="relative mt-8 w-full max-w-md">
       <!-- Dropdown button -->
       <button
         id="hs-dropdown"
-        class="w-full py-3 px-4 bg-white rounded-lg shadow flex items-center justify-between text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-lime-500"
+        class="w-full py-4 px-6 bg-white rounded-lg shadow flex items-center justify-between text-xl text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-lime-500 transition"
       >
-        <span id="dropdown-label">Choose your top up method</span>
+        <span id="dropdown-label" class="text-lg"
+          >Choose your top-up method</span
+        >
         <svg
           id="dropdown-icon"
-          class="w-5 h-5 text-gray-400"
+          class="w-6 h-6 text-gray-400"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -55,44 +87,44 @@
       <!-- Dropdown menu -->
       <div
         id="dropdown-menu"
-        class="absolute mt-2 w-full bg-white shadow-lg rounded-lg hidden z-10"
+        class="absolute mt-3 w-full bg-white shadow-lg rounded-lg hidden z-10 transition"
       >
         <button
-          class="w-full store-option px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center space-x-3"
+          class="w-full store-option px-6 py-4 text-xl text-gray-700 hover:bg-gray-100 flex items-center space-x-4"
           data-store="Indomaret"
         >
           <img
             src="/img/topup/indomaret.jpg"
             alt="Indomaret"
-            class="w-8 h-8 rounded object-contain"
+            class="w-10 h-10 rounded-full object-contain"
           />
           <span>Indomaret</span>
         </button>
         <button
-          class="w-full store-option px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center space-x-3"
+          class="w-full store-option px-6 py-4 text-xl text-gray-700 hover:bg-gray-100 flex items-center space-x-4"
           data-store="Alfamart"
         >
           <img
             src="/img/topup/alfamart.png"
             alt="Alfamart"
-            class="w-8 h-8 rounded object-contain"
+            class="w-10 h-10 rounded-full object-contain"
           />
           <span>Alfamart</span>
         </button>
         <button
-          class="w-full store-option px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center space-x-3"
+          class="w-full store-option px-6 py-4 text-xl text-gray-700 hover:bg-gray-100 flex items-center space-x-4"
           data-store="Alfamidi"
         >
           <img
             src="/img/topup/alfamidi.png"
             alt="Alfamidi"
-            class="w-8 h-8 rounded object-contain"
+            class="w-10 h-10 rounded-full object-contain"
           />
           <span>Alfamidi</span>
         </button>
         <button
           id="clear-dropdown"
-          class="w-full px-4 py-2 rounded-lg text-gray-700 hover:bg-gray-100 flex items-center space-x-3 mt-2"
+          class="w-full px-6 py-3 rounded-lg text-gray-700 hover:bg-gray-100 flex items-center space-x-4 mt-3"
         >
           <span>Clear Selection</span>
         </button>
@@ -108,7 +140,7 @@
       aria-controls="confirm-payment"
       data-hs-overlay="#confirm-payment"
       disabled
-      class="mt-6 w-full max-w-md py-3 text-white bg-lime-500 rounded-lg shadow hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-700 opacity-50 cursor-not-allowed"
+      class="mt-8 w-full max-w-md py-4 text-xl text-white bg-lime-500 rounded-lg shadow hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-700 opacity-50 cursor-not-allowed transition"
     >
       Confirm & Top Up
     </button>
@@ -182,9 +214,9 @@
             <input type="hidden" name="amount" id="amount-value" />
             <button
               onclick="return confirm('Lakukan pembayaran.')"
-              class="py-2 px-4 text-sm font-medium rounded-lg border border-transparent bg-lime-500 text-white hover:bg-lime-600 focus:outline-none focus:bg-lime-600 dark:bg-lime-600 dark:hover:bg-lime-700"
+              class="py-2 px-4 text-sm font-medium rounded-lg border border-transparent bg-lime-500 text-white hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-700 dark:bg-lime-600 dark:hover:bg-lime-700 dark:focus:ring-lime-700"
             >
-              Confirm
+              Proceed to Payment
             </button>
           </form>
         </div>
