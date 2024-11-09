@@ -11,71 +11,10 @@
     "member": false,
     "member_since": null,
     "member_until": null,
-    "cart": [
-      {
-        "id": 4,
-        "title": "Red Lipstick",
-        "price": 12.99,
-        "brand": "Chic Cosmetics",
-        "category": "beauty",
-        "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Red%20Lipstick/thumbnail.png",
-        "quantity": 1
-      },
-      {
-        "id": 3,
-        "title": "Powder Canister",
-        "price": 14.99,
-        "brand": "Velvet Touch",
-        "category": "beauty",
-        "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/thumbnail.png",
-        "quantity": 1
-      },
-      {
-        "id": 19,
-        "title": "Chicken Meat",
-        "price": 9.99,
-        "brand": null,
-        "category": "groceries",
-        "thumbnail": "https://cdn.dummyjson.com/products/images/groceries/Chicken%20Meat/thumbnail.png",
-        "quantity": 2
-      },
-      {
-        "id": 5,
-        "title": "Red Nail Polish",
-        "price": 8.99,
-        "brand": "Nail Couture",
-        "category": "beauty",
-        "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Red%20Nail%20Polish/thumbnail.png",
-        "quantity": 2
-      },
-      {
-        "id": 10,
-        "title": "Gucci Bloom Eau de",
-        "price": 79.99,
-        "brand": "Gucci",
-        "category": "fragrances",
-        "thumbnail": "https://cdn.dummyjson.com/products/images/fragrances/Gucci%20Bloom%20Eau%20de/thumbnail.png",
-        "quantity": 2
-      },
-      {
-        "id": 9,
-        "title": "Dolce Shine Eau de",
-        "price": 69.99,
-        "brand": "Dolce & Gabbana",
-        "category": "fragrances",
-        "thumbnail": "https://cdn.dummyjson.com/products/images/fragrances/Dolce%20Shine%20Eau%20de/thumbnail.png",
-        "quantity": 3
-      },
-      {
-        "id": 13,
-        "title": "Bedside Table African Cherry",
-        "price": 299.99,
-        "brand": "Furniture Co.",
-        "category": "furniture",
-        "thumbnail": "https://cdn.dummyjson.com/products/images/furniture/Bedside%20Table%20African%20Cherry/thumbnail.png",
-        "quantity": 2
-      }
-    ],
+    "cart": {
+      "items": [],
+      "cart_total": 0
+    },
     "history": [],
     "notification": []
   },
@@ -91,7 +30,10 @@
     "member": true,
     "member_since": "2024-11-09T08:49:45.529Z",
     "member_until": "2024-12-09T08:49:45.529Z",
-    "cart": [],
+    "cart": {
+      "items": [],
+      "cart_total": 0
+    },
     "history": [],
     "notification": []
   },
@@ -107,7 +49,10 @@
     "member": false,
     "member_since": null,
     "member_until": null,
-    "cart": [],
+    "cart": {
+      "items": [],
+      "cart_total": 0
+    },
     "history": [],
     "notification": []
   },
@@ -123,7 +68,10 @@
     "member": false,
     "member_since": null,
     "member_until": null,
-    "cart": [],
+    "cart": {
+      "items": [],
+      "cart_total": 0
+    },
     "history": [],
     "notification": []
   },
@@ -139,7 +87,10 @@
     "member": false,
     "member_since": null,
     "member_until": null,
-    "cart": [],
+    "cart": {
+      "items": [],
+      "cart_total": 0
+    },
     "history": [],
     "notification": []
   },
@@ -155,7 +106,10 @@
     "member": false,
     "member_since": null,
     "member_until": null,
-    "cart": [],
+    "cart": {
+      "items": [],
+      "cart_total": 0
+    },
     "history": [],
     "notification": []
   },
@@ -171,7 +125,65 @@
     "member": false,
     "member_since": null,
     "member_until": null,
-    "cart": [],
+    "cart": {
+      "items": [
+        {
+          "id": 1,
+          "title": "Essence Mascara Lash Princess",
+          "price": 9.99,
+          "brand": "Essence",
+          "category": "beauty",
+          "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png",
+          "quantity": 1,
+          "total": 9.99
+        },
+        {
+          "id": 2,
+          "title": "Eyeshadow Palette with Mirror",
+          "price": 19.99,
+          "brand": "Glamour Beauty",
+          "category": "beauty",
+          "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/thumbnail.png",
+          "quantity": 1,
+          "total": 19.99
+        },
+        {
+          "id": 5,
+          "title": "Red Nail Polish",
+          "price": 8.99,
+          "brand": "Nail Couture",
+          "category": "beauty",
+          "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Red%20Nail%20Polish/thumbnail.png",
+          "quantity": 1,
+          "total": 8.99
+        },
+        {
+          "id": 4,
+          "title": "Red Lipstick",
+          "price": 12.99,
+          "brand": "Chic Cosmetics",
+          "category": "beauty",
+          "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Red%20Lipstick/thumbnail.png",
+          "quantity": 3,
+          "total": 38.97
+        },
+        {
+          "id": 3,
+          "title": "Powder Canister",
+          "price": 14.99,
+          "brand": "Velvet Touch",
+          "category": "beauty",
+          "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/thumbnail.png",
+          "quantity": 3,
+          "total": 44.97
+        }
+      ],
+      "cart_total": 122.91,
+      "tax": 13.5201,
+      "member_discount": 24.582,
+      "delivery": 2177.409057998195,
+      "total": 2289.257157998195
+    },
     "history": [],
     "notification": []
   }

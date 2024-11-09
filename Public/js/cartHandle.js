@@ -148,14 +148,13 @@ async function UpdateCart() {
   try {
     const response = await axios("/cart/view");
     const CartPop = document.getElementById("Cart-Pop");
-
     if (!response.data.data || response.data.data.length === 0) {
       CartPop.innerHTML = "<p>Your cart is empty.</p>";
       return;
     }
 
     let html = "";
-    response.data.data.forEach((item) => {
+    response.data.data.items.forEach((item) => {
       html += ` <a
                     href="/product/${item.id}"
                     class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"

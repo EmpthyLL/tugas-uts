@@ -1,7 +1,11 @@
 <div class="max-w-4xl mx-auto bg-white p-6 my-6 rounded-lg shadow-md">
   <!-- Shopping Bag Section -->
   <div>
-    <h2 class="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-500 to-purple-900 bg-clip-text text-transparent">Shopping bag</h2>
+    <h2
+      class="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-500 to-purple-900 bg-clip-text text-transparent"
+    >
+      Shopping bag
+    </h2>
 
     <!-- Product 1 -->
     <div class="flex items-start border-b pb-4 mb-4">
@@ -31,76 +35,51 @@
       </div>
     </div>
 
-    <!-- Product 2 -->
-    <div class="flex items-start border-b pb-4 mb-4">
-      <img
-        src="camo-jacket.png"
-        alt="Camo Blend Jacket"
-        class="w-24 h-24 object-cover rounded-md mr-4"
-      />
-      <div class="flex-1">
-        <h3 class="font-semibold text-lg">Camo Blend Jacket</h3>
-        <p class="text-gray-500 line-through">Price: $60</p>
-        <p class="text-red-500">
-          $40 <span class="text-yellow-600 text-sm ml-2">Low in stock</span>
-        </p>
-        <p class="text-gray-500">Brand: Glamour Beauty</p>
-        <p class="text-gray-500">Category: Beauty</p>
-        <button class="text-blue-500 underline">Remove</button>
+    <!-- Order Summary Section -->
+    <div class="mt-8">
+      <h2
+        class="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-500 to-purple-900 bg-clip-text text-transparent"
+      >
+        Order summary
+      </h2>
+      <div class="space-y-2">
+        <div class="flex justify-between">
+          <span>Subtotal</span>
+          <span>$229</span>
+        </div>
+        <div class="flex justify-between">
+          <span>Shipping</span>
+          <span>—</span>
+        </div>
+        <div class="flex justify-between">
+          <span>Estimated Tax</span>
+          <button class="text-blue-500 underline">Calculate</button>
+        </div>
+        <div class="flex justify-between">
+          <span>Promo code</span>
+          <button class="text-blue-500 underline">Enter code</button>
+        </div>
+        <div class="flex justify-between">
+          <span>Sale</span>
+          <span>-$20</span>
+        </div>
       </div>
-      <div class="flex flex-col items-center">
-        <label class="text-gray-500">Size</label>
-        <span class="font-semibold">M</span>
-      </div>
-      <div class="flex flex-col items-center ml-6">
-        <label class="text-gray-500">Quantity</label>
-        <select class="border-gray-300 rounded-md">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-        </select>
-      </div>
-    </div>
-  </div>
-
-  <!-- Order Summary Section -->
-  <div class="mt-8">
-    <h2 class="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-500 to-purple-900 bg-clip-text text-transparent">Order summary</h2>
-    <div class="space-y-2">
-      <div class="flex justify-between">
-        <span>Subtotal</span>
+      <div class="flex justify-between text-xl font-bold mt-4">
+        <span>Total</span>
         <span>$229</span>
       </div>
-      <div class="flex justify-between">
-        <span>Shipping</span>
-        <span>—</span>
-      </div>
-      <div class="flex justify-between">
-        <span>Estimated Tax</span>
-        <button class="text-blue-500 underline">Calculate</button>
-      </div>
-      <div class="flex justify-between">
-        <span>Promo code</span>
-        <button class="text-blue-500 underline">Enter code</button>
-      </div>
-      <div class="flex justify-between">
-        <span>Sale</span>
-        <span>-$20</span>
-      </div>
-    </div>
-    <div class="flex justify-between text-xl font-bold mt-4">
-      <span>Total</span>
-      <span>$229</span>
-    </div>
 
-    <!-- Checkout Button -->
-    <div class="mt-6">
-      <button
-        class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold"
-      >
-        Checkout
-      </button>
-      
+      <!-- Checkout Button -->
+      <div class="mt-6">
+        <button
+          class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold"
+        >
+          Checkout
+        </button>
+      </div>
     </div>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/js/cartHandle.js"></script>
 </div>
