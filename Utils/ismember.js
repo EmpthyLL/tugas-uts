@@ -1,9 +1,7 @@
 const UserModel = require("../model/service/UserModel");
-const getAuthUser = require("./user");
 
-function isMember() {
+function isMember(uuid) {
   try {
-    const user = getAuthUser(req);
     const model = new UserModel();
 
     model.checkMembership(uuid);

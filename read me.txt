@@ -1,0 +1,210 @@
+a) Nama Tim	: Ajinomoto 
+
+
+b) 231110287 / Nicholas Kosasih 
+
+   231110521 / Howard Javier Leslie 
+
+   231110577 / Sharren Brianna Jono 
+
+
+c) Teknologi: 
+
+Tailwindcss, Express.js, Preline css, Flowbite css, ejs templating engine, liferat css dan beberapa API: 
+
+https://dummyjson.com/docs/products 
+
+https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js 
+
+https://lottiefiles.com/category/checkmark/animations 
+
+
+
+d) A3 Mart (Always Available Anywhere) 
+
+- Fitur (min 9) 
+
+- Register * 
+
+- Login * 
+
+- Send OTP * 
+
+- Search * 
+
+- Select Category * 
+
+- Session * 
+
+- Set Profile Picture * 
+
+- Change Profile * 
+
+- Change Email/Phone * 
+
+- Add to Cart * 
+
+- Map * 
+
+- Isi Saldo * 
+
+- Become Member * 
+
+- Member Discount *
+
+- Pagination * 
+
+
+
+
+Data/Model 
+
+(register) data users : { 
+
+Uuid 
+
+Nama lengkap 
+
+No_telp 
+
+Email 
+
+Password 
+
+Profile Picture 
+
+Saldo (A3 Coins) 
+
+Cart : { 
+
+id 
+
+nama 
+
+gambar 
+
+dll 
+
+} 
+
+History : { 
+
+nama driver 
+
+waktu transaksi 
+
+barang yang dibeli 
+
+total harga 
+
+} 
+
+} 
+
+Transaction : { 
+
+Uuid 
+
+Tanggal 
+
+Nama User 
+
+Barang : [] 
+
+Nama Driver 
+
+Total harga 
+
+Rating driver 
+
+} 
+
+(auth) data session: { 
+
+Session : { 
+
+Uuid 
+
+Token 
+
+ExpiresAt 
+
+} 
+
+} 
+
+  
+
+Route & Page 
+
+login 
+
+register 
+
+forgot password => otp sistem : real email/alert/tampilkan bawah input 
+
+Tampilan home: 
+
+Navbar : Home, Search, Cart, History, Notification  
+
+Promo 
+
+Wallet 
+
+Category 
+
+Product 
+
+Footer 
+
+ 
+
+Flow 
+
+- User masuk ke halaman utama 
+
+- Melakukan login 
+
+- Jika belum ada akun maka bisa melakukan register terlebih dahulu 
+
+- Masukkan nama, email, no telepon, password 
+
+- Akun berhasil dibuat 
+
+- User melakukan login kembali 
+
+- Jika user lupa password maka kembali kehalaman login 
+
+- Klik lupa password 
+
+- OTP akan dikirimkan melalui email / alert 
+
+- Masukkan OTP , Kemudian masukkan password yang baru 
+
+- Melakukan login kembali dengan akun 
+
+- Pada menu home, terdapat navbar yang berisi Icon, Search, Cart, History, Notification, user profile 
+
+- Kemudian pada bagian hero terdapat promo, wallet, kategori, product, footer 
+
+- User bisa melakukan searching pada bagian search dan bisa memanfaatkan fitur-fitur yang ada pada search seperti contohnya sort 
+
+- User juga bisa melakukan searching menggunakan category 
+
+- Jika ingin membeli user bisa menekan button + untuk menambahkan product ke cart 
+
+- Setelah menambahkan product yang sekiranya mau dibeli, maka bisa lanjut pembayaran pada menu cart 
+
+- Sebelum menekan tombol checkout, pastikan saldo anda mencukupi untuk melakukan pembayaran, jika saldo tidak mencukupi maka dapat dilakukan top up saldo pada bagian wallet di halaman home 
+
+- Jika saldo mencukupi maka lanjut ke pembayaran, kemudian akan muncul alamat kita pada bagian maps dan alamat toko terdekat. 
+
+- Driver juga akan muncul sesaat setelah munculnya alamat kita 
+
+- Setelah kita menerima product yang kita beli, maka ada muncul halaman untuk menyelesaikan pesanan yang dimana terdapat rating untuk driver dan juga saran & komentar 
+
+- Jika pesanan sudah selesai maka akan kembali ke menu utama 
+
+- Pada bagian history, akan otomatis muncul riwayat transaksi kita 
+
+e) Untuk tugas ini, besar harapan kami bisa mendapatkan nilai A karena sudah mengikuti semua kriteria yang disebutkan oleh Bapak Guru. Meskipun masih banyak kekurangan dari tugas kita, kami berharap bisa mendapatkan nilai yang bagus untuk tugas kami.

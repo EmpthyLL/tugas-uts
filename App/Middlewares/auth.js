@@ -27,6 +27,7 @@ async function auth(req, res, next) {
     next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {
+      res.redirect("/login");
       return next();
     }
     console.error("Token verification error:", error);
