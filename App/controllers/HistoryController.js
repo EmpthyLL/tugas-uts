@@ -5,7 +5,7 @@ const Controller = require("./Controller");
 class HistoryController extends Controller {
   constructor() {
     super();
-    this.view = "history";
+    this.view = "history/history";
     this.layout = "layout";
     this.title = "Order History";
     this.user = {};

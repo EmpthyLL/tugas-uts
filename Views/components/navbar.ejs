@@ -52,16 +52,6 @@
               ><%- menu.icon %></span
             >
           </a>
-          <% } else { %>
-          <button
-            data-popover-target="<%= menu.title %>Big"
-            data-popover-placement="bottom"
-            type="button"
-          >
-            <span class="hover:text-lime-400 text-lg text-white"
-              ><%- menu.icon %></span
-            >
-          </button>
           <% } %>
 
           <div
@@ -421,65 +411,7 @@
           >
             <span class="hover:text-lime-400 text-white"><%- menu.icon %></span>
           </a>
-          <% } else { %>
-          <button
-            data-popover-target="<%- menu.title %>Small"
-            data-popover-placement="bottom"
-            data-popover-trigger="click"
-            type="button"
-            class="p-2 rounded-md text-gray-600 border-white border flex items-center justify-center text-center hover:bg-slate-600 bg-slate-700 dark:text-gray-300 dark:hover:bg-neutral-800 transition-colors duration-150 ease-in-out"
-            aria-label="Menu button"
-          >
-            <span class="hover:text-lime-400 text-white"><%- menu.icon %></span>
-          </button>
-          <div
-            data-popover
-            id="<%- menu.title %>Small"
-            role="tooltip"
-            class="absolute z-10 invisible inline-block w-80 max-h-96 overflow-y-auto text-sm text-gray-700 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 dark:text-gray-300 dark:border-gray-700 dark:bg-gray-800"
-          >
-            <!-- Header -->
-            <div
-              class="flex items-center justify-between px-4 py-3 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-700 dark:bg-gray-700"
-            >
-              <h3
-                class="font-semibold text-lg gap-2 flex items-center text-gray-900 dark:text-white"
-              >
-                <span class="hover:text-lime-400 text-white"
-                  ><%- menu.icon %></span
-                >
-                <span><%- menu.title %></span>
-              </h3>
-              <div class="flex items-center p-2 bg-slate-950 rounded-lg">
-                <img src="/img/logo_A3Mart.png" alt="Logo" class="w-20" />
-              </div>
-            </div>
-
-            <!-- Notification List -->
-            <div>
-              <h4 class="font-semibold text-lg mb-2">Notifications</h4>
-              <% if (user.notification.length > 0) { %>
-              <div class="space-y-2">
-                <% user.notification.forEach(notification => { %>
-                <div class="flex items-center space-x-3">
-                  <div class="text-lime-400"><%= notification.icon %></div>
-                  <p class="text-sm text-gray-900 dark:text-white">
-                    <%- notification.message %>
-                  </p>
-                </div>
-                <% }) %>
-              </div>
-              <% } else { %>
-              <p class="text-sm text-gray-500 dark:text-gray-400">
-                No new notifications.
-              </p>
-              <% } %>
-            </div>
-
-            <!-- Popover Arrow -->
-            <div data-popper-arrow></div>
-          </div>
-          <% } %> <% }) %>
+          <% }}) %>
         </div>
         <% } %>
       </div>

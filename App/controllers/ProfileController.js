@@ -8,7 +8,7 @@ const path = require("path");
 class ProfileController extends Controller {
   constructor() {
     super();
-    this.view = ["profile", "verify"];
+    this.view = ["profile/profile", "auth/verify"];
     this.layout = "layout";
     this.title = [];
     this.user = {};

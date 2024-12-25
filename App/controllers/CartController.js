@@ -10,7 +10,7 @@ const UserModel = require("../../model/service/UserModel");
 class CartController extends Controller {
   constructor() {
     super();
-    this.view = "cart";
+    this.view = "cart/cart";
     this.layout = "layout";
     this.title = "Your Cart";
     this.user = {};
@@ -130,13 +130,19 @@ class CartController extends Controller {
   payment(req, res) {
     this.user = getAuthUser(req, res, false);
 
+    if (this.user.history.length > 0) {
+      if (this.user.history[0].status === "Ongoing") {
+        res.redirect(`/order/${this.user.history[0].uuid}`);
+      }
+    }
+
     const price = this.user.cart.total;
 
     if (!cekBalance(this.user, price, req, res)) return;
 
-    this.model.pay(this.user.uuid, price);
+    const newId = this.history.addEntry(this.user.uuid, this.user.cart);
 
-    res.redirect(`/order`);
+    res.redirect(`/order/${newId}`);
   }
 }
 

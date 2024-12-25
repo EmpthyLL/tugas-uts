@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "npm run start & npm run buildcss",
-    "start": "nodemon app",
+    "start": "nodemon route/app",
     "buildcss": "npx tailwindcss -i ./src/index.css -o ./public/css/global.css --watch"
   },
   "author": "",

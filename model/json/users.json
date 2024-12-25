@@ -58,6 +58,16 @@
     "cart": {
       "items": [
         {
+          "id": 3,
+          "title": "Powder Canister",
+          "price": 14.99,
+          "brand": "Velvet Touch",
+          "category": "beauty",
+          "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/thumbnail.png",
+          "quantity": 1,
+          "total": 14.99
+        },
+        {
           "id": 2,
           "title": "Eyeshadow Palette with Mirror",
           "price": 19.99,
@@ -98,11 +108,11 @@
           "total": 299.99
         }
       ],
-      "cart_total": 24599250,
-      "tax": 2705917.5,
-      "member_discount": 4919850,
-      "delivery": 19095000,
-      "total": 41480317.5
+      "cart_total": 24824100,
+      "tax": 2730651,
+      "member_discount": 4964820,
+      "delivery": 52500,
+      "total": 22642431
     },
     "history": [],
     "notification": []
@@ -184,7 +194,7 @@
     "gender": null,
     "birth_date": null,
     "profile_pic": null,
-    "balance": 1231666,
+    "balance": 319816,
     "member": false,
     "member_since": null,
     "member_until": null,
@@ -196,7 +206,64 @@
       "delivery": 0,
       "total": 0
     },
-    "history": [],
+    "history": [
+      {
+        "uuid": "16649baa-6bf9-489c-a227-499409fe6bc0",
+        "cart": {
+          "items": [
+            {
+              "id": 3,
+              "title": "Powder Canister",
+              "price": 14.99,
+              "brand": "Velvet Touch",
+              "category": "beauty",
+              "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/thumbnail.png",
+              "quantity": 1,
+              "total": 14.99
+            }
+          ],
+          "cart_total": 224850,
+          "tax": 24733.5,
+          "member_discount": 0,
+          "delivery": 70000,
+          "total": 319583.5
+        },
+        "driver": {
+          "name": "Jane Smith",
+          "vehicle": "BK 5678 AMD"
+        },
+        "status": "Ongoing",
+        "rating": null
+      },
+      {
+        "uuid": "5fc88a7a-2e02-4bd6-a245-3e59b646d1c0",
+        "cart": {
+          "items": [
+            {
+              "id": 3,
+              "title": "Powder Canister",
+              "price": 14.99,
+              "brand": "Velvet Touch",
+              "category": "beauty",
+              "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/thumbnail.png",
+              "quantity": 1,
+              "total": 14.99
+            }
+          ],
+          "cart_total": 224850,
+          "tax": 24733.5,
+          "member_discount": 0,
+          "delivery": 50000,
+          "total": 299583.5
+        },
+        "driver": {
+          "name": "John Doe",
+          "vehicle": "BK 5342 AAA"
+        },
+        "status": "Ongoing",
+        "rating": null
+      }
+    ],
     "notification": []
   },
   {

@@ -5,7 +5,7 @@ const formatDate = require("../../utils/formateDate");
 class AboutController extends Controller {
   constructor() {
     super();
-    this.view = "about";
+    this.view = "index/about";
     this.layout = "layout";
     this.title = "About Us";
     this.user = {};

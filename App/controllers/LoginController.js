@@ -5,7 +5,7 @@ const Controller = require("./Controller");
 class LoginController extends Controller {
   constructor() {
     super();
-    this.view = ["login", "verify"];
+    this.view = ["auth/login", "auth/verify"];
     this.layout = "plain";
     this.title = ["Input Phone", "Verify Account"];
     this.no_hp = "";
@@ -55,8 +55,13 @@ class LoginController extends Controller {
     }
   }
   logout(req, res) {
-    removeCookie(res, "auth_token");
-    res.redirect("/");
+    req.session.destroy((err) => {
+      if (err) {
+        return res.redirect("/");
+      }
+
+      res.redirect("/");
+    });
   }
 }
 

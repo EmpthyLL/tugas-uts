@@ -14,6 +14,11 @@ class CategoryController extends Controller {
     try {
       this.user = getAuthUser(req, res, false);
       const categoryName = req.params.categoryName;
+
+      if (!categoryName) {
+        return res.redirect("/");
+      }
+
       const sortBy = req.query.sortBy || "price";
       const order = req.query.order || "asc";
       const selectedBrand = req.query.brand || "";
@@ -26,7 +31,7 @@ class CategoryController extends Controller {
       // Get products and apply filters/sorting
       let products = response.data.products;
 
-      if (!products || Object.keys(products).length === 0) {
+      if (!products) {
         throw new Error("No results found.");
       }
 
@@ -77,7 +82,11 @@ class CategoryController extends Controller {
         ],
       };
 
-      this.renderView(res, categoryName ? "category" : "index", options);
+      this.renderView(
+        res,
+        categoryName ? "index/category" : "index/index",
+        options
+      );
     } catch (error) {
       console.log(error);
       if (error.message === "No results found.") {

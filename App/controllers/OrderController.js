@@ -4,20 +4,24 @@ const getAuthUser = require("../../utils/user");
 const Controller = require("./Controller");
 const CartModel = require("../../model/service/CartModel");
 
-class LocationController extends Controller {
+class OrderController extends Controller {
   constructor() {
     super();
-    this.view = "location";
+    this.view = "order/order";
     this.layout = "layout";
     this.title = "Order";
     this.history = new HistoryModel();
     this.cart = new CartModel();
     this.order = {};
+    this.user = {};
   }
 
   async index(req, res) {
     try {
-      this.user = getAuthUser(req, res, false);
+      this.user = getAuthUser(req, res, true);
+
+      const orderId = req.params.id;
+      this.order = this.history.getHistoryByUuid(this.user.uuid, orderId);
 
       const userLocation = {
         lat: 3.5952,
@@ -39,8 +43,9 @@ class LocationController extends Controller {
         userLocation,
         formatDate,
         locations,
-        cart: this.user.cart,
+        cart: this.order.cart,
         user: this.user,
+        order: this.order,
       };
 
       this.renderView(res, this.view, options);
@@ -52,27 +57,21 @@ class LocationController extends Controller {
       this.handleError(res, "Failed to render map page", 500);
     }
   }
-
-  async getCartData(req, res) {
-    try {
-      const user = getAuthUser(req, res, true);
-      if (user) {
-        res
-          .status(200)
-          .json({ message: "Data has been retrieved", data: user.cart });
-      } else {
-        res.status(400).json({ message: "User not authenticated" });
-      }
-    } catch (error) {
-      console.error("Error retrieving cart data:", error);
-      this.handleError(res, "Failed to retrieve items", 500);
-    }
-  }
   complete(req, res) {
-    this.user = getAuthUser(req, res, false);
-    this.cart.resetCart(this.user.uuid);
-    res.redirect("/");
+    this.user = getAuthUser(req, res, true);
+    this.history.orderDone(this.user.uuid, this.order.uuid);
+    res.redirect(`/order/${this.order.uuid}/rate-driver`);
+  }
+  cancel(req, res) {
+    this.user = getAuthUser(req, res, true);
+    this.history.orderCancel(this.user.uuid, this.order.uuid);
+    res.redirect(`/`);
+  }
+  rateDriver(req, res) {
+    const rating = req.body.rating;
+    this.history.orderCancel(this.user.uuid, this.order.uuid, rating);
+    res.redirect(`/`);
   }
 }
 
-module.exports = LocationController;
+module.exports = OrderController;

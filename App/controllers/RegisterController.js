@@ -5,7 +5,12 @@ const Controller = require("./Controller");
 class RegisterController extends Controller {
   constructor() {
     super();
-    this.view = ["input_phone", "verify", "user_data", "verify"];
+    this.view = [
+      "auth/input_phone",
+      "auth/verify",
+      "auth/user_data",
+      "auth/verify",
+    ];
     this.layout = "plain";
     this.title = ["Input Phone", "Verify Number", "User Data", "Verify Email"];
     this.no_hp = "";
