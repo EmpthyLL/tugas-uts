@@ -240,7 +240,13 @@
       "delivery": 17500,
       "total": 998518
     },
-    "history": [],
+    "history": [
+      {
+        "date" : "September 12, 2024",
+        "totalPerOrder" : 12,
+        "status" : "Delivered"
+      }
+    ],
     "notification": []
   }
 ]
