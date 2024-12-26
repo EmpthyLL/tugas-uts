@@ -84,7 +84,7 @@
                   <% cart.items.forEach(item => { %>
                   <a
                     href="/product/<%= item.id %>"
-                    class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
+                    class="flex items-center bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
                   >
                     <img
                       src="<%- item.thumbnail %>"
@@ -129,19 +129,35 @@
                 <% if (user.history.length > 0) { %>
                 <div class="space-y-2">
                   <% user.history.forEach(item => { %>
-                  <div class="flex items-center justify-between">
+                    <a
+                    href="/history"
+                    class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
+                  >
                     <div>
                       <p
                         class="text-sm font-medium text-gray-900 dark:text-white"
                       >
                         <%- item.date %>
                       </p>
-                      <p class="text-xs text-gray-500 dark:text-gray-400">
-                        <%- item.status %>
-                      </p>
+
+                      <div class="flex flex-row items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#47a31f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+                        <p class="text-gray-900 text-lg ml-3">Rp <%= Math.floor(item.totalPerOrder *
+                        15000).toLocaleString("id-ID") %></p>
+                      </div>
+
+                      <div>
+                        <% if (item.status && item.status.toLowerCase() === "delivered") { %>
+                          <span class="text-green-500 font-medium ml-auto"><%= item.status %></span>
+                        <% } else if (item.status && item.status.toLowerCase() === "shipped") { %>
+                          <span class="text-yellow-500 font-medium ml-auto"><%= item.status %></span>
+                        <% } else if (item.status && item.status.toLowerCase() === "canceled") { %>
+                          <span class="text-red-500 font-medium ml-auto"><%= item.status %></span>
+                        <% } %>
+                      </div>
+
                     </div>
-                    <div class="text-gray-500"><%= item.statusIcon %></div>
-                  </div>
+                  </a>
                   <% }) %>
                 </div>
                 <% } else { %>
