@@ -6,7 +6,7 @@ const Controller = require("./Controller");
 class TopupController extends Controller {
   constructor() {
     super();
-    this.view = "topup";
+    this.view = "purchase/topup";
     this.layout = "layout";
     this.title = "Top Up";
     this.user = {};

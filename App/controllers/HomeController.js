@@ -6,7 +6,7 @@ const formatDate = require("../../utils/formateDate");
 class HomeController extends Controller {
   constructor() {
     super();
-    this.view = "index";
+    this.view = "index/index";
     this.layout = "layout";
     this.title = "Welcome to A3 Mart!";
     this.search = "";
@@ -35,9 +35,9 @@ class HomeController extends Controller {
       const products = await this.fetchData();
 
       if (this.search) {
-        this.view = "search";
+        this.view = "index/search";
       } else {
-        this.view = "index";
+        this.view = "index/index";
       }
       const options = {
         layout: `components/${this.layout}`,

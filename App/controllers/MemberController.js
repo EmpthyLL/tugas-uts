@@ -7,7 +7,7 @@ const Controller = require("./Controller");
 class MemberController extends Controller {
   constructor() {
     super();
-    this.view = "becomeMember";
+    this.view = "purchase/becomeMember";
     this.layout = "layout";
     this.title = "Join Membership";
     this.user = {};

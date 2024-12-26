@@ -16,12 +16,12 @@ class ProductController extends Controller {
 
       const id = req.params.id;
 
+      if (!id) {
+        return res.redirect("/");
+      }
+
       const response = await axios(`https://dummyjson.com/products/${id}`);
       const product = response.data;
-
-      if (!product || Object.keys(product).length === 0) {
-        throw new Error("No results found.");
-      }
 
       const relatedResponse = await axios(
         `https://dummyjson.com/products/category/${product.category}`
@@ -49,7 +49,6 @@ class ProductController extends Controller {
 
       this.renderView(res, "productDetail", options);
     } catch (error) {
-      console.log(error.message);
       if (error.message === "Request failed with status code 404") {
         this.handleError(res, "Product is not available", 404);
       } else {
