@@ -274,44 +274,57 @@
     "gender": null,
     "birth_date": null,
     "profile_pic": null,
-    "balance": 1495500,
-    "member": false,
-    "member_since": null,
-    "member_until": null,
+    "balance": 1075000,
+    "member": true,
+    "member_since": "2024-12-26T15:23:58.688Z",
+    "member_until": "2025-01-26T15:23:58.688Z",
     "cart": {
-      "items": [
-        {
-          "id": 23,
-          "title": "Eggs",
-          "price": 2.99,
-          "brand": null,
-          "category": "groceries",
-          "thumbnail": "https://cdn.dummyjson.com/products/images/groceries/Eggs/thumbnail.png",
-          "quantity": 3,
-          "total": 8.97
-        },
-        {
-          "id": 19,
-          "title": "Chicken Meat",
-          "price": 9.99,
-          "brand": null,
-          "category": "groceries",
-          "thumbnail": "https://cdn.dummyjson.com/products/images/groceries/Chicken%20Meat/thumbnail.png",
-          "quantity": 5,
-          "total": 49.95
-        }
-      ],
-      "cart_total": 883800,
-      "tax": 97218,
+      "items": [],
+      "cart_total": 0,
+      "tax": 0,
       "member_discount": 0,
-      "delivery": 17500,
-      "total": 998518
+      "delivery": 0,
+      "total": 0
     },
     "history": [
       {
-        "date" : "September 12, 2024",
-        "totalPerOrder" : 12,
-        "status" : "Delivered"
+        "uuid": "e1d2e907-2b97-42ec-b249-62c94fa0794b",
+        "cart": {
+          "items": [
+            {
+              "id": 23,
+              "title": "Eggs",
+              "price": 2.99,
+              "brand": null,
+              "category": "groceries",
+              "thumbnail": "https://cdn.dummyjson.com/products/images/groceries/Eggs/thumbnail.png",
+              "quantity": 3,
+              "total": 8.97
+            },
+            {
+              "id": 19,
+              "title": "Chicken Meat",
+              "price": 9.99,
+              "brand": null,
+              "category": "groceries",
+              "thumbnail": "https://cdn.dummyjson.com/products/images/groceries/Chicken%20Meat/thumbnail.png",
+              "quantity": 5,
+              "total": 49.95
+            }
+          ],
+          "cart_total": 883800,
+          "tax": 97218,
+          "member_discount": 0,
+          "delivery": 17500,
+          "total": 998518
+        },
+        "driver": {
+          "name": "Michael Johnson",
+          "vehicle": "BK 3344 AOJ"
+        },
+        "status": "Ongoing",
+        "rating": null,
+        "date": "September 12, 2024"
       }
     ],
     "notification": []
