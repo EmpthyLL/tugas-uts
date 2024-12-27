@@ -1,5 +1,5 @@
 <body class="bg-gray-50 p-8">
-    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+    <div class="max-w-4xl mx-auto bg-gray-200 p-6 rounded-lg shadow-md">
         <!-- Order History Section -->
         <div>
             <h2 class="text-2xl font-bold mb-6">Order History</h2>
@@ -61,10 +61,20 @@
             
             <% if (user.history && user.history.length > 0) { %>
                 <% user.history.forEach(item => { %>
-                    <a href="#"></a>
-                    <div class="border-b pb-4 mb-4">
-                        <div class="flex justify-between items-center mb-2">
-                            <h3 class="font-semibold text-lg">Order History</h3>
+                    <!-- Header History -->
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="flex flex-column">
+                            <img src="/img/logo_A3Mart.png" class="max-w-44" alt="">
+                        </div>
+                        
+                        <p class="text-sm">
+                            <%= new Date(item.date).toLocaleDateString('en-US', { day: 'numeric', month: 'short' }) %>, 
+                            <%= new Date(item.date).toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) %>
+                        </p>
+                    </div>
+
+                    <div class="flex justify-between items-center mb-2">
+                        <div>
                             <% if (item.status) { %>
                                 <% if (item.status.toLowerCase() === "delivered") { %>
                                     <span class="text-green-500 font-medium"><%= item.status %></span>
@@ -77,44 +87,47 @@
                                 <span class="text-gray-500 font-medium">Unknown Status</span>
                             <% } %>
                         </div>
-                        <p class="text-gray-500 mb-2">
-                            Order Date: 
-                            <%= new Date(item.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %>
-                        </p>
-                        <% item.cart.items.forEach(product => { %>
-                            <div class="flex space-x-4 mb-4">
-                                <img src="<%= product.thumbnail %>" alt="<%= product.title %>" class="w-20 h-20 object-cover rounded-md">
-                                <div class="flex-1">
-                                    <p class="font-semibold"><%= product.title %></p>
-                                    <p class="text-gray-500">Category : <%= product.category %></p>
-                                    <% if (product.brand) { %>
-                                        <p class="text-gray-500">Brand : <%= product.brand %></p>
-                                    <% } %>
-                                </div>
-                                <div class="text-right">
-                                    <p class="font-semibold">
-                                        Rp <%= Math.floor(product.total * 15000).toLocaleString('id-ID') %>
-                                    </p>
-                                    <p class="text-gray-500">Quantity: <%= product.quantity %></p>
-                                </div>
-                            </div>
-                        <% }) %>
-                        <div class="mt-4">
-                            <p class="font-semibold">
-                                Total: Rp <%= item.cart.total.toLocaleString('id-ID') %>
-                            </p>
-                            <% if (item.driver) { %>
-                                <p class="text-gray-500">
-                                    Driver: <%= item.driver.name %> - Vehicle: <%= item.driver.vehicle %>
-                                </p>
-                            <% } %>
-                        </div> 
+                        <p class="text-gray-500 mb-2 text-sm"><%= item.uuid %></p>
                     </div>
+                    <hr class="border-gray-400 dark:border-gray-700">
+                    
+                    <!-- Rate Driver -->
+                    <div class="flex flex-col items-center justify-center">
+                        <p class="mt-3 text-xl text-center font-bold">How was the driver?</p>
+                        <button class="mt-2">
+                            <ion-icon name="star" id="star1" class="text-4xl text-gray-400" onclick="change()"></ion-icon>
+                            <ion-icon name="star" id="star2" class="text-4xl text-gray-400"></ion-icon>
+                            <ion-icon name="star" id="star3" class="text-4xl text-gray-400"></ion-icon>
+                            <ion-icon name="star" id="star4" class="text-4xl text-gray-400"></ion-icon>
+                            <ion-icon name="star" id="star5" class="text-4xl text-gray-400"></ion-icon>
+                        </button>
+                    </div>
+                      
+                        
+                    <!-- Driver Info -->
                 <% }) %>
             <% } else { %>
                 <p class="text-gray-500">No order history available.</p>
             <% } %>
-            
+
         </div>
     </div>
 </body>
+
+<script>
+    let star1 = document.getElementById('star1');
+    let star2 = document.getElementById('star2');
+    let star3 = document.getElementById('star3');
+    let star4 = document.getElementById('star4');
+    let star5 = document.getElementById('star5');
+
+    let change = () => {
+        if(star1.classList.contains('text-gray-400')) {
+            star1.classList.remove('text-gray-400')
+            star1.classList.add('text-yellow-500')
+        } else {
+            star1.classList.remove('text-yellow-500')
+            star1.classList.add('text-gray-400')
+        }
+    }
+</script>
