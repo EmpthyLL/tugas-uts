@@ -12,7 +12,7 @@
                             <% if (item.status) { %>
                                 <% if (item.status.toLowerCase() === "delivered") { %>
                                     <span class="text-green-500 font-medium"><%= item.status %></span>
-                                <% } else if (item.status.toLowerCase() === "ongoing") { %>
+                                <% } else if (item.status.toLowerCase() === "inprocess") { %>
                                     <span class="text-yellow-500 font-medium"><%= item.status %></span>
                                 <% } else { %>
                                     <span class="text-red-500 font-medium"><%= item.status %></span>
@@ -58,29 +58,63 @@
             <% } else { %>
                 <p class="text-gray-500">No order history available.</p>
             <% } %>
-
-            <!-- Order Item 2 -->
-            <div class="border-b pb-4 mb-4">
-                <div class="flex justify-between items-center mb-2">
-                    <h3 class="font-semibold text-lg">Order #12344</h3>
-                    <span class="text-yellow-500 font-medium">Shipped</span>
-                </div>
-                <p class="text-gray-500 mb-2">Order Date: September 10, 2024</p>
-                <div class="flex space-x-4">
-                    <img src="camo-jacket.png" alt="Camo Blend Jacket" class="w-20 h-20 object-cover rounded-md">
-                    <div class="flex-1">
-                        <p class="font-semibold">Camo Blend Jacket</p>
-                        <p class="text-gray-500">Color: Camo</p>
-                        <p class="text-gray-500">Size: M</p>
+            
+            <% if (user.history && user.history.length > 0) { %>
+                <% user.history.forEach(item => { %>
+                    <a href="#"></a>
+                    <div class="border-b pb-4 mb-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-semibold text-lg">Order History</h3>
+                            <% if (item.status) { %>
+                                <% if (item.status.toLowerCase() === "delivered") { %>
+                                    <span class="text-green-500 font-medium"><%= item.status %></span>
+                                <% } else if (item.status.toLowerCase() === "inprocess") { %>
+                                    <span class="text-yellow-500 font-medium"><%= item.status %></span>
+                                <% } else { %>
+                                    <span class="text-red-500 font-medium"><%= item.status %></span>
+                                <% } %>
+                            <% } else { %>
+                                <span class="text-gray-500 font-medium">Unknown Status</span>
+                            <% } %>
+                        </div>
+                        <p class="text-gray-500 mb-2">
+                            Order Date: 
+                            <%= new Date(item.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %>
+                        </p>
+                        <% item.cart.items.forEach(product => { %>
+                            <div class="flex space-x-4 mb-4">
+                                <img src="<%= product.thumbnail %>" alt="<%= product.title %>" class="w-20 h-20 object-cover rounded-md">
+                                <div class="flex-1">
+                                    <p class="font-semibold"><%= product.title %></p>
+                                    <p class="text-gray-500">Category : <%= product.category %></p>
+                                    <% if (product.brand) { %>
+                                        <p class="text-gray-500">Brand : <%= product.brand %></p>
+                                    <% } %>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-semibold">
+                                        Rp <%= Math.floor(product.total * 15000).toLocaleString('id-ID') %>
+                                    </p>
+                                    <p class="text-gray-500">Quantity: <%= product.quantity %></p>
+                                </div>
+                            </div>
+                        <% }) %>
+                        <div class="mt-4">
+                            <p class="font-semibold">
+                                Total: Rp <%= item.cart.total.toLocaleString('id-ID') %>
+                            </p>
+                            <% if (item.driver) { %>
+                                <p class="text-gray-500">
+                                    Driver: <%= item.driver.name %> - Vehicle: <%= item.driver.vehicle %>
+                                </p>
+                            <% } %>
+                        </div> 
                     </div>
-                    <div class="text-right">
-                        <p class="font-semibold">$40</p>
-                        <p class="text-gray-500">Quantity: 1</p>
-                    </div>
-                </div>
-                <button class="mt-4 text-blue-500 underline">View Order Details</button>
-            </div>
-             
+                <% }) %>
+            <% } else { %>
+                <p class="text-gray-500">No order history available.</p>
+            <% } %>
+            
         </div>
     </div>
 </body>
