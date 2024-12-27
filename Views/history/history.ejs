@@ -94,17 +94,68 @@
                     <!-- Rate Driver -->
                     <div class="flex flex-col items-center justify-center">
                         <p class="mt-3 text-xl text-center font-bold">How was the driver?</p>
-                        <button class="mt-2">
-                            <ion-icon name="star" id="star1" class="text-4xl text-gray-400" onclick="change()"></ion-icon>
-                            <ion-icon name="star" id="star2" class="text-4xl text-gray-400"></ion-icon>
-                            <ion-icon name="star" id="star3" class="text-4xl text-gray-400"></ion-icon>
-                            <ion-icon name="star" id="star4" class="text-4xl text-gray-400"></ion-icon>
-                            <ion-icon name="star" id="star5" class="text-4xl text-gray-400"></ion-icon>
+                        <button class="mt-2 mb-3">
+                            <ion-icon name="star" id="star1" class="text-4xl text-gray-400" onclick="change(star1)"></ion-icon>
+                            <ion-icon name="star" id="star2" class="text-4xl text-gray-400" onclick="change(star2)"></ion-icon>
+                            <ion-icon name="star" id="star3" class="text-4xl text-gray-400" onclick="change(star3)"></ion-icon>
+                            <ion-icon name="star" id="star4" class="text-4xl text-gray-400" onclick="change(star4)"></ion-icon>
+                            <ion-icon name="star" id="star5" class="text-4xl text-gray-400" onclick="change(star5)"></ion-icon>
                         </button>
                     </div>
-                      
+                    <hr class="border-gray-400 dark:border-gray-700">
                         
                     <!-- Driver Info -->
+                    <div class="flex items-center">
+                        <img src="/img/uploads/ProfilePic/1731170059164.jpg" alt="Profile" class="mt-5 rounded-full w-20 h-20">
+
+                        <div class="ml-2 mt-3">
+                            <p class="text-gray-500"><%= item.driver.vehicle %></p>
+                            <p class="font-bold text-lg"><%= item.driver.name %></p>
+                            
+                        </div>
+                    </div>
+                    <hr class="mt-3 border-gray-400 dark:border-gray-700">
+                    
+                    <!-- Detail Location -->
+                    <p class="text-gray-700 font-bold my-3">Delivery Details</p>
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#f77102" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-dot"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="1"/></svg>
+
+                        <div class="ml-3">
+                            <p class="text-sm text-gray-400">Delivery Location</p>
+                            <p class="font-bold text-lg">Ajinomoto Home</p>
+                        </div>
+                    </div>
+                    <hr class="mt-3 border-gray-400 dark:border-gray-700">
+
+                    <!-- Shopping List -->
+                    <p class="text-gray-700 font-bold my-3">Shopping List</p>
+                        <% cart.items.forEach(item => { %>
+                            <div class="flex justify-between">
+                                <p><%= item.quantity %> X <%= item.title %></p>
+                                <p>Rp <%= Math.floor(item.price *
+                            15000).toLocaleString("id-ID") %></p>
+                            </div>
+                            <hr class="my-3 border-gray-300 dark:border-gray-400">
+                        <% }) %>
+                    
+
+                    <!-- contoh manual -->
+                    <div class="flex justify-between">
+                        <p>3 X Egg</p>
+                        <p>Rp 60000</p>
+                    </div>
+                    <hr class="my-3 border-gray-300 dark:border-gray-400">
+
+                    <div class="flex justify-between">
+                        <p>3 X Egg</p>
+                        <p>Rp 60000</p>
+                    </div>
+                    <!-- batas contoh manual -->
+
+                    <!-- Detail Payment -->
+
+
                 <% }) %>
             <% } else { %>
                 <p class="text-gray-500">No order history available.</p>
@@ -115,19 +166,30 @@
 </body>
 
 <script>
-    let star1 = document.getElementById('star1');
-    let star2 = document.getElementById('star2');
-    let star3 = document.getElementById('star3');
-    let star4 = document.getElementById('star4');
-    let star5 = document.getElementById('star5');
+    const change = (clicked) => {
+        const stars = [
+            document.getElementById('star1'),
+            document.getElementById('star2'),
+            document.getElementById('star3'),
+            document.getElementById('star4'),
+            document.getElementById('star5'),
+        ];
 
-    let change = () => {
-        if(star1.classList.contains('text-gray-400')) {
-            star1.classList.remove('text-gray-400')
-            star1.classList.add('text-yellow-500')
-        } else {
-            star1.classList.remove('text-yellow-500')
-            star1.classList.add('text-gray-400')
+        let isGray = clicked.classList.contains('text-gray-400');
+
+        stars.forEach((star, index) => {
+            if (index <= stars.indexOf(clicked)) {
+                star.classList.remove('text-gray-400');
+                star.classList.add('text-yellow-500');
+            } else {
+                star.classList.remove('text-yellow-500');
+                star.classList.add('text-gray-400');
+            }
+        });
+
+        if (!isGray) {
+            clicked.classList.remove('text-yellow-500');
+            clicked.classList.add('text-gray-400');
         }
-    }
+    };
 </script>
