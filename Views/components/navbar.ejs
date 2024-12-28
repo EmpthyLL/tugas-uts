@@ -143,10 +143,10 @@
                               <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
                             </svg>
               
-                            <p class="text-gray-900 text-lg ml-3">Rp <%= item.cart.total.toLocaleString("id-ID") %></p>
+                            <p class="text-gray-900 text-lg ml-3">Rp <%= Math.floor(item.cart.total).toLocaleString("id-ID") %></p>
                           </div>
               
-                          <div class="flex items-center mt-2">
+                          <div class="flex  items-center mt-2">
                             <% if (item.status) { %>
                               <% if (item.status.toLowerCase() === "delivered") { %>
                                 <span class="text-green-500 font-medium pl-12"><%= item.status %></span>
