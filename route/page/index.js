@@ -4,6 +4,7 @@ const AboutController = require("../../app/controllers/AboutController");
 const auth = require("../../App/Middlewares/auth");
 const CategoryController = require("../../app/controllers/CategoryController");
 const ProductController = require("../../app/controllers/ProductController");
+const LoginController = require("../../app/controllers/LoginController");
 
 const app = express.Router();
 
@@ -11,6 +12,7 @@ const homeController = new HomeController();
 const aboutController = new AboutController();
 const categoryController = new CategoryController();
 const productController = new ProductController();
+const loginController = new LoginController();
 
 app.get("/", auth, (req, res) => {
   homeController.search === "";

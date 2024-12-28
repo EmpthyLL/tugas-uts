@@ -232,8 +232,9 @@
           "name": "Jane Smith",
           "vehicle": "BK 5678 AMD"
         },
-        "status": "Ongoing",
-        "rating": null
+        "status": "Delivered",
+        "rating": null,
+        "date": "March 11 2024, 13:11"
       },
       {
         "uuid": "5fc88a7a-2e02-4bd6-a245-3e59b646d1c0",
@@ -260,7 +261,7 @@
           "name": "John Doe",
           "vehicle": "BK 5342 AAA"
         },
-        "status": "Ongoing",
+        "status": "Canceled",
         "rating": null,
         "date": "November 11 2024, 13:11"
       }
