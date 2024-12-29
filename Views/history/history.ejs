@@ -1,53 +1,52 @@
-<div class="max-w-4xl mx-auto my-6 p-6 rounded-lg bg-gray-50 dark:bg-gray-900 shadow-lg">
-<p class="font-bold text-center text-3xl"><%= user.fullname %> Order History</p>
-    <% if (user.history.length > 0) { %>
-        <div class="space-y-4 mt-5">
-          <% user.history.forEach(item => { %>
-            <a href="/history/<%= item.uuid %>" class="flex items-center space-x-6 p-5 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 transition hover:shadow-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-              <div class="flex flex-col space-y-2">
-                <!-- Tanggal -->
-                <p class="text-sm font-semibold text-gray-700 dark:text-gray-200">
-                  <%= new Date(item.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %>
-                </p>
+<div class="max-w-4xl mx-auto my-8 p-6 rounded-lg bg-gray-50 dark:bg-gray-900 shadow-lg">
+  <p class="font-bold text-center text-3xl text-gray-800 dark:text-white"><%= user.fullname %> Order History</p>
 
-                <!-- Total Belanja -->
-                <div class="flex items-center space-x-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="8" cy="21" r="1"/>
-                    <circle cx="19" cy="21" r="1"/>
-                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
-                  </svg>
-                  <p class="text-lg font-bold text-gray-800 dark:text-white">
-                    Rp <%= Math.floor(item.cart.total).toLocaleString("id-ID") %>
-                  </p>
-                </div>
+  <% if (user.history.length > 0) { %>
+    <div class="space-y-6 mt-6">
+      <% user.history.forEach(item => { %>
+        <a href="/history/<%= item.uuid %>" class="flex items-center space-x-6 p-5 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 transition-transform transform hover:scale-105 hover:shadow-xl">
+          <div class="flex flex-col space-y-4 w-full">
+            <!-- Tanggal -->
+            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+              <%= new Date(item.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %>
+            </p>
 
-                <div class="border-2 flex justify-between mt-2">
-                    <div>Total Item : <%= user.history[0].cart.items.length %></div>
-                
-                    <div class="ml-10">
-                        <% if (item.status) { %>
-                            <% if (item.status.toLowerCase() === "delivered") { %>
-                                <span class="text-green-600 bg-green-100 dark:bg-green-900 px-3 py-1 rounded-lg text-sm font-medium"><%= item.status %></span>
-                            <% } else if (item.status.toLowerCase() === "inprocess") { %>
-                                <span class="text-yellow-600 bg-yellow-100 dark:bg-yellow-900 px-3 py-1 rounded-lg text-sm font-medium"><%= item.status %></span>
-                            <% } else { %>
-                                <span class="text-red-600 bg-red-100 dark:bg-red-900 px-3 py-1 rounded-lg text-sm font-medium"><%= item.status %></span>
-                            <% } %>
-                        <% } else { %>
-                            <span class="text-gray-500 bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-lg text-sm font-medium">Unknown Status</span>
-                        <% } %>
-                    </div>
-                </div>
-                
+            <!-- Total Belanja -->
+            <div class="flex items-center space-x-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="8" cy="21" r="1"/>
+                <circle cx="19" cy="21" r="1"/>
+                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+              </svg>
+              <p class="text-lg font-semibold text-gray-800 dark:text-white">
+                Rp <%= Math.floor(item.cart.total).toLocaleString("id-ID") %>
+              </p>
+            </div>
 
+            <!-- Total Item dan Status -->
+            <div class="flex justify-between items-center mt-3">
+              <p class="text-sm text-gray-700 dark:text-gray-300">Total Items: <%= item.cart.items.length %></p>
+              <div>
+                <% if (item.status) { %>
+                  <% if (item.status.toLowerCase() === "delivered") { %>
+                    <span class="text-green-600 bg-green-100 dark:bg-green-900 px-3 py-1 rounded-lg text-sm font-medium"><%= item.status %></span>
+                  <% } else if (item.status.toLowerCase() === "inprocess") { %>
+                    <span class="text-yellow-600 bg-yellow-100 dark:bg-yellow-900 px-3 py-1 rounded-lg text-sm font-medium"><%= item.status %></span>
+                  <% } else { %>
+                    <span class="text-red-600 bg-red-100 dark:bg-red-900 px-3 py-1 rounded-lg text-sm font-medium"><%= item.status %></span>
+                  <% } %>
+                <% } else { %>
+                  <span class="text-gray-500 bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-lg text-sm font-medium">Unknown Status</span>
+                <% } %>
               </div>
-            </a>
-          <% }) %>
-        </div>
-    <% } else { %>
-        <p class="text-center text-gray-500 dark:text-gray-400 text-lg">
-          You haven't done any order yet.
-        </p>
-    <% } %>
+            </div>
+          </div>
+        </a>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <p class="text-center text-gray-500 dark:text-gray-400 text-lg mt-6">
+      You haven't placed any orders yet.
+    </p>
+  <% } %>
 </div>
