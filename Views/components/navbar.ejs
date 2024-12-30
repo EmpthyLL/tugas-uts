@@ -110,7 +110,7 @@
                         class="text-gray-800 dark:text-gray-200 font-bold text-lg whitespace-nowrap"
                       >
                         Rp <%= Math.floor(item.price *
-                        15000).toLocaleString("id-ID") %>
+                        10000).toLocaleString("id-ID") %>
                       </p>
                     </div>
                   </a>
@@ -127,18 +127,16 @@
               <% } else if (menu.title === "History") { %>
                 <div>
                   <% if (user.history.length > 0) { %>
-                    <div class="space-y-4"> <!-- Tambahan jarak antar item untuk estetika -->
+                    <div class="space-y-4">
                       <% user.history.forEach(item => { %>
                         <a href="/history/<%= item.uuid %>" 
                            class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 transition-transform hover:scale-105 hover:shadow-xl">
-                          <!-- Kontainer utama -->
                           <div>
-                            <!-- Tanggal Pesanan -->
+                            
                             <p class="text-sm font-semibold text-gray-900 dark:text-white">
                               <%= new Date(item.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %>
                             </p>
                 
-                            <!-- Ikon & Total Harga -->
                             <div class="flex items-center mt-2">
                               <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" 
                                    stroke="#47a31f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
@@ -152,7 +150,6 @@
                               </p>
                             </div>
                 
-                            <!-- Status Pesanan -->
                             <div class="flex items-center mt-3">
                               <% if (item.status) { %>
                                 <% if (item.status.toLowerCase() === "completed") { %>
@@ -165,13 +162,12 @@
                               <% } else { %>
                                 <span class="text-gray-500 font-medium pl-12">Unknown Status</span>
                               <% } %>
-                            </div>
+                            </div>                    
                           </div>
                         </a>
                       <% }) %>
                     </div>
                   <% } else { %>
-                    <!-- Pesan Jika Tidak Ada Riwayat -->
                     <p class="text-sm text-gray-500 dark:text-gray-400 flex justify-center items-center mt-6">
                       You haven't done any orders yet.
                     </p>
@@ -180,25 +176,30 @@
                 
               <!-- Notification Section -->
               <% } else if (menu.title === "Notifications") { %>
-              <div>
-                <% if (user.notification.length > 0) { %>
-                <div class="space-y-2">
-                  <% user.notification.forEach(notification => { %>
-                  <div class="flex items-center space-x-3">
-                    <div class="text-lime-400"><%= notification.icon %></div>
-                    <p class="text-sm text-gray-900 dark:text-white">
-                      <%- notification.message %>
+                <div>
+                  <% if (user.notification.length > 0) { %>
+                    <div class="space-y-4">
+                      <% user.notification.forEach(notification => { %>
+                        <a href="/notification" 
+                           class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 
+                                  transition-transform hover:scale-105 hover:shadow-xl">
+                
+                          <div class="flex items-center justify-center w-10 h-10 bg-lime-100 dark:bg-lime-900 text-lime-500 rounded-full">
+                            <%= notification.icon %>
+                          </div>
+                
+                          <div class="flex-1">
+                            <p class="text-sm text-gray-900 dark:text-white font-medium"><%- notification.message %></p>
+                          </div>
+                        </a>
+                      <% }) %>
+                    </div>
+                  <% } else { %>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 text-center mt-6">
+                      No notifications yet. Stay tuned!
                     </p>
-                  </div>
-                  <% }) %>
-                </div>
-                <% } else { %>
-                <p class="text-sm text-gray-500 dark:text-gray-400">
-                  No notifications yet. Stay tuned!
-                </p>
-                <% } %>
-              </div>
-
+                  <% } %>
+                </div>                
               <% } %>
             </div>
 

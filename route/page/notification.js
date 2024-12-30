@@ -9,8 +9,5 @@ const notifController = new NotifController();
 app.get("/notification", auth, async (req, res) => {
   notifController.index(req, res);
 });
-app.get("/:id", auth, async (req, res) => {
-  notifController.index(req, res);
-});
 
 module.exports = app;
