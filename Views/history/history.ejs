@@ -28,7 +28,7 @@
               <p class="text-sm text-gray-700 dark:text-gray-300">Total Items: <%= item.cart.items.length %></p>
               <div>
                 <% if (item.status) { %>
-                  <% if (item.status.toLowerCase() === "delivered") { %>
+                  <% if (item.status.toLowerCase() === "completed") { %>
                     <span class="text-green-600 bg-green-100 dark:bg-green-900 px-3 py-1 rounded-lg text-sm font-medium"><%= item.status %></span>
                   <% } else if (item.status.toLowerCase() === "inprocess") { %>
                     <span class="text-yellow-600 bg-yellow-100 dark:bg-yellow-900 px-3 py-1 rounded-lg text-sm font-medium"><%= item.status %></span>
