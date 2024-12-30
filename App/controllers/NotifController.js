@@ -5,7 +5,7 @@ const Controller = require("./Controller");
 class NotifController extends Controller {
     constructor(){
         super();
-        this.view = "notification/notification";
+        this.view = "notification/notifList";
         this.layout = "layout";
         this.title = "Notification";
         this.user = {};

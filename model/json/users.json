@@ -268,9 +268,13 @@
     ],
     "notification": [
       {
-        "message" : "Hello!"
-      }
-    ]
+        "message": "Top Up Succeed",
+        "icon": "Top Up"
+      },{
+        "message": "Congratulation! You have become a member",
+        "icon": "Member"
+      } 
+]
   },
   {
     "uuid": "13750a90-6de4-4cad-b2c9-eeea1d6a6043",

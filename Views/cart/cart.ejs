@@ -21,7 +21,7 @@
         <div class="flex-1">
           <h3 class="font-semibold text-lg"><%= item.title %></h3>
           <p class="text-gray-500">
-            Price: Rp <%= Math.floor(item.price * 15000).toLocaleString("id-ID")
+            Price: Rp <%= Math.floor(item.price * 10000).toLocaleString("id-ID")
             %>
           </p>
           <p class="text-gray-500">Brand: <%= item.brand || "-" %></p>
@@ -92,7 +92,7 @@
           </div>
           <div class="mt-4 font-bold text-lg">
             <p>
-              Rp <%= Math.floor(item.total * 15000).toLocaleString("id-ID") %>
+              Rp <%= Math.floor(item.total * 10000).toLocaleString("id-ID") %>
             </p>
           </div>
         </div>
@@ -208,7 +208,7 @@
       <div class="flex-1">
         <h3 class="font-semibold text-lg">${item.title}</h3>
         <p class="text-gray-500">
-          Price: Rp ${Math.floor(item.price * 15000).toLocaleString("id-ID")}
+          Price: Rp ${Math.floor(item.price * 10000).toLocaleString("id-ID")}
         </p>
         <p class="text-gray-500">Brand: ${item.brand || "-"}</p>
         <p class="text-gray-500">Category: ${item.category}</p>
@@ -248,7 +248,7 @@
           </a>
         </div>
         <div class="mt-4 font-bold text-lg">
-          <p>Rp ${Math.floor(item.total * 15000).toLocaleString("id-ID")}</p>
+          <p>Rp ${Math.floor(item.total * 10000).toLocaleString("id-ID")}</p>
         </div>
       </div>
     </div>`;

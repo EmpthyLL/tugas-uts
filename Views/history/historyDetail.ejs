@@ -91,7 +91,7 @@
             <% user.history[0].cart.items.forEach(item => { %>
                 <div class="flex justify-between text-gray-500">
                     <p><%= item.quantity %> X <%= item.title %></p>
-                    <p>Rp <%= Math.floor(item.price * 15000).toLocaleString("id-ID") %></p>
+                    <p>Rp <%= Math.floor(item.price * 10000).toLocaleString("id-ID") %></p>
                 </div>
                 <hr class="my-3 border-gray-300 dark:border-gray-400">
             <% }) %>
