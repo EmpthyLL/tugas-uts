@@ -1,9 +1,9 @@
 const express = require("express");
 const HomeController = require("../../app/controllers/HomeController");
 const AboutController = require("../../app/controllers/AboutController");
-const auth = require("../../App/Middlewares/auth");
 const CategoryController = require("../../app/controllers/CategoryController");
 const ProductController = require("../../app/controllers/ProductController");
+const auth = require("../../app/middlewares/auth");
 
 const app = express.Router();
 
@@ -24,9 +24,6 @@ app.get("/category/:categoryName?", auth, (req, res) => {
 });
 app.get("/product/:id?", auth, (req, res) => {
   productController.index(req, res);
-});
-app.post("/logout", auth, (req, res) => {
-  loginController.logout(req, res);
 });
 
 module.exports = app;

@@ -1,4 +1,3 @@
-const UserModel = require("../../model/service/UserModel");
 const { setCookie, removeCookie } = require("../../utils/cookie");
 const Controller = require("./Controller");
 
@@ -10,7 +9,6 @@ class LoginController extends Controller {
     this.title = ["Input Phone", "Verify Account"];
     this.no_hp = "";
     this.step = 0;
-    this.model = new UserModel();
   }
   index(req, res) {
     try {

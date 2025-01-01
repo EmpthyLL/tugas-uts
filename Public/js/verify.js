@@ -1,14 +1,36 @@
-let otp = "";
-function generateOtp() {
-  otp = Math.floor(100000 + Math.random() * 900000).toString();
-  setTimeout(() => {
+function startCountdown(button) {
+  let countdown = 300;
+  button.disabled = true;
+
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  };
+
+  button.textContent = `Resend OTP in ${formatTime(countdown)}`;
+
+  countdownInterval = setInterval(() => {
+    countdown--;
+    button.textContent = `Resend OTP in ${formatTime(countdown)}`;
+
+    if (countdown <= 0) {
+      clearInterval(countdownInterval);
+      button.disabled = false;
+      button.textContent = "Resend OTP";
+    }
+  }, 1000);
+}
+
+async function generateOtp() {
+  const { otp } = setTimeout(() => {
     alert(`Your OTP is: ${otp}`);
   }, 5000);
 }
 
-function resendOtp() {
+function resendOtp(e) {
   generateOtp();
-
+  startCountdown(e.target);
   let inputs = document.querySelectorAll(".otp-input");
   inputs.forEach((input) => {
     input.classList.remove(

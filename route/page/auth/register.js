@@ -17,6 +17,7 @@ app.get("/input-number", guest, (req, res) => {
 app.get("/verify-number", guest, (req, res) => {
   registerController.step = 1;
   registerController.isEmail = false;
+  registerController.otp = "";
   registerController.index(req, res);
 });
 app.get("/user-data", guest, (req, res) => {
@@ -27,8 +28,10 @@ app.get("/user-data", guest, (req, res) => {
 app.get("/verify-email", guest, (req, res) => {
   registerController.step = 3;
   registerController.isEmail = true;
+  registerController.otp = "";
   registerController.index(req, res);
 });
+
 app.post("/input-number", guest, (req, res) => {
   registerController.step1(req, res);
 });

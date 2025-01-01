@@ -8,7 +8,7 @@ const app = express.Router();
 const profileController = new ProfileController();
 const userPP = upload("ProfilePic");
 
-app.get("", auth, (req, res) => {
+app.get("/", auth, (req, res) => {
   profileController.step = 0;
   profileController.layout = "layout";
   profileController.index(req, res);
@@ -17,14 +17,17 @@ app.get("/verify-email", auth, (req, res) => {
   profileController.step = 1;
   profileController.isEmail = true;
   profileController.layout = "plain";
+  registerController.otp = "";
   profileController.index(req, res);
 });
 app.get("/verify-number", auth, (req, res) => {
   profileController.step = 1;
   profileController.isEmail = false;
   profileController.layout = "plain";
+  registerController.otp = "";
   profileController.index(req, res);
 });
+
 app.put("/biodata", auth, userPP.single("profile_pic"), (req, res) => {
   profileController.editBiodata(req, res);
 });

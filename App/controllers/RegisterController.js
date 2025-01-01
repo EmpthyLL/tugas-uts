@@ -1,4 +1,4 @@
-const UserModel = require("../../model/service/UserModel");
+const { getUserByPhone } = require("../../database/model/userModel");
 const { setCookie } = require("../../utils/cookie");
 const Controller = require("./Controller");
 
@@ -13,12 +13,7 @@ class RegisterController extends Controller {
     ];
     this.layout = "plain";
     this.title = ["Input Phone", "Verify Number", "User Data", "Verify Email"];
-    this.no_hp = "";
-    this.email = "";
-    this.nama = "";
     this.step = 0;
-    this.isEmail = false;
-    this.model = new UserModel();
   }
 
   index(req, res) {
@@ -28,11 +23,12 @@ class RegisterController extends Controller {
         title: this.title[this.step],
         errors: req.flash("errors") || [],
         no_hp: this.no_hp,
+        otp: this.otp,
         fullname: this.fullname,
         email: this.email,
         login: false,
         isAuth: true,
-        isEmail: this.isEmail,
+        isEmail: false,
       };
       this.renderView(res, this.view[this.step], options);
     } catch (error) {
@@ -41,10 +37,32 @@ class RegisterController extends Controller {
     }
   }
 
-  step1(req, res) {
+  sendOTP(req, res) {
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    this.otp = otp;
+    return res.status(200).json({
+      message: "OTP is generated",
+      otp,
+    });
+  }
+
+  verifyOTP(req, res) {
+    const { otp } = req.body;
+    if (otp !== this.otp) {
+      return res.status(400).json({
+        message: "OTP is not matched",
+      });
+    }
+    return res.status(200).json({
+      message: "OTP is matched",
+    });
+  }
+
+  async step1(req, res) {
     this.no_hp = req.body.no_hp;
     try {
-      if (!this.model.isPhoneUnique(this.no_hp)) {
+      const user = await getUserByPhone(this.no_hp);
+      if (user) {
         throw new Error("Phone number is already registered.");
       }
       res.redirect("/register/verify-number");

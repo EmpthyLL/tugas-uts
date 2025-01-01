@@ -1,19 +1,15 @@
 const { default: axios } = require("axios");
 const Controller = require("./Controller");
-const getAuthUser = require("../../utils/user");
-const formatDate = require("../../utils/formateDate");
 
 class ProductController extends Controller {
   constructor() {
     super();
     this.layout = "layout";
-    this.user = {};
+    this.view = "index/productDetail";
   }
 
   async index(req, res) {
     try {
-      this.user = getAuthUser(req, res, false);
-
       const id = req.params.id;
 
       if (!id) {
@@ -37,17 +33,14 @@ class ProductController extends Controller {
         layout: `components/${this.layout}`,
         title: `${product.title} - Product Detail`,
         req,
-        menus: this.menus || [],
         product,
         relatedProducts: limitedRelatedProducts,
-        keyword: "",
-        user: this.user,
         categoryName: product.category.toLowerCase().replace(/\s+/g, "-"),
-        formatDate,
+
         cart: this.user.cart,
       };
 
-      this.renderView(res, "productDetail", options);
+      this.renderView(res, this.view, options);
     } catch (error) {
       if (error.message === "Request failed with status code 404") {
         this.handleError(res, "Product is not available", 404);

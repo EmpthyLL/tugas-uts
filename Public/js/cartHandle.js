@@ -7,10 +7,10 @@ async function addToCart(productId) {
     loadingStates[productId] = true;
     toggleButtons(productId, true); // Disable buttons
 
-    const response = await axios.post("/cart/add", { productId });
+    const response = await axios.post("api/cart/add", { productId });
     if (response.status === 200) {
       updateCartDisplay(response.data.item.id, response.data.item.quantity);
-    } else if (response.status === 400) {
+    } else if (response.status === 403) {
       window.location.href = "/sign-in";
     }
   } catch (error) {
@@ -28,10 +28,10 @@ async function increment(productId) {
     loadingStates[productId] = true;
     toggleButtons(productId, true);
 
-    const response = await axios.post("/cart/increment", { productId });
+    const response = await axios.post("api/cart/increment", { productId });
     if (response.status === 200) {
       updateCartDisplay(productId, response.data.quantity);
-    } else if (response.status === 400) {
+    } else if (response.status === 403) {
       window.location.href = "/sign-in";
     }
   } catch (error) {
@@ -49,10 +49,10 @@ async function decrement(productId) {
     loadingStates[productId] = true;
     toggleButtons(productId, true);
 
-    const response = await axios.post("/cart/decrement", { productId });
+    const response = await axios.post("api/cart/decrement", { productId });
     if (response.status === 200) {
       updateCartDisplay(productId, response.data.quantity);
-    } else if (response.status === 400) {
+    } else if (response.status === 403) {
       window.location.href = "/sign-in";
     }
   } catch (error) {
@@ -146,7 +146,7 @@ function toggleButtons(productId, disable) {
 }
 async function UpdateCart() {
   try {
-    const response = await axios("/cart/view");
+    const response = await axios("/api/cart/view");
     const CartPop = document.getElementById("Cart-Pop");
     if (!response.data.data || response.data.data.length === 0) {
       CartPop.innerHTML = "<p>Your cart is empty.</p>";

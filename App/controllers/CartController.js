@@ -1,11 +1,5 @@
 const { default: axios } = require("axios");
 const Controller = require("./Controller");
-const getAuthUser = require("../../utils/user");
-const formatDate = require("../../utils/formateDate");
-const CartModel = require("../../model/service/CartModel");
-const HistoryModel = require("../../model/service/HistoryModel");
-const cekBalance = require("../../utils/balance");
-const UserModel = require("../../model/service/UserModel");
 
 class CartController extends Controller {
   constructor() {
@@ -13,24 +7,15 @@ class CartController extends Controller {
     this.view = "cart/cart";
     this.layout = "layout";
     this.title = "Your Cart";
-    this.user = {};
-    this.model = new UserModel();
-    this.cart = new CartModel();
-    this.history = new HistoryModel();
   }
 
   async index(req, res) {
     try {
-      this.user = getAuthUser(req, res, false);
-
       const options = {
         layout: `components/${this.layout}`,
         title: this.title,
         req,
-        menus: this.menus,
-        keyword: "",
-        user: this.user,
-        formatDate,
+
         cart: this.user.cart,
       };
       this.renderView(res, this.view, options);
@@ -57,13 +42,8 @@ class CartController extends Controller {
         quantity: 1,
       };
 
-      const user = getAuthUser(req, res, true);
-      if (user) {
-        await this.cart.addItem(user.uuid, newItem);
-        res.status(200).json({ message: "Item added to cart", item: newItem });
-      } else {
-        res.status(400).json({ message: "User not authenticated" });
-      }
+      await this.cart.addItem(req.userid, newItem);
+      res.status(200).json({ message: "Item added to cart", item: newItem });
     } catch (error) {
       this.handleError(res, "Failed to add item to cart", 500);
     }
@@ -73,10 +53,9 @@ class CartController extends Controller {
   async incrementItem(req, res) {
     try {
       const { productId } = req.body;
-      const user = getAuthUser(req, res, true);
       if (user) {
         const newQuantity = await this.cart.incrementItem(
-          user.uuid,
+          req.userid,
           Number(productId)
         );
         res
@@ -94,11 +73,10 @@ class CartController extends Controller {
   async decrementItem(req, res) {
     try {
       const { productId } = req.body;
-      const user = getAuthUser(req, res, true);
 
       if (user) {
         const newQuantity = await this.cart.decrementItem(
-          user.uuid,
+          req.userid,
           Number(productId)
         );
         res
@@ -140,7 +118,7 @@ class CartController extends Controller {
 
     if (!cekBalance(this.user, price, req, res)) return;
 
-    const newId = this.history.addEntry(this.user.uuid, this.user.cart);
+    const newId = this.history.addEntry(req.userid, this.user.cart);
 
     res.redirect(`/order/${newId}`);
   }

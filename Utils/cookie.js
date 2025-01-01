@@ -5,7 +5,7 @@ function setCookie(res, name, values, options = {}) {
     httpOnly: true,
     maxAge: options.maxAge || 60 * 60,
     path: options.path || "/",
-    secure: options.secure || process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === "production",
     ...options,
   };
 
@@ -19,7 +19,7 @@ function removeCookie(res, name, options = {}) {
     httpOnly: true,
     maxAge: 0,
     path: options.path || "/",
-    secure: options.secure || process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === "production",
     sameSite: options.sameSite || "Lax",
   };
 

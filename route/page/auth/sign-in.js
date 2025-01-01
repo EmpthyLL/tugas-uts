@@ -12,8 +12,10 @@ app.get("/", guest, (req, res) => {
 });
 app.get("/verify-account", guest, (req, res) => {
   loginController.step = 1;
+  registerController.otp = "";
   loginController.index(req, res);
 });
+
 app.post("/", guest, (req, res) => {
   loginController.login(req, res);
 });

@@ -1,8 +1,4 @@
-const HistoryModel = require("../../model/service/HistoryModel");
-const formatDate = require("../../utils/formateDate");
-const getAuthUser = require("../../utils/user");
 const Controller = require("./Controller");
-const CartModel = require("../../model/service/CartModel");
 
 class OrderController extends Controller {
   constructor() {
@@ -10,18 +6,13 @@ class OrderController extends Controller {
     this.view = "order/order";
     this.layout = "layout";
     this.title = "Order";
-    this.history = new HistoryModel();
-    this.cart = new CartModel();
     this.order = {};
-    this.user = {};
   }
 
   async index(req, res) {
     try {
-      this.user = getAuthUser(req, res, true);
-
       const orderId = req.params.id;
-      this.order = this.history.getHistoryByUuid(this.user.uuid, orderId);
+      this.order = this.history.getHistoryByUuid(req.userid, orderId);
 
       const userLocation = {
         lat: 3.5952,
@@ -38,13 +29,10 @@ class OrderController extends Controller {
         layout: `components/${this.layout}`,
         title: this.title,
         req,
-        menus: this.menus,
-        keyword: "",
         userLocation,
-        formatDate,
+
         locations,
         cart: this.order.cart,
-        user: this.user,
         order: this.order,
       };
 
@@ -59,17 +47,17 @@ class OrderController extends Controller {
   }
   complete(req, res) {
     this.user = getAuthUser(req, res, true);
-    this.history.orderDone(this.user.uuid, this.order.uuid);
+    this.history.orderDone(req.userid, this.order.uuid);
     res.redirect(`/order/${this.order.uuid}/rate-driver`);
   }
   cancel(req, res) {
     this.user = getAuthUser(req, res, true);
-    this.history.orderCancel(this.user.uuid, this.order.uuid);
+    this.history.orderCancel(req.userid, this.order.uuid);
     res.redirect(`/`);
   }
   rateDriver(req, res) {
     const rating = req.body.rating;
-    this.history.orderCancel(this.user.uuid, this.order.uuid, rating);
+    this.history.orderCancel(req.userid, this.order.uuid, rating);
     res.redirect(`/`);
   }
 }

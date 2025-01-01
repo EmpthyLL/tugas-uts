@@ -4,6 +4,7 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
+
 const indexPage = require("./page/index");
 const loginPage = require("./page/auth/sign-in");
 const registerPage = require("./page/auth/register");
@@ -14,6 +15,9 @@ const profilePage = require("./page/profile");
 const historyPage = require("./page/history");
 const notifPage = require("./page/notification");
 const orderPage = require("./page/order");
+
+const cartApi = require("./api/cart");
+const authApi = require("./api/auth");
 
 const app = express();
 const port = 3000;
@@ -46,6 +50,9 @@ app.use("/history", historyPage);
 app.use("/order", orderPage);
 app.use("/top-up", topupPage);
 app.use("/become-member", memberPage);
+
+app.use("/api/cart", cartApi);
+app.use("/api/auth", authApi);
 
 app.use((req, res) => {
   res.status(404);

@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { formatDate, formatCurrency } = require("../../utils/formater");
 
 class BaseController {
   constructor() {
@@ -35,7 +36,7 @@ class BaseController {
         throw new Error(`View "${view}" not found`);
       }
 
-      res.render(view, options);
+      res.render(view, { ...options, formatDate, formatCurrency });
     } catch (error) {
       this.handleError(res, error.message, 404);
     }
