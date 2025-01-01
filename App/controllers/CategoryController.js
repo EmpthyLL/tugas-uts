@@ -1,18 +1,14 @@
 const { default: axios } = require("axios");
 const Controller = require("./Controller");
-const getAuthUser = require("../../utils/user");
-const formatDate = require("../../utils/formateDate");
 
 class CategoryController extends Controller {
   constructor() {
     super();
     this.layout = "layout";
-    this.user = {};
   }
 
   async index(req, res) {
     try {
-      this.user = getAuthUser(req, res, false);
       const categoryName = req.params.categoryName;
 
       if (!categoryName) {
@@ -62,19 +58,18 @@ class CategoryController extends Controller {
         .split("-")
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
+
       const options = {
         layout: `components/${this.layout}`,
         title: `${title} Products`,
         req,
-        menus: this.menus,
+
         products,
-        keyword: "",
         sortBy,
         order,
         selectedBrand,
-        user: this.user,
         cart: this.user.cart,
-        formatDate,
+
         brands: [
           ...new Set(
             response.data.products.map((p) => p.brand).filter((brand) => brand)

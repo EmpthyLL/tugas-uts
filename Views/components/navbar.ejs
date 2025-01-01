@@ -125,81 +125,117 @@
 
               <!-- History Section -->
               <% } else if (menu.title === "History") { %>
-                <div>
-                  <% if (user.history.length > 0) { %>
-                    <div class="space-y-4">
-                      <% user.history.forEach(item => { %>
-                        <a href="/history/<%= item.uuid %>" 
-                           class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 transition-transform hover:scale-105 hover:shadow-xl">
-                          <div>
-                            
-                            <p class="text-sm font-semibold text-gray-900 dark:text-white">
-                              <%= new Date(item.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %>
-                            </p>
-                
-                            <div class="flex items-center mt-2">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" 
-                                   stroke="#47a31f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
-                                   class="lucide lucide-shopping-cart">
-                                <circle cx="8" cy="21" r="1"/>
-                                <circle cx="19" cy="21" r="1"/>
-                                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
-                              </svg>
-                              <p class="text-lg text-gray-900 dark:text-white font-medium ml-3">
-                                Rp <%= Math.floor(item.cart.total).toLocaleString("id-ID") %>
-                              </p>
-                            </div>
-                
-                            <div class="flex items-center mt-3">
-                              <% if (item.status) { %>
-                                <% if (item.status.toLowerCase() === "completed") { %>
-                                  <span class="text-green-500 font-medium pl-12">✔ <%= item.status %></span>
-                                <% } else if (item.status.toLowerCase() === "inprocess") { %>
-                                  <span class="text-yellow-500 font-medium pl-12">⏳ <%= item.status %></span>
-                                <% } else { %>
-                                  <span class="text-red-500 font-medium pl-12">❌ <%= item.status %></span>
-                                <% } %>
-                              <% } else { %>
-                                <span class="text-gray-500 font-medium pl-12">Unknown Status</span>
-                              <% } %>
-                            </div>                    
-                          </div>
-                        </a>
-                      <% }) %>
+              <div>
+                <% if (user.history.length > 0) { %>
+                <div class="space-y-4">
+                  <% user.history.forEach(item => { %>
+                  <a
+                    href="/history/<%= item.uuid %>"
+                    class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 transition-transform hover:scale-105 hover:shadow-xl"
+                  >
+                    <div>
+                      <p
+                        class="text-sm font-semibold text-gray-900 dark:text-white"
+                      >
+                        <%= new Date(item.date).toLocaleDateString('en-US', {
+                        month: 'long', day: 'numeric', year: 'numeric' }) %>
+                      </p>
+
+                      <div class="flex items-center mt-2">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="48"
+                          height="48"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="#47a31f"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="lucide lucide-shopping-cart"
+                        >
+                          <circle cx="8" cy="21" r="1" />
+                          <circle cx="19" cy="21" r="1" />
+                          <path
+                            d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
+                          />
+                        </svg>
+                        <p
+                          class="text-lg text-gray-900 dark:text-white font-medium ml-3"
+                        >
+                          Rp <%=
+                          Math.floor(item.cart.total).toLocaleString("id-ID") %>
+                        </p>
+                      </div>
+
+                      <div class="flex items-center mt-3">
+                        <% if (item.status) { %> <% if
+                        (item.status.toLowerCase() === "completed") { %>
+                        <span class="text-green-500 font-medium pl-12"
+                          >✔ <%= item.status %></span
+                        >
+                        <% } else if (item.status.toLowerCase() === "inprocess")
+                        { %>
+                        <span class="text-yellow-500 font-medium pl-12"
+                          >⏳ <%= item.status %></span
+                        >
+                        <% } else { %>
+                        <span class="text-red-500 font-medium pl-12"
+                          >❌ <%= item.status %></span
+                        >
+                        <% } %> <% } else { %>
+                        <span class="text-gray-500 font-medium pl-12"
+                          >Unknown Status</span
+                        >
+                        <% } %>
+                      </div>
                     </div>
-                  <% } else { %>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 flex justify-center items-center mt-6">
-                      You haven't done any orders yet.
-                    </p>
-                  <% } %>
+                  </a>
+                  <% }) %>
                 </div>
-                
+                <% } else { %>
+                <p
+                  class="text-sm text-gray-500 dark:text-gray-400 flex justify-center items-center mt-6"
+                >
+                  You haven't done any orders yet.
+                </p>
+                <% } %>
+              </div>
+
               <!-- Notification Section -->
               <% } else if (menu.title === "Notifications") { %>
-                <div>
-                  <% if (user.notification.length > 0) { %>
-                    <div class="space-y-4">
-                      <% user.notification.forEach(notification => { %>
-                        <a href="/notification" 
-                           class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 
-                                  transition-transform hover:scale-105 hover:shadow-xl">
-                
-                          <div class="flex items-center justify-center w-10 h-10 bg-lime-100 dark:bg-lime-900 text-lime-500 rounded-full">
-                            <%= notification.icon %>
-                          </div>
-                
-                          <div class="flex-1">
-                            <p class="text-sm text-gray-900 dark:text-white font-medium"><%- notification.message %></p>
-                          </div>
-                        </a>
-                      <% }) %>
+              <div>
+                <% if (user.notification.length > 0) { %>
+                <div class="space-y-4">
+                  <% user.notification.forEach(notification => { %>
+                  <a
+                    href="/notification"
+                    class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 transition-transform hover:scale-105 hover:shadow-xl"
+                  >
+                    <div
+                      class="flex items-center justify-center w-10 h-10 bg-lime-100 dark:bg-lime-900 text-lime-500 rounded-full"
+                    >
+                      <%= notification.icon %>
                     </div>
-                  <% } else { %>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 text-center mt-6">
-                      No notifications yet. Stay tuned!
-                    </p>
-                  <% } %>
-                </div>                
+
+                    <div class="flex-1">
+                      <p
+                        class="text-sm text-gray-900 dark:text-white font-medium"
+                      >
+                        <%- notification.message %>
+                      </p>
+                    </div>
+                  </a>
+                  <% }) %>
+                </div>
+                <% } else { %>
+                <p
+                  class="text-sm text-gray-500 dark:text-gray-400 text-center mt-6"
+                >
+                  No notifications yet. Stay tuned!
+                </p>
+                <% } %>
+              </div>
               <% } %>
             </div>
 
@@ -421,8 +457,8 @@
             <circle cx="11" cy="11" r="8" />
             <path d="m21 21-4.3-4.3" />
           </svg>
-          <input type="search" name="search" value="<%= keyword || "" %>"
-          placeholder="Search for product..." class="w-full bg-transparent
+          <input type="search" name="search" value="<%= req.query.search || ""
+          %>" placeholder="Search for product..." class="w-full bg-transparent
           font-light text-base flex items-center justify-center
           focus:outline-none border-none ring-0 focus:ring-0
           placeholder-gray-400 dark:placeholder-gray-500" />

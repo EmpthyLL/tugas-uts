@@ -1,7 +1,3 @@
-const UserModel = require("../../model/service/UserModel");
-const cekBalance = require("../../utils/balance");
-const formatDate = require("../../utils/formateDate");
-const getAuthUser = require("../../utils/user");
 const Controller = require("./Controller");
 
 class MemberController extends Controller {
@@ -10,21 +6,15 @@ class MemberController extends Controller {
     this.view = "purchase/becomeMember";
     this.layout = "layout";
     this.title = "Join Membership";
-    this.user = {};
-    this.model = new UserModel();
   }
 
   index(req, res) {
     try {
-      this.user = getAuthUser(req, res, false);
       const options = {
         layout: `components/${this.layout}`,
         title: this.title,
         req,
-        menus: this.menus,
-        keyword: "",
-        user: this.user,
-        formatDate,
+
         cart: this.user.cart,
       };
 
@@ -43,7 +33,7 @@ class MemberController extends Controller {
 
     if (!cekBalance(this.user, price, req, res)) return;
 
-    this.model.joinMember(this.user.uuid, Number(price));
+    this.model.joinMember(req.uuid, Number(price));
     res.redirect("/");
   }
   year(req, res) {
@@ -57,7 +47,7 @@ class MemberController extends Controller {
 
     if (!cekBalance(this.user, price, req, res)) return;
 
-    this.model.joinMember(this.user.uuid, Number(price), "yearly");
+    this.model.joinMember(req.userid, Number(price), "yearly");
     res.redirect("/");
   }
 }

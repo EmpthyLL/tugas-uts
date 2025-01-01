@@ -10,8 +10,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Environment variables
-.env
+# # Environment variables
+# .env
 
 # Production build
 /build
