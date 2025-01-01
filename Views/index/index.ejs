@@ -30,7 +30,7 @@ include('../components/money') %> <% } %> <%-include('../components/categories')
         </a>
         <div class="flex items-end justify-between p-4 mt-auto">
           <p class="text-gray-800 font-semibold whitespace-nowrap text-lg">
-            Rp <%= Math.floor(product.price * 15000).toLocaleString("id-ID") %>
+            Rp <%= Math.floor(product.price * 10000).toLocaleString("id-ID") %>
           </p>
           <% if (req.isAuthenticated) { %>
           <div id="quantity-<%= product.id %>" class="flex items-end space-x-2">
