@@ -10,6 +10,7 @@ const auth = require("../../App/Middlewares/auth");
 const app = express.Router();
 
 app.get("/", auth, (req, res) => {
+  console.log(req.cookies.auth_token);
   homeController.search === "";
   homeController.index(req, res);
 });

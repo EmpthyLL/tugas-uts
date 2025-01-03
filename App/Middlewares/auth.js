@@ -1,9 +1,16 @@
 const jwt = require("jsonwebtoken");
-const { decryptAccToken } = require("../../utils/jwt");
+const {
+  decryptAccToken,
+  decryptRefToken,
+  generateAccToken,
+} = require("../../utils/jwt");
+const userModel = require("../../database/model/userModel");
+const { removeCookie } = require("../../utils/cookie");
 
 async function auth(req, res, next) {
   try {
     const token = req.cookies.auth_token;
+
     req.isAuthenticated = false;
 
     if (!token) {
@@ -19,13 +26,44 @@ async function auth(req, res, next) {
       return next();
     }
     const user = decryptAccToken(token);
-    req.userid = userId;
-
+    req.isAuthenticated = true;
+    req.user = user;
     next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {
-      res.redirect("/login");
-      return next();
+      const {
+        fullname,
+        email,
+        profile_pic,
+        balance,
+        status_member,
+        member_since,
+      } = await userModel.getUserByUUID(req.cookies.userId);
+      try {
+        decryptRefToken(user.refresh_token);
+        req.isAuthenticated = true;
+        const acc_token = generateAccToken({
+          user: {
+            uuid: req.cookies.userId,
+            fullname,
+            email,
+            profile_pic,
+            balance,
+            status_member,
+            member_since,
+          },
+        });
+        setCookie(res, "auth_token", acc_token, { maxAge: 15 * 60 });
+        next();
+      } catch (error) {
+        if (error.name === "TokenExpiredError") {
+          userModel.removeRefToken(req.cookies.userId);
+          removeCookie(res, "auth_token");
+          removeCookie(res, "userId");
+          res.redirect("/login");
+        }
+        return next();
+      }
     }
     console.error("Token verification error:", error);
     return next();

@@ -20,7 +20,7 @@ const cartApi = require("./api/cart");
 const authApi = require("./api/auth");
 
 const app = express();
-const port = 3000;
+const port = 3005;
 
 app.set("view engine", "ejs");
 app.use(exlay);

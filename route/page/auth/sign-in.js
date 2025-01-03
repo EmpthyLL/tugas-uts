@@ -11,6 +11,7 @@ app.get("/", guest, (req, res) => {
 app.get("/verify-account", guest, (req, res) => {
   loginController.step = 1;
   registerController.step = 1;
+  registerController.no_hp = loginController.no_hp;
   registerController.otp = "";
   loginController.index(req, res);
 });
