@@ -14,7 +14,6 @@ function setCookie(res, name, values, options = {}) {
 }
 
 function removeCookie(res, name, options = {}) {
-  console.log(name);
   const cookieOptions = {
     httpOnly: true,
     maxAge: 0,

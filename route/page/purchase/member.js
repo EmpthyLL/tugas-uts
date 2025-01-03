@@ -1,10 +1,8 @@
 const express = require("express");
-const auth = require("../../../App/Middlewares/auth");
-const MemberController = require("../../../app/controllers/MemberController");
+const auth = require("../../../app/middlewares/auth");
+const { memberController } = require("../../controllers");
 
 const app = express.Router();
-
-const memberController = new MemberController();
 
 app.get("/", auth, (req, res) => {
   memberController.index(req, res);

@@ -1,3 +1,4 @@
+const userModel = require("../../database/model/userModel");
 const { setCookie, removeCookie } = require("../../utils/cookie");
 const Controller = require("./Controller");
 
@@ -9,6 +10,7 @@ class LoginController extends Controller {
     this.title = ["Input Phone", "Verify Account"];
     this.no_hp = "";
     this.step = 0;
+    this.isEmail = false;
   }
   index(req, res) {
     try {
@@ -19,7 +21,7 @@ class LoginController extends Controller {
         no_hp: this.no_hp,
         login: true,
         isAuth: true,
-        isEmail: false,
+        isEmail: this.isEmail,
       };
       this.renderView(res, this.view[this.step], options);
     } catch (error) {

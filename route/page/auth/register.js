@@ -1,10 +1,8 @@
-const RegisterController = require("../../../app/controllers/RegisterController");
 const guest = require("../../../app/middlewares/guest");
 const express = require("express");
+const { registerController } = require("../../controllers");
 
 const app = express.Router();
-
-const registerController = new RegisterController();
 
 app.get("/", guest, (req, res) => {
   res.redirect("/register/input-number");

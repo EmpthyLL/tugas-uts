@@ -72,6 +72,7 @@ CREATE TABLE notifications (
     user_id INT REFERENCES users(id) ON DELETE CASCADE,
     title VARCHAR(255),
     body TEXT,
+    navigate VARCHAR(255),
     type VARCHAR(255),
     is_read BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

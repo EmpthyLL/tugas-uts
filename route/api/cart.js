@@ -1,11 +1,9 @@
-const CartController = require("../../app/controllers/CartController");
 const auth = require("../../app/middlewares/auth");
 const cektoken = require("../../app/middlewares/cektoken");
 const express = require("express");
+const { cartController } = require("../controllers");
 
 const app = express.Router();
-
-const cartController = new CartController();
 
 app.post("/add", cektoken, auth, async (req, res) => {
   try {

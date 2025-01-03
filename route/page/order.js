@@ -1,9 +1,8 @@
 const express = require("express");
 const auth = require("../../App/Middlewares/auth");
-const OrderController = require("../../app/controllers/OrderController");
+const { orderController } = require("../controllers");
 
 const app = express.Router();
-const orderController = new OrderController();
 
 app.get("/:id", auth, (req, res) => {
   orderController.index(req, res);

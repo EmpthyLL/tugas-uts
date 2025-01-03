@@ -1,10 +1,8 @@
 const express = require("express");
 const auth = require("../../App/Middlewares/auth");
-const HistoryController = require("../../app/controllers/HistoryController");
+const { historyController } = require("../controllers");
 
 const app = express.Router();
-
-const historyController = new HistoryController();
 
 app.get("/", auth, async (req, res) => {
   historyController.index(req, res);

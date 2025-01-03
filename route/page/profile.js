@@ -1,11 +1,10 @@
 const express = require("express");
 const auth = require("../../App/Middlewares/auth");
-const ProfileController = require("../../app/controllers/ProfileController");
 const upload = require("../../app/middlewares/upload");
+const { profileController, registerController } = require("../controllers");
 
 const app = express.Router();
 
-const profileController = new ProfileController();
 const userPP = upload("ProfilePic");
 
 app.get("/", auth, (req, res) => {
@@ -15,6 +14,7 @@ app.get("/", auth, (req, res) => {
 });
 app.get("/verify-email", auth, (req, res) => {
   profileController.step = 1;
+  registerController.step = 1;
   profileController.isEmail = true;
   profileController.layout = "plain";
   registerController.otp = "";

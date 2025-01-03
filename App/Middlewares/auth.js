@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const SECRET_KEY = "T0l0NGj4g4Rahasia";
+const { decryptAccToken } = require("../../utils/jwt");
 
 async function auth(req, res, next) {
   try {
@@ -18,7 +18,7 @@ async function auth(req, res, next) {
       }
       return next();
     }
-    const { userId } = jwt.verify(token, SECRET_KEY);
+    const user = decryptAccToken(token);
     req.userid = userId;
 
     next();

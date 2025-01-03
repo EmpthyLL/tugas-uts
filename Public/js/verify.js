@@ -23,14 +23,18 @@ function startCountdown(button) {
 }
 
 async function generateOtp() {
-  const { otp } = setTimeout(() => {
+  const time = Math.floor(3000 + Math.random() * 3001).toString();
+  const button = document.getElementById("resendButton");
+  const res = await axios.get("/api/auth/sendOTP");
+  const { otp } = res.data;
+  startCountdown(button);
+  setTimeout(() => {
     alert(`Your OTP is: ${otp}`);
-  }, 5000);
+  }, time);
 }
 
 function resendOtp(e) {
   generateOtp();
-  startCountdown(e.target);
   let inputs = document.querySelectorAll(".otp-input");
   inputs.forEach((input) => {
     input.classList.remove(
@@ -42,7 +46,8 @@ function resendOtp(e) {
   document.getElementById("invalidOtpMessage").classList.add("hidden");
 }
 
-function handleSubmit(event) {
+async function handleSubmit(event) {
+  event.preventDefault();
   let inputs = document.querySelectorAll(".otp-input");
   let isFormValid = true;
   let otpValue = "";
@@ -60,7 +65,7 @@ function handleSubmit(event) {
       otpValue += input.value;
     }
   });
-  if (otpValue.length == 0 || otpValue.length <= 5 || otpValue !== otp) {
+  if (otpValue.length == 0 || otpValue.length <= 5) {
     isFormValid = false;
     inputs.forEach((input) => {
       input.classList.add("border-red-500", "bg-red-50", "placeholder-red-500");
@@ -73,19 +78,44 @@ function handleSubmit(event) {
       document.getElementById("invalidOtpMessage").classList.remove("hidden");
       document.getElementById("invalidOtpMessage").innerHTML =
         "OTP is not complete!";
-    } else if (otpValue !== otp) {
-      document.getElementById("invalidOtpMessage").classList.remove("hidden");
-      document.getElementById("invalidOtpMessage").innerHTML =
-        "Invalid OTP. Please try again.";
     }
   }
 
-  if (!isFormValid) {
-    event.preventDefault(); // Prevent form submission if invalid
+  try {
+    await axios.post("/api/auth/verifyOTP", { otp: otpValue });
+  } catch (error) {
+    if (
+      error.response &&
+      (error.response.status === 401 || error.response.status === 400)
+    ) {
+      inputs.forEach((input) => {
+        input.classList.add(
+          "border-red-500",
+          "bg-red-50",
+          "placeholder-red-500"
+        );
+      });
+      const invalidOtpMessageElement =
+        document.getElementById("invalidOtpMessage");
+      invalidOtpMessageElement.classList.remove("hidden");
+      invalidOtpMessageElement.innerHTML =
+        error.response.data.message || "An error occurred. Please try again.";
+      isFormValid = false;
+    } else {
+      console.error("Unexpected error:", error);
+      alert("An unexpected error occurred. Please try again later.");
+    }
+  }
+
+  if (isFormValid) {
+    const form = document.getElementById("verifyForm");
+    const invalidOtpMessageElement =
+      document.getElementById("invalidOtpMessage");
+    invalidOtpMessageElement.classList.add("hidden");
+    form.submit();
   }
 }
 
-// Start OTP generation on load
 document.addEventListener("DOMContentLoaded", () => {
   generateOtp();
 });
