@@ -20,13 +20,14 @@ const cartApi = require("./api/cart");
 const authApi = require("./api/auth");
 
 const app = express();
-const port = 3005;
+const port = process.env.PORT;
 
 app.set("view engine", "ejs");
 app.use(exlay);
 app.use(express.json());
 app.use(express.static("public"));
 app.use("/node_modules", express.static(__dirname + "/../node_modules"));
+// app.use(favicon(path.join(__dirname, "public", "a3mart.ico")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
