@@ -293,6 +293,10 @@ const Notifications = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    navigate: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     type: {
       type: DataTypes.STRING,
       allowNull: false,

@@ -1,10 +1,8 @@
-const CartController = require("../../app/controllers/CartController");
 const express = require("express");
-const auth = require("../../App/Middlewares/auth");
+const auth = require("../../app/middlewares/auth");
+const { cartController } = require("../controllers");
 
 const app = express.Router();
-
-const cartController = new CartController();
 
 app.get("/", auth, async (req, res) => {
   cartController.index(req, res);

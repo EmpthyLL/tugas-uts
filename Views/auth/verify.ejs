@@ -11,6 +11,7 @@
         "phone number" %>.
         <button
           type="button"
+          id="resendButton"
           class="text-lime-500 hover:text-lime-700 inline-block hover:underline"
           onclick="resendOtp()"
         >
@@ -21,7 +22,7 @@
       <form
         id="verifyForm"
         method="post"
-        action="<%= isAuth? login ? '/sign-in/verify-account' : email ? '/register/verify-email' : '/register/verify-number' : isEmail ? "/profile/email?_method=PUT" : "/profile/phone?_method=PUT" %>"
+        action="<%= isAuth ? login ? '/sign-in/verify-account' : email ? '/register/verify-email' : '/register/verify-number' : isEmail ? "/profile/email?_method=PUT" : "/profile/phone?_method=PUT" %>"
         class="flex flex-col gap-4"
         onsubmit="handleSubmit(event)"
       >

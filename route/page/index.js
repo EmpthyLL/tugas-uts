@@ -1,18 +1,17 @@
 const express = require("express");
-const HomeController = require("../../app/controllers/HomeController");
-const AboutController = require("../../app/controllers/AboutController");
-const CategoryController = require("../../app/controllers/CategoryController");
-const ProductController = require("../../app/controllers/ProductController");
-const auth = require("../../app/middlewares/auth");
+const {
+  homeController,
+  aboutController,
+  categoryController,
+  productController,
+} = require("../controllers");
+const auth = require("../../App/Middlewares/auth");
 
 const app = express.Router();
 
-const homeController = new HomeController();
-const aboutController = new AboutController();
-const categoryController = new CategoryController();
-const productController = new ProductController();
-
 app.get("/", auth, (req, res) => {
+  console.log(req.cookies.auth_token);
+  console.log(req.cookies.userId);
   homeController.search === "";
   homeController.index(req, res);
 });

@@ -3,7 +3,10 @@ const { Carts, CartItems } = require("../config/schema");
 const cartModel = require("./cartModel");
 const userModel = require("./userModel");
 
-const historyModel = {
+class HistoryModel {
+  constructor() {
+    this.model = "history";
+  }
   async getHistories(uuid) {
     const { id } = await userModel.getUserByUUID(uuid);
     const histories = await Histories.findOne({
@@ -22,7 +25,7 @@ const historyModel = {
       ],
     });
     return histories || [];
-  },
+  }
   async getHistory(id) {
     const histories = await Histories.findOne({
       where: { id, deleted_at: null, is_finalize: false },
@@ -40,18 +43,18 @@ const historyModel = {
       ],
     });
     return histories || [];
-  },
+  }
   async createOrder(uuid, cart_id) {
     const { id } = await userModel.getUserByUUID(uuid);
     await cartModel.deleteCart(cart_id);
     const driver_id = Math.floor(Math.random() * 70) + 1;
     await Histories.create({ user_id: id, cart_id, driver_id });
-  },
+  }
   async updateStatus(id, status_num) {
     const order = await Histories.findOne({ where: { id } });
     order.status = status_num;
     await order.save();
-  },
+  }
   async cancelOrder(id) {
     const { uuid } = await userModel.getUserByUUID(uuid);
     const cart = await cartModel.getCart(uuid);
@@ -73,12 +76,12 @@ const historyModel = {
     }
     await cartModel.moveItemsToCart(newCartId, orderCartItems);
     await order.save();
-  },
+  }
   async rateDriver(id, rate) {
     const history = await this.getHistory(id);
     history.rating = rate;
     await history.save();
-  },
-};
+  }
+}
 
-module.exports = historyModel;
+module.exports = new HistoryModel();

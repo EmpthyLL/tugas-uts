@@ -1,6 +1,7 @@
 const Controller = require("./Controller");
 const fs = require("fs");
 const path = require("path");
+const userModel = require("../../database/model/userModel");
 
 class ProfileController extends Controller {
   constructor() {
@@ -9,8 +10,6 @@ class ProfileController extends Controller {
     this.layout = "layout";
     this.title = [];
     this.step = 0;
-    this.no_hp = "";
-    this.email = "";
     this.isEmail = false;
   }
   index(req, res) {
@@ -27,7 +26,6 @@ class ProfileController extends Controller {
         isEmail: this.isEmail,
         no_hp: this.no_hp,
         email: this.email,
-
         cart: this.user.cart,
       };
 
@@ -56,7 +54,7 @@ class ProfileController extends Controller {
       }
     }
   }
-  editBiodata(req, res) {
+  async editBiodata(req, res) {
     this.user = getAuthUser(req, res, false);
     let newProfilePic = null;
     if (req.file) {
@@ -79,21 +77,19 @@ class ProfileController extends Controller {
       gender: req.body.gender || null,
       birth_date: req.body.birth_date || null,
     };
-    this.model.editBasicInfo(req.userid, data);
+    userModel.editBasicProfile(req.userid, data);
     req.flash("success", "Profile updated successfully!");
     res.redirect("/profile");
   }
-  editDataEmail(req, res) {
-    this.user = getAuthUser(req, res, false);
+  async editDataEmail(req, res) {
     this.email = req.body.email;
-    this.model.editEmail(req.userid, this.email);
+    userModel.editEmail(req.userid, this.email);
     req.flash("success", "Profile updated successfully!");
     res.redirect("/profile");
   }
-  editDataPhone(req, res) {
-    this.user = getAuthUser(req, res, false);
+  async editDataPhone(req, res) {
     this.no_hp = req.body.no_hp;
-    this.model.editPhone(req.userid, this.no_hp);
+    userModel.editPhone(req.userid, this.no_hp);
     req.flash("success", "Profile updated successfully!");
     res.redirect("/profile");
   }

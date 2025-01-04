@@ -1,4 +1,4 @@
-const { getUserByPhone } = require("../../database/model/userModel");
+const userModel = require("../../database/model/userModel");
 const { setCookie } = require("../../utils/cookie");
 const Controller = require("./Controller");
 
@@ -14,6 +14,7 @@ class RegisterController extends Controller {
     this.layout = "plain";
     this.title = ["Input Phone", "Verify Number", "User Data", "Verify Email"];
     this.step = 0;
+    this.isEmail = false;
   }
 
   index(req, res) {
@@ -28,7 +29,7 @@ class RegisterController extends Controller {
         email: this.email,
         login: false,
         isAuth: true,
-        isEmail: false,
+        isEmail: this.email,
       };
       this.renderView(res, this.view[this.step], options);
     } catch (error) {
@@ -38,6 +39,17 @@ class RegisterController extends Controller {
   }
 
   sendOTP(req, res) {
+    if (
+      (this.step === 1 && !this.no_hp) ||
+      this.step === 0 ||
+      this.step === 2 ||
+      (this.step === 3 && !this.email)
+    ) {
+      return res.status(400).json({
+        message:
+          "OTP cannot be generated due to missing or invalid information.",
+      });
+    }
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     this.otp = otp;
     return res.status(200).json({
@@ -48,9 +60,14 @@ class RegisterController extends Controller {
 
   verifyOTP(req, res) {
     const { otp } = req.body;
-    if (otp !== this.otp) {
+    if (!otp) {
       return res.status(400).json({
-        message: "OTP is not matched",
+        message: "Please enter the OTP sent to you.",
+      });
+    }
+    if (otp !== this.otp) {
+      return res.status(401).json({
+        message: "Invalid OTP. Please try again.",
       });
     }
     return res.status(200).json({
@@ -61,7 +78,7 @@ class RegisterController extends Controller {
   async step1(req, res) {
     this.no_hp = req.body.no_hp;
     try {
-      const user = await getUserByPhone(this.no_hp);
+      const user = await userModel.getUserByPhone(this.no_hp);
       if (user) {
         throw new Error("Phone number is already registered.");
       }
@@ -90,17 +107,19 @@ class RegisterController extends Controller {
       this.fullname = req.body.fullname;
       this.no_hp = req.body.no_hp;
 
-      const token = await this.model.register({
-        fullname: this.fullname,
-        no_hp: this.no_hp,
-        email: this.email,
-      });
+      const { uuid, acc_token } = await userModel.register(
+        this.fullname,
+        this.no_hp,
+        this.email
+      );
 
-      setCookie(res, "auth_token", token);
+      setCookie(res, "auth_token", acc_token, { maxAge: 15 * 60 });
+      setCookie(res, "userId", uuid, { maxAge: 7 * 60 * 60 * 24 });
 
       res.redirect(`/`);
     } catch (error) {
       req.flash("errors", [{ msg: error.message }]);
+      console.log(error);
       res.redirect("/register/user-data");
     }
   }

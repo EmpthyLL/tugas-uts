@@ -1,10 +1,8 @@
-const LoginController = require("../../../app/controllers/LoginController");
 const guest = require("../../../app/middlewares/guest");
 const express = require("express");
+const { registerController, loginController } = require("../../controllers");
 
 const app = express.Router();
-
-const loginController = new LoginController();
 
 app.get("/", guest, (req, res) => {
   loginController.step = 0;
@@ -12,6 +10,8 @@ app.get("/", guest, (req, res) => {
 });
 app.get("/verify-account", guest, (req, res) => {
   loginController.step = 1;
+  registerController.step = 1;
+  registerController.no_hp = loginController.no_hp;
   registerController.otp = "";
   loginController.index(req, res);
 });

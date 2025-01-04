@@ -1,21 +1,14 @@
 const express = require("express");
-const LoginController = require("../../app/controllers/LoginController");
-const RegisterController = require("../../app/controllers/RegisterController");
+const { registerController, loginController } = require("../controllers");
 
 const app = express.Router();
 
-const registerController = new RegisterController();
-const loginController = new LoginController();
-
-app.post("/login", (req, res) => {});
-app.post("/register", (req, res) => {});
 app.get("/sendOTP", (req, res) => {
-  registerController.sendOTP();
+  registerController.sendOTP(req, res);
 });
-app.get("/verifyOTP", (req, res) => {
-  registerController.verifyOTP();
+app.post("/verifyOTP", (req, res) => {
+  registerController.verifyOTP(req, res);
 });
-app.post("/refresh", (req, res) => {});
 app.post("/logout", (req, res) => {
   loginController.logout(req, res);
 });

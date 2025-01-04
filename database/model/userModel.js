@@ -2,19 +2,22 @@ const { generateRefToken, generateAccToken } = require("../../utils/jwt");
 const { Users } = require("../config/schema");
 const { v4: uuidv4 } = require("uuid");
 
-const userModel = {
+class UserModel {
+  constructor() {
+    this.model = "user";
+  }
   async getUserByUUID(uuid) {
     const user = await Users.findOne({ where: { uuid } });
     return user || null;
-  },
+  }
   async getUserByPhone(no_hp) {
     const user = await Users.findOne({ where: { no_hp } });
     return user || null;
-  },
+  }
   async getUserByEmail(email) {
     const user = await Users.findOne({ where: { email } });
     return user || null;
-  },
+  }
   async register(fullname, no_hp, email) {
     const uuid = uuidv4();
     await Users.create({
@@ -23,15 +26,16 @@ const userModel = {
       no_hp,
       email,
     });
-    return await this.login(uuid);
-  },
-  async login(uuid) {
-    const user = await this.getUserByUUID(uuid);
+    return await this.login(no_hp);
+  }
+  async login(phone) {
+    const user = await this.getUserByPhone(phone);
     if (!user) {
       return -1;
     }
 
     const {
+      uuid,
       fullname,
       email,
       profile_pic,
@@ -52,9 +56,14 @@ const userModel = {
         member_since,
       },
     });
-
-    return { uuid, ref_token, acc_token };
-  },
+    user.refresh_token = ref_token;
+    await user.save();
+    return { uuid, acc_token };
+  }
+  async removeRefToken(uuid) {
+    const user = await this.getUserByUUID(uuid);
+    user.refresh_token = null;
+  }
   async editBasicProfile(uuid, { profile_pic, fullname, gender, birth_date }) {
     const user = await this.getUserByUUID(uuid);
     if (!user) {
@@ -65,26 +74,24 @@ const userModel = {
     user.gender = gender || null;
     user.birth_date = birth_date || null;
 
-    this.saveData();
-  },
+    await user.save();
+  }
   async editEmail(uuid, newEmail) {
     const user = await this.getUserByUUID(uuid);
     if (!user) {
       return -1;
     }
-
     user.email = newEmail;
-    this.saveData();
-  },
+    await user.save();
+  }
   async editPhone(uuid, newPhone) {
     const user = await this.getUserByUUID(uuid);
     if (!user) {
       return -1;
     }
-
     user.no_hp = newPhone;
-    this.saveData();
-  },
+    await user.save();
+  }
   async cekBalance(uuid) {
     const user = await this.getUserByUUID(uuid);
     if (!user) {
@@ -92,7 +99,7 @@ const userModel = {
     }
 
     return user.balance;
-  },
+  }
   async purchase(uuid, price) {
     const user = await this.getUserByUUID(uuid);
     if (!user) {
@@ -101,7 +108,7 @@ const userModel = {
 
     user.balance -= price;
     user.save();
-  },
+  }
   async topup(uuid, amount) {
     const user = await this.getUserByUUID(uuid);
     if (!user) {
@@ -110,7 +117,7 @@ const userModel = {
 
     user.balance += amount;
     user.save();
-  },
+  }
   async cekMemberStatus(uuid) {
     const user = await this.getUserByUUID(uuid);
     if (!user) {
@@ -133,7 +140,7 @@ const userModel = {
     }
 
     return false;
-  },
+  }
   async becomeMember(uuid, price, type) {
     const user = await this.getUserByUUID(uuid);
     if (!user) {
@@ -158,7 +165,7 @@ const userModel = {
     }
 
     user.save();
-  },
-};
+  }
+}
 
-module.exports = userModel;
+module.exports = new UserModel();
