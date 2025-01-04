@@ -24,7 +24,7 @@ class HomeController extends Controller {
       if (req.isAuthenticated) {
         this.cart = await cartModel.getUserCartList(req.cookies.userId);
       }
-      console.log(this.cart);
+
       const categories = await this.fetchCategories();
       const products = await this.fetchData();
 
@@ -48,6 +48,8 @@ class HomeController extends Controller {
         totalItem: this.totalItem,
         page: this.page,
         cart: this.cart,
+        history: [],
+        notification: [],
       };
       this.renderView(res, this.view, options);
     } catch (error) {

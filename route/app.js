@@ -1,7 +1,9 @@
 const express = require("express");
 const exlay = require("express-ejs-layouts");
 const session = require("express-session");
+const serveFavicon = require("serve-favicon");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
 
@@ -27,7 +29,7 @@ app.use(exlay);
 app.use(express.json());
 app.use(express.static("public"));
 app.use("/node_modules", express.static(__dirname + "/../node_modules"));
-// app.use(favicon(path.join(__dirname, "public", "a3mart.ico")));
+app.use(serveFavicon(path.join(__dirname, "/../public/img", "a3mart.ico")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 

@@ -36,7 +36,12 @@ class BaseController {
         throw new Error(`View "${view}" not found`);
       }
 
-      res.render(view, { ...options, formatDate, formatCurrency });
+      res.render(view, {
+        ...options,
+        formatDate,
+        formatCurrency,
+        menus: this.menus,
+      });
     } catch (error) {
       this.handleError(res, error.message, 404);
     }

@@ -79,9 +79,9 @@
               <!-- Cart Section -->
               <% if (menu.title === "Cart") { %>
               <div id="Cart-Pop">
-                <% if (cart.items.length > 0) { %>
+                <% if (cart?.items?.length > 0) { %>
                 <div class="space-y-2">
-                  <% cart.items.forEach(item => { %>
+                  <% cart?.items?.forEach(item => { %>
                   <a
                     href="/product/<%= item.id %>"
                     class="flex items-center bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
@@ -126,9 +126,9 @@
               <!-- History Section -->
               <% } else if (menu.title === "History") { %>
               <div>
-                <% if (user.history.length > 0) { %>
+                <% if (history?.length > 0) { %>
                 <div class="space-y-4">
-                  <% user.history.forEach(item => { %>
+                  <% history?.forEach(item => { %>
                   <a
                     href="/history/<%= item.uuid %>"
                     class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 transition-transform hover:scale-105 hover:shadow-xl"
@@ -205,9 +205,9 @@
               <!-- Notification Section -->
               <% } else if (menu.title === "Notifications") { %>
               <div>
-                <% if (user.notification.length > 0) { %>
+                <% if (notification?.length > 0) { %>
                 <div class="space-y-4">
-                  <% user.notification.forEach(notification => { %>
+                  <% notification?.forEach(notification => { %>
                   <a
                     href="/notification"
                     class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 transition-transform hover:scale-105 hover:shadow-xl"
@@ -257,7 +257,7 @@
               class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-white overflow-hidden flex items-center justify-center shadow-md bg-white dark:bg-neutral-800"
             >
               <img
-                src="<%= user.profile_pic || '/img/profile.webp' %>"
+                src="<%= req.user.profile_pic || '/img/profile.webp' %>"
                 alt="profile"
                 class="w-full h-full object-cover"
               />
@@ -267,7 +267,7 @@
             <div
               class="text-white font-semibold text-sm md:text-base truncate flex-grow min-w-0 hidden lg:block"
             >
-              <%= user.fullname.split(" ")[0] %>
+              <%= req.user.fullname.split(" ")[0] %>
             </div>
           </div>
         </a>
@@ -282,17 +282,17 @@
             <a href="/profile" class="flex items-center mb-3">
               <img
                 class="w-12 h-12 object-cover rounded-full border-2 shadow-sm border-gray-600"
-                src="<%= user.profile_pic || '/img/profile.webp' %>"
+                src="<%= req.user.profile_pic || '/img/profile.webp' %>"
                 alt="Profile Picture"
               />
               <div class="ml-3">
                 <p
                   class="text-base font-semibold text-gray-900 dark:text-white"
                 >
-                  <%= user.fullname %>
+                  <%= req.user.fullname %>
                 </p>
                 <p class="text-sm text-gray-500 dark:text-gray-400">
-                  <%= user.email %>
+                  <%= req.user.email %>
                 </p>
               </div>
             </a>
@@ -303,19 +303,18 @@
                 Balance:
               </p>
               <p class="text-lg font-semibold text-gray-800">
-                <%= new Intl.NumberFormat('id-ID', { style: 'currency',
-                currency: 'IDR' }).format(user.balance) %>
+                <%= formatCurrency(req.user.balance) %>
               </p>
             </div>
 
             <!-- Additional Information -->
-            <% if (user.member) { %>
+            <% if (req.user.member) { %>
             <div class="mb-4">
               <p class="text-sm font-medium text-gray-600 dark:text-gray-300">
                 Member Since:
               </p>
               <p class="text-sm text-gray-900 dark:text-gray-400">
-                <%= formatDate(user.member_since) %>
+                <%= formatDate(req.user.member_since) %>
               </p>
             </div>
 
@@ -421,7 +420,7 @@
           <div
             class="rounded-full overflow-hidden flex items-center justify-center w-12 h-12 shadow-md bg-white dark:bg-neutral-800"
           >
-            <img src="<%= req.isAuthenticated ? user.profile_pic ||
+            <img src="<%= req.isAuthenticated ? req.user.profile_pic ||
             '/img/profile.webp' : "/img/profile.webp"%>" alt="profile"
             class="w-full h-full object-cover" />
           </div>

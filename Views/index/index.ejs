@@ -34,7 +34,7 @@ include('../components/money') %> <% } %> <%-include('../components/categories')
           </p>
           <% if (req.isAuthenticated) { %>
           <div id="quantity-<%= product.id %>" class="flex items-end space-x-2">
-            <% if (cart.items.find(item => item.id === product.id)) { %>
+            <% if (cart?.items?.find(item => item.id === product.id)) { %>
             <div
               class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md"
             >
@@ -62,7 +62,7 @@ include('../components/money') %> <% } %> <%-include('../components/categories')
               <span
                 id="quantity-display-<%=product.id%>"
                 class="text-gray-800 font-semibold"
-                ><%= cart.items.find(item => item.id === product.id).quantity
+                ><%= cart?.items?.find(item => item.id === product.id).quantity
                 %></span
               >
               <button
