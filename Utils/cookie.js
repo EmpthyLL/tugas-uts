@@ -10,7 +10,12 @@ function setCookie(res, name, values, options = {}) {
   };
 
   const serializedCookie = cookie.serialize(name, values, cookieOptions);
-  res.setHeader("Set-Cookie", serializedCookie);
+  const existingCookies = res.getHeader("Set-Cookie") || [];
+  const cookies = Array.isArray(existingCookies)
+    ? existingCookies
+    : [existingCookies];
+
+  res.setHeader("Set-Cookie", [...cookies, serializedCookie]);
 }
 
 function removeCookie(res, name, options = {}) {
@@ -23,7 +28,12 @@ function removeCookie(res, name, options = {}) {
   };
 
   const serializedCookie = cookie.serialize(name, "", cookieOptions);
-  res.setHeader("Set-Cookie", serializedCookie);
+  const existingCookies = res.getHeader("Set-Cookie") || [];
+  const cookies = Array.isArray(existingCookies)
+    ? existingCookies
+    : [existingCookies];
+
+  res.setHeader("Set-Cookie", [...cookies, serializedCookie]);
 }
 
 module.exports = { setCookie, removeCookie };

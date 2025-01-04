@@ -10,7 +10,7 @@ const { removeCookie } = require("../../utils/cookie");
 async function auth(req, res, next) {
   try {
     const token = req.cookies.auth_token;
-
+    console.log(req.cookies);
     req.isAuthenticated = false;
 
     if (!token) {
@@ -25,7 +25,7 @@ async function auth(req, res, next) {
       }
       return next();
     }
-    const user = decryptAccToken(token);
+    const { user } = decryptAccToken(token);
     req.isAuthenticated = true;
     req.user = user;
     next();
@@ -35,12 +35,13 @@ async function auth(req, res, next) {
         fullname,
         email,
         profile_pic,
+        refresh_token,
         balance,
         status_member,
         member_since,
       } = await userModel.getUserByUUID(req.cookies.userId);
       try {
-        decryptRefToken(user.refresh_token);
+        decryptRefToken(refresh_token);
         req.isAuthenticated = true;
         const acc_token = generateAccToken({
           user: {
@@ -53,6 +54,8 @@ async function auth(req, res, next) {
             member_since,
           },
         });
+        const { user } = decryptAccToken(acc_token);
+        req.user = user;
         setCookie(res, "auth_token", acc_token, { maxAge: 15 * 60 });
         next();
       } catch (error) {
