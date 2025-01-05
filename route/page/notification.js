@@ -1,10 +1,9 @@
 const express = require("express");
-const auth = require("../../App/Middlewares/auth");
 const { notifController } = require("../controllers");
 
 const app = express.Router();
 
-app.get("/notification", auth, async (req, res) => {
+app.get("/notification", async (req, res) => {
   notifController.index(req, res);
 });
 

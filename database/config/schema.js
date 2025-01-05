@@ -323,7 +323,7 @@ const Notifications = sequelize.define(
 
 // Drivers model
 const Drivers = sequelize.define(
-  "Notifications",
+  "Drivers",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -354,8 +354,11 @@ CartItems.belongsTo(Carts, { foreignKey: "cart_id" });
 Users.hasMany(Histories, { foreignKey: "user_id" });
 Histories.belongsTo(Users, { foreignKey: "user_id" });
 
-Histories.hasOne(Drivers, { foreignKey: "driver_id" });
-Drivers.belongsTo(Histories, { foreignKey: "driver_id" });
+Carts.hasMany(Histories, { foreignKey: "cart_id" });
+Histories.belongsTo(Carts, { foreignKey: "cart_id" });
+
+Drivers.hasMany(Histories, { foreignKey: "driver_id" });
+Histories.belongsTo(Drivers, { foreignKey: "driver_id" });
 
 Users.hasMany(Notifications, { foreignKey: "user_id" });
 Notifications.belongsTo(Users, { foreignKey: "user_id" });

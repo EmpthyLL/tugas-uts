@@ -36,8 +36,6 @@ class ProductController extends Controller {
         product,
         relatedProducts: limitedRelatedProducts,
         categoryName: product.category.toLowerCase().replace(/\s+/g, "-"),
-
-        cart: this.user.cart,
       };
 
       this.renderView(res, this.view, options);

@@ -63,13 +63,10 @@ class CategoryController extends Controller {
         layout: `components/${this.layout}`,
         title: `${title} Products`,
         req,
-
         products,
         sortBy,
         order,
         selectedBrand,
-        cart: this.user.cart,
-
         brands: [
           ...new Set(
             response.data.products.map((p) => p.brand).filter((brand) => brand)

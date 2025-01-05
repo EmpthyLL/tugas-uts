@@ -1,5 +1,4 @@
-const { Histories, Drivers } = require("../config/schema");
-const { Carts, CartItems } = require("../config/schema");
+const { Histories, Drivers, Carts, CartItems } = require("../config/schema");
 const cartModel = require("./cartModel");
 const userModel = require("./userModel");
 
@@ -10,7 +9,7 @@ class HistoryModel {
   async getHistories(uuid) {
     const { id } = await userModel.getUserByUUID(uuid);
     const histories = await Histories.findOne({
-      where: { user_id: id, deleted_at: null, is_finalize: false },
+      where: { user_id: id },
       order: [["created_at", "ASC"]],
       include: [
         {
@@ -28,7 +27,7 @@ class HistoryModel {
   }
   async getHistory(id) {
     const histories = await Histories.findOne({
-      where: { id, deleted_at: null, is_finalize: false },
+      where: { id },
       order: [["created_at", "ASC"]],
       include: [
         {

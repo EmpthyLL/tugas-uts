@@ -7,21 +7,21 @@ class CartModel {
   }
   async getCart(id) {
     const cart = await Carts.findOne({
-      where: { id, deleted_at: null },
+      where: { id },
     });
     return cart || [];
   }
   async getUserCart(uuid) {
     const { id } = await userModel.getUserByUUID(uuid);
     const cart = await Carts.findOne({
-      where: { user_id: id, deleted_at: null },
+      where: { user_id: id },
     });
     return cart || [];
   }
   async getUserCartList(uuid) {
     const { id } = await userModel.getUserByUUID(uuid);
     const cart = await Carts.findOne({
-      where: { user_id: id, deleted_at: null },
+      where: { user_id: id },
       order: [["created_at", "ASC"]],
       include: [{ model: CartItems, required: false }],
     });

@@ -11,9 +11,11 @@ class ProfileController extends Controller {
     this.title = [];
     this.step = 0;
     this.isEmail = false;
+    this.isAuth = false;
   }
-  index(req, res) {
+  async index(req, res) {
     try {
+      this.user = await userModel.getUserByUUID(req.cookies.userId);
       this.title.push(this.user.fullname + " - Profile");
       this.title.push("Verify Number");
       this.title.push("Verify Email");
@@ -24,9 +26,9 @@ class ProfileController extends Controller {
         success: req.flash("success") || [],
         error: req.flash("error") || [],
         isEmail: this.isEmail,
+        isAuth: this.isAuth,
         no_hp: this.no_hp,
         email: this.email,
-        cart: this.user.cart,
       };
 
       this.renderView(res, this.view[this.step], options);
@@ -35,10 +37,11 @@ class ProfileController extends Controller {
       this.handleError(res, "Failed to render profile page", 500);
     }
   }
-  verify(req, res) {
+  async verify(req, res) {
     if (this.isEmail) {
       this.email = req.body.email;
-      if (this.model.isEmailUnique(this.email)) {
+      const user = await userModel.getUserByEmail(this.email);
+      if (!user) {
         res.redirect("/profile/verify-email");
       } else {
         req.flash("error", "Email address has been registered!");
@@ -46,7 +49,8 @@ class ProfileController extends Controller {
       }
     } else {
       this.no_hp = req.body.no_hp;
-      if (this.model.isPhoneUnique(this.no_hp)) {
+      const user = await userModel.getUserByPhone(this.no_hp);
+      if (!user) {
         res.redirect("/profile/verify-number");
       } else {
         req.flash("error", "Phone number has been registered!");
@@ -55,7 +59,7 @@ class ProfileController extends Controller {
     }
   }
   async editBiodata(req, res) {
-    this.user = getAuthUser(req, res, false);
+    this.user = await userModel.getUserByUUID(req.cookies.userId);
     let newProfilePic = null;
     if (req.file) {
       newProfilePic = `/img/uploads/ProfilePic/${req.file.filename}`;
@@ -72,24 +76,24 @@ class ProfileController extends Controller {
       }
     }
     const data = {
-      profile_pic: newProfilePic,
-      fullname: req.body.fullname || null,
-      gender: req.body.gender || null,
-      birth_date: req.body.birth_date || null,
+      profile_pic: newProfilePic || this.user.profile_pic,
+      fullname: req.body.fullname || this.user.fullname,
+      gender: req.body.gender || this.user.gender,
+      birth_date: req.body.birth_date || this.user.birth_date,
     };
-    userModel.editBasicProfile(req.userid, data);
+    userModel.editBasicProfile(req.cookies.userId, data);
     req.flash("success", "Profile updated successfully!");
     res.redirect("/profile");
   }
   async editDataEmail(req, res) {
     this.email = req.body.email;
-    userModel.editEmail(req.userid, this.email);
+    userModel.editEmail(req.cookies.userId, this.email);
     req.flash("success", "Profile updated successfully!");
     res.redirect("/profile");
   }
   async editDataPhone(req, res) {
     this.no_hp = req.body.no_hp;
-    userModel.editPhone(req.userid, this.no_hp);
+    userModel.editPhone(req.cookies.userId, this.no_hp);
     req.flash("success", "Profile updated successfully!");
     res.redirect("/profile");
   }

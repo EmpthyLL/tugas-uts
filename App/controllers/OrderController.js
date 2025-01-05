@@ -32,7 +32,6 @@ class OrderController extends Controller {
         userLocation,
 
         locations,
-        cart: this.order.cart,
         order: this.order,
       };
 

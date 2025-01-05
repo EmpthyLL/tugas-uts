@@ -21,8 +21,6 @@ class HistoryController extends Controller {
         layout: `components/${this.layout}`,
         title: this.title,
         req,
-
-        cart: this.user.cart,
       };
 
       this.renderView(res, this.view, options);

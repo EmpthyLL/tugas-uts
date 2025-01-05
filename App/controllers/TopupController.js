@@ -16,8 +16,6 @@ class TopupController extends Controller {
         title: this.title,
         req,
         balance: req.flash("balance") || [],
-
-        cart: this.user.cart,
       };
 
       this.renderView(res, this.view, options);

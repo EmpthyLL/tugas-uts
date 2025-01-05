@@ -20,12 +20,12 @@ class LoginController extends Controller {
         errors: req.flash("errors") || [],
         no_hp: this.no_hp,
         login: true,
+        req,
         isAuth: true,
         isEmail: this.isEmail,
       };
       this.renderView(res, this.view[this.step], options);
     } catch (error) {
-      console.log(error);
       this.handleError(res, "Failed to render register page", 500);
     }
   }
@@ -57,14 +57,12 @@ class LoginController extends Controller {
       res.redirect("/sign-in/verify-account");
     }
   }
-  logout(req, res) {
-    req.session.destroy((err) => {
-      if (err) {
-        return res.redirect("/");
-      }
-
-      res.redirect("/");
-    });
+  async logout(req, res) {
+    const uuid = req.cookies.userId;
+    await userModel.removeRefToken(uuid);
+    removeCookie(res, "auth_token");
+    removeCookie(res, "userId");
+    return res.status(200).json({ message: "Successfully logged out", uuid });
   }
 }
 

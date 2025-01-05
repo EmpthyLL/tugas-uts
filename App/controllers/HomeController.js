@@ -21,10 +21,6 @@ class HomeController extends Controller {
       this.order = req.query.order || "asc";
       this.brand = req.query.brand || "";
 
-      if (req.isAuthenticated) {
-        this.cart = await cartModel.getUserCartList(req.cookies.userId);
-      }
-
       const categories = await this.fetchCategories();
       const products = await this.fetchData();
 
@@ -47,9 +43,6 @@ class HomeController extends Controller {
         totalPage: this.totalPage,
         totalItem: this.totalItem,
         page: this.page,
-        cart: this.cart,
-        history: [],
-        notification: [],
       };
       this.renderView(res, this.view, options);
     } catch (error) {

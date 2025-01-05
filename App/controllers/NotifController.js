@@ -16,8 +16,6 @@ class NotifController extends Controller {
         req,
         menus: this.menus,
         keyword: "",
-        user: this.user,
-        cart: this.user.cart,
       };
       this.renderView(res, this.view, options);
     } catch (error) {
