@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const ACCESS_KEY = process.env.ACCESS_KEY;
 const REFRESH_KEY = process.env.REFRESH_KEY;

@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
+const auth = require("../app/middlewares/auth");
 
 const indexPage = require("./page/index");
 const loginPage = require("./page/auth/sign-in");
@@ -42,6 +43,7 @@ app.use(
   })
 );
 app.use(flash());
+app.use(auth);
 
 app.use("/", indexPage);
 app.use("/sign-in", loginPage);

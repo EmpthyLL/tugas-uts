@@ -5,23 +5,20 @@ const {
   categoryController,
   productController,
 } = require("../controllers");
-const auth = require("../../App/Middlewares/auth");
 
 const app = express.Router();
 
-app.get("/", auth, (req, res) => {
-  console.log(req.cookies.auth_token);
-  console.log(req.cookies.userId);
+app.get("/", (req, res) => {
   homeController.search === "";
   homeController.index(req, res);
 });
-app.get("/about", auth, (req, res) => {
+app.get("/about", (req, res) => {
   aboutController.index(req, res);
 });
-app.get("/category/:categoryName?", auth, (req, res) => {
+app.get("/category/:categoryName?", (req, res) => {
   categoryController.index(req, res);
 });
-app.get("/product/:id?", auth, (req, res) => {
+app.get("/product/:id?", (req, res) => {
   productController.index(req, res);
 });
 

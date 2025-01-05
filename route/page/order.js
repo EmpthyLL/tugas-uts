@@ -1,18 +1,17 @@
 const express = require("express");
-const auth = require("../../App/Middlewares/auth");
 const { orderController } = require("../controllers");
 
 const app = express.Router();
 
-app.get("/:id", auth, (req, res) => {
+app.get("/:id", (req, res) => {
   orderController.index(req, res);
 });
 
-app.get("/:id/rateDriver", auth, (req, res) => {
+app.get("/:id/rateDriver", (req, res) => {
   orderController.index(req, res);
 });
 
-app.post("/complete", auth, (req, res) => {
+app.post("/complete", (req, res) => {
   orderController.complete(req, res);
 });
 

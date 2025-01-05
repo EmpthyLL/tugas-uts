@@ -257,7 +257,7 @@
               class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-white overflow-hidden flex items-center justify-center shadow-md bg-white dark:bg-neutral-800"
             >
               <img
-                src="<%= req.user.profile_pic || '/img/profile.webp' %>"
+                src="<%= user.profile_pic || '/img/profile.webp' %>"
                 alt="profile"
                 class="w-full h-full object-cover"
               />
@@ -267,7 +267,7 @@
             <div
               class="text-white font-semibold text-sm md:text-base truncate flex-grow min-w-0 hidden lg:block"
             >
-              <%= req.user.fullname.split(" ")[0] %>
+              <%= user.fullname.split(" ")[0] %>
             </div>
           </div>
         </a>
@@ -282,17 +282,17 @@
             <a href="/profile" class="flex items-center mb-3">
               <img
                 class="w-12 h-12 object-cover rounded-full border-2 shadow-sm border-gray-600"
-                src="<%= req.user.profile_pic || '/img/profile.webp' %>"
+                src="<%= user.profile_pic || '/img/profile.webp' %>"
                 alt="Profile Picture"
               />
               <div class="ml-3">
                 <p
                   class="text-base font-semibold text-gray-900 dark:text-white"
                 >
-                  <%= req.user.fullname %>
+                  <%= user.fullname %>
                 </p>
                 <p class="text-sm text-gray-500 dark:text-gray-400">
-                  <%= req.user.email %>
+                  <%= user.email %>
                 </p>
               </div>
             </a>
@@ -303,18 +303,18 @@
                 Balance:
               </p>
               <p class="text-lg font-semibold text-gray-800">
-                <%= formatCurrency(req.user.balance) %>
+                <%= formatCurrency(user.balance) %>
               </p>
             </div>
 
             <!-- Additional Information -->
-            <% if (req.user.member) { %>
+            <% if (user.member) { %>
             <div class="mb-4">
               <p class="text-sm font-medium text-gray-600 dark:text-gray-300">
                 Member Since:
               </p>
               <p class="text-sm text-gray-900 dark:text-gray-400">
-                <%= formatDate(req.user.member_since) %>
+                <%= formatDate(user.member_since) %>
               </p>
             </div>
 
@@ -343,15 +343,13 @@
 
             <!-- Logout Button -->
             <div class="mt-4">
-              <form action="/logout" method="post">
-                <button
-                  type="submit"
-                  class="w-full text-sm font-medium text-red-600 bg-gray-100 border border-gray-300 rounded-md px-4 py-2 hover:bg-red-50 hover:border-red-400 hover:text-red-700 focus:ring-2 focus:ring-red-500 focus:outline-none dark:bg-gray-700 dark:text-red-500 dark:border-gray-600 dark:hover:bg-red-600 dark:hover:text-white"
-                  onclick="handleLogout()"
-                >
-                  Logout
-                </button>
-              </form>
+              <button
+                type="submit"
+                class="w-full text-sm font-medium text-red-600 bg-gray-100 border border-gray-300 rounded-md px-4 py-2 hover:bg-red-50 hover:border-red-400 hover:text-red-700 focus:ring-2 focus:ring-red-500 focus:outline-none dark:bg-gray-700 dark:text-red-500 dark:border-gray-600 dark:hover:bg-red-600 dark:hover:text-white"
+                onclick="handleLogout()"
+              >
+                Logout
+              </button>
             </div>
           </div>
           <div data-popper-arrow></div>
@@ -420,7 +418,7 @@
           <div
             class="rounded-full overflow-hidden flex items-center justify-center w-12 h-12 shadow-md bg-white dark:bg-neutral-800"
           >
-            <img src="<%= req.isAuthenticated ? req.user.profile_pic ||
+            <img src="<%= req.isAuthenticated ? user.profile_pic ||
             '/img/profile.webp' : "/img/profile.webp"%>" alt="profile"
             class="w-full h-full object-cover" />
           </div>
@@ -483,4 +481,6 @@
   </nav>
 </header>
 <!-- ========== END HEADER ========== -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/js/navbar.js"></script>
+<script src="/js/logout.js"></script>

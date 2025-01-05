@@ -34,28 +34,10 @@ class UserModel {
       return -1;
     }
 
-    const {
-      uuid,
-      fullname,
-      email,
-      profile_pic,
-      balance,
-      status_member,
-      member_since,
-    } = user;
+    const { uuid } = user;
 
-    const ref_token = generateRefToken({ uuid: user.uuid });
-    const acc_token = generateAccToken({
-      user: {
-        uuid,
-        fullname,
-        email,
-        profile_pic,
-        balance,
-        status_member,
-        member_since,
-      },
-    });
+    const ref_token = generateRefToken({ uuid });
+    const acc_token = generateAccToken({ uuid });
     user.refresh_token = ref_token;
     await user.save();
     return { uuid, acc_token };
@@ -63,6 +45,7 @@ class UserModel {
   async removeRefToken(uuid) {
     const user = await this.getUserByUUID(uuid);
     user.refresh_token = null;
+    await user.save();
   }
   async editBasicProfile(uuid, { profile_pic, fullname, gender, birth_date }) {
     const user = await this.getUserByUUID(uuid);

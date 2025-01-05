@@ -1,6 +1,10 @@
 const fs = require("fs");
 const path = require("path");
 const { formatDate, formatCurrency } = require("../../utils/formater");
+const cartModel = require("../../database/model/cartModel");
+const historyModel = require("../../database/model/historyModel");
+const notifModel = require("../../database/model/notifModel");
+const userModel = require("../../database/model/userModel");
 
 class BaseController {
   constructor() {
@@ -23,7 +27,7 @@ class BaseController {
     ];
   }
 
-  renderView(res, view, options) {
+  async renderView(res, view, options) {
     const layoutPath = path.join(
       __dirname,
       "../../views/components",
@@ -35,26 +39,51 @@ class BaseController {
       if (!fs.existsSync(viewPath) || !fs.existsSync(layoutPath)) {
         throw new Error(`View "${view}" not found`);
       }
-
+      const { user, cart, history, notification } = await this.getDefaultData(
+        options.req
+      );
+      console.log(user);
       res.render(view, {
         ...options,
         formatDate,
         formatCurrency,
         menus: this.menus,
+        user,
+        cart,
+        history,
+        notification,
       });
     } catch (error) {
+      console.log(error);
       this.handleError(res, error.message, 404);
     }
   }
 
   handleError(res, message = "Something went wrong", statusCode = 500) {
+    const title = {
+      4: "Web Page Error",
+      5: "Server Went Wrong",
+    };
     res.status(statusCode);
     res.render("error/error", {
       layout: "error/error_view",
-      title: `${statusCode} Something Went Wrong`,
+      title: `${statusCode} ` + title[statusCode.toString()[0]],
       code: statusCode.toString(),
       message: `<b>Oh no!</b> ${message}`,
     });
+  }
+  async getDefaultData(req, res) {
+    let user = null;
+    let cart = [];
+    let history = [];
+    let notification = [];
+    if (req.cookies.userId) {
+      user = await userModel.getUserByUUID(req.cookies.userId);
+      cart = await cartModel.getUserCartList(req.cookies.userId);
+      history = await historyModel.getHistories(req.cookies.userId);
+      notification = await notifModel.getNotif(req.cookies.userId);
+    }
+    return { user, cart, history, notification };
   }
 }
 

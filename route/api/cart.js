@@ -5,7 +5,7 @@ const { cartController } = require("../controllers");
 
 const app = express.Router();
 
-app.post("/add", cektoken, auth, async (req, res) => {
+app.post("/add/:id", async (req, res) => {
   try {
     await cartController.addToCart(req, res);
   } catch (error) {
@@ -13,7 +13,7 @@ app.post("/add", cektoken, auth, async (req, res) => {
   }
 });
 
-app.post("/increment", cektoken, auth, async (req, res) => {
+app.post("/increment/:cartid/:id", async (req, res) => {
   try {
     await cartController.incrementItem(req, res);
   } catch (error) {
@@ -21,7 +21,7 @@ app.post("/increment", cektoken, auth, async (req, res) => {
   }
 });
 
-app.post("/decrement", cektoken, auth, async (req, res) => {
+app.post("/decrement/:cartid/:id", async (req, res) => {
   try {
     await cartController.decrementItem(req, res);
   } catch (error) {
@@ -29,7 +29,7 @@ app.post("/decrement", cektoken, auth, async (req, res) => {
   }
 });
 
-app.get("/view", cektoken, auth, async (req, res) => {
+app.get("/view", async (req, res) => {
   try {
     await cartController.getCartData(req, res);
   } catch (error) {

@@ -25,6 +25,7 @@ class RegisterController extends Controller {
         errors: req.flash("errors") || [],
         no_hp: this.no_hp,
         otp: this.otp,
+        req,
         fullname: this.fullname,
         email: this.email,
         login: false,
