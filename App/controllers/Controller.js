@@ -42,7 +42,6 @@ class BaseController {
       const { user, cart, history, notification } = await this.getDefaultData(
         options.req
       );
-      console.log(user);
       res.render(view, {
         ...options,
         formatDate,

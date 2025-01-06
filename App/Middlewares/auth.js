@@ -11,12 +11,9 @@ const GUEST_ROUTES = ["/sign-in", "/register"];
 const PUBLIC_ROUTES = ["/", "/search", "/about", "/category", "/product"];
 
 function isRouteMatched(routeList, url) {
-  return routeList.some((route) => {
-    if (route === "/") {
-      return url === route;
-    }
-    return url.startsWith(route);
-  });
+  return routeList.some((route) =>
+    route === "/" ? url === route : url.startsWith(route)
+  );
 }
 
 async function auth(req, res, next) {
@@ -33,7 +30,7 @@ async function auth(req, res, next) {
     req.isAuthenticated = false;
 
     if (!token) {
-      await handleTokenRefresh(req, res);
+      await handleTokenRefresh(req, res, next);
     }
 
     decryptAccToken(token);
@@ -48,13 +45,14 @@ async function auth(req, res, next) {
         if (refreshError.name === "TokenExpiredError") {
           await userModel.removeRefToken(req.cookies.userId);
           clearSession(res);
+        } else {
+          console.error("Error verifying refresh token:", refreshError.message);
           return res.status(401).redirect("/sign-in");
         }
-        console.error("Error verifying refresh token:", refreshError.message);
       }
+    } else {
+      console.error("Authentication error:", error.message);
     }
-    console.error("Authentication error:", error.message);
-    return res.status(401).redirect("/sign-in");
   }
 }
 
@@ -70,7 +68,7 @@ async function handleUnauthenticated(req, res, next) {
 function handleGuestRoute(req, res, next) {
   const isGuestRoute = isRouteMatched(GUEST_ROUTES, req.url);
 
-  if (isGuestRoute) {
+  if (req.isAuthenticated && isGuestRoute) {
     return res.redirect("/");
   }
 

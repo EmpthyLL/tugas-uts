@@ -6,7 +6,7 @@
       Shopping bag
     </h2>
     <div id="shopping-bag">
-      <% if (cart.items.length > 0) { %> <% cart.items.forEach(item => { %>
+      <% if (cart?.items?.length > 0) { %> <% cart?.items?.forEach(item => { %>
       <div
         class="flex items-start border-b pb-4 mb-4"
         id="product-<%= item.id %>"
@@ -115,38 +115,29 @@
         <div class="flex justify-between">
           <span>Subtotal</span>
           <span id="subtotal"
-            ><%= new Intl.NumberFormat('id-ID', { style: 'currency', currency:
-            'IDR' }).format(cart.cart_total) %></span
+            ><%= formatCurrency(cart.cart_total || 0,00) %></span
           >
         </div>
         <div class="flex justify-between">
           <span>Shipping</span>
           <span id="delivery"
-            ><%= new Intl.NumberFormat('id-ID', { style: 'currency', currency:
-            'IDR' }).format(cart.delivery) %></span
+            ><%= formatCurrency(cart.delivery || 0,00) %></span
           >
         </div>
         <div class="flex justify-between">
           <span>Estimated Tax</span>
-          <span id="tax"
-            ><%= new Intl.NumberFormat('id-ID', { style: 'currency', currency:
-            'IDR' }).format(cart.tax) %></span
-          >
+          <span id="tax"><%= formatCurrency(cart.tax || 0,00) %></span>
         </div>
         <div class="flex justify-between text-red-600">
           <span>Member Discount</span>
           <span id="member_discount"
-            >- <%= new Intl.NumberFormat('id-ID', { style: 'currency', currency:
-            'IDR' }).format(cart.member_discount) %></span
+            >- <%= formatCurrency(cart.member_discount || 0,00) %></span
           >
         </div>
       </div>
       <div class="flex justify-between text-xl font-bold mt-4">
         <span>Total</span>
-        <span id="total"
-          ><%= new Intl.NumberFormat('id-ID', { style: 'currency', currency:
-          'IDR' }).format(cart.total) %></span
-        >
+        <span id="total"><%= formatCurrency(cart.total || 0,00) %></span>
       </div>
     </div>
 
