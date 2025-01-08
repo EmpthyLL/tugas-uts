@@ -1,11 +1,6 @@
-const jwt = require("jsonwebtoken");
-const {
-  decryptAccToken,
-  decryptRefToken,
-  generateAccToken,
-} = require("../../utils/jwt");
+const { decryptAccToken, handleTokenRefresh } = require("../../utils/jwt");
 const userModel = require("../../database/model/userModel");
-const { setCookie, removeCookie } = require("../../utils/cookie");
+const { clearSession, setCookie } = require("../../utils/cookie");
 
 const GUEST_ROUTES = ["/sign-in", "/register"];
 const PUBLIC_ROUTES = ["/", "/search", "/about", "/category", "/product"];
@@ -30,7 +25,7 @@ async function auth(req, res, next) {
     req.isAuthenticated = false;
 
     if (!token) {
-      await handleTokenRefresh(req, res, next);
+      await handleTokenRefresh(req);
     }
 
     decryptAccToken(token);
@@ -39,7 +34,11 @@ async function auth(req, res, next) {
   } catch (error) {
     if (error.name === "TokenExpiredError") {
       try {
-        await handleTokenRefresh(req, res);
+        const acc_token = await handleTokenRefresh(req);
+        req.isAuthenticated = true;
+        setCookie(res, "auth_token", acc_token, {
+          maxAge: 15 * 60,
+        });
         return next();
       } catch (refreshError) {
         if (refreshError.name === "TokenExpiredError") {
@@ -72,38 +71,6 @@ function handleGuestRoute(req, res, next) {
     return res.redirect("/");
   }
 
-  return next();
-}
-
-function clearSession(res) {
-  removeCookie(res, "auth_token");
-  removeCookie(res, "userId");
-}
-
-async function getUserData(userId) {
-  if (!userId) return null;
-  return userModel.getUserByUUID(userId);
-}
-
-async function handleTokenRefresh(req, res, next) {
-  const userId = req.cookies.userId;
-  if (!userId) {
-    throw new Error("User ID not found in cookies");
-  }
-
-  const user = await getUserData(userId);
-  if (!user || !user.refresh_token) {
-    throw new Error("User not found or missing refresh token");
-  }
-
-  decryptRefToken(user.refresh_token);
-
-  const acc_token = generateAccToken({ uuid: userId });
-
-  req.isAuthenticated = true;
-  setCookie(res, "auth_token", acc_token, {
-    maxAge: 15 * 60,
-  });
   return next();
 }
 
