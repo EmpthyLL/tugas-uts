@@ -7,7 +7,7 @@ async function addToCart(productId) {
     loadingStates[productId] = true;
     toggleButtons(productId, true); // Disable buttons
 
-    const response = await axios.post("api/cart/add", { productId });
+    const response = await axios.post(`api/cart/add${productId}`);
     if (response.status === 200) {
       updateCartDisplay(response.data.item.id, response.data.item.quantity);
     } else if (response.status === 400) {
@@ -28,7 +28,7 @@ async function increment(productId) {
     loadingStates[productId] = true;
     toggleButtons(productId, true);
 
-    const response = await axios.post("api/cart/increment", { productId });
+    const response = await axios.post(`api/cart/increment/${productId}`);
     if (response.status === 200) {
       updateCartDisplay(productId, response.data.quantity);
     } else if (response.status === 400) {
@@ -49,7 +49,7 @@ async function decrement(productId) {
     loadingStates[productId] = true;
     toggleButtons(productId, true);
 
-    const response = await axios.post("api/cart/decrement", { productId });
+    const response = await axios.post(`api/cart/decrement/${productId}`);
     if (response.status === 200) {
       updateCartDisplay(productId, response.data.quantity);
     } else if (response.status === 400) {

@@ -1,5 +1,6 @@
 const { default: axios } = require("axios");
 const Controller = require("./Controller");
+const cartModel = require("../../database/model/cartModel");
 
 class CartController extends Controller {
   constructor() {
@@ -40,7 +41,7 @@ class CartController extends Controller {
         quantity: 1,
       };
 
-      await this.cart.addItem(req.userid, newItem);
+      await cartModel.addItem(req.userid, newItem);
       res.status(200).json({ message: "Item added to cart", item: newItem });
     } catch (error) {
       this.handleError(res, "Failed to add item to cart", 500);
@@ -50,12 +51,10 @@ class CartController extends Controller {
   // Increment item quantity in cart
   async incrementItem(req, res) {
     try {
-      const { productId } = req.body;
+      const { productId } = req.parrams;
+      const { id } = await cartModel.getUserCart(req.cookies.userId);
       if (user) {
-        const newQuantity = await this.cart.incrementItem(
-          req.userid,
-          Number(productId)
-        );
+        const newQuantity = await this.cart.incrementItem(req.userid, id);
         res
           .status(200)
           .json({ message: "Item incremented", quantity: newQuantity });

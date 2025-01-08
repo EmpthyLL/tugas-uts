@@ -51,6 +51,7 @@ class BaseController {
         cart,
         history,
         notification,
+        toastr: options.req.toastr,
       });
     } catch (error) {
       console.log(error);

@@ -13,7 +13,7 @@ app.post("/add/:id", async (req, res) => {
   }
 });
 
-app.post("/increment/:cartid/:id", async (req, res) => {
+app.post("/increment/:id", async (req, res) => {
   try {
     await cartController.incrementItem(req, res);
   } catch (error) {
@@ -21,7 +21,7 @@ app.post("/increment/:cartid/:id", async (req, res) => {
   }
 });
 
-app.post("/decrement/:cartid/:id", async (req, res) => {
+app.post("/decrement/:id", async (req, res) => {
   try {
     await cartController.decrementItem(req, res);
   } catch (error) {
