@@ -8,7 +8,6 @@ async function addToCart(productId) {
     toggleButtons(productId, true); // Disable buttons
 
     const response = await axios.post(`api/cart/add/${productId}`);
-    console.log(response);
     if (response.status === 200) {
       updateCartDisplay(response.data.item.id, response.data.item.quantity);
     } else if (response.status === 403) {
@@ -158,7 +157,7 @@ async function UpdateCart() {
     response.data.data.items.forEach((item) => {
       html += ` <a
                     href="/product/${item.id}"
-                    class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md  dark:border-gray-700"
+                    class="flex gap-2 items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md  dark:border-gray-700"
                   >
                     <img
                       src="${item.thumbnail}"

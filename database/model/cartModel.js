@@ -14,29 +14,66 @@ class CartModel {
   async getUserCart(uuid) {
     const { id } = await userModel.getUserByUUID(uuid);
     const cart = await Carts.findOne({
-      where: { user_id: id },
+      where: { user_id: id, deleted_at: null },
     });
     return cart;
   }
   async getUserCartList(uuid) {
-    const { id } = await userModel.getUserByUUID(uuid);
+    const user = await userModel.getUserByUUID(uuid);
     const cart = await Carts.findOne({
-      where: { user_id: id },
+      where: { user_id: user.id },
       order: [["created_at", "ASC"]],
       include: [{ model: CartItems, required: false }],
     });
-    return cart;
+    return {
+      id: cart.id,
+      user_id: cart.user_id,
+      cart_total: cart.cart_total,
+      tax: cart.tax,
+      member_discount: cart.member_discount,
+      delivery: cart.delivery,
+      total: cart.total,
+      created_at: cart.created_at,
+      updated_at: cart.updated_at,
+      deleted_at: cart.deleted_at,
+      items: cart.CartItems.map((item) => {
+        return {
+          id: item.item_id,
+          title: item.title,
+          quantity: item.quantity,
+          brand: item.brand,
+          category: item.category,
+          thumbnail: item.thumbnail,
+          price: item.price,
+          total: item.total,
+        };
+      }),
+    };
   }
   async getCartItems(cart_id) {
-    const cart = await CartItems.findAll({
+    const items = await CartItems.findAll({
       where: { cart_id },
       order: [["created_at", "ASC"]],
     });
-    return cart;
+    return items.map((item) => ({
+      id: item.id,
+      item_id: item.item_id,
+      title: item.title,
+      price: item.price,
+      quantity: item.quantity,
+      total: item.total,
+    }));
   }
   async createCart(uuid) {
     const { id } = await userModel.getUserByUUID(uuid);
-    await Carts.create({ user_id: id });
+    await Carts.create({
+      user_id: id,
+      cart_total: 0,
+      tax: 0,
+      member_discount: 0,
+      delivery: 0,
+      total: 0,
+    });
     const cart = await this.getUserCart(id);
     return cart.id;
   }
@@ -57,6 +94,7 @@ class CartModel {
       thumbnail,
       total: price * 10000,
     });
+    cart = await this.getUserCart(uuid);
     await this.updatePrice(cart.id, is_member);
   }
   async AddQuantity(itemId, uuid) {
@@ -93,7 +131,7 @@ class CartModel {
     const cart = await this.getCart(cart_id);
     const cartItems = await this.getCartItems(cart_id);
     cart.cart_total = Number(
-      cartItems.reduce((acc, item) => acc + item.total, 0).toFixed(2)
+      cartItems.reduce((acc, item) => acc + Number(item.total), 0).toFixed(2)
     );
     cart.tax = Number((cart.cart_total * 0.11).toFixed(2));
     cart.member_discount = member

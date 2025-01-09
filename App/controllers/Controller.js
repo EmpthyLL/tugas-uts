@@ -82,30 +82,6 @@ class BaseController {
       cart = await cartModel.getUserCartList(req.cookies.userId);
       history = await historyModel.getHistories(req.cookies.userId);
       notification = await notifModel.getNotif(req.cookies.userId);
-      cart = {
-        id: cart.dataValues.id,
-        user_id: cart.dataValues.user_id,
-        cart_total: cart.dataValues.cart_total,
-        tax: cart.dataValues.tax,
-        member_discount: cart.dataValues.member_discount,
-        delivery: cart.dataValues.delivery,
-        total: cart.dataValues.total,
-        created_at: cart.dataValues.created_at,
-        updated_at: cart.dataValues.updated_at,
-        deleted_at: cart.dataValues.deleted_at,
-        items: cart.dataValues.CartItems.map((item) => {
-          return {
-            id: item.dataValues.item_id,
-            title: item.dataValues.title,
-            quantity: item.dataValues.quantity,
-            brand: item.dataValues.brand,
-            category: item.dataValues.category,
-            thumbnail: item.dataValues.thumbnail,
-            price: item.dataValues.price,
-            total: item.dataValues.total,
-          };
-        }),
-      };
     }
     return { user, cart, history, notification };
   }
