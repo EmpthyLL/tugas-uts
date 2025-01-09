@@ -7,10 +7,11 @@ async function addToCart(productId) {
     loadingStates[productId] = true;
     toggleButtons(productId, true); // Disable buttons
 
-    const response = await axios.post(`api/cart/add${productId}`);
+    const response = await axios.post(`api/cart/add/${productId}`);
+    console.log(response);
     if (response.status === 200) {
       updateCartDisplay(response.data.item.id, response.data.item.quantity);
-    } else if (response.status === 400) {
+    } else if (response.status === 403) {
       window.location.href = "/sign-in";
     }
   } catch (error) {
@@ -31,7 +32,7 @@ async function increment(productId) {
     const response = await axios.post(`api/cart/increment/${productId}`);
     if (response.status === 200) {
       updateCartDisplay(productId, response.data.quantity);
-    } else if (response.status === 400) {
+    } else if (response.status === 403) {
       window.location.href = "/sign-in";
     }
   } catch (error) {
@@ -52,7 +53,7 @@ async function decrement(productId) {
     const response = await axios.post(`api/cart/decrement/${productId}`);
     if (response.status === 200) {
       updateCartDisplay(productId, response.data.quantity);
-    } else if (response.status === 400) {
+    } else if (response.status === 403) {
       window.location.href = "/sign-in";
     }
   } catch (error) {
@@ -157,7 +158,7 @@ async function UpdateCart() {
     response.data.data.items.forEach((item) => {
       html += ` <a
                     href="/product/${item.id}"
-                    class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
+                    class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md  dark:border-gray-700"
                   >
                     <img
                       src="${item.thumbnail}"

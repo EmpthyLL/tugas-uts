@@ -50,7 +50,6 @@ async function auth(req, res, next) {
           clearSession(res);
           handleUnauthenticated(req, res, next);
         } else {
-          console.error("Error verifying refresh token:", refreshError.message);
           return res.status(401).redirect("/sign-in");
         }
       }

@@ -43,15 +43,21 @@
       <div class="md:flex hidden gap-10 items-center justify-end">
         <div class="flex items-start gap-5">
           <% menus.forEach(menu=> { %> <% if (menu.href) { %>
-          <a
-            data-popover-placement="bottom"
-            data-popover-target="<%= menu.title %>Big"
-            href="<%- menu.href %>"
-          >
-            <span class="hover:text-lime-400 text-lg text-white"
-              ><%- menu.icon %></span
+          <div class="relative inline-block">
+            <a
+              data-popover-placement="bottom"
+              data-popover-target="<%= menu.title %>Big"
+              href="<%- menu.href %>"
             >
-          </a>
+              <span class="hover:text-lime-400 text-lg text-white">
+                <%- menu.icon %>
+              </span>
+            </a>
+            <!-- Dot -->
+            <span
+              class="absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white"
+            ></span>
+          </div>
           <% } %>
 
           <div
@@ -89,7 +95,7 @@
                     <img
                       src="<%- item.thumbnail %>"
                       alt="Product Image"
-                      class="w-16 h-16 rounded-md object-cover border border-gray-200 dark:border-gray-700"
+                      class="w-16 h-16 rounded-md object-cover dark:border-gray-700"
                     />
                     <div class="flex-grow space-y-1">
                       <p

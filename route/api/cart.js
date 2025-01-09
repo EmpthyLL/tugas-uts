@@ -1,4 +1,3 @@
-const auth = require("../../app/middlewares/auth");
 const cektoken = require("../../app/middlewares/cektoken");
 const express = require("express");
 const { cartController } = require("../controllers");
@@ -13,7 +12,7 @@ app.post("/add/:id", async (req, res) => {
   }
 });
 
-app.post("/increment/:id", async (req, res) => {
+app.post("/increment/:id", cektoken, async (req, res) => {
   try {
     await cartController.incrementItem(req, res);
   } catch (error) {
@@ -21,7 +20,7 @@ app.post("/increment/:id", async (req, res) => {
   }
 });
 
-app.post("/decrement/:id", async (req, res) => {
+app.post("/decrement/:id", cektoken, async (req, res) => {
   try {
     await cartController.decrementItem(req, res);
   } catch (error) {
@@ -29,7 +28,7 @@ app.post("/decrement/:id", async (req, res) => {
   }
 });
 
-app.get("/view", async (req, res) => {
+app.get("/view", cektoken, async (req, res) => {
   try {
     await cartController.getCartData(req, res);
   } catch (error) {

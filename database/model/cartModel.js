@@ -9,14 +9,14 @@ class CartModel {
     const cart = await Carts.findOne({
       where: { id },
     });
-    return cart || [];
+    return cart;
   }
   async getUserCart(uuid) {
     const { id } = await userModel.getUserByUUID(uuid);
     const cart = await Carts.findOne({
       where: { user_id: id },
     });
-    return cart || [];
+    return cart;
   }
   async getUserCartList(uuid) {
     const { id } = await userModel.getUserByUUID(uuid);
@@ -25,46 +25,78 @@ class CartModel {
       order: [["created_at", "ASC"]],
       include: [{ model: CartItems, required: false }],
     });
-    return cart || [];
+    return cart;
   }
   async getCartItems(cart_id) {
     const cart = await CartItems.findAll({
       where: { cart_id },
       order: [["created_at", "ASC"]],
     });
-    return cart || [];
+    return cart;
   }
   async createCart(uuid) {
     const { id } = await userModel.getUserByUUID(uuid);
     await Carts.create({ user_id: id });
-    const cart = await this.getCart(id);
+    const cart = await this.getUserCart(id);
     return cart.id;
   }
   async addItem(uuid, item) {
+    const { is_member } = await userModel.getUserByUUID(uuid);
     const { item_id, title, price, brand, category, thumbnail } = item;
-    const cart = await this.getCartList(id);
+    let cart = await this.getUserCart(uuid);
     if (!cart) {
       await this.createCart(uuid);
     }
     await CartItems.create({
+      cart_id: cart.id,
       item_id,
       title,
-      price,
+      price: price * 10000,
       brand,
       category,
       thumbnail,
-      total: price,
+      total: price * 10000,
     });
+    await this.updatePrice(cart.id, is_member);
   }
-  async AddQuantity(itemId, is_member) {
-    const cartItem = await CartItems.findOne({ where: { id: itemId } });
-    const cart = await this.getCartList(cartItem.cart_id);
+  async AddQuantity(itemId, uuid) {
+    const { is_member } = await userModel.getUserByUUID(uuid);
+    const cart = await this.getUserCart(uuid);
+    let cartItem = await CartItems.findOne({
+      where: { item_id: itemId, cart_id: cart.id },
+    });
     cartItem.quantity += 1;
     cartItem.total = cartItem.quantity * cartItem.price;
 
-    cart.cart_total += cartItem.quantity * cartItem.price;
-    cart.tax = (cart.cart_total * 0.11).toFixed(2);
-    cart.member_discount = is_member
+    await cartItem.save();
+
+    await this.updatePrice(cart.id, is_member);
+    return cartItem.quantity;
+  }
+  async ReduceQuantity(itemId, uuid) {
+    const { is_member } = await userModel.getUserByUUID(uuid);
+    const cart = await this.getUserCart(uuid);
+    let cartItem = await CartItems.findOne({
+      where: { item_id: itemId, cart_id: cart.id },
+    });
+    cartItem.quantity -= 1;
+    if (cartItem.quantity === 0) {
+      await cartItem.destroy();
+    }
+    cartItem.total = cartItem.quantity * cartItem.price;
+
+    await cartItem.save();
+    await this.updatePrice(cart.id, is_member);
+    return cartItem.quantity;
+  }
+  async updatePrice(cart_id, member) {
+    const cart = await this.getCart(cart_id);
+    const cartItems = await this.getCartItems(cart_id);
+    cart.cart_total = Number(
+      cartItems.reduce((acc, item) => acc + item.total, 0).toFixed(2)
+    );
+    cart.tax = Number((cart.cart_total * 0.11).toFixed(2));
+    cart.member_discount = member
       ? Number((cart.cart_total * 0.2).toFixed(2))
       : 0;
     cart.total = Number(
@@ -74,33 +106,6 @@ class CartModel {
         parseFloat(cart.member_discount)
       ).toFixed(2)
     );
-
-    await cartItem.save();
-    await cart.save();
-  }
-  async ReduceQuantity(itemId, is_member) {
-    const cartItem = await CartItems.findOne({ where: { id: itemId } });
-    const cart = await this.getCartList(cartItem.cart_id);
-    cartItem.quantity -= 1;
-    if (cartItem.quantity === 0) {
-      await cartItem.destroy();
-    }
-    cartItem.total = cartItem.quantity * cartItem.price;
-
-    cart.cart_total -= cartItem.quantity * cartItem.price;
-    cart.tax = (cart.cart_total * 0.11).toFixed(2);
-    cart.member_discount = is_member
-      ? Number((cart.cart_total * 0.2).toFixed(2))
-      : 0;
-    cart.total = Number(
-      (
-        parseFloat(cart.cart_total) -
-        parseFloat(cart.tax) +
-        parseFloat(cart.member_discount)
-      ).toFixed(2)
-    );
-
-    await cartItem.save();
     await cart.save();
   }
   async deleteCart(id) {
