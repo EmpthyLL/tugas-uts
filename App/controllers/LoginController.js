@@ -46,6 +46,7 @@ class LoginController extends Controller {
     try {
       this.no_hp = req.body.no_hp;
       const { acc_token, uuid } = await userModel.login(this.no_hp);
+      const { full_name } = await userModel.getUserByPhone(this.no_hp);
 
       setCookie(res, "auth_token", acc_token, { maxAge: 15 * 60 });
       setCookie(res, "userId", uuid, { maxAge: 7 * 60 * 60 * 24 });
