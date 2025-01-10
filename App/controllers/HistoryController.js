@@ -1,27 +1,26 @@
-const formatDate = require("../../utils/formateDate");
-const getAuthUser = require("../../utils/user");
 const Controller = require("./Controller");
 
 class HistoryController extends Controller {
   constructor() {
     super();
-    this.view = "history";
+    this.view = "history/history";
     this.layout = "layout";
     this.title = "Order History";
-    this.user = {};
+    const status = {
+      1: "Completed",
+      2: "Canceled",
+      3: "Heading to Mart",
+      4: "Arrived at Mart",
+      5: "Heading to User",
+      6: "Arrived at User",
+    };
   }
   index(req, res) {
     try {
-      this.user = getAuthUser(req, res, false);
       const options = {
         layout: `components/${this.layout}`,
         title: this.title,
         req,
-        menus: this.menus,
-        formatDate,
-        keyword: "",
-        user: this.user,
-        cart: this.user.cart,
       };
 
       this.renderView(res, this.view, options);

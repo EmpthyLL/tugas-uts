@@ -1,31 +1,21 @@
-const UserModel = require("../../model/service/UserModel");
-const formatDate = require("../../utils/formateDate");
-const getAuthUser = require("../../utils/user");
+const { topup } = require("../../database/model/userModel");
 const Controller = require("./Controller");
 
 class TopupController extends Controller {
   constructor() {
     super();
-    this.view = "topup";
+    this.view = "purchase/topup";
     this.layout = "layout";
     this.title = "Top Up";
-    this.user = {};
-    this.model = new UserModel();
   }
 
   index(req, res) {
     try {
-      this.user = getAuthUser(req, res, false);
       const options = {
         layout: `components/${this.layout}`,
         title: this.title,
         req,
-        menus: this.menus,
         balance: req.flash("balance") || [],
-        keyword: "",
-        user: this.user,
-        formatDate,
-        cart: this.user.cart,
       };
 
       this.renderView(res, this.view, options);
@@ -34,10 +24,9 @@ class TopupController extends Controller {
       this.handleError(res, "Failed to render top up page", 500);
     }
   }
-  topup(req, res) {
-    this.user = getAuthUser(req, res, false);
+  async topup(req, res) {
     const amount = req.body.amount;
-    this.model.topUp(this.user.uuid, amount);
+    await topup(req.cookies.userId, amount);
     res.redirect("/");
   }
 }

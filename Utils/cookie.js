@@ -5,26 +5,40 @@ function setCookie(res, name, values, options = {}) {
     httpOnly: true,
     maxAge: options.maxAge || 60 * 60,
     path: options.path || "/",
-    secure: options.secure || process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === "production",
     ...options,
   };
 
   const serializedCookie = cookie.serialize(name, values, cookieOptions);
-  res.setHeader("Set-Cookie", serializedCookie);
+  const existingCookies = res.getHeader("Set-Cookie") || [];
+  const cookies = Array.isArray(existingCookies)
+    ? existingCookies
+    : [existingCookies];
+
+  res.setHeader("Set-Cookie", [...cookies, serializedCookie]);
 }
 
 function removeCookie(res, name, options = {}) {
-  console.log(name);
   const cookieOptions = {
     httpOnly: true,
     maxAge: 0,
     path: options.path || "/",
-    secure: options.secure || process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === "production",
     sameSite: options.sameSite || "Lax",
   };
 
   const serializedCookie = cookie.serialize(name, "", cookieOptions);
-  res.setHeader("Set-Cookie", serializedCookie);
+  const existingCookies = res.getHeader("Set-Cookie") || [];
+  const cookies = Array.isArray(existingCookies)
+    ? existingCookies
+    : [existingCookies];
+
+  res.setHeader("Set-Cookie", [...cookies, serializedCookie]);
 }
 
-module.exports = { setCookie, removeCookie };
+function clearSession(res) {
+  removeCookie(res, "auth_token");
+  removeCookie(res, "userId");
+}
+
+module.exports = { setCookie, removeCookie, clearSession };

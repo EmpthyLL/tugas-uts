@@ -1,19 +1,20 @@
 const { default: axios } = require("axios");
 const Controller = require("./Controller");
-const getAuthUser = require("../../utils/user");
-const formatDate = require("../../utils/formateDate");
 
 class CategoryController extends Controller {
   constructor() {
     super();
     this.layout = "layout";
-    this.user = {};
   }
 
   async index(req, res) {
     try {
-      this.user = getAuthUser(req, res, false);
       const categoryName = req.params.categoryName;
+
+      if (!categoryName) {
+        return res.redirect("/");
+      }
+
       const sortBy = req.query.sortBy || "price";
       const order = req.query.order || "asc";
       const selectedBrand = req.query.brand || "";
@@ -26,7 +27,7 @@ class CategoryController extends Controller {
       // Get products and apply filters/sorting
       let products = response.data.products;
 
-      if (!products || Object.keys(products).length === 0) {
+      if (!products) {
         throw new Error("No results found.");
       }
 
@@ -57,19 +58,15 @@ class CategoryController extends Controller {
         .split("-")
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
+
       const options = {
         layout: `components/${this.layout}`,
         title: `${title} Products`,
         req,
-        menus: this.menus,
         products,
-        keyword: "",
         sortBy,
         order,
         selectedBrand,
-        user: this.user,
-        cart: this.user.cart,
-        formatDate,
         brands: [
           ...new Set(
             response.data.products.map((p) => p.brand).filter((brand) => brand)
@@ -77,7 +74,11 @@ class CategoryController extends Controller {
         ],
       };
 
-      this.renderView(res, categoryName ? "category" : "index", options);
+      this.renderView(
+        res,
+        categoryName ? "index/category" : "index/index",
+        options
+      );
     } catch (error) {
       console.log(error);
       if (error.message === "No results found.") {

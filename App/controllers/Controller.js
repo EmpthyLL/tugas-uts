@@ -1,5 +1,10 @@
 const fs = require("fs");
 const path = require("path");
+const { formatDate, formatCurrency } = require("../../utils/formater");
+const cartModel = require("../../database/model/cartModel");
+const historyModel = require("../../database/model/historyModel");
+const notifModel = require("../../database/model/notifModel");
+const userModel = require("../../database/model/userModel");
 
 class BaseController {
   constructor() {
@@ -17,11 +22,12 @@ class BaseController {
       {
         title: "Notifications",
         icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>`,
+        href: "/notification",
       },
     ];
   }
 
-  renderView(res, view, options) {
+  async renderView(res, view, options) {
     const layoutPath = path.join(
       __dirname,
       "../../views/components",
@@ -33,21 +39,51 @@ class BaseController {
       if (!fs.existsSync(viewPath) || !fs.existsSync(layoutPath)) {
         throw new Error(`View "${view}" not found`);
       }
-
-      res.render(view, options);
+      const { user, cart, history, notification } = await this.getDefaultData(
+        options.req
+      );
+      res.render(view, {
+        ...options,
+        formatDate,
+        formatCurrency,
+        menus: this.menus,
+        user,
+        cart,
+        history,
+        notification,
+        toastr: options.req.toastr,
+      });
     } catch (error) {
-      this.handleError(res, error.message);
+      console.log(error);
+      this.handleError(res, error.message, 404);
     }
   }
 
   handleError(res, message = "Something went wrong", statusCode = 500) {
+    const title = {
+      4: "Web Page Error",
+      5: "Server Went Wrong",
+    };
     res.status(statusCode);
     res.render("error/error", {
       layout: "error/error_view",
-      title: `${statusCode} Something Went Wrong`,
+      title: `${statusCode} ` + title[statusCode.toString()[0]],
       code: statusCode.toString(),
       message: `<b>Oh no!</b> ${message}`,
     });
+  }
+  async getDefaultData(req, res) {
+    let user = null;
+    let cart = [];
+    let history = [];
+    let notification = [];
+    if (req.cookies.userId) {
+      user = await userModel.getUserByUUID(req.cookies.userId);
+      cart = await cartModel.getUserCartList(req.cookies.userId);
+      history = await historyModel.getHistories(req.cookies.userId);
+      notification = await notifModel.getNotif(req.cookies.userId);
+    }
+    return { user, cart, history, notification };
   }
 }
 

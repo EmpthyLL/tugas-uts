@@ -1,0 +1,156 @@
+<body class="bg-gray-50 p-8">
+    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+        <div>
+            <!-- Header History -->
+            <div class="bg-gray-800 p-4 rounded-lg shadow-md">
+                <div class="flex justify-between items-center mb-4">
+                    <!-- Logo Section -->
+                    <div class="flex items-center">
+                        <img src="/img/logo_A3Mart.png" class="w-24" alt="A3Mart">
+                    </div>
+
+                    <!-- Date and Time Section -->
+                    <p class="text-sm text-gray-400">
+                        <%= new Date(user.history[0].date).toLocaleDateString('en-US', { day: 'numeric', month: 'short' }) %>, 
+                        <%= new Date(user.history[0].date).toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) %>
+                    </p>
+                </div>
+
+                <div class="flex justify-between items-center mb-4">
+                    <!-- Status Section -->
+                    <div>
+                        <% if (user.history[0].status) { %>
+                            <% if (user.history[0].status.toLowerCase() === "delivered") { %>
+                                <span class="text-green-500 font-medium bg-green-100 px-2 py-1 rounded-lg">
+                                    <%= user.history[0].status %>
+                                </span>
+                            <% } else if (user.history[0].status.toLowerCase() === "inprocess") { %>
+                                <span class="text-yellow-500 font-medium bg-yellow-100 px-2 py-1 rounded-lg">
+                                    <%= user.history[0].status %>
+                                </span>
+                            <% } else { %>
+                                <span class="text-red-500 font-medium bg-red-100 px-2 py-1 rounded-lg">
+                                    <%= user.history[0].status %>
+                                </span>
+                            <% } %>
+                        <% } else { %>
+                            <span class="text-gray-500 font-medium bg-gray-100 px-2 py-1 rounded-lg">
+                                Unknown Status
+                            </span>
+                        <% } %>
+                    </div>
+
+                    <!-- UUID Section -->
+                    <p class="text-gray-400 text-xs font-mono">
+                        <%= user.history[0].uuid %>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Rate Driver -->
+            <div class="flex flex-col items-center justify-center">
+                <p class="mt-3 text-xl text-center font-bold">How was the driver?</p>
+                <div class="mt-2 mb-3 flex">
+                    <ion-icon name="star" id="star1" class="text-4xl text-gray-400 cursor-pointer" onclick="change(star1)"></ion-icon>
+                    <ion-icon name="star" id="star2" class="text-4xl text-gray-400 cursor-pointer" onclick="change(star2)"></ion-icon>
+                    <ion-icon name="star" id="star3" class="text-4xl text-gray-400 cursor-pointer" onclick="change(star3)"></ion-icon>
+                    <ion-icon name="star" id="star4" class="text-4xl text-gray-400 cursor-pointer" onclick="change(star4)"></ion-icon>
+                    <ion-icon name="star" id="star5" class="text-4xl text-gray-400 cursor-pointer" onclick="change(star5)"></ion-icon>
+                </div>
+            </div>
+            <hr class="border-gray-400 dark:border-gray-700">
+
+            <!-- Driver Info -->
+            <div class="flex items-center">
+                <img src="/img/uploads/ProfilePic/1731170059164.jpg" alt="Profile" class="mt-5 rounded-full w-20 h-20">
+
+                <div class="ml-2 mt-3">
+                    <p class="text-gray-500"><%= user.history[0].driver.vehicle %></p>
+                    <p class="font-bold text-lg"><%= user.history[0].driver.name %></p>
+                </div>
+            </div>
+            <hr class="mt-3 border-gray-400 dark:border-gray-700">
+
+            <!-- Detail Location -->
+            <p class="text-gray-700 font-bold my-3">Delivery Details</p>
+            <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#f77102" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-dot">
+                    <circle cx="12" cy="12" r="10"/>
+                    <circle cx="12" cy="12" r="1"/>
+                </svg>
+
+                <div class="ml-3">
+                    <p class="text-sm text-gray-400">Delivery Location</p>
+                    <p class="font-bold text-lg">Ajinomoto Home</p>
+                </div>
+            </div>
+            <hr class="mt-3 border-gray-400 dark:border-gray-700">
+
+            <!-- Shopping List -->
+            <p class="text-gray-700 font-bold my-3">Shopping List</p>
+            <% user.history[0].cart.items.forEach(item => { %>
+                <div class="flex justify-between text-gray-500">
+                    <p><%= item.quantity %> X <%= item.title %></p>
+                    <p>Rp <%= Math.floor(item.price * 10000).toLocaleString("id-ID") %></p>
+                </div>
+                <hr class="my-3 border-gray-300 dark:border-gray-400">
+            <% }) %>
+
+            <!-- Detail Payment -->
+            <p class="text-gray-700 font-bold my-3">Detail Payment</p>
+            <div>
+                <div class="flex justify-between text-gray-500">
+                    <p class="">Total Price</p>
+                    <p>Rp <%= Math.floor(user.history[0].cart.cart_total).toLocaleString("id-ID") %></p>
+                </div>
+                <div class="flex justify-between text-gray-500">
+                    <p class="">Tax</p>
+                    <p>Rp <%= Math.floor(user.history[0].cart.tax).toLocaleString("id-ID") %></p>
+                </div>
+                <div class="flex justify-between text-gray-500">
+                    <p class="">Member Discount</p>
+                    <p>Rp <%= Math.floor(user.history[0].cart.member_discount).toLocaleString("id-ID") %></p>
+                </div>
+                <div class="flex justify-between text-gray-500">
+                    <p class="">Delivery Cost</p>
+                    <p>Rp <%= Math.floor(user.history[0].cart.delivery).toLocaleString("id-ID") %></p>
+                </div>
+                <hr class="border-gray-400 dark:border-gray-700 my-3">
+                <div class="flex justify-between font-bold">
+                    <p class="">Total Payment</p>
+                    <p>Rp <%= Math.floor(user.history[0].cart.total).toLocaleString("id-ID") %></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+<script>
+    const change = (clicked) => {
+        const stars = [
+            document.getElementById('star1'),
+            document.getElementById('star2'),
+            document.getElementById('star3'),
+            document.getElementById('star4'),
+            document.getElementById('star5'),
+        ];
+
+        let isGray = clicked.classList.contains('text-gray-400');
+
+        stars.forEach((star, index) => {
+            if (index <= stars.indexOf(clicked)) {
+                star.classList.remove('text-gray-400');
+                star.classList.add('text-yellow-500');
+            } else {
+                star.classList.remove('text-yellow-500');
+                star.classList.add('text-gray-400');
+            }
+        });
+
+        if (!isGray) {
+            clicked.classList.remove('text-yellow-500');
+            clicked.classList.add('text-gray-400');
+        }
+    };
+</script>

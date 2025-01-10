@@ -26,8 +26,7 @@
         <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
       </svg>
       <p class="text-lg font-semibold text-gray-800">
-        <%= new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR'
-        }).format(user.balance) %>
+        <%= formatCurrency(user.balance) %>
       </p>
     </div>
 

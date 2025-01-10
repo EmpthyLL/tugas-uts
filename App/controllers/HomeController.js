@@ -1,30 +1,20 @@
 const { default: axios } = require("axios");
 const Controller = require("./Controller");
-const getAuthUser = require("../../utils/user");
-const formatDate = require("../../utils/formateDate");
+const cartModel = require("../../database/model/cartModel");
 
 class HomeController extends Controller {
   constructor() {
     super();
-    this.view = "index";
+    this.view = "index/index";
     this.layout = "layout";
     this.title = "Welcome to A3 Mart!";
-    this.search = "";
-    this.page = 1;
     this.limit = 10;
     this.sortBy = "price";
     this.order = "asc";
-    this.totalPage = 0;
-    this.totalItem = 0;
-    this.brands = [];
-    this.brand = "";
-    this.user = {};
   }
 
   async index(req, res) {
     try {
-      this.user = getAuthUser(req, res, false);
-
       this.search = req.query.search || "";
       this.page = parseInt(req.query.page) || 1;
       this.sortBy = req.query.sortBy || "price";
@@ -35,18 +25,16 @@ class HomeController extends Controller {
       const products = await this.fetchData();
 
       if (this.search) {
-        this.view = "search";
+        this.view = "index/search";
       } else {
-        this.view = "index";
+        this.view = "index/index";
       }
       const options = {
         layout: `components/${this.layout}`,
         title: this.title,
         req,
-        menus: this.menus,
         categories,
         products,
-        keyword: this.search,
         selectedBrand: this.brand,
         sortBy: this.sortBy,
         order: this.order,
@@ -55,12 +43,10 @@ class HomeController extends Controller {
         totalPage: this.totalPage,
         totalItem: this.totalItem,
         page: this.page,
-        user: this.user,
-        formatDate,
-        cart: this.user.cart,
       };
       this.renderView(res, this.view, options);
     } catch (error) {
+      console.log(error);
       this.handleError(res, "Failed to render home page", 500);
     }
   }

@@ -1,16 +1,16 @@
-const UserModel = require("../../model/service/UserModel");
+const userModel = require("../../database/model/userModel");
 const { setCookie, removeCookie } = require("../../utils/cookie");
 const Controller = require("./Controller");
 
 class LoginController extends Controller {
   constructor() {
     super();
-    this.view = ["login", "verify"];
+    this.view = ["auth/login", "auth/verify"];
     this.layout = "plain";
     this.title = ["Input Phone", "Verify Account"];
     this.no_hp = "";
     this.step = 0;
-    this.model = new UserModel();
+    this.isEmail = false;
   }
   index(req, res) {
     try {
@@ -20,19 +20,20 @@ class LoginController extends Controller {
         errors: req.flash("errors") || [],
         no_hp: this.no_hp,
         login: true,
+        req,
         isAuth: true,
-        isEmail: false,
+        isEmail: this.isEmail,
       };
       this.renderView(res, this.view[this.step], options);
     } catch (error) {
-      console.log(error);
       this.handleError(res, "Failed to render register page", 500);
     }
   }
-  login(req, res) {
+  async login(req, res) {
     this.no_hp = req.body.no_hp;
     try {
-      if (!this.model.findUserByPhone(this.no_hp)) {
+      const user = await userModel.getUserByPhone(this.no_hp);
+      if (!user) {
         throw new Error("Phone number is not yet registered.");
       }
       res.redirect("/sign-in/verify-account");
@@ -44,9 +45,12 @@ class LoginController extends Controller {
   async verify(req, res) {
     try {
       this.no_hp = req.body.no_hp;
-      const token = await this.model.login(this.no_hp);
+      const { acc_token, uuid } = await userModel.login(this.no_hp);
+      const { full_name } = await userModel.getUserByPhone(this.no_hp);
 
-      setCookie(res, "auth_token", token);
+      setCookie(res, "auth_token", acc_token, { maxAge: 15 * 60 });
+      setCookie(res, "userId", uuid, { maxAge: 7 * 60 * 60 * 24 });
+
       res.redirect("/");
     } catch (error) {
       console.log(error);
@@ -54,9 +58,12 @@ class LoginController extends Controller {
       res.redirect("/sign-in/verify-account");
     }
   }
-  logout(req, res) {
+  async logout(req, res) {
+    const uuid = req.cookies.userId;
+    await userModel.removeRefToken(uuid);
     removeCookie(res, "auth_token");
-    res.redirect("/");
+    removeCookie(res, "userId");
+    return res.status(200).json({ message: "Successfully logged out", uuid });
   }
 }
 

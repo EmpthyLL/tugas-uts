@@ -1,37 +1,21 @@
 const { default: axios } = require("axios");
 const Controller = require("./Controller");
-const getAuthUser = require("../../utils/user");
-const formatDate = require("../../utils/formateDate");
-const CartModel = require("../../model/service/CartModel");
-const HistoryModel = require("../../model/service/HistoryModel");
-const cekBalance = require("../../utils/balance");
-const UserModel = require("../../model/service/UserModel");
+const cartModel = require("../../database/model/cartModel");
 
 class CartController extends Controller {
   constructor() {
     super();
-    this.view = "cart";
+    this.view = "cart/cart";
     this.layout = "layout";
     this.title = "Your Cart";
-    this.user = {};
-    this.model = new UserModel();
-    this.cart = new CartModel();
-    this.history = new HistoryModel();
   }
 
   async index(req, res) {
     try {
-      this.user = getAuthUser(req, res, false);
-
       const options = {
         layout: `components/${this.layout}`,
         title: this.title,
         req,
-        menus: this.menus,
-        keyword: "",
-        user: this.user,
-        formatDate,
-        cart: this.user.cart,
       };
       this.renderView(res, this.view, options);
     } catch (error) {
@@ -39,16 +23,15 @@ class CartController extends Controller {
     }
   }
 
-  // Add item to cart
   async addToCart(req, res) {
     try {
-      const { productId } = req.body;
+      const { id: item_id } = req.params;
       const { data } = await axios.get(
-        `https://dummyjson.com/products/${productId}`
+        `https://dummyjson.com/products/${item_id}`
       );
 
       const newItem = {
-        id: data.id,
+        item_id: data.id,
         title: data.title,
         price: data.price,
         brand: data.brand || null,
@@ -57,86 +40,86 @@ class CartController extends Controller {
         quantity: 1,
       };
 
-      const user = getAuthUser(req, res, true);
-      if (user) {
-        await this.cart.addItem(user.uuid, newItem);
-        res.status(200).json({ message: "Item added to cart", item: newItem });
-      } else {
-        res.status(400).json({ message: "User not authenticated" });
-      }
+      const cart = await cartModel.addItem(req.cookies.userId, newItem);
+      res.status(200).json({ message: "Item added to cart", cart });
     } catch (error) {
-      this.handleError(res, "Failed to add item to cart", 500);
+      console.error(error);
+      res
+        .status(500)
+        .json({ message: error.message || "Failed to add item to cart" });
     }
   }
 
-  // Increment item quantity in cart
+  // Increment item quantity
   async incrementItem(req, res) {
     try {
-      const { productId } = req.body;
-      const user = getAuthUser(req, res, true);
-      if (user) {
-        const newQuantity = await this.cart.incrementItem(
-          user.uuid,
-          Number(productId)
-        );
-        res
-          .status(200)
-          .json({ message: "Item incremented", quantity: newQuantity });
-      } else {
-        return res.status(400).json({ message: "User not authenticated" });
-      }
+      const { id: item_id } = req.params;
+      const newQuantity = await cartModel.AddQuantity(
+        item_id,
+        req.cookies.userId
+      );
+      res
+        .status(200)
+        .json({ message: "Item quantity incremented", quantity: newQuantity });
     } catch (error) {
-      this.handleError(res, "Failed to increment item", 500);
+      console.error(error);
+      res.status(500).json({
+        message: error.message || "Failed to increment item quantity",
+      });
     }
   }
 
-  // Decrement item quantity in cart
+  // Decrement item quantity
   async decrementItem(req, res) {
     try {
-      const { productId } = req.body;
-      const user = getAuthUser(req, res, true);
-
-      if (user) {
-        const newQuantity = await this.cart.decrementItem(
-          user.uuid,
-          Number(productId)
-        );
-        res
-          .status(200)
-          .json({ message: "Item decremented", quantity: newQuantity });
-      } else {
-        res.status(400).json({ message: "User not authenticated" });
-      }
+      const { id: item_id } = req.params;
+      const newQuantity = await cartModel.ReduceQuantity(
+        item_id,
+        req.cookies.userId
+      );
+      res
+        .status(200)
+        .json({ message: "Item quantity decremented", quantity: newQuantity });
     } catch (error) {
-      this.handleError(res, "Failed to decrement item", 500);
+      console.error(error);
+      res.status(500).json({
+        message: error.message || "Failed to decrement item quantity",
+      });
     }
   }
 
+  // Get cart data
   async getCartData(req, res) {
     try {
-      const user = getAuthUser(req, res, true);
-      if (user) {
-        res
-          .status(200)
-          .json({ message: "Data has been retrive", data: user.cart });
-      } else {
-        res.status(400).json({ message: "User not authenticated" });
+      const cart = await cartModel.getUserCartList(req.cookies.userId);
+      if (!cart) {
+        return res.status(404).json({ message: "Cart not found" });
       }
+      res.status(200).json({ message: "Cart retrieved successfully", cart });
     } catch (error) {
-      this.handleError(res, "Failed to retrive items", 500);
+      console.error(error);
+      res
+        .status(500)
+        .json({ message: error.message || "Failed to retrieve cart data" });
     }
   }
 
   payment(req, res) {
     this.user = getAuthUser(req, res, false);
 
+    if (this.user.history.length > 0) {
+      if (this.user.history[0].status === "Ongoing") {
+        res.redirect(`/order/${this.user.history[0].uuid}`);
+      }
+    }
+
     const price = this.user.cart.total;
 
     if (!cekBalance(this.user, price, req, res)) return;
 
-    this.model.pay(this.user.uuid, price);
+    const newId = this.history.addEntry(cart_id, this.user.cart);
 
-    res.redirect(`/order`);
+    res.redirect(`/order/${newId}`);
   }
 }
 
