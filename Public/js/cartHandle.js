@@ -1,6 +1,6 @@
 const loadingStates = {};
 
-async function addToCart(productId) {
+async function addToCart(productId, quantity) {
   if (loadingStates[productId]) return; // Prevent double-clicks
 
   try {
@@ -8,7 +8,7 @@ async function addToCart(productId) {
     toggleButtons(productId, true); // Disable buttons
 
     const response = await axios.post(`api/cart/add/${productId}`);
-    if (response.status === 200) {
+    if (response.status === 200 || quantity !== response.data.item.quantity) {
       updateCartDisplay(response.data.item.id, response.data.item.quantity);
     } else if (response.status === 403) {
       window.location.href = "/sign-in";
@@ -42,7 +42,7 @@ async function increment(productId) {
   }
 }
 
-async function decrement(productId) {
+async function decrement(productId, quantity) {
   if (loadingStates[productId]) return;
 
   try {
@@ -50,7 +50,7 @@ async function decrement(productId) {
     toggleButtons(productId, true);
 
     const response = await axios.post(`api/cart/decrement/${productId}`);
-    if (response.status === 200) {
+    if (response.status === 200 || quantity !== response.data.item.quantity) {
       updateCartDisplay(productId, response.data.quantity);
     } else if (response.status === 403) {
       window.location.href = "/sign-in";
@@ -91,9 +91,9 @@ function updateCartDisplay(productId, quantity) {
   }
 }
 
-function addQuantity(event, productId) {
+function addQuantity(event, productId, quantity) {
   event.stopPropagation();
-  addToCart(productId);
+  addToCart(productId, quantity);
   UpdateCart();
   const container = document.getElementById(`quantity-${productId}`);
   container.innerHTML = `
@@ -121,16 +121,16 @@ function addQuantity(event, productId) {
     `;
 }
 
-function increaseQuantity(event, productId) {
+function increaseQuantity(event, productId, quantity) {
   event.stopPropagation();
-  increment(productId);
+  increment(productId, quantity);
   UpdateCart();
   updateShoppingCart();
 }
 
-function decreaseQuantity(event, productId) {
+function decreaseQuantity(event, productId, quantity) {
   event.stopPropagation();
-  decrement(productId);
+  decrement(productId, quantity);
   UpdateCart();
   updateShoppingCart();
 }
@@ -155,9 +155,9 @@ async function UpdateCart() {
       return;
     }
 
-    let html = "";
+    let navhtml = "";
     response.data.cart.items.forEach((item) => {
-      html += ` <a
+      navhtml += ` <a
                     href="/product/${item.id}"
                     class="flex gap-2 items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md  dark:border-gray-700"
                   >
@@ -190,25 +190,8 @@ async function UpdateCart() {
                   </a>`;
     });
 
-    CartPop.innerHTML = html;
-  } catch (error) {
-    console.error("Error updating cart:", error);
-    // Optionally, show an error message to the user
-    CartPop.innerHTML =
-      "<p>Error loading cart items. Please try again later.</p>";
-  }
-}
+    CartPop.innerHTML = navhtml;
 
-function format(number) {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-  }).format(number);
-}
-
-async function updateShoppingCart() {
-  try {
-    const response = await axios("api/cart/view");
     const shoppingBag = document.getElementById("shopping-bag");
     const subTotal = document.getElementById("subtotal");
     const tax = document.getElementById("tax");
@@ -224,10 +207,10 @@ async function updateShoppingCart() {
       response.data.cart.member_discount
     )}`;
     total.innerHTML = format(response.data.cart.total);
-    let html = "";
-    console.log(html);
+
+    let carthtml = "";
     response.data.cart.items.forEach((item) => {
-      html += ` <div class="flex items-start border-b pb-4 mb-4" id="product-${item}">
+      carthtml += ` <div class="flex items-start border-b pb-4 mb-4" id="product-${item}">
     <a href="/product/${item.id}">
       <img
         src="${item.thumbnail}"
@@ -311,12 +294,20 @@ async function updateShoppingCart() {
     </div>
   </div>`;
     });
-
-    shoppingBag.innerHTML = html;
+    shoppingBag.innerHTML = carthtml;
   } catch (error) {
     console.error("Error updating cart:", error);
     // Optionally, show an error message to the user
+    CartPop.innerHTML =
+      "<p>Error loading cart items. Please try again later.</p>";
     shoppingBag.innerHTML =
       "<p>Error loading cart items. Please try again later.</p>";
   }
+}
+
+function format(number) {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  }).format(number);
 }

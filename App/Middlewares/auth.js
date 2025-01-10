@@ -18,6 +18,14 @@ async function auth(req, res, next) {
     }
 
     if (!req.cookies.userId) {
+      clearSession(res);
+      return handleUnauthenticated(req, res, next);
+    }
+
+    const user = await userModel.getUserByUUID(req.cookies.userId);
+
+    if (!user) {
+      clearSession(res);
       return handleUnauthenticated(req, res, next);
     }
 
@@ -25,7 +33,7 @@ async function auth(req, res, next) {
     req.isAuthenticated = false;
 
     if (!token) {
-      const acc_token = await handleTokenRefresh(req);
+      const acc_token = await handleTokenRefresh(user);
       req.isAuthenticated = true;
       setCookie(res, "auth_token", acc_token, {
         maxAge: 15 * 60,
@@ -36,9 +44,10 @@ async function auth(req, res, next) {
     req.isAuthenticated = true;
     handleGuestRoute(req, res, next);
   } catch (error) {
+    console.log(error);
     if (error.name === "TokenExpiredError") {
       try {
-        const acc_token = await handleTokenRefresh(req);
+        const acc_token = await handleTokenRefresh(user);
         req.isAuthenticated = true;
         setCookie(res, "auth_token", acc_token, {
           maxAge: 15 * 60,
