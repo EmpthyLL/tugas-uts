@@ -28,7 +28,7 @@
               class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md"
             >
               <button
-                onclick="decreaseQuantity(event, '<%= item.id %>'); updateShoppingCart()"
+                onclick="decreaseQuantity(event, '<%= item.id %>', '<%= item.quantity %>')"
                 class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg
@@ -54,7 +54,7 @@
                 <%= item.quantity %>
               </span>
               <button
-                onclick="increaseQuantity(event, '<%= item.id %>'); updateShoppingCart()"
+                onclick="increaseQuantity(event, '<%= item.id %>', '<%= item.quantity %>')"
                 class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg
@@ -140,5 +140,4 @@
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="/js/cartHandle.js"></script>
-  <script></script>
 </div>
