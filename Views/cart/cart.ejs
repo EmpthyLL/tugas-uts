@@ -17,21 +17,18 @@
         </a>
         <div class="flex-1">
           <h3 class="font-semibold text-lg"><%= item.title %></h3>
-          <p class="text-gray-500">
-            Price: Rp <%item.price.toLocaleString("id-ID") %>
-          </p>
+          <p class="text-gray-500">Price: <%= formatCurrency(item.price) %></p>
           <p class="text-gray-500">Brand: <%= item.brand || "-" %></p>
           <p class="text-gray-500">Category: <%= item.category %></p>
         </div>
         <div class="flex flex-col items-end ml-6">
           <label class="text-gray-500">Quantity</label>
-
           <div id="quantity-<%= item.id %>" class="flex items-end space-x-2">
             <div
               class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md"
             >
               <button
-                onclick="decreaseQuantity(event, '<%= item.id %>')"
+                onclick="decreaseQuantity(event, '<%= item.id %>'); updateShoppingCart()"
                 class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg
@@ -57,7 +54,7 @@
                 <%= item.quantity %>
               </span>
               <button
-                onclick="increaseQuantity(event, '<%= item.id %>')"
+                onclick="increaseQuantity(event, '<%= item.id %>'); updateShoppingCart()"
                 class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg
@@ -87,7 +84,7 @@
             </a>
           </div>
           <div class="mt-4 font-bold text-lg">
-            <p>Rp <%= Math.floor(item.total).toLocaleString("id-ID") %></p>
+            <p><%= formatCurrency(item.total) %></p>
           </div>
         </div>
       </div>
@@ -110,12 +107,6 @@
           <span>Subtotal</span>
           <span id="subtotal"
             ><%= formatCurrency(cart.cart_total || 0,00) %></span
-          >
-        </div>
-        <div class="flex justify-between">
-          <span>Shipping</span>
-          <span id="delivery"
-            ><%= formatCurrency(cart.delivery || 0,00) %></span
           >
         </div>
         <div class="flex justify-between">
@@ -149,103 +140,5 @@
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="/js/cartHandle.js"></script>
-  <script>
-    async function UpdateCart() {
-      try {
-        const response = await axios("/cart/view");
-        const shoppingBag = document.getElementById("shopping-bag");
-        if (!response.data.data || response.data.data.length === 0) {
-          shoppingBag.innerHTML = "<p>Your cart is currently empty.</p>";
-          return;
-        }
-
-        const res = response.data.data;
-
-        document.getElementById("subtotal").innerHTML = new Intl.NumberFormat(
-          "id-ID",
-          { style: "currency", currency: "IDR" }
-        ).format(res.cart_total);
-        document.getElementById("delivery").innerHTML = new Intl.NumberFormat(
-          "id-ID",
-          { style: "currency", currency: "IDR" }
-        ).format(res.delivery);
-        document.getElementById("tax").innerHTML = new Intl.NumberFormat(
-          "id-ID",
-          { style: "currency", currency: "IDR" }
-        ).format(res.tax);
-        document.getElementById("total").innerHTML = new Intl.NumberFormat(
-          "id-ID",
-          { style: "currency", currency: "IDR" }
-        ).format(res.total);
-
-        let html = "";
-
-        res.items.forEach((item) => {
-          html += `
-    <div class="flex items-start border-b pb-4 mb-4" id="product-${item.id}">
-      <a href="/product/${item.id}">
-        <img
-          src="${item.thumbnail}"
-          alt="${item.title}"
-          class="w-24 h-24 object-cover rounded-md mr-4"
-        />
-      </a>
-      <div class="flex-1">
-        <h3 class="font-semibold text-lg">${item.title}</h3>
-        <p class="text-gray-500">
-          Price: Rp ${Math.floor(item.price * 10000).toLocaleString("id-ID")}
-        </p>
-        <p class="text-gray-500">Brand: ${item.brand || "-"}</p>
-        <p class="text-gray-500">Category: ${item.category}</p>
-      </div>
-      <div class="flex flex-col items-end ml-6">
-        <label class="text-gray-500">Quantity</label>
-        <div id="quantity-${item.id}" class="flex items-end space-x-2">
-          <div class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md">
-            <button
-              onclick="decreaseQuantity(event, '${item.id}')"
-              class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
-              </svg>
-            </button>
-            <span id="quantity-display-${
-              item.id
-            }" class="text-gray-800 font-semibold">
-              ${item.quantity}
-            </span>
-            <button
-              onclick="increaseQuantity(event, '${item.id}')"
-              class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-              </svg>
-            </button>
-          </div>
-        </div>
-        <div class="mt-4">
-          <a href="/product/${
-            item.id
-          }" class="text-blue-600 underline hover:text-blue-700 transition duration-300 ease-in-out">
-            View Details
-          </a>
-        </div>
-        <div class="mt-4 font-bold text-lg">
-          <p>Rp ${Math.floor(item.total * 10000).toLocaleString("id-ID")}</p>
-        </div>
-      </div>
-    </div>`;
-        });
-
-        shoppingBag.innerHTML = html;
-      } catch (error) {
-        console.error("Error updating cart:", error);
-        // Optionally, show an error message to the user
-        shoppingBag.innerHTML =
-          "<p>Error loading cart items. Please try again later.</p>";
-      }
-    }
-  </script>
+  <script></script>
 </div>

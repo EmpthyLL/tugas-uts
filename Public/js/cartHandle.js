@@ -125,12 +125,14 @@ function increaseQuantity(event, productId) {
   event.stopPropagation();
   increment(productId);
   UpdateCart();
+  updateShoppingCart();
 }
 
 function decreaseQuantity(event, productId) {
   event.stopPropagation();
   decrement(productId);
   UpdateCart();
+  updateShoppingCart();
 }
 
 function toggleButtons(productId, disable) {
@@ -148,13 +150,13 @@ async function UpdateCart() {
   try {
     const response = await axios("api/cart/view");
     const CartPop = document.getElementById("Cart-Pop");
-    if (!response.data.data || response.data.data.length === 0) {
+    if (!response.data.cart || response.data.cart.items.length === 0) {
       CartPop.innerHTML = "<p>Your cart is empty.</p>";
       return;
     }
 
     let html = "";
-    response.data.data.items.forEach((item) => {
+    response.data.cart.items.forEach((item) => {
       html += ` <a
                     href="/product/${item.id}"
                     class="flex gap-2 items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md  dark:border-gray-700"
@@ -182,9 +184,7 @@ async function UpdateCart() {
                       <p
                         class="text-gray-800 dark:text-gray-200 font-bold text-lg whitespace-nowrap"
                       >
-                        Rp ${Math.floor(item.price * 10000).toLocaleString(
-                          "id-ID"
-                        )}
+                        ${format(item.price)}
                       </p>
                     </div>
                   </a>`;
@@ -195,6 +195,128 @@ async function UpdateCart() {
     console.error("Error updating cart:", error);
     // Optionally, show an error message to the user
     CartPop.innerHTML =
+      "<p>Error loading cart items. Please try again later.</p>";
+  }
+}
+
+function format(number) {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  }).format(number);
+}
+
+async function updateShoppingCart() {
+  try {
+    const response = await axios("api/cart/view");
+    const shoppingBag = document.getElementById("shopping-bag");
+    const subTotal = document.getElementById("subtotal");
+    const tax = document.getElementById("tax");
+    const memberDiscount = document.getElementById("member_discount");
+    const total = document.getElementById("total");
+    if (!response.data.cart || response.data.cart.items.length === 0) {
+      shoppingBag.innerHTML = "<p>Your cart is currently empty.</p>";
+      return;
+    }
+    subTotal.innerHTML = format(response.data.cart.cart_total);
+    tax.innerHTML = format(response.data.cart.tax);
+    memberDiscount.innerHTML = `- ${format(
+      response.data.cart.member_discount
+    )}`;
+    total.innerHTML = format(response.data.cart.total);
+    let html = "";
+    console.log(html);
+    response.data.cart.items.forEach((item) => {
+      html += ` <div class="flex items-start border-b pb-4 mb-4" id="product-${item}">
+    <a href="/product/${item.id}">
+      <img
+        src="${item.thumbnail}"
+        alt="${item.title}"
+        class="w-24 h-24 object-cover rounded-md mr-4"
+      />
+    </a>
+    <div class="flex-1">
+      <h3 class="font-semibold text-lg">${item.title}</h3>
+      <p class="text-gray-500">
+        Price: ${format(item.price)}
+      </p>
+      <p class="text-gray-500">Brand: ${item.brand || "-"}</p>
+      <p class="text-gray-500">Category: ${item.category}</p>
+    </div>
+    <div class="flex flex-col items-end ml-6">
+      <label class="text-gray-500">Quantity</label>
+      <div id="quantity-${item.id}" class="flex items-end space-x-2">
+        <div
+          class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md"
+        >
+          <button
+            onclick="decreaseQuantity(event, '${item.id}')"
+            class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              width="16"
+              height="16"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M20 12H4"
+              />
+            </svg>
+          </button>
+          <span
+            id="quantity-display-${item.id}"
+            class="text-gray-800 font-semibold"
+          >
+            ${item.quantity}
+          </span>
+          <button
+            onclick="increaseQuantity(event, '${item.id}')"
+            class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              width="16"
+              height="16"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="mt-4">
+        <a
+          href="/product/${item.id}"
+          class="text-blue-600 underline hover:text-blue-700 transition duration-300 ease-in-out"
+        >
+          View Details
+        </a>
+      </div>
+      <div class="mt-4 font-bold text-lg">
+        <p>${format(item.total)}</p>
+      </div>
+    </div>
+  </div>`;
+    });
+
+    shoppingBag.innerHTML = html;
+  } catch (error) {
+    console.error("Error updating cart:", error);
+    // Optionally, show an error message to the user
+    shoppingBag.innerHTML =
       "<p>Error loading cart items. Please try again later.</p>";
   }
 }

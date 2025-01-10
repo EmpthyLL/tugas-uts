@@ -91,7 +91,7 @@ class CartController extends Controller {
   // Get cart data
   async getCartData(req, res) {
     try {
-      const cart = await cartModel.getUserCart(req.cookies.userId);
+      const cart = await cartModel.getUserCartList(req.cookies.userId);
       if (!cart) {
         return res.status(404).json({ message: "Cart not found" });
       }
