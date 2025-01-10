@@ -26,17 +26,17 @@ class CartModel {
       include: [{ model: CartItems, required: false }],
     });
     return {
-      id: cart.id,
-      user_id: cart.user_id,
-      cart_total: cart.cart_total,
-      tax: cart.tax,
-      member_discount: cart.member_discount,
-      delivery: cart.delivery,
-      total: cart.total,
-      created_at: cart.created_at,
-      updated_at: cart.updated_at,
-      deleted_at: cart.deleted_at,
-      items: cart.CartItems.map((item) => {
+      id: cart?.id,
+      user_id: cart?.user_id,
+      cart_total: cart?.cart_total,
+      tax: cart?.tax,
+      member_discount: cart?.member_discount,
+      delivery: cart?.delivery,
+      total: cart?.total,
+      created_at: cart?.created_at,
+      updated_at: cart?.updated_at,
+      deleted_at: cart?.deleted_at,
+      items: cart?.CartItems.map((item) => {
         return {
           id: item.item_id,
           title: item.title,
