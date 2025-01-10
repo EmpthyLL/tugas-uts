@@ -23,7 +23,7 @@ class HistoryModel {
         },
       ],
     });
-    return histories || [];
+    return histories;
   }
   async getHistory(id) {
     const histories = await Histories.findOne({
@@ -41,7 +41,7 @@ class HistoryModel {
         },
       ],
     });
-    return histories || [];
+    return histories;
   }
   async createOrder(uuid, cart_id) {
     const { id } = await userModel.getUserByUUID(uuid);

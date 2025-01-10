@@ -36,4 +36,9 @@ function removeCookie(res, name, options = {}) {
   res.setHeader("Set-Cookie", [...cookies, serializedCookie]);
 }
 
-module.exports = { setCookie, removeCookie };
+function clearSession(res) {
+  removeCookie(res, "auth_token");
+  removeCookie(res, "userId");
+}
+
+module.exports = { setCookie, removeCookie, clearSession };

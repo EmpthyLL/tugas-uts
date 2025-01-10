@@ -1,22 +1,55 @@
-const jwt = require("jsonwebtoken");
-const SECRET_KEY = "T0l0NGj4g4Rahasia";
+const { decryptAccToken, handleTokenRefresh } = require("../../utils/jwt");
+const userModel = require("../../database/model/userModel");
+const { clearSession, setCookie } = require("../../utils/cookie");
 
 async function cektoken(req, res, next) {
   try {
-    const token = req.cookies.auth_token;
-    req.isAuthenticated = false;
-    if (!token) {
-      return res.status(403).json({ message: "Token was not provided!" });
+    if (!req.cookies.userId) {
+      clearSession(res);
+      return res
+        .status(403)
+        .json({ message: "Token can not retrive any one token!" });
     }
 
-    jwt.verify(token, SECRET_KEY);
+    const user = await userModel.getUserByUUID(req.cookies.userId);
 
-    next();
+    if (!user) {
+      clearSession(res);
+      return res
+        .status(403)
+        .json({ message: "Token can not retrive any one token!" });
+    }
+
+    const token = req.cookies.auth_token;
+
+    if (!token) {
+      handleTokenRefresh(user);
+      return next();
+    }
+    decryptAccToken(token);
+    return next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {
-      return res.status(403).json({ message: "Token was expired!" });
+      try {
+        const acc_token = await handleTokenRefresh(user);
+        setCookie(res, "auth_token", acc_token, {
+          maxAge: 15 * 60,
+        });
+        return next();
+      } catch (refreshError) {
+        if (refreshError.name === "TokenExpiredError") {
+          await userModel.removeRefToken(req.cookies.userId);
+          clearSession(res);
+          return res
+            .status(403)
+            .json({ message: "Token can not be reffresh anymore!" });
+        } else {
+          return res.status(500).json({ message: refreshError.message });
+        }
+      }
+    } else {
+      return res.status(500).json({ message: error.message });
     }
-    return res.status(500).json({ message: "Something went wrong!" });
   }
 }
 
