@@ -150,6 +150,9 @@ async function UpdateCart() {
   try {
     const response = await axios("api/cart/view");
     const CartPop = document.getElementById("Cart-Pop");
+    if (response.status === 403) {
+      window.location.href = "/sign-in";
+    }
     if (!response.data.cart || response.data.cart.items.length === 0) {
       CartPop.innerHTML = "<p>Your cart is empty.</p>";
       return;
