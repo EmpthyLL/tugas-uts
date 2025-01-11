@@ -175,24 +175,15 @@
                       </div>
 
                       <div class="flex items-center mt-3">
-                        <% if (item.status) { %> <% if
-                        (item.status.toLowerCase() === "completed") { %>
-                        <span class="text-green-500 font-medium pl-12"
-                          >✔ <%= item.status %></span
-                        >
-                        <% } else if (item.status.toLowerCase() === "inprocess")
-                        { %>
-                        <span class="text-yellow-500 font-medium pl-12"
-                          >⏳ <%= item.status %></span
-                        >
+                        <% if (item.status) { %>
+                          <% const status = item.status.toLowerCase(); %>
+                          <% if (status === "completed") { %>
+                            <span class="text-green-500 font-medium pl-12">✔ <%= item.status %></span>
+                          <% } else if (status === "canceled") { %>
+                            <span class="text-red-500 font-medium pl-12">❌ <%= item.status %></span>
+                          <% } %>
                         <% } else { %>
-                        <span class="text-red-500 font-medium pl-12"
-                          >❌ <%= item.status %></span
-                        >
-                        <% } %> <% } else { %>
-                        <span class="text-gray-500 font-medium pl-12"
-                          >Unknown Status</span
-                        >
+                          <span class="text-gray-500 font-medium pl-12">You haven't done any orders yet.</span>
                         <% } %>
                       </div>
                     </div>
