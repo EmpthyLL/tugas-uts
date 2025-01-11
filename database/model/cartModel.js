@@ -22,21 +22,28 @@ class CartModel {
     const user = await userModel.getUserByUUID(uuid);
     const cart = await Carts.findOne({
       where: { user_id: user.id },
-      order: [["created_at", "ASC"]],
-      include: [{ model: CartItems, required: false }],
+      order: [["created_at", "DESC"]],
+      include: [
+        {
+          model: CartItems,
+          required: false,
+          separate: true,
+          order: [["created_at", "DESC"]],
+        },
+      ],
     });
     return {
-      id: cart.id,
-      user_id: cart.user_id,
-      cart_total: cart.cart_total,
-      tax: cart.tax,
-      member_discount: cart.member_discount,
-      delivery: cart.delivery,
-      total: cart.total,
-      created_at: cart.created_at,
-      updated_at: cart.updated_at,
-      deleted_at: cart.deleted_at,
-      items: cart.CartItems.map((item) => {
+      id: cart?.id,
+      user_id: cart?.user_id,
+      cart_total: cart?.cart_total,
+      tax: cart?.tax,
+      member_discount: cart?.member_discount,
+      delivery: cart?.delivery,
+      total: cart?.total,
+      created_at: cart?.created_at,
+      updated_at: cart?.updated_at,
+      deleted_at: cart?.deleted_at,
+      items: cart?.CartItems.map((item) => {
         return {
           id: item.item_id,
           title: item.title,
@@ -53,7 +60,7 @@ class CartModel {
   async getCartItems(cart_id) {
     const items = await CartItems.findAll({
       where: { cart_id },
-      order: [["created_at", "ASC"]],
+      order: [["created_at", "DESC"]],
     });
     return items.map((item) => ({
       id: item.id,

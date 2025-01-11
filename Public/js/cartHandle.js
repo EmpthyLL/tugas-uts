@@ -9,7 +9,11 @@ async function addToCart(productId, quantity) {
 
     const response = await axios.post(`api/cart/add/${productId}`);
     if (response.status === 200 || quantity !== response.data.item.quantity) {
-      updateCartDisplay(response.data.item.id, response.data.item.quantity);
+      updateCartDisplay(productId, response.data.item.quantity);
+      UpdateCart();
+      if (document.getElementById("shopping-bag")) {
+        updateShoppingCart();
+      }
     } else if (response.status === 403) {
       window.location.href = "/sign-in";
     }
@@ -31,6 +35,9 @@ async function increment(productId) {
     const response = await axios.post(`api/cart/increment/${productId}`);
     if (response.status === 200) {
       updateCartDisplay(productId, response.data.quantity);
+      if (document.getElementById("shopping-bag")) {
+        updateShoppingCart();
+      }
     } else if (response.status === 403) {
       window.location.href = "/sign-in";
     }
@@ -52,6 +59,9 @@ async function decrement(productId, quantity) {
     const response = await axios.post(`api/cart/decrement/${productId}`);
     if (response.status === 200 || quantity !== response.data.item.quantity) {
       updateCartDisplay(productId, response.data.quantity);
+      if (document.getElementById("shopping-bag")) {
+        updateShoppingCart();
+      }
     } else if (response.status === 403) {
       window.location.href = "/sign-in";
     }
@@ -94,7 +104,6 @@ function updateCartDisplay(productId, quantity) {
 function addQuantity(event, productId, quantity) {
   event.stopPropagation();
   addToCart(productId, quantity);
-  UpdateCart();
   const container = document.getElementById(`quantity-${productId}`);
   container.innerHTML = `
       <div class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md">
@@ -124,15 +133,11 @@ function addQuantity(event, productId, quantity) {
 function increaseQuantity(event, productId, quantity) {
   event.stopPropagation();
   increment(productId, quantity);
-  UpdateCart();
-  updateShoppingCart();
 }
 
 function decreaseQuantity(event, productId, quantity) {
   event.stopPropagation();
   decrement(productId, quantity);
-  UpdateCart();
-  updateShoppingCart();
 }
 
 function toggleButtons(productId, disable) {
@@ -150,21 +155,24 @@ async function UpdateCart() {
   try {
     const response = await axios("api/cart/view");
     const CartPop = document.getElementById("Cart-Pop");
+    if (response.status === 403) {
+      window.location.href = "/sign-in";
+    }
     if (!response.data.cart || response.data.cart.items.length === 0) {
       CartPop.innerHTML = "<p>Your cart is empty.</p>";
       return;
     }
 
-    let navhtml = "";
+    let navhtml = `<div class="space-y-2">`;
     response.data.cart.items.forEach((item) => {
       navhtml += ` <a
                     href="/product/${item.id}"
-                    class="flex gap-2 items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md  dark:border-gray-700"
+                    class="flex gap-2 items-center bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
                   >
                     <img
                       src="${item.thumbnail}"
                       alt="Product Image"
-                      class="w-16 h-16 rounded-md object-cover border border-gray-200 dark:border-gray-700"
+                      class="w-16 h-16 rounded-md object-cover dark:border-gray-700"
                     />
                     <div class="flex-grow space-y-1">
                       <p
@@ -189,9 +197,26 @@ async function UpdateCart() {
                     </div>
                   </a>`;
     });
-
+    navhtml += "</div>";
     CartPop.innerHTML = navhtml;
+  } catch (error) {
+    console.error("Error updating cart:", error);
+  }
+}
 
+function format(number) {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  }).format(number);
+}
+
+async function updateShoppingCart() {
+  try {
+    const response = await axios("api/cart/view");
+    if (response.status === 403) {
+      window.location.href = "/sign-in";
+    }
     const shoppingBag = document.getElementById("shopping-bag");
     const subTotal = document.getElementById("subtotal");
     const tax = document.getElementById("tax");
@@ -296,18 +321,6 @@ async function UpdateCart() {
     });
     shoppingBag.innerHTML = carthtml;
   } catch (error) {
-    console.error("Error updating cart:", error);
-    // Optionally, show an error message to the user
-    CartPop.innerHTML =
-      "<p>Error loading cart items. Please try again later.</p>";
-    shoppingBag.innerHTML =
-      "<p>Error loading cart items. Please try again later.</p>";
+    console.log("Update shopping cart", error);
   }
-}
-
-function format(number) {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-  }).format(number);
 }
