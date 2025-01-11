@@ -35,6 +35,9 @@ async function increment(productId) {
     const response = await axios.post(`api/cart/increment/${productId}`);
     if (response.status === 200) {
       updateCartDisplay(productId, response.data.quantity);
+      if (document.getElementById("shopping-bag")) {
+        updateShoppingCart();
+      }
     } else if (response.status === 403) {
       window.location.href = "/sign-in";
     }
@@ -56,6 +59,9 @@ async function decrement(productId, quantity) {
     const response = await axios.post(`api/cart/decrement/${productId}`);
     if (response.status === 200 || quantity !== response.data.item.quantity) {
       updateCartDisplay(productId, response.data.quantity);
+      if (document.getElementById("shopping-bag")) {
+        updateShoppingCart();
+      }
     } else if (response.status === 403) {
       window.location.href = "/sign-in";
     }
@@ -157,16 +163,16 @@ async function UpdateCart() {
       return;
     }
 
-    let navhtml = "";
+    let navhtml = `<div class="space-y-2">`;
     response.data.cart.items.forEach((item) => {
       navhtml += ` <a
                     href="/product/${item.id}"
-                    class="flex gap-2 items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md  dark:border-gray-700"
+                    class="flex gap-2 items-center bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
                   >
                     <img
                       src="${item.thumbnail}"
                       alt="Product Image"
-                      class="w-16 h-16 rounded-md object-cover border border-gray-200 dark:border-gray-700"
+                      class="w-16 h-16 rounded-md object-cover dark:border-gray-700"
                     />
                     <div class="flex-grow space-y-1">
                       <p
@@ -191,7 +197,7 @@ async function UpdateCart() {
                     </div>
                   </a>`;
     });
-
+    navhtml += "</div>";
     CartPop.innerHTML = navhtml;
   } catch (error) {
     console.error("Error updating cart:", error);
@@ -205,8 +211,12 @@ function format(number) {
   }).format(number);
 }
 
-function updateShoppingCart() {
+async function updateShoppingCart() {
   try {
+    const response = await axios("api/cart/view");
+    if (response.status === 403) {
+      window.location.href = "/sign-in";
+    }
     const shoppingBag = document.getElementById("shopping-bag");
     const subTotal = document.getElementById("subtotal");
     const tax = document.getElementById("tax");
