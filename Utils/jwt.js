@@ -21,9 +21,18 @@ function decryptRefToken(token) {
   return jwt.verify(token, REFRESH_KEY);
 }
 
+async function handleTokenRefresh(user) {
+  decryptRefToken(user.refresh_token);
+
+  const acc_token = generateAccToken({ uuid: user.uuid });
+
+  return acc_token;
+}
+
 module.exports = {
   generateAccToken,
   generateRefToken,
   decryptAccToken,
   decryptRefToken,
+  handleTokenRefresh,
 };

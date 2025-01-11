@@ -21,6 +21,7 @@ const orderPage = require("./page/order");
 
 const cartApi = require("./api/cart");
 const authApi = require("./api/auth");
+const sequelize = require("../database/config/db");
 
 const app = express();
 const port = process.env.PORT;
@@ -44,6 +45,7 @@ app.use(
 );
 app.use(flash());
 app.use(auth);
+sequelize.sync();
 
 app.use("/", indexPage);
 app.use("/sign-in", loginPage);

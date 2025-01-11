@@ -7,8 +7,11 @@ class NotifModel {
   }
   async getNotif(uuid) {
     const { id } = await userModel.getUserByUUID(uuid);
-    const notifs = await Notifications.findAll({ where: { user_id: id } });
-    return notifs || [];
+    const notifs = await Notifications.findAll({
+      where: { user_id: id },
+      order: [["created_at", "DESC"]],
+    });
+    return notifs;
   }
   async addNotif(uuid, message, type) {
     const { id } = await userModel.getUserByUUID(uuid);
