@@ -9,7 +9,11 @@ async function addToCart(productId, quantity) {
 
     const response = await axios.post(`api/cart/add/${productId}`);
     if (response.status === 200 || quantity !== response.data.item.quantity) {
-      updateCartDisplay(response.data.item.id, response.data.item.quantity);
+      updateCartDisplay(productId, response.data.item.quantity);
+      UpdateCart();
+      if (document.getElementById("shopping-bag")) {
+        updateShoppingCart();
+      }
     } else if (response.status === 403) {
       window.location.href = "/sign-in";
     }
@@ -94,7 +98,6 @@ function updateCartDisplay(productId, quantity) {
 function addQuantity(event, productId, quantity) {
   event.stopPropagation();
   addToCart(productId, quantity);
-  UpdateCart();
   const container = document.getElementById(`quantity-${productId}`);
   container.innerHTML = `
       <div class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md">
@@ -124,15 +127,11 @@ function addQuantity(event, productId, quantity) {
 function increaseQuantity(event, productId, quantity) {
   event.stopPropagation();
   increment(productId, quantity);
-  UpdateCart();
-  updateShoppingCart();
 }
 
 function decreaseQuantity(event, productId, quantity) {
   event.stopPropagation();
   decrement(productId, quantity);
-  UpdateCart();
-  updateShoppingCart();
 }
 
 function toggleButtons(productId, disable) {
@@ -194,7 +193,20 @@ async function UpdateCart() {
     });
 
     CartPop.innerHTML = navhtml;
+  } catch (error) {
+    console.error("Error updating cart:", error);
+  }
+}
 
+function format(number) {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  }).format(number);
+}
+
+function updateShoppingCart() {
+  try {
     const shoppingBag = document.getElementById("shopping-bag");
     const subTotal = document.getElementById("subtotal");
     const tax = document.getElementById("tax");
@@ -299,18 +311,6 @@ async function UpdateCart() {
     });
     shoppingBag.innerHTML = carthtml;
   } catch (error) {
-    console.error("Error updating cart:", error);
-    // Optionally, show an error message to the user
-    CartPop.innerHTML =
-      "<p>Error loading cart items. Please try again later.</p>";
-    shoppingBag.innerHTML =
-      "<p>Error loading cart items. Please try again later.</p>";
+    console.log("Update shopping cart", error);
   }
-}
-
-function format(number) {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-  }).format(number);
 }

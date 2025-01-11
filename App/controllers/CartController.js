@@ -40,8 +40,8 @@ class CartController extends Controller {
         quantity: 1,
       };
 
-      const cart = await cartModel.addItem(req.cookies.userId, newItem);
-      res.status(200).json({ message: "Item added to cart", cart });
+      await cartModel.addItem(req.cookies.userId, newItem);
+      res.status(200).json({ message: "Item added to cart", item: newItem });
     } catch (error) {
       console.error(error);
       res
