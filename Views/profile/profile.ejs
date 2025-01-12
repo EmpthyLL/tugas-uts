@@ -1,4 +1,4 @@
-<div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden my-8 p-8 dark:bg-gray-800 relative grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden border my-8 p-8 dark:bg-gray-800 relative grid grid-cols-1 md:grid-cols-2 gap-8">
   <!-- Logout Button -->
   <div class="absolute top-4 right-4">
     <button 
@@ -40,7 +40,7 @@
   <!-- Balance -->
   <div class="border rounded-lg p-4 bg-gray-50 dark:bg-gray-700 shadow-sm">
     <p class="font-semibold text-gray-700 dark:text-gray-300 text-lg">Balance:</p>
-    <p class="text-2xl font-bold text-gray-900 dark:text-white">Rp. <%= user.balance %></p>
+    <p class="text-2xl font-bold text-gray-900 dark:text-white"> <%= formatCurrency(user.balance) %></p>
     <a href="/top-up" class="mt-4 inline-block px-4 py-2 bg-lime-500 text-white font-semibold rounded-lg shadow hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-500 focus:ring-opacity-50">
       Top Up
     </a>

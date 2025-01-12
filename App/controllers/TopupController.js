@@ -16,11 +16,21 @@ class TopupController extends Controller {
 
   index(req, res) {
     try {
+      const balance = req.query.balance;
+      const success = req.query.success;
+      if (balance) {
+        req.flash("balance", balance);
+      }
+
+      if (success) {
+        req.flash("success", success);
+      }
       const options = {
         layout: `components/${this.layout}`,
         title: this.title,
         req,
         balance: req.flash("balance") || [],
+        success: req.flash("success") || [],
         methods: this.methods,
       };
 

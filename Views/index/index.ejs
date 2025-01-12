@@ -119,5 +119,41 @@ include('../components/money') %> <% } %> <%-include('../components/categories')
   <% }) %>
 </div>
 
+<div
+  id="memberModal"
+  class="fixed inset-0 items-center justify-center bg-gray-800 bg-opacity-50 hidden animate-fadeIn"
+>
+  <div class="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+    <!-- Lottie Wallet Animation -->
+    <div class="flex justify-center mb-4">
+      <lottie-player
+        src="https://lottie.host/76e53017-b6e2-4534-ac8b-972b7c39bc86/bJxZjBhv7N.json"
+        background="transparent"
+        speed="1"
+        style="width: 80px; height: 80px"
+        autoplay
+      ></lottie-player>
+    </div>
+    <!-- member Message -->
+    <p class="text-pink-600 font-bold text-xl" id="memberText"><%= member %></p>
+    <!-- Celebratory Button -->
+    <button
+      onclick="window.location.replace('/');"
+      class="mt-6 bg-pink-500 hover:bg-pink-600 text-white py-2 px-6 rounded-full shadow-lg transition duration-300"
+    >
+      Okay
+    </button>
+  </div>
+</div>
+
+<script>
+  const memberMessage = "<%= member %>";
+
+  if (memberMessage) {
+    // Show the member modal
+    document.getElementById("memberModal").classList.remove("hidden");
+    document.getElementById("memberModal").classList.add("flex");
+  }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/js/cartHandle.js"></script>

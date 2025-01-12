@@ -1,3 +1,4 @@
+const userModel = require("../../database/model/userModel");
 const Controller = require("./Controller");
 
 class MemberController extends Controller {
@@ -22,31 +23,25 @@ class MemberController extends Controller {
       this.handleError(res, "Failed to render top up page", 500);
     }
   }
-  month(req, res) {
-    this.user = getAuthUser(req, res, false);
-    if (this.user.member) {
-      res.redirect("/");
+  async becomeMember(req, res) {
+    const is_member = await userModel.cekMemberStatus(req.cookies.userId);
+    if (is_member) {
+      return res.status(400).json({ message: "User is already a member." });
     }
     const price = req.body.price;
-
-    if (!cekBalance(this.user, price, req, res)) return;
-
-    this.model.joinMember(req.uuid, Number(price));
-    res.redirect("/");
-  }
-  year(req, res) {
-    this.user = getAuthUser(req, res, false);
-
-    if (this.user.member) {
-      return res.redirect("/");
+    const balance = await userModel.cekBalance(req.cookies.userId);
+    if (price > balance) {
+      return res.status(200).json({
+        balance: false,
+        message: "Oh no! Your balance is not enough to become a member.",
+      });
     }
 
-    const price = req.body.price;
-
-    if (!cekBalance(this.user, price, req, res)) return;
-
-    this.model.joinMember(req.userid, Number(price), "yearly");
-    res.redirect("/");
+    await userModel.becomeMember(req.cookies.userId, price, req.params.type);
+    return res.status(200).json({
+      balance: true,
+      message: "Congratulation! You are now a member.",
+    });
   }
 }
 

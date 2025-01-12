@@ -27,6 +27,7 @@ async function cektoken(req, res, next) {
       return next();
     }
     decryptAccToken(token);
+    await userModel.cekMemberStatus(req.cookies.userId);
     return next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {
@@ -35,6 +36,7 @@ async function cektoken(req, res, next) {
         setCookie(res, "auth_token", acc_token, {
           maxAge: 15 * 60,
         });
+        await userModel.cekMemberStatus(req.cookies.userId);
         return next();
       } catch (refreshError) {
         if (refreshError.name === "TokenExpiredError") {
