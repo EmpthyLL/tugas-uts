@@ -1,16 +1,26 @@
 document.addEventListener("DOMContentLoaded", function () {
   const amountInput = document.getElementById("amount");
-  const amountValue = document.getElementById("amount-value");
   const amountButtons = document.querySelectorAll(".amount-button");
   const confirmButton = document.getElementById("confirm-button");
   const dropdownLabel = document.getElementById("dropdown-label");
+  const dropdownTrigger = document.getElementById("hs-dropdown");
   const dropdownMenu = document.getElementById("dropdown-menu");
   const storeOptions = document.querySelectorAll(".store-option");
   const confirmModal = document.getElementById("confirm-payment");
+  const paybutton = document.getElementById("payment");
   const clearDropdown = document.getElementById("clear-dropdown");
 
-  let selectedAmount = "";
-  let selectedStore = "";
+  let inputedAmount = "";
+  let selectedMethod = "";
+
+  document.addEventListener("click", (event) => {
+    if (
+      !dropdownMenu.contains(event.target) &&
+      !dropdownTrigger.contains(event.target)
+    ) {
+      dropdownMenu.classList.add("hidden");
+    }
+  });
 
   function formatAmount(value) {
     let formattedValue = originalValue.replace(/\D/g, "");
@@ -35,81 +45,78 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function updateAmount() {
-    const amount = amountInput.value.replace(/\D/g, ""); // Remove non-numeric characters
-    selectedAmount = amount;
-    amountValue.value = amount;
+    const amount = amountInput.value.replace(/\D/g, "");
+    inputedAmount = amount;
     validateConfirmButton();
   }
 
   function formatAmount(value) {
-    // Remove non-numeric characters
     value = value.replace(/\D/g, "");
 
-    // Add commas for thousands
     return value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   }
 
   amountInput.addEventListener("input", function (e) {
-    const cursorPos = amountInput.selectionStart; // Get current cursor position
+    const cursorPos = amountInput.selectionStart;
     const oldValue = amountInput.value;
 
-    // Format the value
     const formattedValue = formatAmount(amountInput.value);
 
-    // Set the formatted value back to the input
-    amountInput.value = formattedValue;
-
-    // Calculate the new cursor position after formatting
     let newCursorPos = cursorPos;
     if (formattedValue.length > oldValue.length) {
-      // If we're adding digits (inserting a comma), adjust the cursor position
       newCursorPos += formattedValue.length - oldValue.length;
     }
 
-    // Set the cursor position back to where it was before formatting
     amountInput.setSelectionRange(newCursorPos, newCursorPos);
 
-    // Also update the amountValue input
-    amountValue.value = formattedValue;
-
-    // Call updateAmount function
     updateAmount();
   });
 
-  // Button handlers
   amountButtons.forEach((button) => {
     button.addEventListener("click", function () {
       amountInput.value = button.textContent.replace(".5k", ",500").trim();
-      amountValue.value = button.textContent.replace("00");
       updateAmount();
     });
   });
 
-  // Store selection handling
   storeOptions.forEach((option) => {
     option.addEventListener("click", () => {
-      selectedStore = option.dataset.store;
-      dropdownLabel.textContent = selectedStore;
+      selectedMethod = option.dataset.store;
+      storeOptions.forEach((opt) =>
+        opt.classList.remove("bg-lime-100", "ring-2", "ring-lime-500")
+      );
+      option.classList.add("bg-lime-100", "ring-2", "ring-lime-500");
+      const label = `
+          <img
+            src="/img/topup/${selectedMethod.toLowerCase()}.png"
+            alt="Indomaret"
+            class="w-10 h-10 rounded-full object-contain"
+          />
+          <span>${selectedMethod}</span>`;
+      dropdownLabel.innerHTML = label;
       dropdownMenu.classList.add("hidden");
       validateConfirmButton();
+      clearDropdown.classList.remove("hidden");
     });
   });
 
-  // Handle dropdown toggle
-  document.getElementById("hs-dropdown").addEventListener("click", () => {
+  document.getElementById("hs-dropdown").addEventListener("click", (event) => {
+    event.stopPropagation();
     dropdownMenu.classList.toggle("hidden");
   });
 
-  // Clear selection
   clearDropdown.addEventListener("click", () => {
-    selectedStore = "";
+    selectedMethod = "";
     dropdownLabel.textContent = "Choose your top up method";
     validateConfirmButton();
+    clearDropdown.classList.add("hidden");
+    storeOptions.forEach((opt) =>
+      opt.classList.remove("bg-lime-100", "ring-2", "ring-lime-500")
+    );
   });
 
-  // Validate the confirm button's state
   function validateConfirmButton() {
-    if (selectedAmount && selectedStore) {
+    if (inputedAmount && selectedMethod) {
       confirmButton.disabled = false;
       confirmButton.classList.remove("opacity-50", "cursor-not-allowed");
       confirmButton.classList.add("opacity-100", "cursor-pointer");
@@ -120,10 +127,24 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Show confirmation modal
   confirmButton.addEventListener("click", () => {
-    const topupMessage = `You are about to top up Rp${selectedAmount} using ${selectedStore}.`;
+    const topupMessage = `You are about to top up Rp${inputedAmount} using ${selectedMethod}.`;
     document.getElementById("topup-message").textContent = topupMessage;
     confirmModal.classList.remove("hidden");
+  });
+  paybutton.addEventListener("click", async () => {
+    const dopay = confirm("Lakukan Pembayaran");
+    if (dopay) {
+      const res = await axios.post("/api/purchase/topup", {
+        amount: inputedAmount,
+        method: selectedMethod,
+      });
+      if (res.status === 200) {
+        window.location.href = "/";
+      }
+      if (res.status === 403) {
+        window.location.href = "/sign-in";
+      }
+    }
   });
 });

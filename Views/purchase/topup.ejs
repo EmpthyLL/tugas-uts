@@ -73,11 +73,38 @@
       <!-- Dropdown button -->
       <button
         id="hs-dropdown"
-        class="w-full py-4 px-6 bg-white rounded-lg shadow flex items-center justify-between text-xl text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-lime-500 transition"
+        class="relative w-full py-5 px-6 bg-white rounded-lg shadow flex items-center justify-between text-xl text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-lime-500 transition"
       >
-        <span id="dropdown-label" class="text-lg"
-          >Choose your top-up method</span
+        <span id="dropdown-label" class="flex items-center space-x-4">
+          Choose your top-up method
+        </span>
+
+        <!-- Clear button -->
+        <span
+          id="clear-dropdown"
+          class="absolute mr-14 right-0 top-1/2 transform hidden -translate-y-1/2 cursor-pointer text-gray-400 hover:text-red-500 transition"
         >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-delete"
+          >
+            <path
+              d="M10 5a2 2 0 0 0-1.344.519l-6.328 5.74a1 1 0 0 0 0 1.481l6.328 5.741A2 2 0 0 0 10 19h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z"
+            />
+            <path d="m12 9 6 6" />
+            <path d="m18 9-6 6" />
+          </svg>
+        </span>
+
+        <!-- Dropdown icon -->
         <svg
           id="dropdown-icon"
           class="w-6 h-6 text-gray-400"
@@ -98,47 +125,69 @@
       <!-- Dropdown menu -->
       <div
         id="dropdown-menu"
-        class="absolute mt-3 w-full bg-white shadow-lg rounded-lg hidden z-10 transition"
+        class="absolute mt-3 w-full max-h-[300px] overflow-y-scroll bg-white shadow-lg rounded-lg hidden z-10 transition"
       >
-        <button
-          class="w-full store-option px-6 py-4 text-xl text-gray-700 hover:bg-gray-100 flex items-center space-x-4"
-          data-store="Indomaret"
-        >
-          <img
-            src="/img/topup/indomaret.jpg"
-            alt="Indomaret"
-            class="w-10 h-10 rounded-full object-contain"
-          />
-          <span>Indomaret</span>
-        </button>
-        <button
-          class="w-full store-option px-6 py-4 text-xl text-gray-700 hover:bg-gray-100 flex items-center space-x-4"
-          data-store="Alfamart"
-        >
-          <img
-            src="/img/topup/alfamart.png"
-            alt="Alfamart"
-            class="w-10 h-10 rounded-full object-contain"
-          />
-          <span>Alfamart</span>
-        </button>
-        <button
-          class="w-full store-option px-6 py-4 text-xl text-gray-700 hover:bg-gray-100 flex items-center space-x-4"
-          data-store="Alfamidi"
-        >
-          <img
-            src="/img/topup/alfamidi.png"
-            alt="Alfamidi"
-            class="w-10 h-10 rounded-full object-contain"
-          />
-          <span>Alfamidi</span>
-        </button>
-        <button
-          id="clear-dropdown"
-          class="w-full px-6 py-3 rounded-lg text-gray-700 hover:bg-gray-100 flex items-center space-x-4 mt-3"
-        >
-          <span>Clear Selection</span>
-        </button>
+        <!-- Minimart Section -->
+        <div class="px-4 py-2">
+          <h3 class="text-lg font-semibold text-gray-600 mb-2">Minimart</h3>
+          <div class="grid grid-cols-2 gap-2">
+            <% methods.minimart.forEach(meth => { %>
+            <button
+              class="store-option w-full px-4 py-4 text-lg text-gray-700 hover:bg-gray-100 flex items-center space-x-4 rounded-lg border transition"
+              data-store="<%= meth %>"
+            >
+              <img
+                src="/img/topup/<%= meth.toLowerCase() %>.png"
+                alt="<%= meth %>"
+                class="w-10 h-10 rounded-full object-contain"
+              />
+              <span><%= meth %></span>
+            </button>
+            <% }) %>
+          </div>
+        </div>
+
+        <!-- Digital Wallet Section -->
+        <div class="px-4 py-2">
+          <h3 class="text-lg font-semibold text-gray-600 mb-2">
+            Digital Wallet
+          </h3>
+          <div class="grid grid-cols-2 gap-2">
+            <% methods.digwall.forEach(meth => { %>
+            <button
+              class="store-option w-full px-4 py-4 text-lg text-gray-700 hover:bg-gray-100 flex items-center space-x-4 rounded-lg border transition"
+              data-store="<%= meth %>"
+            >
+              <img
+                src="/img/topup/<%= meth.toLowerCase() %>.png"
+                alt="<%= meth %>"
+                class="w-10 h-10 rounded-full object-contain"
+              />
+              <span><%= meth %></span>
+            </button>
+            <% }) %>
+          </div>
+        </div>
+
+        <!-- Bank Section -->
+        <div class="px-4 py-2">
+          <h3 class="text-lg font-semibold text-gray-600 mb-2">Bank</h3>
+          <div class="grid grid-cols-2 gap-2">
+            <% methods.bank.forEach(meth => { %>
+            <button
+              class="store-option w-full px-4 py-4 text-lg text-gray-700 hover:bg-gray-100 flex items-center space-x-4 rounded-lg border transition"
+              data-store="<%= meth %>"
+            >
+              <img
+                src="/img/topup/<%= meth.toLowerCase() %>.png"
+                alt="<%= meth %>"
+                class="w-10 h-10 rounded-full object-contain"
+              />
+              <span><%= meth %></span>
+            </button>
+            <% }) %>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -221,15 +270,12 @@
           >
             Close
           </button>
-          <form method="post" action="/top-up">
-            <input type="hidden" name="amount" id="amount-value" />
-            <button
-              onclick="return confirm('Lakukan pembayaran.')"
-              class="py-2 px-4 text-sm font-medium rounded-lg border border-transparent bg-lime-500 text-white hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-700 dark:bg-lime-600 dark:hover:bg-lime-700 dark:focus:ring-lime-700"
-            >
-              Proceed to Payment
-            </button>
-          </form>
+          <button
+            id="payment"
+            class="py-2 px-4 text-sm font-medium rounded-lg border border-transparent bg-lime-500 text-white hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-700 dark:bg-lime-600 dark:hover:bg-lime-700 dark:focus:ring-lime-700"
+          >
+            Proceed to Payment
+          </button>
         </div>
       </div>
     </div>
@@ -279,4 +325,5 @@
     document.getElementById("moneySad").classList.remove("flex");
   });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/js/top-up.js"></script>

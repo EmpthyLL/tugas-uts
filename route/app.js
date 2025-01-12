@@ -7,6 +7,7 @@ const path = require("path");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
 const auth = require("../app/middlewares/auth");
+const sequelize = require("../database/config/db");
 
 const indexPage = require("./page/index");
 const loginPage = require("./page/auth/sign-in");
@@ -19,9 +20,9 @@ const historyPage = require("./page/history");
 const notifPage = require("./page/notification");
 const orderPage = require("./page/order");
 
-const cartApi = require("./api/cart");
 const authApi = require("./api/auth");
-const sequelize = require("../database/config/db");
+const cartApi = require("./api/cart");
+const purchaseApi = require("./api/purchase");
 
 const app = express();
 const port = process.env.PORT;
@@ -58,8 +59,9 @@ app.use("/order", orderPage);
 app.use("/top-up", topupPage);
 app.use("/become-member", memberPage);
 
-app.use("/api/cart", cartApi);
 app.use("/api/auth", authApi);
+app.use("/api/cart", cartApi);
+app.use("/api/purchase", purchaseApi);
 
 app.use((req, res) => {
   res.status(404);

@@ -89,6 +89,7 @@ class UserModel {
       return -1;
     }
 
+    user.balance = Number(user.balance);
     user.balance -= price;
     user.save();
   }
@@ -97,9 +98,9 @@ class UserModel {
     if (!user) {
       return -1;
     }
-
+    user.balance = Number(user.balance);
     user.balance += amount;
-    user.save();
+    await user.save();
   }
   async cekMemberStatus(uuid) {
     const user = await this.getUserByUUID(uuid);

@@ -1,4 +1,4 @@
-const { topup } = require("../../database/model/userModel");
+const userModel = require("../../database/model/userModel");
 const Controller = require("./Controller");
 
 class TopupController extends Controller {
@@ -7,6 +7,11 @@ class TopupController extends Controller {
     this.view = "purchase/topup";
     this.layout = "layout";
     this.title = "Top Up";
+    this.methods = {
+      minimart: ["Indomaret", "Alfamart", "Alfamidi"],
+      digwall: ["Dana", "Gopay", "OVO"],
+      bank: ["BCA", "BRI", "BNI", "BI", "Mandiri"],
+    };
   }
 
   index(req, res) {
@@ -16,6 +21,7 @@ class TopupController extends Controller {
         title: this.title,
         req,
         balance: req.flash("balance") || [],
+        methods: this.methods,
       };
 
       this.renderView(res, this.view, options);
@@ -25,9 +31,21 @@ class TopupController extends Controller {
     }
   }
   async topup(req, res) {
-    const amount = req.body.amount;
-    await topup(req.cookies.userId, amount);
-    res.redirect("/");
+    const { amount, method } = req.body;
+
+    if (!amount || !method) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Amount and method are required." });
+    }
+
+    await userModel.topup(req.cookies.userId, amount);
+
+    return res.status(200).json({
+      success: true,
+      message: "Top-up successful.",
+      data: { amount, method },
+    });
   }
 }
 

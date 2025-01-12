@@ -115,8 +115,7 @@
                       <p
                         class="text-gray-800 dark:text-gray-200 font-bold text-lg whitespace-nowrap"
                       >
-                        Rp <%= Math.floor(item.price ).toLocaleString("id-ID")
-                        %>
+                        <%= formatCurrency(item.price ) %>
                       </p>
                     </div>
                   </a>
@@ -169,8 +168,7 @@
                         <p
                           class="text-lg text-gray-900 dark:text-white font-medium ml-3"
                         >
-                          Rp <%=
-                          Math.floor(item.cart.total).toLocaleString("id-ID") %>
+                          <%= formatCurrency(item.cart.total) %>
                         </p>
                       </div>
 
