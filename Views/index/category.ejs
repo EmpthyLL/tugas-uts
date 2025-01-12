@@ -11,7 +11,7 @@
     <select
       id="sortBy"
       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200 hover:border-indigo-400"
-      onchange="window.location.href = `?sortBy=${this.value}&order=<%= order %>&search=<%= keyword %>&brand=<%= selectedBrand %>&page=1`"
+      onchange="window.location.href = `?sortBy=${this.value}&order=<%= order %>&brand=<%= selectedBrand %>&page=1`"
     >
       <option value="price" <%= sortBy === 'price' ? 'selected' : '' %>>Price</option>
       <option value="title" <%= sortBy === 'title' ? 'selected' : '' %>>Title</option>
@@ -24,7 +24,7 @@
     <select
       id="order"
       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200 hover:border-indigo-400"
-      onchange="window.location.href = `?order=${this.value}&sortBy=<%= sortBy %>&search=<%= keyword %>&brand=<%= selectedBrand %>&page=1`"
+      onchange="window.location.href = `?order=${this.value}&sortBy=<%= sortBy %>&rand=<%= selectedBrand %>&page=1`"
     >
       <% if (sortBy === "price") { %>
         <option value="asc" <%= order === 'asc' ? 'selected' : '' %>>Ascending</option>
@@ -43,7 +43,7 @@
       id="brand"
       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200 
         <%= brands.length === 0 ? 'bg-gray-200 cursor-not-allowed' : 'hover:border-indigo-400' %>"
-      onchange="window.location.href = `?brand=${this.value}&search=<%= keyword %>&sortBy=<%= sortBy %>&order=<%= order %>&page=1`"
+      onchange="window.location.href = `?brand=${this.value}&sortBy=<%= sortBy %>&order=<%= order %>&page=1`"
       <%= brands.length === 0 ? 'disabled' : '' %>
     >
       <option value="">All Brands</option>
@@ -79,7 +79,7 @@ class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
   </a>
   <div class="flex items-end justify-between p-4 mt-auto">
     <p class="text-gray-800 font-semibold text-lg whitespace-nowrap">
-      Rp <%= Math.floor(product.price * 10000).toLocaleString("id-ID") %>
+      <%= formatCurrency(product.price * 10000) %>
     </p>
     <% if (req.isAuthenticated) { %>
           <div id="quantity-<%= product.id %>" class="flex items-end space-x-2">

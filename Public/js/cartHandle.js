@@ -7,7 +7,7 @@ async function addToCart(productId, quantity) {
     loadingStates[productId] = true;
     toggleButtons(productId, true); // Disable buttons
 
-    const response = await axios.post(`api/cart/add/${productId}`);
+    const response = await axios.post(`/api/cart/add/${productId}`);
     if (response.status === 200 || quantity !== response.data.item.quantity) {
       updateCartDisplay(productId, response.data.item.quantity);
       UpdateCart();
@@ -32,7 +32,7 @@ async function increment(productId) {
     loadingStates[productId] = true;
     toggleButtons(productId, true);
 
-    const response = await axios.post(`api/cart/increment/${productId}`);
+    const response = await axios.post(`/api/cart/increment/${productId}`);
     if (response.status === 200) {
       updateCartDisplay(productId, response.data.quantity);
       if (document.getElementById("shopping-bag")) {
@@ -56,7 +56,7 @@ async function decrement(productId, quantity) {
     loadingStates[productId] = true;
     toggleButtons(productId, true);
 
-    const response = await axios.post(`api/cart/decrement/${productId}`);
+    const response = await axios.post(`/api/cart/decrement/${productId}`);
     if (response.status === 200 || quantity !== response.data.item.quantity) {
       updateCartDisplay(productId, response.data.quantity);
       if (document.getElementById("shopping-bag")) {
@@ -153,7 +153,7 @@ function toggleButtons(productId, disable) {
 }
 async function UpdateCart() {
   try {
-    const response = await axios("api/cart/view");
+    const response = await axios("/api/cart/view");
     const CartPop = document.getElementById("Cart-Pop");
     if (response.status === 403) {
       window.location.href = "/sign-in";
@@ -213,7 +213,7 @@ function format(number) {
 
 async function updateShoppingCart() {
   try {
-    const response = await axios("api/cart/view");
+    const response = await axios("/api/cart/view");
     if (response.status === 403) {
       window.location.href = "/sign-in";
     }

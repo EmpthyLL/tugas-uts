@@ -88,7 +88,7 @@
       </a>
       <div class="flex items-end justify-between p-4 mt-auto">
         <p class="text-gray-800 font-semibold text-lg whitespace-nowrap">
-          Rp <%= Math.floor(product.price * 10000).toLocaleString("id-ID") %>
+          <%= formatCurrency(product.price * 10000) %>
         </p>
         <% if (req.isAuthenticated) { %>
           <div id="quantity-<%= product.id %>" class="flex items-end space-x-2">
