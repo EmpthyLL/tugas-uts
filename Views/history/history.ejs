@@ -18,6 +18,15 @@
           <%= new Date(item.date).toLocaleDateString('en-US', { month: 'long',
           day: 'numeric', year: 'numeric' }) %>
         </p>
+  <% if (history?.length > 0) { %>
+    <div class="space-y-6 mt-6">
+      <% history?.forEach(item => { %>
+        <a href="/history/<%= item.uuid %>" class="flex items-center space-x-6 p-5 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 transition-transform transform hover:scale-105 hover:shadow-xl">
+          <div class="flex flex-col space-y-4 w-full">
+            <!-- Tanggal -->
+            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+              <%= new Date(item.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %>
+            </p>
 
         <!-- Total Belanja -->
         <div class="flex items-center space-x-3">
@@ -42,40 +51,25 @@
           </p>
         </div>
 
-        <!-- Total Item dan Status -->
-        <div class="flex justify-between items-center mt-3">
-          <p class="text-sm text-gray-700 dark:text-gray-300">
-            Total Items: <%= item.cart.items.length %>
-          </p>
-          <div>
-            <% if (item.status) { %> <% if (item.status.toLowerCase() ===
-            "completed") { %>
-            <span
-              class="text-green-600 bg-green-100 dark:bg-green-900 px-3 py-1 rounded-lg text-sm font-medium"
-              ><%= item.status %></span
-            >
-            <% } else if (item.status.toLowerCase() === "inprocess") { %>
-            <span
-              class="text-yellow-600 bg-yellow-100 dark:bg-yellow-900 px-3 py-1 rounded-lg text-sm font-medium"
-              ><%= item.status %></span
-            >
-            <% } else { %>
-            <span
-              class="text-red-600 bg-red-100 dark:bg-red-900 px-3 py-1 rounded-lg text-sm font-medium"
-              ><%= item.status %></span
-            >
-            <% } %> <% } else { %>
-            <span
-              class="text-gray-500 bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-lg text-sm font-medium"
-              >Unknown Status</span
-            >
-            <% } %>
+            <!-- Total Item dan Status -->
+            <div class="flex justify-between items-center mt-3">
+              <p class="text-sm text-gray-700 dark:text-gray-300">Total Items: <%= cart?.items?.length %></p>
+              <div>
+                <% if (item.status) { %>
+                  <% if (item.status.toLowerCase() === "completed") { %>
+                    <span class="text-green-600 bg-green-100 dark:bg-green-900 px-3 py-1 rounded-lg text-sm font-medium"><%= item.status %></span>
+                  <% } else if (item.status.toLowerCase() === "canceled") { %>
+                    <span class="text-yellow-600 bg-yellow-100 dark:bg-yellow-900 px-3 py-1 rounded-lg text-sm font-medium"><%= item.status %></span>
+                  <% } %>
+                <% } else { %>
+                  <span class="text-gray-500 bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-lg text-sm font-medium">Unknown Status</span>
+                <% } %>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </a>
-    <% }) %>
-  </div>
+        </a>
+      <% }) %>
+    </div>
   <% } else { %>
   <p class="text-center text-gray-500 dark:text-gray-400 text-lg mt-6">
     You haven't placed any orders yet.
