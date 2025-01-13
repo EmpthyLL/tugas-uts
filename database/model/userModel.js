@@ -1,6 +1,7 @@
 const { generateRefToken, generateAccToken } = require("../../utils/jwt");
 const { Users } = require("../config/schema");
 const { v4: uuidv4 } = require("uuid");
+const Decimal = require("decimal.js");
 
 class UserModel {
   constructor() {
@@ -89,8 +90,8 @@ class UserModel {
       return -1;
     }
 
-    user.balance = Number(user.balance);
-    user.balance -= price;
+    user.balance = new Decimal(user.balance);
+    user.balance = user.balance.minus(price);
     user.save();
   }
   async topup(uuid, amount) {
@@ -98,8 +99,8 @@ class UserModel {
     if (!user) {
       return -1;
     }
-    user.balance = Number(user.balance);
-    user.balance += amount;
+    user.balance = new Decimal(user.balance);
+    user.balance = user.balance.plus(amount);
     await user.save();
   }
   async cekMemberStatus(uuid) {
@@ -108,7 +109,7 @@ class UserModel {
       return -1;
     }
 
-    if (!user.is_member && !user.member_until) {
+    if (!user.is_member && !user.member_since && !user.member_until) {
       return false;
     }
 
@@ -123,7 +124,7 @@ class UserModel {
       return false;
     }
 
-    return false;
+    return true;
   }
   async becomeMember(uuid, price, type) {
     const user = await this.getUserByUUID(uuid);
@@ -135,20 +136,24 @@ class UserModel {
       return false;
     }
 
-    user.member = true;
-    user.member_since = new Date().toISOString();
+    user.is_member = true;
+    const currentDate = new Date();
+    user.member_since = currentDate.toISOString();
 
-    if (type === "monthly") {
+    if (type === "month") {
       user.member_until = new Date(
         currentDate.setMonth(currentDate.getMonth() + 1)
       ).toISOString();
-    } else if (durationType === "yearly") {
+    } else if (type === "year") {
       user.member_until = new Date(
         currentDate.setFullYear(currentDate.getFullYear() + 1)
       ).toISOString();
+    } else {
+      return;
     }
 
-    user.save();
+    await this.purchase(uuid, price);
+    await user.save();
   }
 }
 

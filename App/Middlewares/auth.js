@@ -22,6 +22,7 @@ async function auth(req, res, next) {
       return handleUnauthenticated(req, res, next);
     }
 
+    await userModel.cekMemberStatus(req.cookies.userId);
     const user = await userModel.getUserByUUID(req.cookies.userId);
 
     if (!user) {
@@ -42,9 +43,11 @@ async function auth(req, res, next) {
     }
     decryptAccToken(token);
     req.isAuthenticated = true;
+    if (user.is_member && req.url === "/become-member") {
+      return res.redirect("/");
+    }
     handleGuestRoute(req, res, next);
   } catch (error) {
-    console.log(error);
     if (error.name === "TokenExpiredError") {
       try {
         const acc_token = await handleTokenRefresh(user);
@@ -52,7 +55,10 @@ async function auth(req, res, next) {
         setCookie(res, "auth_token", acc_token, {
           maxAge: 15 * 60,
         });
-        return next();
+        if (user.is_member && req.url === "/become-member") {
+          return res.redirect("/");
+        }
+        handleGuestRoute(req, res, next);
       } catch (refreshError) {
         if (refreshError.name === "TokenExpiredError") {
           await userModel.removeRefToken(req.cookies.userId);

@@ -3,6 +3,9 @@ const { orderController } = require("../controllers");
 
 const app = express.Router();
 
+app.get("/", (req, res) => {
+  orderController.index(req, res);
+});
 app.get("/:id", (req, res) => {
   orderController.index(req, res);
 });

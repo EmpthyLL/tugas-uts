@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
         method: selectedMethod,
       });
       if (res.status === 200) {
-        window.location.href = "/";
+        window.location.href = `/top-up?success=${res.data.message}`;
       }
       if (res.status === 403) {
         window.location.href = "/sign-in";
