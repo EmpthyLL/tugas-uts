@@ -233,15 +233,16 @@
   }
 
   function updateDeliveryAndTotal(distance) {
-    const deliveryCost = distance * 2500;
-    const curTotal = parseInt(
+    const deliveryCost = Math.ceil(distance) * 2500;
+    let currTotal = new Decimal(
       document
         .getElementById("total")
         .innerText.replace("Rp", "")
-        .replace(".", "")
+        .replaceAll(".", "")
+        .replace(",", ".")
         .trim()
     );
-    const total = curTotal + deliveryCost;
+    currTotal = currTotal.plus(deliveryCost);
 
     // Format to Rupiah (IDR)
     const rupiahFormatter = new Intl.NumberFormat("id-ID", {
@@ -252,7 +253,8 @@
     // Update delivery and total
     document.getElementById("delivery").innerText =
       rupiahFormatter.format(deliveryCost);
-    document.getElementById("total").innerText = rupiahFormatter.format(total);
+    document.getElementById("total").innerText =
+      rupiahFormatter.format(currTotal);
   }
 
   function handleLocation(lat, lng) {

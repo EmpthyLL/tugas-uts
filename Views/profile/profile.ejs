@@ -49,7 +49,8 @@
   <!-- Member Status -->
   <div class="border rounded-lg p-4 bg-gray-50 dark:bg-gray-700 shadow-sm">
     <p class="font-semibold text-gray-700 dark:text-gray-300 text-lg mb-2">Member Status:</p>
-    <% if (user.member) { %>
+    <% if (user.is_member) { %>
+      <p class="text-lg font-bold text-emerald-600">Active</p>
       <div class="mt-2 flex items-center space-x-2">
         <span class="text-emerald-600">
           <!-- Lucide Calendar Icon -->
