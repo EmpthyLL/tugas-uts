@@ -8,7 +8,7 @@ async function addToCart(productId, quantity) {
     toggleButtons(productId, true); // Disable buttons
 
     const response = await axios.post(`/api/cart/add/${productId}`);
-    if (response.status === 200 || quantity !== response.data.item.quantity) {
+    if (response.status === 200 || quantity === response.data.item.quantity) {
       updateCartDisplay(productId, response.data.item.quantity);
       UpdateCart();
       if (document.getElementById("shopping-bag")) {
@@ -57,7 +57,7 @@ async function decrement(productId, quantity) {
     toggleButtons(productId, true);
 
     const response = await axios.post(`/api/cart/decrement/${productId}`);
-    if (response.status === 200 || quantity !== response.data.item.quantity) {
+    if (response.status === 200 || quantity === response.data.item.quantity) {
       updateCartDisplay(productId, response.data.quantity);
       if (document.getElementById("shopping-bag")) {
         updateShoppingCart();
@@ -167,7 +167,7 @@ async function UpdateCart() {
     response.data.cart.items.forEach((item) => {
       navhtml += ` <a
                     href="/product/${item.id}"
-                    class="flex gap-2 items-center bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
+                    class="flex gap-2 items-center m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
                   >
                     <img
                       src="${item.thumbnail}"

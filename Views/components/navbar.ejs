@@ -8,6 +8,7 @@
   >
     <div class="md:col-span-3">
       <!-- Logo -->
+
       <a
         class="flex-none rounded-xl text-3xl text-teal-400 inline-block font-semibold focus:outline-none focus:opacity-80"
         href="/"
@@ -15,14 +16,17 @@
       >
         <img src="/img/logo_A3Mart.png" class="max-w-44" alt="" />
       </a>
+
       <!-- End Logo -->
     </div>
 
     <!-- Button Group -->
+
     <div
       class="flex items-center gap-x-1 md:gap-x-2 ms-auto py-1 md:ps-6 md:order-3 md:col-span-3"
     >
       <% if (!req.isAuthenticated) { %>
+
       <div class="flex gap-2 items-center">
         <a
           href="/sign-in"
@@ -31,6 +35,7 @@
         >
           Sign in
         </a>
+
         <a
           href="/register"
           type="button"
@@ -39,10 +44,13 @@
           Register
         </a>
       </div>
+
       <% } else { %>
+
       <div class="md:flex hidden gap-10 items-center justify-end">
         <div class="flex items-start gap-5">
           <% menus.forEach(menu=> { %> <% if (menu.href) { %>
+
           <div class="relative inline-block">
             <a
               data-popover-placement="bottom"
@@ -53,13 +61,18 @@
                 <%- menu.icon %>
               </span>
             </a>
+
             <!-- Dot -->
+
             <% if (cart.items.length > 0 && menu.title === "Cart") { %>
+
             <span
               class="absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white"
             ></span>
+
             <% } %>
           </div>
+
           <% } %>
 
           <div
@@ -69,6 +82,7 @@
             class="absolute z-10 invisible inline-block w-80 max-h-96 overflow-y-auto text-sm text-gray-700 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 dark:text-gray-300 dark:border-gray-700 dark:bg-gray-800"
           >
             <!-- Header -->
+
             <div
               class="flex items-center justify-between px-4 py-3 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-700 dark:bg-gray-700"
             >
@@ -76,8 +90,10 @@
                 class="font-semibold text-lg gap-2 flex items-center text-gray-900 dark:text-white"
               >
                 <span class="text-slate-950"><%- menu.icon %></span>
+
                 <span><%- menu.title %></span>
               </h3>
+
               <div class="flex items-center p-2 bg-slate-950 rounded-lg">
                 <img src="/img/logo_A3Mart.png" alt="Logo" class="w-20" />
               </div>
@@ -85,11 +101,15 @@
 
             <div class="min-h-36">
               <!-- Cart Section -->
+
               <% if (menu.title === "Cart") { %>
+
               <div id="Cart-Pop">
                 <% if (cart?.items?.length > 0) { %>
+
                 <div>
                   <% cart?.items?.slice(0, 10)?.forEach(item => { %>
+
                   <a
                     href="/product/<%= item.id %>"
                     class="flex gap-2 items-center m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
@@ -99,12 +119,14 @@
                       alt="Product Image"
                       class="w-16 h-16 rounded-md object-cover dark:border-gray-700"
                     />
+
                     <div class="flex-grow space-y-1">
                       <p
                         class="text-base font-semibold text-gray-900 dark:text-white"
                       >
                         <%- item.title %>
                       </p>
+
                       <p
                         class="text-xs text-gray-500 dark:text-gray-400 flex items-center"
                       >
@@ -114,6 +136,7 @@
                           Qty: <%- item.quantity %>
                         </span>
                       </p>
+
                       <p
                         class="text-gray-800 dark:text-gray-200 font-bold text-lg whitespace-nowrap"
                       >
@@ -121,15 +144,21 @@
                       </p>
                     </div>
                   </a>
+
                   <% })%>
                 </div>
+
                 <% } else { %>
+
                 <p class="text-sm text-gray-500 dark:text-gray-400">
                   Your cart is empty.
                 </p>
+
                 <% } %>
               </div>
+
               <% if (cart.items.length > 0 && menu.title === "Cart" ) { %>
+
               <div
                 class="sticky bottom-0 left-0 right-0 py-2 bg-white text-center shadow-md border rounded-t-lg"
               >
@@ -139,14 +168,19 @@
                   >View All</a
                 >
               </div>
+
               <% } %>
 
               <!-- History Section -->
+
               <% } else if (menu.title === "History") { %>
+
               <div>
                 <% if (history?.length > 0) { %>
+
                 <div>
                   <% history?.forEach(item => { %>
+
                   <a
                     href="/history/<%= item.uuid %>"
                     class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 transition-transform hover:scale-105 hover:shadow-xl"
@@ -172,11 +206,14 @@
                           class="lucide lucide-shopping-cart"
                         >
                           <circle cx="8" cy="21" r="1" />
+
                           <circle cx="19" cy="21" r="1" />
+
                           <path
                             d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
                           />
                         </svg>
+
                         <p
                           class="text-lg text-gray-900 dark:text-white font-medium ml-3"
                         >
@@ -187,43 +224,59 @@
                       <div class="flex items-center mt-3">
                         <% if (item.status) { %> <% if
                         (item.status.toLowerCase() === "completed") { %>
+
                         <span class="text-green-500 font-medium pl-12"
                           >✔ <%= item.status %></span
                         >
+
                         <% } else if (item.status.toLowerCase() === "inprocess")
                         { %>
+
                         <span class="text-yellow-500 font-medium pl-12"
                           >⏳ <%= item.status %></span
                         >
+
                         <% } else { %>
+
                         <span class="text-red-500 font-medium pl-12"
                           >❌ <%= item.status %></span
                         >
+
                         <% } %> <% } else { %>
+
                         <span class="text-gray-500 font-medium pl-12"
                           >Unknown Status</span
                         >
+
                         <% } %>
                       </div>
                     </div>
                   </a>
+
                   <% }) %>
                 </div>
+
                 <% } else { %>
+
                 <p
                   class="text-sm text-gray-500 dark:text-gray-400 flex justify-center items-center mt-6"
                 >
                   You haven't done any orders yet.
                 </p>
+
                 <% } %>
               </div>
 
               <!-- Notification Section -->
+
               <% } else if (menu.title === "Notifications") { %>
+
               <div>
                 <% if (notification?.length > 0) { %>
+
                 <div>
                   <% notification?.forEach(notification => { %>
+
                   <a
                     href="/notification"
                     class="flex items-center space-x-4 m-2 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 transition-transform hover:scale-105 hover:shadow-xl"
@@ -242,11 +295,14 @@
                       </p>
                     </div>
                   </a>
+
                   <% }) %>
                 </div>
+
                 <% } else { %>
+
                 <div
-                  class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-4 group-hover:opacity-80 transition-opacity duration-300"
+                  class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -264,74 +320,85 @@
                   </svg>
 
                   <!-- Tulisan acak di kanan -->
+
                   <div class="flex-column">
                     <p class="text-sm text-gray-700 dark:text-white">
                       Hello Welcome!
                     </p>
+
                     <p class="text-sm text-gray-700 dark:text-white">
                       Let's get started.
                     </p>
                   </div>
                 </div>
-                <div
-                  class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-4"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-6"
+                <a href="/become-member">
+                  <div
+                    class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
                   >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"
-                    />
-                  </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"
+                      />
+                    </svg>
 
-                  <!-- Tulisan acak di kanan -->
-                  <div class="flex-column">
-                    <p class="text-sm text-gray-700 dark:text-white">
-                      Become a member!
-                    </p>
-                    <p class="text-sm text-gray-700 dark:text-white">
-                      Enjoy exclusive benefits.
-                    </p>
+                    <!-- Tulisan acak di kanan -->
+
+                    <div class="flex-column">
+                      <p class="text-sm text-gray-700 dark:text-white">
+                        Become a member!
+                      </p>
+
+                      <p class="text-sm text-gray-700 dark:text-white">
+                        Enjoy exclusive benefits.
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div
-                  class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-4"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-6"
+                </a>
+
+                <a href="/top-up">
+                  <div
+                    class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
                   >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"
-                    />
-                  </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"
+                      />
+                    </svg>
 
-                  <!-- Tulisan acak di kanan -->
-                  <div class="flex-column">
-                    <p class="text-sm text-gray-700 dark:text-white">
-                      Top-up successful!
-                    </p>
-                    <p class="text-sm text-gray-700 dark:text-white">
-                      Your balance has been updated.
-                    </p>
+                    <!-- Tulisan acak di kanan -->
+
+                    <div class="flex-column">
+                      <p class="text-sm text-gray-700 dark:text-white">
+                        Top-up successful!
+                      </p>
+
+                      <p class="text-sm text-gray-700 dark:text-white">
+                        Your balance has been updated.
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </a>
 
                 <div
-                  class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-4"
+                  class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -349,10 +416,12 @@
                   </svg>
 
                   <!-- Tulisan acak di kanan -->
+
                   <div class="flex-column">
                     <p class="text-sm text-gray-700 dark:text-white">
                       Order confirmed!
                     </p>
+
                     <p class="text-sm text-gray-700 dark:text-white">
                       We’re processing it now.
                     </p>
@@ -360,7 +429,7 @@
                 </div>
 
                 <div
-                  class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-4"
+                  class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -378,10 +447,12 @@
                   </svg>
 
                   <!-- Tulisan acak di kanan -->
+
                   <div class="flex-column">
                     <p class="text-sm text-gray-700 dark:text-white">
                       Order canceled!
                     </p>
+
                     <p class="text-sm text-gray-700 dark:text-white">
                       Contact us for any questions.
                     </p>
@@ -389,7 +460,7 @@
                 </div>
 
                 <div
-                  class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-4"
+                  class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -405,11 +476,14 @@
                       d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75"
                     />
                   </svg>
+
                   <!-- Tulisan acak di kanan -->
+
                   <div class="flex-column">
                     <p class="text-sm text-gray-700 dark:text-white">
                       Order completed!
                     </p>
+
                     <p class="text-sm text-gray-700 dark:text-white">
                       Thank you for your purchase.
                     </p>
@@ -417,7 +491,7 @@
                 </div>
 
                 <div
-                  class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-4"
+                  class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -435,10 +509,12 @@
                   </svg>
 
                   <!-- Tulisan acak di kanan -->
+
                   <div class="flex-column">
                     <p class="text-sm text-gray-700 dark:text-white">
                       On the way!
                     </p>
+
                     <p class="text-sm text-gray-700 dark:text-white">
                       Your order is heading to the market.
                     </p>
@@ -446,7 +522,7 @@
                 </div>
 
                 <div
-                  class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-4"
+                  class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -464,10 +540,12 @@
                   </svg>
 
                   <!-- Tulisan acak di kanan -->
+
                   <div class="flex-column">
                     <p class="text-sm text-gray-700 dark:text-white">
                       On the way!
                     </p>
+
                     <p class="text-sm text-gray-700 dark:text-white">
                       "Your order has arrived at the market
                     </p>
@@ -475,7 +553,7 @@
                 </div>
 
                 <div
-                  class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-4"
+                  class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -493,10 +571,12 @@
                   </svg>
 
                   <!-- Tulisan acak di kanan -->
+
                   <div class="flex-column">
                     <p class="text-sm text-gray-700 dark:text-white">
                       On the way!
                     </p>
+
                     <p class="text-sm text-gray-700 dark:text-white">
                       Your order is on its way to you, almost there!
                     </p>
@@ -504,7 +584,7 @@
                 </div>
 
                 <div
-                  class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-4"
+                  class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -522,26 +602,29 @@
                   </svg>
 
                   <!-- Tulisan acak di kanan -->
+
                   <div class="flex-column">
                     <p class="text-sm text-gray-700 dark:text-white">
                       Arrived!
                     </p>
+
                     <p class="text-sm text-gray-700 dark:text-white">
                       Your order has arrived
                     </p>
                   </div>
                 </div>
 
-                <p class="text-sm text-gray-500 dark:text-gray-400">
-                  No notifications yet. Stay tuned!
-                </p>
                 <% } %>
               </div>
+
               <% } %>
             </div>
+
             <!-- Popover Arrow -->
+
             <div data-popper-arrow></div>
           </div>
+
           <% }) %>
         </div>
 
@@ -553,6 +636,7 @@
         >
           <div class="flex items-center gap-2">
             <!-- Profile Image -->
+
             <div
               class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-white overflow-hidden flex items-center justify-center shadow-md bg-white dark:bg-neutral-800"
             >
@@ -564,6 +648,7 @@
             </div>
 
             <!-- Text Content (Only shown on medium screens) -->
+
             <div
               class="text-white font-semibold text-sm md:text-base truncate flex-grow min-w-0 hidden lg:block"
             >
@@ -571,6 +656,7 @@
             </div>
           </div>
         </a>
+
         <div
           data-popover
           id="user-profile"
@@ -579,18 +665,21 @@
         >
           <div class="p-4">
             <!-- Profile Picture and Basic Info -->
+
             <a href="/profile" class="flex items-center mb-3">
               <img
                 class="w-12 h-12 object-cover rounded-full border-2 shadow-sm border-gray-600"
                 src="<%= user.profile_pic || '/img/profile.webp' %>"
                 alt="Profile Picture"
               />
+
               <div class="ml-3">
                 <p
                   class="text-base font-semibold text-gray-900 dark:text-white"
                 >
                   <%= user.fullname %>
                 </p>
+
                 <p class="text-sm text-gray-500 dark:text-gray-400">
                   <%= user.email %>
                 </p>
@@ -598,21 +687,26 @@
             </a>
 
             <!-- Balance Information -->
+
             <div class="mb-4">
               <p class="text-sm font-medium text-gray-600 dark:text-gray-300">
                 Balance:
               </p>
+
               <p class="text-lg font-semibold text-gray-800">
                 <%= formatCurrency(user.balance) %>
               </p>
             </div>
 
             <!-- Additional Information -->
+
             <% if (user.is_member) { %>
+
             <div class="mb-4">
               <p class="text-sm font-medium text-gray-600 dark:text-gray-300">
                 Member Since:
               </p>
+
               <p class="text-sm text-gray-900 dark:text-gray-400">
                 <%= formatDate(user.member_since) %>
               </p>
@@ -622,15 +716,18 @@
               <p class="text-sm font-medium text-gray-600 dark:text-gray-300">
                 Account Status:
               </p>
+
               <p
                 class="text-sm text-green-600 dark:text-green-500 font-semibold"
               >
                 Active
               </p>
             </div>
+
             <% } else { %>
 
             <!-- Non-Member Specific Menu -->
+
             <div class="mb-4">
               <a
                 href="/become-member"
@@ -639,9 +736,11 @@
                 Become a Member
               </a>
             </div>
+
             <% } %>
 
             <!-- Logout Button -->
+
             <div class="mt-4">
               <button
                 type="submit"
@@ -652,10 +751,13 @@
               </button>
             </div>
           </div>
+
           <div data-popper-arrow></div>
         </div>
       </div>
+
       <% } %>
+
       <div class="md:hidden">
         <button
           type="button"
@@ -679,9 +781,12 @@
             stroke-linejoin="round"
           >
             <line x1="3" x2="21" y1="6" y2="6" />
+
             <line x1="3" x2="21" y1="12" y2="12" />
+
             <line x1="3" x2="21" y1="18" y2="18" />
           </svg>
+
           <svg
             class="hs-collapse-open:block hidden shrink-0"
             xmlns="http://www.w3.org/2000/svg"
@@ -695,6 +800,7 @@
             stroke-linejoin="round"
           >
             <path d="M18 6 6 18" />
+
             <path d="m6 6 12 12" />
           </svg>
         </button>
@@ -704,6 +810,7 @@
     <!-- End Button Group -->
 
     <!-- Collapse -->
+
     <div
       id="hs-navbar-hcail"
       class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block md:w-auto md:basis-auto md:order-2 md:col-span-6"
@@ -715,6 +822,7 @@
       >
         <div class="flex items-center gap-4">
           <!-- Profile Image -->
+
           <div
             class="rounded-full overflow-hidden flex items-center justify-center w-12 h-12 shadow-md bg-white dark:bg-neutral-800"
           >
@@ -724,14 +832,17 @@
           </div>
 
           <!-- Text Content -->
+
           <div class="text-white font-semibold text-xl">
             Hi, User!
+
             <span class="block text-lg font-light"
               >Please login to get more access!</span
             >
           </div>
         </div>
       </a>
+
       <div class="flex items-center md:mt-0 mt-3 gap-4 justify-center">
         <form
           id="searchForm"
@@ -752,8 +863,10 @@
             class="lucide lucide-search"
           >
             <circle cx="11" cy="11" r="8" />
+
             <path d="m21 21-4.3-4.3" />
           </svg>
+
           <input type="search" name="search" value="<%= req.query.search || ""
           %>" placeholder="Search for product..." class="w-full bg-transparent
           font-light text-base flex items-center justify-center
@@ -762,9 +875,12 @@
         </form>
 
         <% if (req.isAuthenticated) { %>
+
         <!-- Dynamic Menu for Mobile View -->
+
         <div class="md:hidden justify-center items-center flex gap-2">
           <% menus.forEach(menu=> { %> <% if (menu.href) { %>
+
           <a
             href="<%- menu.href %>"
             class="p-2 rounded-md text-gray-600 border-white border flex items-center justify-center text-center hover:bg-slate-600 bg-slate-700 dark:text-gray-300 dark:hover:bg-neutral-800 transition-colors duration-150 ease-in-out"
@@ -772,15 +888,20 @@
           >
             <span class="hover:text-lime-400 text-white"><%- menu.icon %></span>
           </a>
+
           <% }}) %>
         </div>
+
         <% } %>
       </div>
     </div>
+
     <!-- End Collapse -->
   </nav>
 </header>
+
 <!-- ========== END HEADER ========== -->
+
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/js/navbar.js"></script>
 <script src="/js/logout.js"></script>

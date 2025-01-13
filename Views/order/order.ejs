@@ -233,7 +233,7 @@
   }
 
   function updateDeliveryAndTotal(distance) {
-    const deliveryCost = Math.ceil(distance) * 2500;
+    const deliveryCost = Math.round(distance) * 2500;
     let currTotal = new Decimal(
       document
         .getElementById("total")
