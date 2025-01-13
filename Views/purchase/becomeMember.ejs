@@ -210,7 +210,7 @@
         />
       </svg>
       <h3 class="text-2xl font-semibold text-gray-800 mb-2">ANNUAL</h3>
-      <h1 class="text-3xl text-blue-700 font-bold mb-4">Rp. 270,000 / year</h1>
+      <h1 class="text-3xl text-blue-700 font-bold mb-4">Rp. 275,000 / year</h1>
       <p class="text-xl text-gray-600">For Annual Membership</p>
       <button
         id="annual-button"
@@ -290,19 +290,17 @@
             >
               Close
             </button>
-            <form method="post" action="/top-up" id="join-member">
-              <input type="hidden" name="price" id="price-value" />
-              <button
-                onclick="return confirm('Lakukan pembayaran.')"
-                class="py-2 px-4 text-sm font-medium rounded-lg border border-transparent bg-lime-500 text-white hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-700 dark:bg-lime-600 dark:hover:bg-lime-700 dark:focus:ring-lime-700"
-              >
-                Proceed to Payment
-              </button>
-            </form>
+            <button
+              id="pay-button"
+              class="py-2 px-4 text-sm font-medium rounded-lg border border-transparent bg-lime-500 text-white hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-700 dark:bg-lime-600 dark:hover:bg-lime-700 dark:focus:ring-lime-700"
+            >
+              Proceed to Payment
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/js/member.js"></script>
