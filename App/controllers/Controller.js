@@ -82,6 +82,7 @@ class BaseController {
       cart = await cartModel.getUserCartList(req.cookies.userId);
       history = await historyModel.getHistories(req.cookies.userId);
       notification = await notifModel.getNotif(req.cookies.userId);
+      await cartModel.updatePrice(cart.id, user.is_member);
     }
     return { user, cart, history, notification };
   }

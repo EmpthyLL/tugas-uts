@@ -29,6 +29,12 @@ class HomeController extends Controller {
       } else {
         this.view = "index/index";
       }
+
+      const member = req.query.member;
+
+      if (member) {
+        req.flash("member", member);
+      }
       const options = {
         layout: `components/${this.layout}`,
         title: this.title,
@@ -43,6 +49,7 @@ class HomeController extends Controller {
         totalPage: this.totalPage,
         totalItem: this.totalItem,
         page: this.page,
+        member: req.flash("member") || [],
       };
       this.renderView(res, this.view, options);
     } catch (error) {
