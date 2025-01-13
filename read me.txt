@@ -34,7 +34,7 @@ d) A3 Mart (Always Available Anywhere)
 
 - Select Category * 
 
-- Session * 
+- Refresh Token * 
 
 - Set Profile Picture * 
 

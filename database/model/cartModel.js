@@ -71,6 +71,13 @@ class CartModel {
       total: item.total,
     }));
   }
+  async getCartItem(item_id, uuid) {
+    const cart = await this.getUserCart(uuid);
+    const item = await CartItems.findOne({
+      where: { cart_id: cart.id, item_id },
+    });
+    return item;
+  }
   async createCart(uuid) {
     const { id } = await userModel.getUserByUUID(uuid);
     await Carts.create({
