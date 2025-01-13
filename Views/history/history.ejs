@@ -6,57 +6,70 @@
   <% if (history?.length > 0) { %>
   <div class="space-y-6 mt-6">
     <% history?.forEach(item => { %>
-      <form method="get" action="/history/<%= item.uuid %>">
-        <button class="flex items-center space-x-6 p-5 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 transition-transform transform hover:scale-105 hover:shadow-xl">
-          <div class="flex flex-col space-y-4 w-full">
-            <!-- Tanggal -->
-            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
-              <%= new Date(item.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %>
+    <form method="get" action="/history/<%= item.uuid %>">
+      <button
+        class="flex items-center space-x-6 p-5 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 transition-transform transform hover:scale-105 hover:shadow-xl"
+      >
+        <div class="flex flex-col space-y-4 w-full">
+          <!-- Tanggal -->
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+            <%= new Date(item.date).toLocaleDateString('en-US', { month: 'long',
+            day: 'numeric', year: 'numeric' }) %>
+          </p>
+
+          <!-- Logo -->
+          <div class="flex items-center">
+            <img src="/img/a3mart.png" alt="Logo" class="w-6 h-6 rounded-md" />
+          </div>
+
+          <!-- Total Belanja -->
+          <div class="flex items-center justify-between">
+            <p class="text-lg font-semibold text-gray-800 dark:text-white">
+              <%= formatCurrency(item.cart.total) %>
             </p>
+            <p class="text-sm text-gray-500 dark:text-gray-300">
+              <span class="font-medium"><%= driver.name %></span> | <%=
+              driver.plat_num %>
+            </p>
+          </div>
 
-            <!-- Logo -->
-            <div class="flex items-center">
-              <img src="/img/a3mart.png" alt="Logo" class="w-6 h-6 rounded-md">
-            </div>
-
-            <!-- Total Belanja -->
-            <div class="flex items-center justify-between">
-              <p class="text-lg font-semibold text-gray-800 dark:text-white">
-                <%= formatCurrency(item.cart.total) %>
-              </p>
-              <p class="text-sm text-gray-500 dark:text-gray-300">
-                <span class="font-medium"><%= driver.name %></span> | <%= driver.plat_num %>
-              </p>
-            </div>
-
-            <!-- Total Item dan Status -->
-            <div class="flex justify-between items-center mt-3">
-              <p class="text-sm text-gray-700 dark:text-gray-300">Total Items: <%= cart.items.length %></p>
-              <div>
-                <% if (item.status) { %>
-                  <% if (item.status.toLowerCase() === "completed") { %>
-                    <span class="text-green-600 bg-green-100 dark:bg-green-900 px-3 py-1 rounded-lg text-sm font-medium">
-                      <%= item.status %>
-                    </span>
-                  <% } else if (item.status.toLowerCase() === "canceled") { %>
-                    <span class="text-yellow-600 bg-yellow-100 dark:bg-yellow-900 px-3 py-1 rounded-lg text-sm font-medium">
-                      <%= item.status %>
-                    </span>
-                  <% } else { %>
-                    <span class="text-gray-500 bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-lg text-sm font-medium">
-                      Unknown Status
-                    </span>
-                  <% } %>
-                <% } else { %>
-                  <span class="text-gray-500 bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-lg text-sm font-medium">
-                    Unknown Status
-                  </span>
-                <% } %>
-              </div>
+          <!-- Total Item dan Status -->
+          <div class="flex justify-between items-center mt-3">
+            <p class="text-sm text-gray-700 dark:text-gray-300">
+              Total Items: <%= cart.items.length %>
+            </p>
+            <div>
+              <% if (item.status) { %> <% if (item.status.toLowerCase() ===
+              "completed") { %>
+              <span
+                class="text-green-600 bg-green-100 dark:bg-green-900 px-3 py-1 rounded-lg text-sm font-medium"
+              >
+                <%= item.status %>
+              </span>
+              <% } else if (item.status.toLowerCase() === "canceled") { %>
+              <span
+                class="text-yellow-600 bg-yellow-100 dark:bg-yellow-900 px-3 py-1 rounded-lg text-sm font-medium"
+              >
+                <%= item.status %>
+              </span>
+              <% } else { %>
+              <span
+                class="text-gray-500 bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-lg text-sm font-medium"
+              >
+                Unknown Status
+              </span>
+              <% } %> <% } else { %>
+              <span
+                class="text-gray-500 bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-lg text-sm font-medium"
+              >
+                Unknown Status
+              </span>
+              <% } %>
             </div>
           </div>
-        </button>
-      </form>
+        </div>
+      </button>
+    </form>
     <% }) %>
   </div>
   <% } else { %>
