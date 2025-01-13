@@ -1,4 +1,5 @@
 const Controller = require("./Controller");
+const historyModel = require("../../database/model/historyModel.js")
 
 class HistoryController extends Controller {
   constructor() {
@@ -29,6 +30,23 @@ class HistoryController extends Controller {
       this.handleError(res, "Failed to render about page", 500);
     }
   }
+
+  async getHistoryData(req, res) {
+      try {
+        const history = await historyModel.getHistories(req.cookies.userId);
+        if (!history) {
+          return res.status(404).json({ message: "History not found" });
+        }
+        res.status(200).json({ message: "History retrieved successfully", history });
+      } catch (error) {
+        console.error(error);
+        res
+          .status(500)
+          .json({ message: error.message || "Failed to retrieve history data" });
+      }
+    }
 }
+
+
 
 module.exports = HistoryController;
