@@ -3,7 +3,7 @@ const Controller = require("./Controller");
 class NotifController extends Controller {
   constructor() {
     super();
-    this.view = "notification/notifList";
+    this.view = "notification/notification";
     this.layout = "layout";
     this.title = "Notification";
     this.user = {};
