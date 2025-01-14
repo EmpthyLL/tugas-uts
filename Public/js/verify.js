@@ -120,6 +120,9 @@ async function handleSubmit(event) {
         </div>`;
     submitButton.innerHTML = html;
     submitButton.disabled = true;
+    inputs.forEach((input) => {
+      input.disabled = true;
+    });
   }
 }
 
