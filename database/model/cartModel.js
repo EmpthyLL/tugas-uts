@@ -19,9 +19,9 @@ class CartModel {
     return cart;
   }
   async getUserCartList(uuid) {
-    const user = await userModel.getUserByUUID(uuid);
+    const { id } = await userModel.getUserByUUID(uuid);
     const cart = await Carts.findOne({
-      where: { user_id: user.id },
+      where: { user_id: id, deleted_at: null },
       order: [["created_at", "DESC"]],
       include: [
         {
@@ -155,7 +155,8 @@ class CartModel {
       (
         parseFloat(cart.cart_total) +
         parseFloat(cart.tax) -
-        parseFloat(cart.member_discount)
+        parseFloat(cart.member_discount) +
+        parseFloat(cart.delivery)
       ).toFixed(2)
     );
     await cart.save();

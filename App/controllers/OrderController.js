@@ -1,3 +1,4 @@
+const historyModel = require("../../database/model/historyModel");
 const Controller = require("./Controller");
 
 class OrderController extends Controller {
@@ -6,7 +7,36 @@ class OrderController extends Controller {
     this.view = "order/order";
     this.layout = "layout";
     this.title = "Order";
-    this.order = {};
+    this.status = {
+      1: {
+        label: "Completed",
+        description: "The order has been successfully delivered.",
+      },
+      2: {
+        label: "Canceled",
+        description: "The order was canceled by the user or driver.",
+      },
+      3: {
+        label: "To Mart",
+        description: "The driver is heading to the mart.",
+      },
+      4: {
+        label: "At Mart",
+        description: "The driver has arrived at the mart.",
+      },
+      5: {
+        label: "Processed",
+        description: "The order has been picked and paid for.",
+      },
+      6: {
+        label: "To User",
+        description: "The driver is heading to the user.",
+      },
+      7: {
+        label: "Arrived",
+        description: "The driver has arrived at the user's location.",
+      },
+    };
   }
 
   async index(req, res) {
@@ -26,13 +56,39 @@ class OrderController extends Controller {
       this.handleError(res, "Failed to render map page", 500);
     }
   }
+  async createOrder(req, res) {
+    try {
+      const { delivery } = req.body;
+
+      if (!delivery) {
+        return res
+          .status(400)
+          .json({ message: "Delivery details are required" });
+      }
+
+      const order = await historyModel.createOrder(
+        req.cookies.userId,
+        delivery
+      );
+
+      return res.status(201).json({
+        message: "Order created successfully",
+        order,
+      });
+    } catch (error) {
+      console.error("Error creating order:", error);
+      return res.status(500).json({
+        message: "An error occurred while creating the order",
+        error: error.message,
+      });
+    }
+  }
+
   complete(req, res) {
-    this.user = getAuthUser(req, res, true);
     this.history.orderDone(req.userid, this.order.uuid);
     res.redirect(`/order/${this.order.uuid}/rate-driver`);
   }
   cancel(req, res) {
-    this.user = getAuthUser(req, res, true);
     this.history.orderCancel(req.userid, this.order.uuid);
     res.redirect(`/`);
   }

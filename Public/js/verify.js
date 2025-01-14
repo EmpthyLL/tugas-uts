@@ -49,6 +49,7 @@ function resendOtp(e) {
 async function handleSubmit(event) {
   event.preventDefault();
   let inputs = document.querySelectorAll(".otp-input");
+  const submitButton = document.getElementById("submitButton");
   let isFormValid = true;
   let otpValue = "";
   inputs.forEach((input) => {
@@ -113,6 +114,12 @@ async function handleSubmit(event) {
       document.getElementById("invalidOtpMessage");
     invalidOtpMessageElement.classList.add("hidden");
     form.submit();
+    const html = `<div class="flex items-center justify-center space-x-2">
+          <div class="h-6 w-6 animate-spin rounded-full border-4 border-lime-300 border-t-transparent"> </div>
+          <span>Looking for Driver...</span>
+        </div>`;
+    submitButton.innerHTML = html;
+    submitButton.disabled = true;
   }
 }
 

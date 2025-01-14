@@ -79,7 +79,7 @@
         Shopping Bag
       </h2>
 
-      <% cart.items.forEach(item => { %>
+      <% cart?.items?.forEach(item => { %>
       <div
         class="flex items-start border-b border-gray-300 pb-4 mb-4"
         id="product-<%= item.id %>"
@@ -141,170 +141,33 @@
       </div>
       <button
         id="order"
-        class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300 ease-in-out mt-5"
+        onclick="orderDriver(<%- cart?.items?.reduce((quantity, item) => quantity += item.quantity, 0) %>)"
+        class="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition duration-300 ease-in-out mt-5 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Order Driver
+      </button>
+      <button
+        id="confirm"
+        onclick="confirmOrder()"
+        class="w-full hidden bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition duration-300 ease-in-out mt-5 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Confirm Order
+      </button>
+      <button
+        id="cancel"
+        class="w-full hidden bg-gray-500 text-white py-3 rounded-lg font-semibold hover:bg-gray-600 transition duration-300 ease-in-out mt-5 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Cancel Order
       </button>
     </div>
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script
   src="https://cdnjs.cloudflare.com/ajax/libs/decimal.js/9.0.0/decimal.js"
   integrity="sha512-j7XClNLgl5hebr3jl5xMoEpuaniuP60N1Sz62xHwJSbuCgUNgP0kDZCGFbUAphBB6dgk7WxMnwKmP6vsY7fV7g=="
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
 ></script>
-<script>
-  const locations = [
-    { name: "Alfamart", lat: 3.5784, lng: 98.6789 },
-    { name: "Indomaret", lat: 3.5953, lng: 98.6743 },
-    { name: "Alfamidi", lat: 3.5952, lng: 98.678 },
-  ];
-
-  const map = L.map("map").setView([3.5952, 98.678], 13);
-
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(map);
-
-  const icons = {
-    start: L.icon({
-      iconUrl:
-        "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [0, -41],
-    }),
-    user: L.icon({
-      iconUrl:
-        "https://cdn2.iconfinder.com/data/icons/font-awesome/1792/map-marker-32.png",
-      iconSize: [32, 32],
-      iconAnchor: [16, 32],
-      popupAnchor: [0, -32],
-    }),
-  };
-
-  function calculateDistance(lat1, lng1, lat2, lng2) {
-    const R = 6371; // Earth radius in kilometers
-    const dLat = ((lat2 - lat1) * Math.PI) / 180;
-    const dLng = ((lng2 - lng1) * Math.PI) / 180;
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos((lat1 * Math.PI) / 180) *
-        Math.cos((lat2 * Math.PI) / 180) *
-        Math.sin(dLng / 2) *
-        Math.sin(dLng / 2);
-    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); // distance in kilometers
-  }
-
-  function findClosestMart(userLat, userLng) {
-    let closestMart = null;
-    let minDistance = Infinity;
-
-    locations.forEach((location) => {
-      const distance = calculateDistance(
-        userLat,
-        userLng,
-        location.lat,
-        location.lng
-      );
-      if (distance < minDistance) {
-        minDistance = distance;
-        closestMart = location;
-      }
-    });
-    return closestMart;
-  }
-
-  function displayRoute(startLat, startLng, endLat, endLng) {
-    L.Routing.control({
-      waypoints: [L.latLng(startLat, startLng), L.latLng(endLat, endLng)],
-      routeWhileDragging: false,
-      lineOptions: { styles: [{ color: "blue", opacity: 0.7, weight: 5 }] },
-      createMarker: () => null,
-    }).addTo(map);
-
-    map.fitBounds([
-      [startLat, startLng],
-      [endLat, endLng],
-    ]);
-  }
-
-  function updateDeliveryAndTotal(distance) {
-    const deliveryCost = Math.round(distance) * 2500;
-    let currTotal = new Decimal(
-      document
-        .getElementById("total")
-        .innerText.replace("Rp", "")
-        .replaceAll(".", "")
-        .replace(",", ".")
-        .trim()
-    );
-    currTotal = currTotal.plus(deliveryCost);
-
-    // Format to Rupiah (IDR)
-    const rupiahFormatter = new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-    });
-
-    // Update delivery and total
-    document.getElementById("delivery").innerText =
-      rupiahFormatter.format(deliveryCost);
-    document.getElementById("total").innerText =
-      rupiahFormatter.format(currTotal);
-  }
-
-  function handleLocation(lat, lng) {
-    const closestMart = findClosestMart(lat, lng);
-
-    if (closestMart) {
-      L.marker([lat, lng], { icon: icons.user })
-        .addTo(map)
-        .bindPopup("You are here")
-        .openPopup();
-
-      L.marker([closestMart.lat, closestMart.lng], { icon: icons.start })
-        .addTo(map)
-        .bindPopup(closestMart.name)
-        .openPopup();
-    }
-  }
-
-  // Wait until the "Order Driver" button is clicked
-  document.getElementById("order").addEventListener("click", () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const userLat = pos.coords.latitude;
-          const userLng = pos.coords.longitude;
-
-          handleLocation(userLat, userLng);
-
-          // Find closest mart and display route
-          const closestMart = findClosestMart(userLat, userLng);
-
-          if (closestMart) {
-            displayRoute(userLat, userLng, closestMart.lat, closestMart.lng);
-
-            // Calculate and update delivery and total cost
-            const distance = calculateDistance(
-              userLat,
-              userLng,
-              closestMart.lat,
-              closestMart.lng
-            );
-            updateDeliveryAndTotal(distance);
-          }
-        },
-        () => {
-          alert("Unable to retrieve your location.");
-        }
-      );
-    } else {
-      alert("Geolocation is not supported by this browser.");
-    }
-  });
-</script>
+<script src="/js/order.js"></script>

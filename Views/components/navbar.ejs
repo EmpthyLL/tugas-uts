@@ -64,7 +64,7 @@
 
             <!-- Dot -->
 
-            <% if (cart.items.length > 0 && menu.title === "Cart") { %>
+            <% if (cart?.items?.length > 0 && menu.title === "Cart") { %>
 
             <span
               class="absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white"
@@ -157,7 +157,7 @@
                 <% } %>
               </div>
 
-              <% if (cart.items.length > 0 && menu.title === "Cart" ) { %>
+              <% if (cart?.items?.length > 0 && menu.title === "Cart" ) { %>
 
               <div
                 class="sticky bottom-0 left-0 right-0 py-2 bg-white text-center shadow-md border rounded-t-lg"
@@ -817,7 +817,7 @@
       aria-labelledby="hs-navbar-hcail-collapse"
     >
       <a
-        href="/sign-in"
+        href="<%=req.isAuthenticated ? '/profile' : '/sign-in'%>"
         class="md:hidden flex flex-shrink-0 mt-2 bg-gradient-to-r from-emerald-400 to-lime-300 rounded-lg px-4 py-3 shadow-lg"
       >
         <div class="flex items-center gap-4">
@@ -834,10 +834,11 @@
           <!-- Text Content -->
 
           <div class="text-white font-semibold text-xl">
-            Hi, User!
+            Hi,<%= req.isAuthenticated ? user.fullname : "User"%>!
 
             <span class="block text-lg font-light"
-              >Please login to get more access!</span
+              ><%=req.isAuthenticated ? `Welcome to A3Mart! Enjoy shopping with
+              us!` : `Please login to get more access!` %></span
             >
           </div>
         </div>
