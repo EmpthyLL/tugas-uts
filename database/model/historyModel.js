@@ -43,6 +43,10 @@ class HistoryModel {
     });
     return histories;
   }
+  async getHistoryByUUID(uuid){
+    const history = await Histories.findOne({ where : {uuid}});
+    return history || null;
+  }
   async createOrder(uuid, cart_id) {
     const { id } = await userModel.getUserByUUID(uuid);
     await cartModel.deleteCart(cart_id);

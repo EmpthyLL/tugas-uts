@@ -7,7 +7,7 @@ app.get("/", async (req, res) => {
   historyController.index(req, res);
 });
 app.get("/:uuid", async (req, res) => {
-  historyController.index(req, res);
+  historyController.detail(req, res);
 });
 
 module.exports = app;
