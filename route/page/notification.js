@@ -3,7 +3,7 @@ const { notifController } = require("../controllers");
 
 const app = express.Router();
 
-app.get("/notification", async (req, res) => {
+app.get("/", async (req, res) => {
   notifController.index(req, res);
 });
 
