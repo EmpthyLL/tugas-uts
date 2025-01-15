@@ -134,7 +134,7 @@ class CartController extends Controller {
       if (this.user.history[0].status === "Ongoing") {
         res.redirect(`/order/${this.user.history[0].uuid}`);
       }
-    }
+    } 
 
     const price = this.user.cart.total;
 
