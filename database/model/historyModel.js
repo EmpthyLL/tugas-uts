@@ -27,6 +27,7 @@ class HistoryModel {
     });
     return histories;
   }
+  
   async getHistory(id) {
     const histories = await Histories.findOne({
       where: { id },
@@ -45,23 +46,25 @@ class HistoryModel {
     });
     return histories;
   }
-  async createOrder(uuid, delivery) {
-    const { id } = await userModel.getUserByUUID(uuid);
-    let cart = await cartModel.getUserCart(uuid);
-    cart.delivery = delivery;
-    await cart.save();
-    await cartModel.updatePrice(cart.id);
-    const driver_id = Math.floor(Math.random() * 70) + 1;
-    await Histories.create({
-      uuid: uuidv4(),
-      user_id: id,
-      cart_id: cart.id,
-      driver_id,
+  async getHistorybyUUID(uuid) {
+    const history = await Histories.findOne({
+      where: { uuid },
     });
-    cart = await cartModel.getCart(cart.id);
-    await userModel.purchase(uuid, cart.total);
-    await cartModel.deleteCart(cart.id);
+  
+    if (!history) {
+      throw new Error("History not found");
+    }
+  
+    const user = await userModel.getUserById(history.user_id);
+    const cart = await cartModel.getCart(history.cart_id);
+  
+    return {
+      history,
+      user,
+      cart,
+    };
   }
+  
   async updateStatus(id, status_num) {
     const order = await Histories.findOne({ where: { id } });
     order.status = status_num;

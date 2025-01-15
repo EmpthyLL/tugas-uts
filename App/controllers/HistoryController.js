@@ -53,6 +53,28 @@ class HistoryController extends Controller {
     }
   }
 
+  async detail(req,res){
+    try {
+      const { uuid } = req.params;
+      const history = await historyModel.getHistorybyUUID(uuid);
+
+      if(!history){
+        res.status(400).json({message: 'History Not Found'})
+      }
+      return res.status(200).json({
+        success: true,
+        data: history,
+      });
+    } catch (error) {
+      console.error("Error fetching history detail:", error);
+      return res.status(500).json({
+        success: false,
+        message: "An error occurred while retrieving history details",
+        error: error.message,
+      });
+    }
+  }
+  
   async getHistoryData(req, res) {
     try {
       const history = await historyModel.getHistories(req.cookies.userId);
