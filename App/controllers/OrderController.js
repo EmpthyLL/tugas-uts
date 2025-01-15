@@ -9,36 +9,6 @@ class OrderController extends Controller {
     this.view = "order/order";
     this.layout = "layout";
     this.title = "Order";
-    this.status = {
-      1: {
-        label: "Completed",
-        description: "The order has been successfully delivered.",
-      },
-      2: {
-        label: "Canceled",
-        description: "The order was canceled by the user or driver.",
-      },
-      3: {
-        label: "To Mart",
-        description: "The driver is heading to the mart.",
-      },
-      4: {
-        label: "At Mart",
-        description: "The driver has arrived at the mart.",
-      },
-      5: {
-        label: "Processed",
-        description: "The order has been picked and paid for.",
-      },
-      6: {
-        label: "To User",
-        description: "The driver is heading to the user.",
-      },
-      7: {
-        label: "Arrived",
-        description: "The driver has arrived at the user's location.",
-      },
-    };
   }
 
   async index(req, res) {

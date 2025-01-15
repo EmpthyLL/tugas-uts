@@ -1,7 +1,7 @@
 <body class="bg-gray-50 p-8">
   <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
     <div>
-      <!-- Header History -->
+      <!-- Header data -->
       <div class="bg-gray-800 p-4 rounded-lg shadow-md">
         <div class="flex justify-between items-center mb-4">
           <!-- Logo Section -->
@@ -11,9 +11,8 @@
 
           <!-- Date and Time Section -->
           <p class="text-sm text-gray-400">
-            <%= new Date(user.history[0].date).toLocaleDateString('en-US', {
-            day: 'numeric', month: 'short' }) %>, <%= new
-            Date(user.history[0].date).toLocaleTimeString('en-US', { hour:
+            <%= formatDate(data?.created_at) %>, <%= new
+            Date(data?.created_at).toLocaleTimeString('en-US', { hour:
             'numeric', minute: 'numeric', hour12: true }) %>
           </p>
         </div>
@@ -21,25 +20,23 @@
         <div class="flex justify-between items-center mb-4">
           <!-- Status Section -->
           <div>
-            <% if (user.history[0].status) { %> <% if
-            (user.history[0].status.toLowerCase() === "delivered") { %>
+            <% if (data?.status) { %> <% if (data?.status === 1) { %>
             <span
               class="text-green-500 font-medium bg-green-100 px-2 py-1 rounded-lg"
             >
-              <%= user.history[0].status %>
+              <%= data?.status_name %>
             </span>
-            <% } else if (user.history[0].status.toLowerCase() === "inprocess")
-            { %>
-            <span
-              class="text-yellow-500 font-medium bg-yellow-100 px-2 py-1 rounded-lg"
-            >
-              <%= user.history[0].status %>
-            </span>
-            <% } else { %>
+            <% } else if (data?.status === 2) { %>
             <span
               class="text-red-500 font-medium bg-red-100 px-2 py-1 rounded-lg"
             >
-              <%= user.history[0].status %>
+              <%= data?.status_name %>
+            </span>
+            <% } else { %>
+            <span
+              class="text-yellow-500 font-medium bg-yellow-100 px-2 py-1 rounded-lg"
+            >
+              <%= data?.status_name %>
             </span>
             <% } %> <% } else { %>
             <span
@@ -51,9 +48,7 @@
           </div>
 
           <!-- UUID Section -->
-          <p class="text-gray-400 text-xs font-mono">
-            <%= user.history[0].uuid %>
-          </p>
+          <p class="text-gray-400 text-xs font-mono"><%= data.uuid %></p>
         </div>
       </div>
 
@@ -98,14 +93,14 @@
       <!-- Driver Info -->
       <div class="flex items-center">
         <img
-          src="/img/uploads/ProfilePic/1731170059164.jpg"
+          src="<%= user.profile_pic || '/img/profile.webp' %>"
           alt="Profile"
           class="mt-5 rounded-full w-20 h-20"
         />
 
         <div class="ml-2 mt-3">
-          <p class="text-gray-500"><%= user.history[0].driver.vehicle %></p>
-          <p class="font-bold text-lg"><%= user.history[0].driver.name %></p>
+          <p class="text-gray-500"><%= data?.driver?.plat_num %></p>
+          <p class="font-bold text-lg"><%= data?.driver?.name %></p>
         </div>
       </div>
       <hr class="mt-3 border-gray-400 dark:border-gray-700" />
@@ -138,10 +133,10 @@
 
       <!-- Shopping List -->
       <p class="text-gray-700 font-bold my-3">Shopping List</p>
-      <% user.history[0].cart.items.forEach(item => { %>
+      <% data?.cart?.items?.forEach(item => { %>
       <div class="flex justify-between text-gray-500">
-        <p><%= item.quantity %> X <%= item.title %></p>
-        <p><%= formatCurrency(item.price * 10000) %></p>
+        <p><%= item?.quantity %> X <%= item?.title %></p>
+        <p><%= formatCurrency(item?.price) %></p>
       </div>
       <hr class="my-3 border-gray-300 dark:border-gray-400" />
       <% }) %>
@@ -151,24 +146,24 @@
       <div>
         <div class="flex justify-between text-gray-500">
           <p class="">Total Price</p>
-          <p><%= formatCurrency(user.history[0].cart.cart_total) %></p>
+          <p><%= formatCurrency(data?.cart?.cart_total) %></p>
         </div>
         <div class="flex justify-between text-gray-500">
           <p class="">Tax</p>
-          <p><%= formatCurrency(user.history[0].cart.tax) %></p>
+          <p><%= formatCurrency(data?.cart?.tax) %></p>
         </div>
         <div class="flex justify-between text-gray-500">
           <p class="">Member Discount</p>
-          <p><%= formatCurrency(user.history[0].cart.member_discount) %></p>
+          <p><%= formatCurrency(data?.cart?.member_discount) %></p>
         </div>
         <div class="flex justify-between text-gray-500">
           <p class="">Delivery Cost</p>
-          <p><%= formatCurrency(user.history[0].cart.delivery) %></p>
+          <p><%= formatCurrency(data?.cart?.delivery) %></p>
         </div>
         <hr class="border-gray-400 dark:border-gray-700 my-3" />
         <div class="flex justify-between font-bold">
           <p class="">Total Payment</p>
-          <p><%= formatCurrency(user.history[0].cart.total) %></p>
+          <p><%= formatCurrency(data?.cart?.total) %></p>
         </div>
       </div>
     </div>
