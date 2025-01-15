@@ -128,12 +128,17 @@
 
     <!-- Checkout Button -->
     <div class="mt-6 w-full">
-      <a
-        href="/order"
-        class="w-full flex justify-center items-center bg-blue-600 text-white py-3 rounded-lg font-semibold hover:opacity-70 transition duration-300 ease-in-out"
+      <button
+        onclick="window.location.href = '/order'"
+        <%="cart?.items"
+        &&
+        cart?.items?.length
       >
+        0 ? '' : 'disabled' %> class="w-full bg-blue-500 text-white py-3
+        rounded-lg font-semibold hover:bg-blue-600 transition duration-300
+        ease-in-out mt-5 disabled:opacity-50 disabled:cursor-not-allowed" >
         Checkout
-      </a>
+      </button>
     </div>
   </div>
 

@@ -54,10 +54,27 @@ class CartController extends Controller {
   async incrementItem(req, res) {
     try {
       const { id: item_id } = req.params;
-      const newQuantity = await cartModel.AddQuantity(
-        item_id,
-        req.cookies.userId
-      );
+      const exist = await cartModel.getCartItem(item_id, req.cookies.userId);
+      let newQuantity;
+      if (exist) {
+        newQuantity = await cartModel.AddQuantity(item_id, req.cookies.userId);
+      } else {
+        newQuantity = 1;
+        const { data } = await axios.get(
+          `https://dummyjson.com/products/${item_id}`
+        );
+        const newItem = {
+          item_id: data.id,
+          title: data.title,
+          price: data.price,
+          brand: data.brand || null,
+          category: data.category,
+          thumbnail: data.thumbnail,
+          quantity: newQuantity,
+        };
+
+        await cartModel.addItem(req.cookies.userId, newItem);
+      }
       res
         .status(200)
         .json({ message: "Item quantity incremented", quantity: newQuantity });
@@ -73,10 +90,16 @@ class CartController extends Controller {
   async decrementItem(req, res) {
     try {
       const { id: item_id } = req.params;
-      const newQuantity = await cartModel.ReduceQuantity(
-        item_id,
-        req.cookies.userId
-      );
+      const exist = await cartModel.getCartItem(item_id, req.cookies.userId);
+      let newQuantity;
+      if (exist) {
+        newQuantity = await cartModel.ReduceQuantity(
+          item_id,
+          req.cookies.userId
+        );
+      } else {
+        newQuantity = 0;
+      }
       res
         .status(200)
         .json({ message: "Item quantity decremented", quantity: newQuantity });

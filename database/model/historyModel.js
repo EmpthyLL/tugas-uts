@@ -1,6 +1,8 @@
 const { Histories, Drivers, Carts, CartItems } = require("../config/schema");
+const { v4: uuidv4 } = require("uuid");
 const cartModel = require("./cartModel");
 const userModel = require("./userModel");
+const { Op } = require("sequelize");
 
 class HistoryModel {
   constructor() {
@@ -25,6 +27,7 @@ class HistoryModel {
     });
     return histories;
   }
+  
   async getHistory(id) {
     const histories = await Histories.findOne({
       where: { id },
@@ -43,12 +46,25 @@ class HistoryModel {
     });
     return histories;
   }
-  async createOrder(uuid, cart_id) {
-    const { id } = await userModel.getUserByUUID(uuid);
-    await cartModel.deleteCart(cart_id);
-    const driver_id = Math.floor(Math.random() * 70) + 1;
-    await Histories.create({ user_id: id, cart_id, driver_id });
+  async getHistorybyUUID(uuid) {
+    const history = await Histories.findOne({
+      where: { uuid },
+    });
+  
+    if (!history) {
+      throw new Error("History not found");
+    }
+  
+    const user = await userModel.getUserById(history.user_id);
+    const cart = await cartModel.getCart(history.cart_id);
+  
+    return {
+      history,
+      user,
+      cart,
+    };
   }
+  
   async updateStatus(id, status_num) {
     const order = await Histories.findOne({ where: { id } });
     order.status = status_num;
@@ -80,6 +96,17 @@ class HistoryModel {
     const history = await this.getHistory(id);
     history.rating = rate;
     await history.save();
+  }
+  async cekOnProccess(uuid) {
+    const { id } = await userModel.getUserByUUID(uuid);
+    const histories = await Histories.findOne({
+      where: {
+        user_id: id,
+        status: { [Op.notIn]: [1, 2] },
+      },
+      order: [["created_at", "DESC"]],
+    });
+    return histories;
   }
 }
 
