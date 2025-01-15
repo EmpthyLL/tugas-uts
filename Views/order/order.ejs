@@ -78,8 +78,7 @@
       >
         Shopping Bag
       </h2>
-
-      <% cart?.items?.forEach(item => { %>
+      <% if (cart?.items?.length > 0) { %> <% cart?.items?.forEach(item => { %>
       <div
         class="flex items-start border-b border-gray-300 pb-4 mb-4"
         id="product-<%= item.id %>"
@@ -93,7 +92,9 @@
         </a>
         <div class="flex-1">
           <h3 class="font-semibold text-lg"><%= item.title %></h3>
-          <p class="text-gray-500">Price: <%= formatCurrency(item.price) %></p>
+          <p class="text-gray-500">
+            Price: <%= formatCurrency(item.price || 0,00) %>
+          </p>
           <p class="text-gray-500">Brand: <%= item.brand %></p>
           <p class="text-gray-500">Category: <%= item.category %></p>
         </div>
@@ -101,11 +102,15 @@
           <label class="text-gray-500 mb-1">Quantity</label>
           <p class="mt-4 font-bold text-lg"><%= item.quantity %></p>
           <p class="mt-4 font-bold text-lg">
-            <%= formatCurrency(item.total) %>
+            <%= formatCurrency(item.total || 0,00) %>
           </p>
         </div>
       </div>
-      <% }) %>
+      <% }) %> <% } else { %>
+      <div class="text-center text-gray-500">
+        <p>Your shopping bag is currently empty.</p>
+      </div>
+      <% } %>
     </div>
 
     <!-- Order Summary -->
@@ -119,31 +124,40 @@
       <div class="space-y-2" id="order-summary">
         <div class="flex justify-between">
           <span>Subtotal</span>
-          <span id="subtotal"><%= formatCurrency(cart.cart_total) %></span>
+          <span id="subtotal"
+            ><%= formatCurrency(cart.cart_total || 0,00) %></span
+          >
         </div>
         <div class="flex justify-between">
           <span>Delivery</span>
-          <span id="delivery">0</span>
+          <span id="delivery"><%= formatCurrency(cart.tax || 0,00) %></span>
         </div>
         <div class="flex justify-between">
           <span>Tax</span>
-          <span><%= formatCurrency(cart.tax) %></span>
+          <span><%= formatCurrency(cart.tax || 0,00) %></span>
         </div>
         <div class="flex justify-between text-red-600">
           <span>Member Discount</span>
-          <span>- <%= formatCurrency(cart.member_discount) %></span>
+          <span>- <%= formatCurrency(cart.member_discount || 0,00) %></span>
         </div>
       </div>
 
       <div class="flex justify-between text-xl font-bold mt-6">
         <span>Total</span>
-        <span id="total"><%= formatCurrency(cart.total) %></span>
+        <span id="total"><%= formatCurrency(cart.total || 0,00) %></span>
       </div>
+
+      <% if (!req.params.id) { %>
       <button
         id="order"
         onclick="orderDriver(<%- cart?.items?.reduce((quantity, item) => quantity += item.quantity, 0) %>)"
-        class="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition duration-300 ease-in-out mt-5 disabled:opacity-50 disabled:cursor-not-allowed"
+        <%="cart?.items"
+        &&
+        cart?.items?.length
       >
+        0 ? '' : 'disabled' %> class="w-full bg-blue-500 text-white py-3
+        rounded-lg font-semibold hover:bg-blue-600 transition duration-300
+        ease-in-out mt-5 disabled:opacity-50 disabled:cursor-not-allowed" >
         Order Driver
       </button>
       <button
@@ -153,12 +167,14 @@
       >
         Confirm Order
       </button>
+      <% } else { %>
       <button
         id="cancel"
         class="w-full hidden bg-gray-500 text-white py-3 rounded-lg font-semibold hover:bg-gray-600 transition duration-300 ease-in-out mt-5 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Cancel Order
       </button>
+      <% } %>
     </div>
   </div>
 </div>

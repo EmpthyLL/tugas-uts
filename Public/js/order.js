@@ -173,7 +173,12 @@ async function confirmOrder() {
   confirmButton.innerHTML = html;
   confirmButton.disabled = true;
   const res = await axios.post("/api/order", { delivery });
-  console.log(res.data);
+  if (res.status === 201) {
+    window.location.reload();
+  }
+  else(res.status === 403){
+    window.location = "/sign-in";
+  }
 }
 async function cancelOrder(created_at) {
   const html = `<div class="flex items-center justify-center space-x-2">

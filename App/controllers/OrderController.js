@@ -1,3 +1,4 @@
+const cartModel = require("../../database/model/cartModel");
 const historyModel = require("../../database/model/historyModel");
 const Controller = require("./Controller");
 
@@ -41,11 +42,31 @@ class OrderController extends Controller {
 
   async index(req, res) {
     try {
+      const orderId = req.params.id;
+      const cart = await cartModel.getUserCartList(req.cookies.userId);
+      if (cart?.items === undefined) {
+        return res.redirect("/");
+      }
+      let inProcces = {};
+      if (orderId) {
+        this.order = await historyModel.getHistory(orderId);
+        if (!this.order) {
+          return res.redirect("/order");
+        }
+      } else {
+        inProcces = await historyModel.cekOnProccess(req.cookies.userId);
+        this.order = inProcces;
+        if (inProcces) {
+          return res.redirect(`/order/${inProcces.uuid}`);
+        }
+      }
+
       const options = {
         layout: `components/${this.layout}`,
         title: this.title,
         req,
         order: this.order,
+        inProcces,
       };
 
       this.renderView(res, this.view, options);

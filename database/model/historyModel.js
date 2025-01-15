@@ -2,6 +2,7 @@ const { Histories, Drivers, Carts, CartItems } = require("../config/schema");
 const { v4: uuidv4 } = require("uuid");
 const cartModel = require("./cartModel");
 const userModel = require("./userModel");
+const { Op } = require("sequelize");
 
 class HistoryModel {
   constructor() {
@@ -92,6 +93,17 @@ class HistoryModel {
     const history = await this.getHistory(id);
     history.rating = rate;
     await history.save();
+  }
+  async cekOnProccess(uuid) {
+    const { id } = await userModel.getUserByUUID(uuid);
+    const histories = await Histories.findOne({
+      where: {
+        user_id: id,
+        status: { [Op.notIn]: [1, 2] },
+      },
+      order: [["created_at", "DESC"]],
+    });
+    return histories;
   }
 }
 

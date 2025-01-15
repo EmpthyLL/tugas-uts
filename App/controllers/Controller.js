@@ -54,7 +54,6 @@ class BaseController {
         toastr: options.req.toastr,
       });
     } catch (error) {
-      console.log(error);
       this.handleError(res, error.message, 404);
     }
   }
