@@ -31,28 +31,27 @@ class HistoryController extends Controller {
     }
   }
 
-  // async detail(req, res) {
-  //   try {
-  //     const { uuid } = req.params;
-  //     const orderDetail = await historyModel.getHistoryByUUID(uuid);
-  //     if (!orderDetail) {
-  //       return res.status(404).send("Order not found");
-  //     }
-  //     const options = {
-  //       layout: `components/${this.layout}`,
-  //       title: `Detail Order #${uuid}`,
-  //       req,
-  //       order: orderDetail, 
-  //     };
+  async detail(req, res) {
+    try {
+      const { uuid }  = req.params;
+      const orderDetail = await historyModel.getHistoryByUUID(uuid);
+      if (!orderDetail) {
+        return res.status(404).send("Order not found");
+      }
+      const options = {
+        layout: `components/${this.layout}`,
+        title: `Detail Order #${uuid}`,
+        req,
+        order: orderDetail, 
+      };
   
-  //     this.renderView(res, "history/historyDetail", options);
-  //   } catch (error) {
-  //     console.error(error);
-  //     this.handleError(res, "Failed to render history detail page", 500);
-  //   }
-  // }
+      this.renderView(res, `history/${uuid}`, options);
+    } catch (error) {
+      console.error(error);
+      this.handleError(res, "Failed to render history detail page", 500);
+    }
+  }
   
-
   async getHistoryData(req, res) {
       try {
         const history = await historyModel.getHistories(req.cookies.userId);
