@@ -10,8 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const paybutton = document.getElementById("payment");
   const clearDropdown = document.getElementById("clear-dropdown");
 
-  let inputedAmount = "";
-  let selectedMethod = "";
+  let inputedAmount = 0;
+  let selectedMethod = 0;
 
   document.addEventListener("click", (event) => {
     if (
@@ -23,59 +23,50 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   function formatAmount(value) {
-    let formattedValue = originalValue.replace(/\D/g, "");
-
-    formattedValue = formattedValue.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-
-    input.value = formattedValue;
-
-    let newCursorPosition = cursorPosition;
-
-    if (formattedValue !== originalValue) {
-      const numCommasBefore = (
-        originalValue.slice(0, cursorPosition).match(/,/g) || []
-      ).length;
-      const numCommasAfter = (
-        formattedValue.slice(0, cursorPosition).match(/,/g) || []
-      ).length;
-      newCursorPosition += numCommasAfter - numCommasBefore;
-    }
-
-    input.setSelectionRange(newCursorPosition, newCursorPosition);
-  }
-
-  function updateAmount() {
-    const amount = amountInput.value.replace(/\D/g, "");
-    inputedAmount = amount;
-    validateConfirmButton();
+    value = value.replace(/\D/g, "");
+    return value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
   function formatAmount(value) {
     value = value.replace(/\D/g, "");
 
+    if (/^0+$/.test(value)) return "0";
+
+    value = value.replace(/^0+/, "");
+
     return value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   }
 
-  amountInput.addEventListener("input", function (e) {
+  amountInput.addEventListener("input", function () {
     const cursorPos = amountInput.selectionStart;
-    const oldValue = amountInput.value;
+    const rawValue = amountInput.value.replace(/,/g, "");
+    const formattedValue = formatAmount(rawValue);
 
-    const formattedValue = formatAmount(amountInput.value);
+    inputedAmount = Number(rawValue);
+    amountInput.value = formatAmount(formattedValue);
 
-    let newCursorPos = cursorPos;
-    if (formattedValue.length > oldValue.length) {
-      newCursorPos += formattedValue.length - oldValue.length;
-    }
+    const commasBeforeCursor = (
+      amountInput.value.slice(0, cursorPos).match(/,/g) || []
+    ).length;
+    const rawCommasBefore = (rawValue.slice(0, cursorPos).match(/,/g) || [])
+      .length;
+    const adjustedCursorPos =
+      cursorPos + (commasBeforeCursor - rawCommasBefore);
 
-    amountInput.setSelectionRange(newCursorPos, newCursorPos);
+    amountInput.setSelectionRange(adjustedCursorPos, adjustedCursorPos);
 
-    updateAmount();
+    validateConfirmButton();
   });
 
   amountButtons.forEach((button) => {
     button.addEventListener("click", function () {
-      amountInput.value = button.textContent.replace(".5k", ",500").trim();
-      updateAmount();
+      const rawValue = button.textContent
+        .replace(".5k", "500")
+        .replace(/,/g, "")
+        .trim();
+      amountInput.value = formatAmount(rawValue);
+      inputedAmount = rawValue;
+      validateConfirmButton();
     });
   });
 
@@ -86,28 +77,28 @@ document.addEventListener("DOMContentLoaded", function () {
         opt.classList.remove("bg-lime-100", "ring-2", "ring-lime-500")
       );
       option.classList.add("bg-lime-100", "ring-2", "ring-lime-500");
-      const label = `
-          <img
-            src="/img/topup/${selectedMethod.toLowerCase()}.png"
-            alt="Indomaret"
-            class="w-10 h-10 rounded-full object-contain"
-          />
-          <span>${selectedMethod}</span>`;
-      dropdownLabel.innerHTML = label;
+
+      dropdownLabel.innerHTML = `
+        <img
+          src="/img/topup/${selectedMethod.toLowerCase()}.png"
+          alt="${selectedMethod}"
+          class="w-10 h-10 rounded-full object-contain"
+        />
+        <span>${selectedMethod}</span>`;
       dropdownMenu.classList.add("hidden");
       validateConfirmButton();
       clearDropdown.classList.remove("hidden");
     });
   });
 
-  document.getElementById("hs-dropdown").addEventListener("click", (event) => {
+  dropdownTrigger.addEventListener("click", (event) => {
     event.stopPropagation();
     dropdownMenu.classList.toggle("hidden");
   });
 
   clearDropdown.addEventListener("click", () => {
     selectedMethod = "";
-    dropdownLabel.textContent = "Choose your top up method";
+    dropdownLabel.textContent = "Choose your top-up method";
     validateConfirmButton();
     clearDropdown.classList.add("hidden");
     storeOptions.forEach((opt) =>
@@ -132,6 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("topup-message").textContent = topupMessage;
     confirmModal.classList.remove("hidden");
   });
+
   paybutton.addEventListener("click", async () => {
     const dopay = confirm("Lakukan Pembayaran");
     if (dopay) {

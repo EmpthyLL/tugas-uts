@@ -181,17 +181,17 @@
                 <% if (history?.length > 0) { %>
 
                 <div>
-                  <% history?.forEach(item => { %>
+                  <% history?.slice(0, 10)?.forEach(item => { %>
 
                   <a
-                    href="/history/<%= item.uuid %>"
+                    href="/<%= item.status !== 1 || item.status !== 2 ? "order" : "history" %>/<%= item.uuid %>"
                     class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 transition-transform hover:scale-105 hover:shadow-xl"
                   >
                     <div>
                       <p
                         class="text-sm font-semibold text-gray-900 dark:text-white"
                       >
-                        <%= formatDate(item.date) %>
+                        <%= formatDate(item.created_at) %>
                       </p>
 
                       <div class="flex items-center mt-2">
@@ -225,23 +225,23 @@
 
                       <div class="flex items-center mt-3">
                         <% if (item.status) { %> <% if
-                        (item.status.toLowerCase() === "completed") { %>
+                        (item.status === 1) { %>
 
                         <span class="text-green-500 font-medium pl-12"
-                          >✔ <%= item.status %></span
+                          >✔ <%= item.status_name %></span
                         >
 
-                        <% } else if (item.status.toLowerCase() === "inprocess")
+                        <% } else if (item.status === 2)
                         { %>
 
-                        <span class="text-yellow-500 font-medium pl-12"
-                          >⏳ <%= item.status %></span
+                        <span class="text-red-500 font-medium pl-12"
+                          >❌ <%= item.status_name %></span
                         >
 
                         <% } else { %>
 
-                        <span class="text-red-500 font-medium pl-12"
-                          >❌ <%= item.status %></span
+                        <span class="text-slate-500 font-medium pl-12"
+                          >⏳ <%= item.status_name %></span
                         >
 
                         <% } %> <% } else { %>
