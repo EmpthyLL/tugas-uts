@@ -11,9 +11,9 @@
 
           <!-- Date and Time Section -->
           <p class="text-sm text-gray-400">
-            <%= new Date(user.history[0].date).toLocaleDateString('en-US', {
+            <%= new Date(history?.created_at).toLocaleDateString('en-US', {
             day: 'numeric', month: 'short' }) %>, <%= new
-            Date(user.history[0].date).toLocaleTimeString('en-US', { hour:
+            Date(history?.created_at).toLocaleTimeString('en-US', { hour:
             'numeric', minute: 'numeric', hour12: true }) %>
           </p>
         </div>
@@ -21,25 +21,25 @@
         <div class="flex justify-between items-center mb-4">
           <!-- Status Section -->
           <div>
-            <% if (user.history[0].status) { %> <% if
-            (user.history[0].status.toLowerCase() === "delivered") { %>
+            <% if (history?.status) { %> <% if
+            (history?.status.toLowerCase() === "delivered") { %>
             <span
               class="text-green-500 font-medium bg-green-100 px-2 py-1 rounded-lg"
             >
-              <%= user.history[0].status %>
+              <%= history?.status %>
             </span>
-            <% } else if (user.history[0].status.toLowerCase() === "inprocess")
+            <% } else if (history?.status.toLowerCase() === "inprocess")
             { %>
             <span
               class="text-yellow-500 font-medium bg-yellow-100 px-2 py-1 rounded-lg"
             >
-              <%= user.history[0].status %>
+              <%= history?.status %>
             </span>
             <% } else { %>
             <span
               class="text-red-500 font-medium bg-red-100 px-2 py-1 rounded-lg"
             >
-              <%= user.history[0].status %>
+              <%= history?.status %>
             </span>
             <% } %> <% } else { %>
             <span
@@ -52,7 +52,7 @@
 
           <!-- UUID Section -->
           <p class="text-gray-400 text-xs font-mono">
-            <%= user.history[0].uuid %>
+            <%= history.uuid %>
           </p>
         </div>
       </div>
@@ -104,8 +104,8 @@
         />
 
         <div class="ml-2 mt-3">
-          <p class="text-gray-500"><%= user.history[0].driver.vehicle %></p>
-          <p class="font-bold text-lg"><%= user.history[0].driver.name %></p>
+          <p class="text-gray-500"><%= history?.driver.vehicle %></p>
+          <p class="font-bold text-lg"><%= history?.driver.name %></p>
         </div>
       </div>
       <hr class="mt-3 border-gray-400 dark:border-gray-700" />
@@ -138,7 +138,7 @@
 
       <!-- Shopping List -->
       <p class="text-gray-700 font-bold my-3">Shopping List</p>
-      <% user.history[0].cart.items.forEach(item => { %>
+      <% history?.cart.items.forEach(item => { %>
       <div class="flex justify-between text-gray-500">
         <p><%= item.quantity %> X <%= item.title %></p>
         <p><%= formatCurrency(item.price * 10000) %></p>
@@ -151,24 +151,24 @@
       <div>
         <div class="flex justify-between text-gray-500">
           <p class="">Total Price</p>
-          <p><%= formatCurrency(user.history[0].cart.cart_total) %></p>
+          <p><%= formatCurrency(history?.cart.cart_total) %></p>
         </div>
         <div class="flex justify-between text-gray-500">
           <p class="">Tax</p>
-          <p><%= formatCurrency(user.history[0].cart.tax) %></p>
+          <p><%= formatCurrency(history?.cart.tax) %></p>
         </div>
         <div class="flex justify-between text-gray-500">
           <p class="">Member Discount</p>
-          <p><%= formatCurrency(user.history[0].cart.member_discount) %></p>
+          <p><%= formatCurrency(history?.cart.member_discount) %></p>
         </div>
         <div class="flex justify-between text-gray-500">
           <p class="">Delivery Cost</p>
-          <p><%= formatCurrency(user.history[0].cart.delivery) %></p>
+          <p><%= formatCurrency(history?.cart.delivery) %></p>
         </div>
         <hr class="border-gray-400 dark:border-gray-700 my-3" />
         <div class="flex justify-between font-bold">
           <p class="">Total Payment</p>
-          <p><%= formatCurrency(user.history[0].cart.total) %></p>
+          <p><%= formatCurrency(history?.cart.total) %></p>
         </div>
       </div>
     </div>
