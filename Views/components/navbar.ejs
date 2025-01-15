@@ -66,7 +66,7 @@
 
             <!-- Dot -->
 
-            <% if (cart.items.length > 0 && menu.title === "Cart") { %>
+            <% if (cart?.items?.length > 0 && menu.title === "Cart") { %>
 
             <span class="absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white"></span>
 
@@ -100,10 +100,14 @@
 
             </div>
 
+<<<<<<< HEAD
 
 
             <div class="min-h-36">
 
+=======
+            <div>
+>>>>>>> 9566d1ae5065d340aa170ebe57d7e9c9681715e1
               <!-- Cart Section -->
 
               <% if (menu.title === "Cart") { %>
@@ -154,8 +158,14 @@
 
                 <% } else { %>
 
+<<<<<<< HEAD
                 <p class="text-sm text-gray-500 dark:text-gray-400">
 
+=======
+                <p
+                  class="text-sm text-gray-500 dark:text-gray-400 flex justify-center items-center mt-2 mb-32"
+                >
+>>>>>>> 9566d1ae5065d340aa170ebe57d7e9c9681715e1
                   Your cart is empty.
 
                 </p>
@@ -164,7 +174,7 @@
 
               </div>
 
-              <% if (cart.items.length > 0 && menu.title === "Cart" ) { %>
+              <% if (cart?.items?.length > 0 && menu.title === "Cart" ) { %>
 
               <div class="sticky bottom-0 left-0 right-0 py-2 bg-white text-center shadow-md border rounded-t-lg">
 
@@ -258,8 +268,14 @@
 
                 <% } else { %>
 
+<<<<<<< HEAD
                 <p class="text-sm text-gray-500 dark:text-gray-400 flex justify-center items-center mt-6">
 
+=======
+                <p
+                  class="text-sm text-gray-500 dark:text-gray-400 flex justify-center items-center mt-2 mb-32"
+                >
+>>>>>>> 9566d1ae5065d340aa170ebe57d7e9c9681715e1
                   You haven't done any orders yet.
 
                 </p>
@@ -827,7 +843,13 @@
                   
                 </div>
 
+<<<<<<< HEAD
                 <p class="text-sm text-gray-500 dark:text-gray-400">
+=======
+                <p
+                  class="text-sm text-gray-500 dark:text-gray-400 flex justify-center items-center mt-2 mb-32"
+                >
+>>>>>>> 9566d1ae5065d340aa170ebe57d7e9c9681715e1
                   No notifications yet. Stay tuned!
                 </p>
                 <% } %>
@@ -1039,10 +1061,22 @@
 
     <!-- Collapse -->
 
+<<<<<<< HEAD
     <div id="hs-navbar-hcail" class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block md:w-auto md:basis-auto md:order-2 md:col-span-6" aria-labelledby="hs-navbar-hcail-collapse">
 
       <a href="/sign-in" class="md:hidden flex flex-shrink-0 mt-2 bg-gradient-to-r from-emerald-400 to-lime-300 rounded-lg px-4 py-3 shadow-lg">
 
+=======
+    <div
+      id="hs-navbar-hcail"
+      class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block md:w-auto md:basis-auto md:order-2 md:col-span-6"
+      aria-labelledby="hs-navbar-hcail-collapse"
+    >
+      <a
+        href="<%=req.isAuthenticated ? '/profile' : '/sign-in'%>"
+        class="md:hidden flex flex-shrink-0 mt-2 bg-gradient-to-r from-emerald-400 to-lime-300 rounded-lg px-4 py-3 shadow-lg"
+      >
+>>>>>>> 9566d1ae5065d340aa170ebe57d7e9c9681715e1
         <div class="flex items-center gap-4">
 
           <!-- Profile Image -->
@@ -1060,11 +1094,20 @@
           <!-- Text Content -->
 
           <div class="text-white font-semibold text-xl">
+<<<<<<< HEAD
 
             Hi, User!
 
             <span class="block text-lg font-light">Please login to get more access!</span>
 
+=======
+            Hi,<%= req.isAuthenticated ? user.fullname : "User"%>!
+
+            <span class="block text-lg font-light"
+              ><%=req.isAuthenticated ? `Welcome to A3Mart! Enjoy shopping with
+              us!` : `Please login to get more access!` %></span
+            >
+>>>>>>> 9566d1ae5065d340aa170ebe57d7e9c9681715e1
           </div>
 
         </div>

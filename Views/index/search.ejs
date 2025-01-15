@@ -120,7 +120,7 @@
               <span
                 id="quantity-display-<%=product.id%>"
                 class="text-gray-800 font-semibold"
-                ><%= cart.items.find(item => item.id === product.id).quantity %></span
+                ><%= cart?.items?.find(item => item.id === product.id).quantity %></span
               >
               <button
                 onclick="increaseQuantity(event, '<%= product.id %>')"
