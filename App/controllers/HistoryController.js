@@ -4,9 +4,13 @@ const historyModel = require("../../database/model/historyModel.js");
 class HistoryController extends Controller {
   constructor() {
     super();
-    this.view = "history/history";
+    this.view = [
+      "history/history",
+      "history/historyDetail"
+    ];
     this.layout = "layout";
     this.title = "Order History";
+    this.step = 0
     this.status = {
       1: {
         label: "Completed",
@@ -46,7 +50,7 @@ class HistoryController extends Controller {
         req,
       };
 
-      this.renderView(res, this.view, options);
+      this.renderView(res, this.view[this.step], options);
     } catch (error) {
       console.log(error);
       this.handleError(res, "Failed to render about page", 500);
@@ -61,7 +65,7 @@ class HistoryController extends Controller {
       if(!history){
         res.status(400).json({message: 'History Not Found'})
       }
-      return res.status(200).json({
+      return res.status(200).render(this.view[1], {
         success: true,
         data: history,
       });
@@ -77,7 +81,7 @@ class HistoryController extends Controller {
   
   async getHistoryData(req, res) {
     try {
-      const history = await historyModel.getHistories(req.cookies.userId);
+      const history = await historyModel.getHistory(req.cookies.userId);
       if (!history) {
         return res.status(404).json({ message: "History not found" });
       }

@@ -55,7 +55,7 @@ class HistoryModel {
       throw new Error("History not found");
     }
   
-    const user = await userModel.getUserById(history.user_id);
+    const user = await userModel.getUserByUUID(uuid);
     const cart = await cartModel.getCart(history.cart_id);
   
     return {
