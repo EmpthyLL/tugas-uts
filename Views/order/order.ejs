@@ -104,7 +104,7 @@
           <label class="text-gray-500 mb-1">Quantity</label>
           <p class="mt-4 font-bold text-lg"><%= item.quantity %></p>
           <p class="mt-4 font-bold text-lg">
-            <%= formatCurrency(item.total || order.cart || 0,00) %>
+            <%= formatCurrency(item.total || 0,00) %>
           </p>
         </div>
       </div>
@@ -127,26 +127,28 @@
         <div class="flex justify-between">
           <span>Subtotal</span>
           <span id="subtotal"
-            ><%= formatCurrency(cart.cart_total || order.cart.cart_total ||
+            ><%= formatCurrency(cart?.cart_total || order?.cart?.cart_total ||
             0,00) %></span
           >
         </div>
         <div class="flex justify-between">
           <span>Delivery</span>
           <span id="delivery"
-            ><%= formatCurrency(cart.delivery || order.cart.delivery || 0,00)
+            ><%= formatCurrency(cart?.delivery || order?.cart?.delivery || 0,00)
             %></span
           >
         </div>
         <div class="flex justify-between">
           <span>Tax</span>
-          <span><%= formatCurrency(cart.tax || order.cart.tax || 0,00) %></span>
+          <span
+            ><%= formatCurrency(cart?.tax || order?.cart?.tax || 0,00) %></span
+          >
         </div>
         <div class="flex justify-between text-red-600">
           <span>Member Discount</span>
           <span
-            >- <%= formatCurrency(cart.member_discount ||
-            order.cart.member_discount || 0,00) %></span
+            >- <%= formatCurrency(cart?.member_discount ||
+            order?.cart?.member_discount || 0,00) %></span
           >
         </div>
       </div>
@@ -154,7 +156,7 @@
       <div class="flex justify-between text-xl font-bold mt-6 pb-4 border-b">
         <span>Total</span>
         <span id="total"
-          ><%= formatCurrency(cart.total || order.cart.total || 0,00) %></span
+          ><%= formatCurrency(cart?.total || order?.cart.total || 0,00) %></span
         >
       </div>
 

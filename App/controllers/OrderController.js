@@ -67,7 +67,7 @@ class OrderController extends Controller {
         layout: `components/${this.layout}`,
         title: this.title,
         req,
-        order: this.order || {},
+        order: this.order,
       };
       this.renderView(res, this.view, options);
     } catch (error) {
@@ -85,7 +85,6 @@ class OrderController extends Controller {
           .status(400)
           .json({ message: "Delivery details are required" });
       }
-
       const balance = await userModel.cekBalance(req.cookies.userId);
       if (total > parseFloat(balance)) {
         return res.status(400).json({
@@ -93,7 +92,7 @@ class OrderController extends Controller {
         });
       }
 
-      await historyModel.createOrder(req.cookies.userId, delivery);
+      await historyModel.createOrder(req.cookies.userId, delivery, total);
 
       return res.status(201).json({
         message: "Order created successfully",
@@ -108,12 +107,10 @@ class OrderController extends Controller {
   async cancelOrder(req, res) {
     try {
       await historyModel.cancelOrder(req.cookies.userId, req.params.id);
-
       return res.status(200).json({
         message: "Order canceled successfully",
       });
     } catch (error) {
-      console.log(error);
       return res.status(500).json({
         message: "An error occurred while cancling the order",
         error: error.message,

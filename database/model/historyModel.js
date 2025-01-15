@@ -80,12 +80,12 @@ class HistoryModel {
       },
     };
   }
-  async createOrder(uuid, delivery) {
+  async createOrder(uuid, delivery, total) {
     const user = await userModel.getUserByUUID(uuid);
     let cart = await cartModel.getUserCart(uuid);
     cart.delivery = delivery;
     await cart.save();
-    await cartModel.updatePrice(cart.id);
+    await cartModel.updatePrice(cart.id, user.is_member);
     const driver_id = Math.floor(Math.random() * 70) + 1;
     await Histories.create({
       uuid: uuidv4(),
@@ -94,7 +94,7 @@ class HistoryModel {
       driver_id,
     });
     cart = await cartModel.getCart(cart.id);
-    await userModel.purchase(uuid, cart.total);
+    await userModel.purchase(uuid, total);
     await cartModel.deleteCart(cart.id);
   }
   async updateStatus(id, status_num) {
@@ -120,7 +120,8 @@ class HistoryModel {
       const cart_id = await cartModel.createCart(uuid);
       newCartId = cart_id;
     }
-    await cartModel.moveItemsToCart(newCartId, orderCartItems);
+    await cartModel.moveItemsToCart(newCartId, orderCartItems, user.is_member);
+    await userModel.topup(uuid, orderCart.total);
     await order.save();
   }
   async rateDriver(id, rate, uuid) {

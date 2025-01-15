@@ -169,7 +169,7 @@ class CartModel {
   async deleteCart(id) {
     await Carts.update({ deleted_at: new Date() }, { where: { id } });
   }
-  async moveItemsToCart(id, items) {
+  async moveItemsToCart(id, items, is_member) {
     const insertArray = items.map((item) => {
       const {
         item_id,
@@ -196,6 +196,7 @@ class CartModel {
       });
     });
     await Promise.all(insertArray);
+    await this.updatePrice(id, is_member);
   }
 }
 
