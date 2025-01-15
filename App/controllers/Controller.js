@@ -54,7 +54,6 @@ class BaseController {
         toastr: options.req.toastr,
       });
     } catch (error) {
-      console.log(error);
       this.handleError(res, error.message, 404);
     }
   }
@@ -82,7 +81,9 @@ class BaseController {
       cart = await cartModel.getUserCartList(req.cookies.userId);
       history = await historyModel.getHistories(req.cookies.userId);
       notification = await notifModel.getNotif(req.cookies.userId);
-      await cartModel.updatePrice(cart.id, user.is_member);
+      if (cart.id) {
+        await cartModel.updatePrice(cart.id, user.is_member);
+      }
     }
     return { user, cart, history, notification };
   }

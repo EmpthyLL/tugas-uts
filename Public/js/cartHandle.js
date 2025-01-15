@@ -1,6 +1,6 @@
 const loadingStates = {};
 
-async function addToCart(productId, quantity) {
+async function addToCart(productId) {
   if (loadingStates[productId]) return; // Prevent double-clicks
 
   try {
@@ -8,7 +8,7 @@ async function addToCart(productId, quantity) {
     toggleButtons(productId, true); // Disable buttons
 
     const response = await axios.post(`/api/cart/add/${productId}`);
-    if (response.status === 200 || quantity === response.data.item.quantity) {
+    if (response.status === 200 && response.data.item.quantity === 1) {
       updateCartDisplay(productId, response.data.item.quantity);
       UpdateCart();
       if (document.getElementById("shopping-bag")) {
@@ -25,7 +25,7 @@ async function addToCart(productId, quantity) {
   }
 }
 
-async function increment(productId) {
+async function increment(productId, quantity) {
   if (loadingStates[productId]) return; // Prevent double-clicks
 
   try {
@@ -33,7 +33,7 @@ async function increment(productId) {
     toggleButtons(productId, true);
 
     const response = await axios.post(`/api/cart/increment/${productId}`);
-    if (response.status === 200) {
+    if (response.status === 200 && quantity !== response.data.quantity) {
       updateCartDisplay(productId, response.data.quantity);
       if (document.getElementById("shopping-bag")) {
         updateShoppingCart();
@@ -57,7 +57,7 @@ async function decrement(productId, quantity) {
     toggleButtons(productId, true);
 
     const response = await axios.post(`/api/cart/decrement/${productId}`);
-    if (response.status === 200 || quantity === response.data.item.quantity) {
+    if (response.status === 200 && quantity !== response.data.quantity) {
       updateCartDisplay(productId, response.data.quantity);
       if (document.getElementById("shopping-bag")) {
         updateShoppingCart();
@@ -163,7 +163,7 @@ async function UpdateCart() {
       return;
     }
 
-    let navhtml = `<div class="space-y-2">`;
+    let navhtml = `<div>`;
     response.data.cart.items.forEach((item) => {
       navhtml += ` <a
                     href="/product/${item.id}"
