@@ -1,307 +1,298 @@
 <!-- ========== HEADER ========== -->
 
-
-
-<header class="flex sticky top-0 flex-wrap md:justify-start md:flex-nowrap z-50 w-full py-4 bg-slate-950 shadow-lg">
-
-  <nav class="relative w-full flex flex-wrap md:grid md:grid-cols-12 items-center px-4 md:px-8 mx-auto">
-
+<header
+  class="flex sticky top-0 flex-wrap md:justify-start md:flex-nowrap z-50 w-full py-4 bg-slate-950 shadow-lg"
+>
+  <nav
+    class="relative w-full flex flex-wrap md:grid md:grid-cols-12 items-center px-4 md:px-8 mx-auto"
+  >
     <div class="md:col-span-3">
-
       <!-- Logo -->
 
-      <a class="flex-none rounded-xl text-3xl text-teal-400 inline-block font-semibold focus:outline-none focus:opacity-80" href="/" aria-label="Preline">
-
+      <a
+        class="flex-none rounded-xl text-3xl text-teal-400 inline-block font-semibold focus:outline-none focus:opacity-80"
+        href="/"
+        aria-label="Preline"
+      >
         <img src="/img/logo_A3Mart.png" class="max-w-44" alt="" />
-
       </a>
 
       <!-- End Logo -->
-
     </div>
-
-
 
     <!-- Button Group -->
 
-    <div class="flex items-center gap-x-1 md:gap-x-2 ms-auto py-1 md:ps-6 md:order-3 md:col-span-3">
-
+    <div
+      class="flex items-center gap-x-1 md:gap-x-2 ms-auto py-1 md:ps-6 md:order-3 md:col-span-3"
+    >
       <% if (!req.isAuthenticated) { %>
 
       <div class="flex gap-2 items-center">
-
-        <a href="/sign-in" type="button" class="py-2 px-3 whitespace-nowrap inline-flex items-center gap-x-2 text-sm font-medium rounded-xl bg-white border border-gray-300 text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-white/10 dark:text-white dark:hover:text-white">
-
+        <a
+          href="/sign-in"
+          type="button"
+          class="py-2 px-3 whitespace-nowrap inline-flex items-center gap-x-2 text-sm font-medium rounded-xl bg-white border border-gray-300 text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-white/10 dark:text-white dark:hover:text-white"
+        >
           Sign in
-
         </a>
 
-        <a href="/register" type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl border border-transparent bg-lime-500 text-white hover:bg-lime-600 focus:outline-none focus:bg-lime-600 transition disabled:opacity-50 disabled:pointer-events-none">
-
+        <a
+          href="/register"
+          type="button"
+          class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl border border-transparent bg-lime-500 text-white hover:bg-lime-600 focus:outline-none focus:bg-lime-600 transition disabled:opacity-50 disabled:pointer-events-none"
+        >
           Register
-
         </a>
-
       </div>
 
       <% } else { %>
 
       <div class="md:flex hidden gap-10 items-center justify-end">
-
         <div class="flex items-start gap-5">
-
           <% menus.forEach(menu=> { %> <% if (menu.href) { %>
 
           <div class="relative inline-block">
-
-            <a data-popover-placement="bottom" data-popover-target="<%= menu.title %>Big" href="<%- menu.href %>">
-
+            <a
+              data-popover-placement="bottom"
+              data-popover-target="<%= menu.title %>Big"
+              href="<%- menu.href %>"
+            >
               <span class="hover:text-lime-400 text-lg text-white">
-
                 <%- menu.icon %>
-
               </span>
-
             </a>
 
             <!-- Dot -->
 
             <% if (cart?.items?.length > 0 && menu.title === "Cart") { %>
 
-            <span class="absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white"></span>
+            <span
+              class="absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white"
+            ></span>
 
             <% } %>
-
           </div>
 
           <% } %>
 
-
-
-          <div data-popover id="<%= menu.title %>Big" role="tooltip" class="absolute z-10 invisible inline-block w-80 max-h-96 overflow-y-auto text-sm text-gray-700 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 dark:text-gray-300 dark:border-gray-700 dark:bg-gray-800">
-
+          <div
+            data-popover
+            id="<%= menu.title %>Big"
+            role="tooltip"
+            class="absolute z-10 invisible inline-block w-80 max-h-96 overflow-y-auto text-sm text-gray-700 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 dark:text-gray-300 dark:border-gray-700 dark:bg-gray-800"
+          >
             <!-- Header -->
 
-            <div class="flex items-center justify-between px-4 py-3 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-700 dark:bg-gray-700">
-
-              <h3 class="font-semibold text-lg gap-2 flex items-center text-gray-900 dark:text-white">
-
+            <div
+              class="flex items-center justify-between px-4 py-3 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-700 dark:bg-gray-700"
+            >
+              <h3
+                class="font-semibold text-lg gap-2 flex items-center text-gray-900 dark:text-white"
+              >
                 <span class="text-slate-950"><%- menu.icon %></span>
 
                 <span><%- menu.title %></span>
-
               </h3>
 
               <div class="flex items-center p-2 bg-slate-950 rounded-lg">
-
                 <img src="/img/logo_A3Mart.png" alt="Logo" class="w-20" />
-
               </div>
-
             </div>
 
-<<<<<<< HEAD
-
-
-            <div class="min-h-36">
-
-=======
             <div>
->>>>>>> 9566d1ae5065d340aa170ebe57d7e9c9681715e1
               <!-- Cart Section -->
 
               <% if (menu.title === "Cart") { %>
 
               <div id="Cart-Pop">
-
                 <% if (cart?.items?.length > 0) { %>
 
                 <div>
-
                   <% cart?.items?.slice(0, 10)?.forEach(item => { %>
 
-                  <a href="/product/<%= item.id %>" class="flex gap-2 items-center m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
-
-                    <img src="<%- item.thumbnail %>" alt="Product Image" class="w-16 h-16 rounded-md object-cover dark:border-gray-700" />
+                  <a
+                    href="/product/<%= item.id %>"
+                    class="flex gap-2 items-center m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
+                  >
+                    <img
+                      src="<%- item.thumbnail %>"
+                      alt="Product Image"
+                      class="w-16 h-16 rounded-md object-cover dark:border-gray-700"
+                    />
 
                     <div class="flex-grow space-y-1">
-
-                      <p class="text-base font-semibold text-gray-900 dark:text-white">
-
+                      <p
+                        class="text-base font-semibold text-gray-900 dark:text-white"
+                      >
                         <%- item.title %>
-
                       </p>
 
-                      <p class="text-xs text-gray-500 dark:text-gray-400 flex items-center">
-
-                        <span class="bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-200 px-2 py-0.5 rounded-full font-medium mr-2">
-
+                      <p
+                        class="text-xs text-gray-500 dark:text-gray-400 flex items-center"
+                      >
+                        <span
+                          class="bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-200 px-2 py-0.5 rounded-full font-medium mr-2"
+                        >
                           Qty: <%- item.quantity %>
-
                         </span>
-
                       </p>
 
-                      <p class="text-gray-800 dark:text-gray-200 font-bold text-lg whitespace-nowrap">
-
+                      <p
+                        class="text-gray-800 dark:text-gray-200 font-bold text-lg whitespace-nowrap"
+                      >
                         <%= formatCurrency(item.price ) %>
-
                       </p>
-
                     </div>
-
                   </a>
 
                   <% })%>
-
                 </div>
 
                 <% } else { %>
 
-<<<<<<< HEAD
-                <p class="text-sm text-gray-500 dark:text-gray-400">
-
-=======
                 <p
                   class="text-sm text-gray-500 dark:text-gray-400 flex justify-center items-center mt-2 mb-32"
                 >
->>>>>>> 9566d1ae5065d340aa170ebe57d7e9c9681715e1
                   Your cart is empty.
-
                 </p>
 
                 <% } %>
-
               </div>
 
               <% if (cart?.items?.length > 0 && menu.title === "Cart" ) { %>
 
-              <div class="sticky bottom-0 left-0 right-0 py-2 bg-white text-center shadow-md border rounded-t-lg">
-
-                <a href="/cart" class="text-blue-500 hover:text-blue-700 font-semibold">View All</a>
-
+              <div
+                class="sticky bottom-0 left-0 right-0 py-2 bg-white text-center shadow-md border rounded-t-lg"
+              >
+                <a
+                  href="/cart"
+                  class="text-blue-500 hover:text-blue-700 font-semibold"
+                  >View All</a
+                >
               </div>
 
               <% } %>
-
-
 
               <!-- History Section -->
 
               <% } else if (menu.title === "History") { %>
 
               <div>
-
                 <% if (history?.length > 0) { %>
 
                 <div>
-
                   <% history?.forEach(item => { %>
 
-                  <a href="/history/<%= item.uuid %>" class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 transition-transform hover:scale-105 hover:shadow-xl">
-
+                  <a
+                    href="/history/<%= item.uuid %>"
+                    class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 transition-transform hover:scale-105 hover:shadow-xl"
+                  >
                     <div>
-
-                      <p class="text-sm font-semibold text-gray-900 dark:text-white">
-
-                        <%= formatDate(item.created_at) %>
-
+                      <p
+                        class="text-sm font-semibold text-gray-900 dark:text-white"
+                      >
+                        <%= formatDate(item.date) %>
                       </p>
 
-
-
                       <div class="flex items-center mt-2">
-
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#47a31f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart">
-
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="48"
+                          height="48"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="#47a31f"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="lucide lucide-shopping-cart"
+                        >
                           <circle cx="8" cy="21" r="1" />
 
                           <circle cx="19" cy="21" r="1" />
 
-                          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-
+                          <path
+                            d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
+                          />
                         </svg>
 
-                        <p class="text-lg text-gray-900 dark:text-white font-medium ml-3">
-
+                        <p
+                          class="text-lg text-gray-900 dark:text-white font-medium ml-3"
+                        >
                           <%= formatCurrency(item.cart.total) %>
-
                         </p>
-
                       </div>
 
-
-
                       <div class="flex items-center mt-3">
-
                         <% if (item.status) { %> <% if
-
                         (item.status.toLowerCase() === "completed") { %>
 
-                        <span class="text-green-500 font-medium pl-12">✔ <%= item.status %></span>
+                        <span class="text-green-500 font-medium pl-12"
+                          >✔ <%= item.status %></span
+                        >
 
                         <% } else if (item.status.toLowerCase() === "inprocess")
-
                         { %>
 
-                        <span class="text-yellow-500 font-medium pl-12">⏳ <%= item.status %></span>
+                        <span class="text-yellow-500 font-medium pl-12"
+                          >⏳ <%= item.status %></span
+                        >
 
                         <% } else { %>
 
-                        <span class="text-red-500 font-medium pl-12">❌ <%= item.status %></span>
+                        <span class="text-red-500 font-medium pl-12"
+                          >❌ <%= item.status %></span
+                        >
 
                         <% } %> <% } else { %>
 
-                        <span class="text-gray-500 font-medium pl-12">Unknown Status</span>
+                        <span class="text-gray-500 font-medium pl-12"
+                          >Unknown Status</span
+                        >
 
                         <% } %>
-
                       </div>
-
                     </div>
-
                   </a>
 
                   <% }) %>
-
                 </div>
 
                 <% } else { %>
 
-<<<<<<< HEAD
-                <p class="text-sm text-gray-500 dark:text-gray-400 flex justify-center items-center mt-6">
-
-=======
                 <p
                   class="text-sm text-gray-500 dark:text-gray-400 flex justify-center items-center mt-2 mb-32"
                 >
->>>>>>> 9566d1ae5065d340aa170ebe57d7e9c9681715e1
                   You haven't done any orders yet.
-
                 </p>
 
                 <% } %>
-
               </div>
-
-
 
               <!-- Notification Section -->
 
               <% } else if (menu.title === "Notifications") { %>
+
               <div>
                 <% if (notification?.length > 0) { %>
 
                 <div>
-
                   <% notification?.forEach(notification => { %>
 
-                  <a href="/notification" class="flex items-center space-x-4 m-2 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 transition-transform hover:scale-105 hover:shadow-xl">
-                    <div class="flex items-center justify-center w-10 h-10 bg-lime-100 dark:bg-lime-900 text-lime-500 rounded-full">
+                  <a
+                    href="/notification"
+                    class="flex items-center space-x-4 m-2 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 transition-transform hover:scale-105 hover:shadow-xl"
+                  >
+                    <div
+                      class="flex items-center justify-center w-10 h-10 bg-lime-100 dark:bg-lime-900 text-lime-500 rounded-full"
+                    >
                       <%= notification.icon %>
                     </div>
+
                     <div class="flex-1">
-                      <p class="text-sm text-gray-900 dark:text-white font-medium">
+                      <p
+                        class="text-sm text-gray-900 dark:text-white font-medium"
+                      >
                         <%- notification.message %>
                       </p>
                     </div>
@@ -309,15 +300,12 @@
 
                   <% }) %>
                 </div>
+
                 <% } else { %>
 
-                <div class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-4 group-hover:opacity-80 transition-opacity duration-300">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
                 <div
-                  class="relative flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
+                  class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
                 >
-                  <!-- Ikon -->
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -334,81 +322,20 @@
                   </svg>
 
                   <!-- Tulisan acak di kanan -->
+
                   <div class="flex-column">
-
                     <p class="text-sm text-gray-700 dark:text-white">
-
                       Hello Welcome!
-
                     </p>
 
                     <p class="text-sm text-gray-700 dark:text-white">
-
                       Let's get started.
-
-                    </p>
-
-                  </div>
-
-                </div>
-                <div class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
-                  </svg>
-
-                  <!-- Tulisan acak di kanan -->
-
-                  <div class="flex-column">
-
-                    <p class="text-sm text-gray-700 dark:text-white">
-
-                      Become a member!
-
-                    </p>
-
-                    <p class="text-sm text-gray-700 dark:text-white">
-
-                      Enjoy exclusive benefits.
-
-                    </p>
-
-                  </div>
-
-                </div>
-
-                <div class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-4">
-
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
-
-                  </svg>
-
-
-
-                  <!-- Tulisan acak di kanan -->
-
-                  <div class="flex-column">
-                    <p class="text-sm text-gray-700 dark:text-white">
-                      Top-up successful!
-                    </p>
-                    <p class="text-sm text-gray-700 dark:text-white">
-                      Your balance has been updated.
                     </p>
                   </div>
                 </div>
-
-                <div class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
-                  <span
-                    class="absolute top-2 right-2 w-3 h-3 bg-red-500 border border-white dark:border-gray-800 rounded-full"
-                  ></span>
-                </div>
-
                 <a href="/become-member">
                   <div
-                    class="relative flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
+                    class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -436,15 +363,12 @@
                         Enjoy exclusive benefits.
                       </p>
                     </div>
-                    <span
-                      class="absolute top-2 right-2 w-3 h-3 bg-red-500 border border-white dark:border-gray-800 rounded-full"
-                    ></span>
                   </div>
                 </a>
 
                 <a href="/top-up">
                   <div
-                    class="relative flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
+                    class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -472,14 +396,11 @@
                         Your balance has been updated.
                       </p>
                     </div>
-                    <span
-                      class="absolute top-2 right-2 w-3 h-3 bg-red-500 border border-white dark:border-gray-800 rounded-full"
-                    ></span>
                   </div>
                 </a>
 
                 <div
-                  class="relative flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
+                  class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -495,8 +416,6 @@
                       d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"
                     />
                   </svg>
-
-
 
                   <!-- Tulisan acak di kanan -->
 
@@ -504,60 +423,15 @@
                     <p class="text-sm text-gray-700 dark:text-white">
                       Order confirmed!
                     </p>
+
                     <p class="text-sm text-gray-700 dark:text-white">
                       We’re processing it now.
                     </p>
                   </div>
                 </div>
 
-
-
-                <div class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-4">
-
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
-                  <span
-                    class="absolute top-2 right-2 w-3 h-3 bg-red-500 border border-white dark:border-gray-800 rounded-full"
-                  ></span>
-                </div>
-
                 <div
-                  class="relative flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"
-                    />
-                  </svg>
-
-                  <!-- Tulisan acak di kanan -->
-
-                  <div class="flex-column">
-                    <p class="text-sm text-gray-700 dark:text-white">
-                      Processed!
-                    </p>
-
-                    <p class="text-sm text-gray-700 dark:text-white">
-                      The order has been picked and paid for.
-                    </p>
-                  </div>
-                  <span
-                    class="absolute top-2 right-2 w-3 h-3 bg-red-500 border border-white dark:border-gray-800 rounded-full"
-                  ></span>
-                </div>
-
-                <div
-                  class="relative flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
+                  class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -574,39 +448,21 @@
                     />
                   </svg>
 
-
-
                   <!-- Tulisan acak di kanan -->
 
                   <div class="flex-column">
-
                     <p class="text-sm text-gray-700 dark:text-white">
-
                       Order canceled!
-
                     </p>
 
                     <p class="text-sm text-gray-700 dark:text-white">
-
                       Contact us for any questions.
-
                     </p>
-
                   </div>
                 </div>
 
-
-
-                <div class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75" />
-                  <span
-                    class="absolute top-2 right-2 w-3 h-3 bg-red-500 border border-white dark:border-gray-800 rounded-full"
-                  ></span>
-                </div>
-
                 <div
-                  class="relative flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
+                  class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -626,34 +482,18 @@
                   <!-- Tulisan acak di kanan -->
 
                   <div class="flex-column">
-
                     <p class="text-sm text-gray-700 dark:text-white">
-
                       Order completed!
-
                     </p>
 
                     <p class="text-sm text-gray-700 dark:text-white">
-
                       Thank you for your purchase.
-
                     </p>
-
                   </div>
                 </div>
 
-
-
-                <div class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
-                  <span
-                    class="absolute top-2 right-2 w-3 h-3 bg-red-500 border border-white dark:border-gray-800 rounded-full"
-                  ></span>
-                </div>
-
                 <div
-                  class="relative flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
+                  class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -670,43 +510,21 @@
                     />
                   </svg>
 
-
-
                   <!-- Tulisan acak di kanan -->
 
                   <div class="flex-column">
-
                     <p class="text-sm text-gray-700 dark:text-white">
-
                       On the way!
-
                     </p>
 
                     <p class="text-sm text-gray-700 dark:text-white">
-
                       Your order is heading to the market.
-
                     </p>
-
                   </div>
                 </div>
 
-
-
-                <div class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-4">
-
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
-
-
-                  <span
-                    class="absolute top-2 right-2 w-3 h-3 bg-red-500 border border-white dark:border-gray-800 rounded-full"
-                  ></span>
-                </div>
-
                 <div
-                  class="relative flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
+                  class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -723,42 +541,21 @@
                     />
                   </svg>
 
-
-
                   <!-- Tulisan acak di kanan -->
 
                   <div class="flex-column">
-
                     <p class="text-sm text-gray-700 dark:text-white">
-
                       On the way!
-
                     </p>
 
                     <p class="text-sm text-gray-700 dark:text-white">
-
                       "Your order has arrived at the market
-
                     </p>
-
                   </div>
-
-                </div>
-
-
-
-                <div class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-4">
-
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
-                  <span
-                    class="absolute top-2 right-2 w-3 h-3 bg-red-500 border border-white dark:border-gray-800 rounded-full"
-                  ></span>
                 </div>
 
                 <div
-                  class="relative flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
+                  class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -774,40 +571,22 @@
                       d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"
                     />
                   </svg>
-
-
 
                   <!-- Tulisan acak di kanan -->
 
                   <div class="flex-column">
-
                     <p class="text-sm text-gray-700 dark:text-white">
-
                       On the way!
-
                     </p>
 
                     <p class="text-sm text-gray-700 dark:text-white">
-
                       Your order is on its way to you, almost there!
-
                     </p>
-
                   </div>
                 </div>
 
-
-
-                <div class="flex items-center space-x-4 p-4 m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
-                  <span
-                    class="absolute top-2 right-2 w-3 h-3 bg-red-500 border border-white dark:border-gray-800 rounded-full"
-                  ></span>
-                </div>
-
                 <div
-                  class="relative flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
+                  class="flex items-center space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 m-2 hover:bg-green-500 hover:bg-opacity-80 transition duration-200 ease-in-out"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -823,8 +602,6 @@
                       d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"
                     />
                   </svg>
-
-
 
                   <!-- Tulisan acak di kanan -->
 
@@ -832,241 +609,215 @@
                     <p class="text-sm text-gray-700 dark:text-white">
                       Arrived!
                     </p>
+
                     <p class="text-sm text-gray-700 dark:text-white">
                       Your order has arrived
                     </p>
                   </div>
-
-                  <span
-                    class="absolute top-2 right-2 w-3 h-3 bg-red-500 border border-white dark:border-gray-800 rounded-full"
-                  ></span>
-                  
                 </div>
 
-<<<<<<< HEAD
-                <p class="text-sm text-gray-500 dark:text-gray-400">
-=======
                 <p
                   class="text-sm text-gray-500 dark:text-gray-400 flex justify-center items-center mt-2 mb-32"
                 >
->>>>>>> 9566d1ae5065d340aa170ebe57d7e9c9681715e1
                   No notifications yet. Stay tuned!
                 </p>
                 <% } %>
               </div>
+
               <% } %>
             </div>
 
             <!-- Popover Arrow -->
 
             <div data-popper-arrow></div>
-
           </div>
 
           <% }) %>
-
         </div>
 
-
-
-        <a data-popover-target="user-profile" data-popover-placement="bottom" href="/profile" class="flex bg-gradient-to-r items-center from-emerald-400 to-lime-300 rounded-lg px-3 py-2 shadow-lg">
-
+        <a
+          data-popover-target="user-profile"
+          data-popover-placement="bottom"
+          href="/profile"
+          class="flex bg-gradient-to-r items-center from-emerald-400 to-lime-300 rounded-lg px-3 py-2 shadow-lg"
+        >
           <div class="flex items-center gap-2">
-
             <!-- Profile Image -->
 
-            <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-white overflow-hidden flex items-center justify-center shadow-md bg-white dark:bg-neutral-800">
-
-              <img src="<%= user.profile_pic || '/img/profile.webp' %>" alt="profile" class="w-full h-full object-cover" />
-
+            <div
+              class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-white overflow-hidden flex items-center justify-center shadow-md bg-white dark:bg-neutral-800"
+            >
+              <img
+                src="<%= user.profile_pic || '/img/profile.webp' %>"
+                alt="profile"
+                class="w-full h-full object-cover"
+              />
             </div>
-
-
 
             <!-- Text Content (Only shown on medium screens) -->
 
-            <div class="text-white font-semibold text-sm md:text-base truncate flex-grow min-w-0 hidden lg:block">
-
+            <div
+              class="text-white font-semibold text-sm md:text-base truncate flex-grow min-w-0 hidden lg:block"
+            >
               <%= user.fullname.split(" ")[0] %>
-
             </div>
-
           </div>
-
         </a>
 
-        <div data-popover id="user-profile" role="tooltip" class="absolute z-10 invisible inline-block w-72 text-sm transition-opacity duration-200 transform bg-white border border-gray-300 rounded-lg shadow-md opacity-0 dark:bg-gray-800 dark:border-gray-700">
-
+        <div
+          data-popover
+          id="user-profile"
+          role="tooltip"
+          class="absolute z-10 invisible inline-block w-72 text-sm transition-opacity duration-200 transform bg-white border border-gray-300 rounded-lg shadow-md opacity-0 dark:bg-gray-800 dark:border-gray-700"
+        >
           <div class="p-4">
-
             <!-- Profile Picture and Basic Info -->
 
             <a href="/profile" class="flex items-center mb-3">
-
-              <img class="w-12 h-12 object-cover rounded-full border-2 shadow-sm border-gray-600" src="<%= user.profile_pic || '/img/profile.webp' %>" alt="Profile Picture" />
+              <img
+                class="w-12 h-12 object-cover rounded-full border-2 shadow-sm border-gray-600"
+                src="<%= user.profile_pic || '/img/profile.webp' %>"
+                alt="Profile Picture"
+              />
 
               <div class="ml-3">
-
-                <p class="text-base font-semibold text-gray-900 dark:text-white">
-
+                <p
+                  class="text-base font-semibold text-gray-900 dark:text-white"
+                >
                   <%= user.fullname %>
-
                 </p>
 
                 <p class="text-sm text-gray-500 dark:text-gray-400">
-
                   <%= user.email %>
-
                 </p>
-
               </div>
-
             </a>
-
-
 
             <!-- Balance Information -->
 
             <div class="mb-4">
-
               <p class="text-sm font-medium text-gray-600 dark:text-gray-300">
-
                 Balance:
-
               </p>
 
               <p class="text-lg font-semibold text-gray-800">
-
                 <%= formatCurrency(user.balance) %>
-
               </p>
-
             </div>
-
-
 
             <!-- Additional Information -->
 
             <% if (user.is_member) { %>
 
             <div class="mb-4">
-
               <p class="text-sm font-medium text-gray-600 dark:text-gray-300">
-
                 Member Since:
-
               </p>
 
               <p class="text-sm text-gray-900 dark:text-gray-400">
-
                 <%= formatDate(user.member_since) %>
-
               </p>
-
             </div>
 
-
-
             <div class="mb-4">
-
               <p class="text-sm font-medium text-gray-600 dark:text-gray-300">
-
                 Account Status:
-
               </p>
 
-              <p class="text-sm text-green-600 dark:text-green-500 font-semibold">
-
+              <p
+                class="text-sm text-green-600 dark:text-green-500 font-semibold"
+              >
                 Active
-
               </p>
-
             </div>
 
             <% } else { %>
 
-
-
             <!-- Non-Member Specific Menu -->
 
             <div class="mb-4">
-
-              <a href="/become-member" class="block w-full text-center text-sm font-medium text-indigo-600 bg-gray-100 border border-gray-300 rounded-md px-4 py-2 hover:bg-indigo-50 hover:border-indigo-400 hover:text-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:bg-gray-700 dark:text-indigo-500 dark:border-gray-600 dark:hover:bg-indigo-600 dark:hover:text-white">
-
+              <a
+                href="/become-member"
+                class="block w-full text-center text-sm font-medium text-indigo-600 bg-gray-100 border border-gray-300 rounded-md px-4 py-2 hover:bg-indigo-50 hover:border-indigo-400 hover:text-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:bg-gray-700 dark:text-indigo-500 dark:border-gray-600 dark:hover:bg-indigo-600 dark:hover:text-white"
+              >
                 Become a Member
-
               </a>
-
             </div>
 
             <% } %>
 
-
-
             <!-- Logout Button -->
 
             <div class="mt-4">
-
-              <button type="submit" class="w-full text-sm font-medium text-red-600 bg-gray-100 border border-gray-300 rounded-md px-4 py-2 hover:bg-red-50 hover:border-red-400 hover:text-red-700 focus:ring-2 focus:ring-red-500 focus:outline-none dark:bg-gray-700 dark:text-red-500 dark:border-gray-600 dark:hover:bg-red-600 dark:hover:text-white" onclick="handleLogout()">
-
+              <button
+                type="submit"
+                class="w-full text-sm font-medium text-red-600 bg-gray-100 border border-gray-300 rounded-md px-4 py-2 hover:bg-red-50 hover:border-red-400 hover:text-red-700 focus:ring-2 focus:ring-red-500 focus:outline-none dark:bg-gray-700 dark:text-red-500 dark:border-gray-600 dark:hover:bg-red-600 dark:hover:text-white"
+                onclick="handleLogout()"
+              >
                 Logout
-
               </button>
-
             </div>
-
           </div>
 
           <div data-popper-arrow></div>
-
         </div>
-
       </div>
 
       <% } %>
 
       <div class="md:hidden">
-
-        <button type="button" class="hs-collapse-toggle flex justify-center items-center text-sm font-semibold rounded-xl border border-gray-300 text-white hover:bg-slate-400 focus:outline-none focus:bg-slate-400 p-1 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" id="hs-navbar-hcail-collapse" aria-expanded="false" aria-controls="hs-navbar-hcail" aria-label="Toggle navigation" data-hs-collapse="#hs-navbar-hcail">
-
-          <svg class="hs-collapse-open:hidden shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-
+        <button
+          type="button"
+          class="hs-collapse-toggle flex justify-center items-center text-sm font-semibold rounded-xl border border-gray-300 text-white hover:bg-slate-400 focus:outline-none focus:bg-slate-400 p-1 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+          id="hs-navbar-hcail-collapse"
+          aria-expanded="false"
+          aria-controls="hs-navbar-hcail"
+          aria-label="Toggle navigation"
+          data-hs-collapse="#hs-navbar-hcail"
+        >
+          <svg
+            class="hs-collapse-open:hidden shrink-0"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <line x1="3" x2="21" y1="6" y2="6" />
 
             <line x1="3" x2="21" y1="12" y2="12" />
 
             <line x1="3" x2="21" y1="18" y2="18" />
-
           </svg>
 
-          <svg class="hs-collapse-open:block hidden shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-
+          <svg
+            class="hs-collapse-open:block hidden shrink-0"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <path d="M18 6 6 18" />
 
             <path d="m6 6 12 12" />
-
           </svg>
-
         </button>
-
       </div>
-
     </div>
-
-
 
     <!-- End Button Group -->
 
-
-
     <!-- Collapse -->
 
-<<<<<<< HEAD
-    <div id="hs-navbar-hcail" class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block md:w-auto md:basis-auto md:order-2 md:col-span-6" aria-labelledby="hs-navbar-hcail-collapse">
-
-      <a href="/sign-in" class="md:hidden flex flex-shrink-0 mt-2 bg-gradient-to-r from-emerald-400 to-lime-300 rounded-lg px-4 py-3 shadow-lg">
-
-=======
     <div
       id="hs-navbar-hcail"
       class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block md:w-auto md:basis-auto md:order-2 md:col-span-6"
@@ -1076,98 +827,85 @@
         href="<%=req.isAuthenticated ? '/profile' : '/sign-in'%>"
         class="md:hidden flex flex-shrink-0 mt-2 bg-gradient-to-r from-emerald-400 to-lime-300 rounded-lg px-4 py-3 shadow-lg"
       >
->>>>>>> 9566d1ae5065d340aa170ebe57d7e9c9681715e1
         <div class="flex items-center gap-4">
-
           <!-- Profile Image -->
 
-          <div class="rounded-full overflow-hidden flex items-center justify-center w-12 h-12 shadow-md bg-white dark:bg-neutral-800">
-
+          <div
+            class="rounded-full overflow-hidden flex items-center justify-center w-12 h-12 shadow-md bg-white dark:bg-neutral-800"
+          >
             <img src="<%= req.isAuthenticated ? user.profile_pic ||
-
-            '/img/profile.webp' : "/img/profile.webp"%>" alt="profile" class="w-full h-full object-cover" />
-
+            '/img/profile.webp' : "/img/profile.webp"%>" alt="profile"
+            class="w-full h-full object-cover" />
           </div>
-
-
 
           <!-- Text Content -->
 
           <div class="text-white font-semibold text-xl">
-<<<<<<< HEAD
-
-            Hi, User!
-
-            <span class="block text-lg font-light">Please login to get more access!</span>
-
-=======
             Hi,<%= req.isAuthenticated ? user.fullname : "User"%>!
 
             <span class="block text-lg font-light"
               ><%=req.isAuthenticated ? `Welcome to A3Mart! Enjoy shopping with
               us!` : `Please login to get more access!` %></span
             >
->>>>>>> 9566d1ae5065d340aa170ebe57d7e9c9681715e1
           </div>
-
         </div>
-
       </a>
 
       <div class="flex items-center md:mt-0 mt-3 gap-4 justify-center">
-
-        <form id="searchForm" method="get" action="/" class="flex flex-grow justify-center items-center bg-white space-x-2 px-2 rounded-xl border border-gray-300 text-black shadow-sm disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-white/10 dark:text-white">
-
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search">
-
+        <form
+          id="searchForm"
+          method="get"
+          action="/"
+          class="flex flex-grow justify-center items-center bg-white space-x-2 px-2 rounded-xl border border-gray-300 text-black shadow-sm disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-white/10 dark:text-white"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-search"
+          >
             <circle cx="11" cy="11" r="8" />
 
             <path d="m21 21-4.3-4.3" />
-
           </svg>
 
           <input type="search" name="search" value="<%= req.query.search || ""
-
           %>" placeholder="Search for product..." class="w-full bg-transparent
-
           font-light text-base flex items-center justify-center
-
           focus:outline-none border-none ring-0 focus:ring-0
-
           placeholder-gray-400 dark:placeholder-gray-500" />
-
         </form>
-
-
 
         <% if (req.isAuthenticated) { %>
 
         <!-- Dynamic Menu for Mobile View -->
 
         <div class="md:hidden justify-center items-center flex gap-2">
-
           <% menus.forEach(menu=> { %> <% if (menu.href) { %>
 
-          <a href="<%- menu.href %>" class="p-2 rounded-md text-gray-600 border-white border flex items-center justify-center text-center hover:bg-slate-600 bg-slate-700 dark:text-gray-300 dark:hover:bg-neutral-800 transition-colors duration-150 ease-in-out" aria-label="Menu item">
-
+          <a
+            href="<%- menu.href %>"
+            class="p-2 rounded-md text-gray-600 border-white border flex items-center justify-center text-center hover:bg-slate-600 bg-slate-700 dark:text-gray-300 dark:hover:bg-neutral-800 transition-colors duration-150 ease-in-out"
+            aria-label="Menu item"
+          >
             <span class="hover:text-lime-400 text-white"><%- menu.icon %></span>
-
           </a>
 
           <% }}) %>
-
         </div>
 
         <% } %>
-
       </div>
-
     </div>
 
     <!-- End Collapse -->
-
   </nav>
-
 </header>
 
 <!-- ========== END HEADER ========== -->

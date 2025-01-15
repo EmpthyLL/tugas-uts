@@ -71,8 +71,4 @@ class HistoryController extends Controller {
   }
 }
 
-<<<<<<< HEAD
 module.exports = HistoryController;
-=======
-module.exports = HistoryController;
->>>>>>> 9566d1ae5065d340aa170ebe57d7e9c9681715e1
