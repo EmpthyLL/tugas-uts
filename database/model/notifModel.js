@@ -21,56 +21,71 @@ class NotifModel {
         type: "payment",
       },
       4: {
+        title: "Required Top-up!",
+        body: "Your wallet need top-up.",
+        type: "payment",
+      },
+      5: {
+        title: "Payment Success!",
+        body: "Your payment succesfully done.",
+        type: "payment",
+      },
+      6: {
+        title: "Payment Failed!",
+        body: "Please repeat the payment process.",
+        type: "payment",
+      },
+      7: {
         title: "Order confirmed!",
         body: "We're processing it now.",
         type: "order",
       },
-      5: {
+      8: {
         title: "Order Canceled!",
         body: "Contact us for any questions.",
         type: "order",
       },
-      6: {
+      9: {
         title: "Order completed!",
         body: "Thank you for your purchase.",
         type: "order",
       },
-      7: {
+      10: {
         title: "On the way!",
         body: "Your order is heading to the market.",
         type: "order",
       },
-      8: {
+      11: {
         title: "On the way!",
         body: "Your order has arrived at the market.",
         type: "order",
       },
-      9: {
+      12: {
         title: "On the way!",
         body: "Your order is on its way to you, almost there!",
         type: "order",
       },
-      10: {
+      13: {
         title: "Arrived!",
         body: "Your order has arrived.",
         type: "order",
       },
-      11: {
+      14: {
         title: "Change profile Completed!",
         body: "Your profile has been change.",
         type: "common",
       },
-      12: {
+      15: {
         title: "Change email completed!",
         body: "Your email has been change.",
         type: "common",
       },
-      13: {
+      16: {
         title: "Change number completed!",
         body: "Your number has been change.",
         type: "common",
       },
-      14: {
+      17: {
         title: "Change profile data",
         body: "Your profile data has been change.",
         type: "common",

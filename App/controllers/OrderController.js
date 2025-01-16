@@ -82,7 +82,7 @@ class OrderController extends Controller {
       });
     } catch (error) {
       return res.status(500).json({
-        message: "An error occurred while cancling the order",
+        message: "An error occurred while canceling the order",
         error: error.message,
       });
     }
