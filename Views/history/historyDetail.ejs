@@ -88,7 +88,7 @@
           ></ion-icon>
         </div>
       </div>
-      <hr class="border-gray-400 dark:border-gray-700" />
+      <hr class="border-gray-400" />
 
       <!-- Driver Info -->
       <div class="flex items-center">
@@ -103,7 +103,7 @@
           <p class="font-bold text-lg"><%= data?.driver?.name %></p>
         </div>
       </div>
-      <hr class="mt-3 border-gray-400 dark:border-gray-700" />
+      <hr class="mt-3 border-gray-400" />
 
       <!-- Detail Location -->
       <p class="text-gray-700 font-bold my-3">Delivery Details</p>
@@ -129,7 +129,7 @@
           <p class="font-bold text-lg">Ajinomoto Home</p>
         </div>
       </div>
-      <hr class="mt-3 border-gray-400 dark:border-gray-700" />
+      <hr class="mt-3 border-gray-400" />
 
       <!-- Shopping List -->
       <p class="text-gray-700 font-bold my-3">Shopping List</p>
@@ -138,7 +138,7 @@
         <p><%= item?.quantity %> X <%= item?.title %></p>
         <p><%= formatCurrency(item?.price) %></p>
       </div>
-      <hr class="my-3 border-gray-300 dark:border-gray-400" />
+      <hr class="my-3 border-gray-300" />
       <% }) %>
 
       <!-- Detail Payment -->
@@ -160,7 +160,7 @@
           <p class="">Delivery Cost</p>
           <p><%= formatCurrency(data?.cart?.delivery) %></p>
         </div>
-        <hr class="border-gray-400 dark:border-gray-700 my-3" />
+        <hr class="border-gray-400 my-3" />
         <div class="flex justify-between font-bold">
           <p class="">Total Payment</p>
           <p><%= formatCurrency(data?.cart?.total) %></p>
