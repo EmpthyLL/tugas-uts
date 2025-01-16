@@ -14,11 +14,12 @@ async function addToCart(productId) {
       if (document.getElementById("shopping-bag")) {
         updateShoppingCart();
       }
-    } else if (response.status === 403) {
-      window.location.href = "/sign-in";
     }
   } catch (error) {
     console.error("Error adding item to cart:", error);
+    if (error.status === 403) {
+      window.location.href = "/sign-in";
+    }
   } finally {
     loadingStates[productId] = false;
     toggleButtons(productId, false); // Enable buttons
@@ -38,11 +39,12 @@ async function increment(productId, quantity) {
       if (document.getElementById("shopping-bag")) {
         updateShoppingCart();
       }
-    } else if (response.status === 403) {
-      window.location.href = "/sign-in";
     }
   } catch (error) {
     console.error("Error incrementing item:", error);
+    if (error.status === 403) {
+      window.location.href = "/sign-in";
+    }
   } finally {
     loadingStates[productId] = false;
     toggleButtons(productId, false);
@@ -62,11 +64,12 @@ async function decrement(productId, quantity) {
       if (document.getElementById("shopping-bag")) {
         updateShoppingCart();
       }
-    } else if (response.status === 403) {
-      window.location.href = "/sign-in";
     }
   } catch (error) {
     console.error("Error decrementing item:", error);
+    if (error.status === 403) {
+      window.location.href = "/sign-in";
+    }
   } finally {
     loadingStates[productId] = false;
     toggleButtons(productId, false);
@@ -157,9 +160,6 @@ async function UpdateCart() {
     const cartdot = document.getElementById("CartDot");
     const response = await axios("/api/cart/view");
     const CartPop = document.getElementById("Cart-Pop");
-    if (response.status === 403) {
-      window.location.href = "/sign-in";
-    }
     if (!response.data.cart || response.data.cart.items.length === 0) {
       viewall.classList.add("hidden");
       cartdot.classList.add("hidden");
@@ -210,6 +210,9 @@ async function UpdateCart() {
     CartPop.innerHTML = navhtml;
   } catch (error) {
     console.error("Error updating cart:", error);
+    if (error.status === 403) {
+      window.location.href = "/sign-in";
+    }
   }
 }
 
@@ -223,9 +226,6 @@ function format(number) {
 async function updateShoppingCart() {
   try {
     const response = await axios("/api/cart/view");
-    if (response.status === 403) {
-      window.location.href = "/sign-in";
-    }
     const shoppingBag = document.getElementById("shopping-bag");
     const subTotal = document.getElementById("subtotal");
     const tax = document.getElementById("tax");
@@ -331,5 +331,8 @@ async function updateShoppingCart() {
     shoppingBag.innerHTML = carthtml;
   } catch (error) {
     console.log("Update shopping cart", error);
+    if (error.status === 403) {
+      window.location.href = "/sign-in";
+    }
   }
 }

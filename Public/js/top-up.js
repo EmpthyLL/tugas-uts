@@ -127,15 +127,18 @@ document.addEventListener("DOMContentLoaded", function () {
   paybutton.addEventListener("click", async () => {
     const dopay = confirm("Lakukan Pembayaran");
     if (dopay) {
-      const res = await axios.post("/api/purchase/topup", {
-        amount: inputedAmount,
-        method: selectedMethod,
-      });
-      if (res.status === 200) {
-        window.location.href = `/top-up?success=${res.data.message}`;
-      }
-      if (res.status === 403) {
-        window.location.href = "/sign-in";
+      try {
+        const res = await axios.post("/api/purchase/topup", {
+          amount: inputedAmount,
+          method: selectedMethod,
+        });
+        if (res.status === 200) {
+          window.location.href = `/top-up?success=${res.data.message}`;
+        }
+      } catch (error) {
+        if (error.status === 403) {
+          window.location.href = "/sign-in";
+        }
       }
     }
   });

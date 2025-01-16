@@ -24,18 +24,23 @@ annualButton.addEventListener("click", function () {
 payButton.addEventListener("click", async function () {
   const dopay = confirm("Lakukan Pembayaran");
   if (dopay) {
-    const res = await axios.post(`/api/purchase/become-member/${type}`, {
-      price,
-    });
-    if (res.status === 200) {
-      if (res.data.balance) {
+    try {
+      const res = await axios.post(`/api/purchase/become-member/${type}`, {
+        price,
+      });
+      if (res.status === 200) {
         window.location.href = `/?member=${res.data.message}`;
-      } else {
-        window.location.href = `/top-up?balance=${res.data.message}`;
       }
-    }
-    if (res.status === 403) {
-      window.location.href = "/sign-in";
+    } catch (error) {
+      if (error.status === 400) {
+        window.location.href = `/top-up?balance=${error.response.data.message}`;
+      }
+      if (error.status === 401) {
+        window.location.href = `/`;
+      }
+      if (res.status === 403) {
+        window.location.href = "/sign-in";
+      }
     }
   }
 });

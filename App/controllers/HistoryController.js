@@ -28,8 +28,13 @@ class HistoryController extends Controller {
     try {
       const { id } = req.params;
       const history = await historyModel.getHistory(id, req.cookies.userId);
+
       if (!history) {
         return res.redirect("/history");
+      }
+
+      if (history.status !== 1 && history.status !== 2) {
+        return res.redirect("/order");
       }
 
       const options = {
@@ -41,6 +46,7 @@ class HistoryController extends Controller {
       this.renderView(res, this.view[this.page], options);
     } catch (error) {
       console.log(error);
+      this.handleError(res, "Failed to render about page", 500);
     }
   }
 
