@@ -1,80 +1,158 @@
 <div
-  class="max-w-4xl mx-auto my-8 p-6 rounded-lg bg-gray-50 shadow-lg"
+  class="w-full px-4 sm:px-8 py-8 bg-gray-50 shadow-xl border border-gray-200 rounded-lg"
 >
-  <p class="font-bold text-center text-3xl text-gray-800mb-4">
-    <%= user.fullname %> Order History
+  <!-- Title -->
+  <p class="font-extrabold text-center text-2xl sm:text-4xl text-gray-800 mb-8">
+    <%= user.fullname %>'s Order History
   </p>
 
-  <% if (history.length > 0) { %>
-  <div class="space-y-6 mt-6">
-    <% history?.forEach(item => { %>
-    <form method="get" action="/history/<%= item.uuid %>">
-      <button
-        class="flex items-center space-x-6 p-5 bg-white rounded-lg shadow-md border border-gray-200 transition-transform transform hover:scale-105 hover:shadow-xl"
-      >
-        <div class="flex flex-col space-y-4 w-full">
-          <!-- Tanggal -->
-          <p class="text-sm font-medium text-gray-600">
-            <%= formatDate(item.created_at) %>
-          </p>
-
-          <!-- Logo -->
-          <div class="flex items-center">
-            <img src="/img/a3mart.png" alt="Logo" class="w-6 h-6 rounded-md" />
-          </div>
-
-          <!-- Total Belanja -->
-          <div class="flex items-center justify-between">
-            <p class="text-lg font-semibold text-gray-800">
-              <%= formatCurrency(item.cart.total) %>
+  <!-- Inner Frame -->
+  <div
+    class="mx-4 sm:mx-10 lg:mx-40 p-6 sm:p-8 md:p-10 border rounded-lg bg-slate-200 shadow-lg"
+  >
+    <% if (history.length > 0) { %>
+    <!-- Orders List -->
+    <div class="max-w-full mx-auto space-y-6 sm:space-y-8">
+      <% history?.forEach(item => { %>
+      <a href="/history/<%= item.uuid %>" class="block group">
+        <button
+          class="flex flex-col sm:flex-row items-center gap-6 p-5 sm:p-7 bg-white rounded-lg shadow-md border border-gray-200 transition-transform transform group-hover:scale-105 group-hover:shadow-lg focus:ring-2 focus:ring-blue-300 focus:outline-none w-full"
+        >
+          <div class="flex flex-col w-full space-y-4">
+            <!-- Date -->
+            <p class="text-xs uppercase font-semibold text-gray-500">
+              <%= formatDate(item.created_at) %>
             </p>
-            <p class="text-sm text-gray-500">
-              <span class="font-medium"><%= item.driver.name %></span> | <%=
-              item.driver.plat_num %>
-            </p>
-          </div>
 
-          <!-- Total Item dan Status -->
-          <div class="flex justify-between items-center mt-3">
-            <p class="text-sm text-gray-700">
-              Total Items: <%= cart?.items?.length %>
-            </p>
-            <div>
-              <% if (item.status) { %> <% if (item.status === 1) { %>
-              <span
-                class="text-green-600 bg-green-100 px-3 py-1 rounded-lg text-sm font-medium"
-              >
-                <%= item.status_name %>
-              </span>
-              <% } else if (item.status === 2) { %>
-              <span
-                class="text-red-600 bg-red-100 px-3 py-1 rounded-lg text-sm font-medium"
-              >
-                <%= item.status_name %>
-              </span>
-              <% } else { %>
-              <span
-                class="text-yellow-600 bg-yellow-100 px-3 py-1 rounded-lg text-sm font-medium"
-              >
-                <%= item.status_name %>
-              </span>
-              <% } %> <% } else { %>
-              <span
-                class="text-gray-500 bg-gray-200 px-3 py-1 rounded-lg text-sm font-medium"
-              >
-                Unknown Status
-              </span>
-              <% } %>
+            <div class="flex items-center gap-4">
+              <!-- Logo -->
+              <img
+                src="/img/a3mart.png"
+                alt="Logo"
+                class="w-8 h-8 sm:w-10 sm:h-10 rounded-md shadow-sm"
+              />
+
+              <!-- Total Shopping -->
+              <p class="text-base sm:text-lg font-semibold text-gray-800">
+                <%= formatCurrency(item.cart.total) %>
+              </p>
+            </div>
+
+            <div class="flex justify-between space-y-1">
+              <div class="text-left">
+                <div class="mt-1 text-sm text-gray-600">
+                  Driver:
+                  <span class="font-medium text-gray-800"
+                    ><%= item.driver.name %></span
+                  >
+                </div>
+
+                <div class="text-sm text-gray-600">
+                  Plate Number:
+                  <span class="font-medium text-gray-800"
+                    ><%= item.driver.plat_num %></span
+                  >
+                </div>
+              </div>
+
+              <!-- Dynamic Status -->
+              <div class="flex flex-col gap-2">
+                <div>
+                  <% if (item?.status === 1) { %>
+                  <span
+                    class="flex gap-2 border border-green-400 items-center text-green-500 bg-green-100 px-3 py-1 rounded-lg text-sm font-semibold"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-check"
+                    >
+                      <path d="M20 6 9 17l-5-5" />
+                    </svg>
+                    <%= item?.status_name %>
+                  </span>
+                  <% } else if (item?.status === 2) { %>
+                  <span
+                    class="flex gap-2 items-center border border-red-400 text-red-500 bg-red-100 px-3 py-1 rounded-lg text-sm font-semibold"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-circle-x"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="m15 9-6 6" />
+                      <path d="m9 9 6 6" />
+                    </svg>
+                    <%= item?.status_name %>
+                  </span>
+                  <% } else { %>
+                  <span
+                    class="flex gap-2 items-center border border-yellow-400 text-yellow-500 bg-yellow-100 px-3 py-1 rounded-lg text-sm font-semibold"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-clock-4"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <%= item?.status_name %>
+                  </span>
+                  <% } %>
+                </div>
+
+                <span
+                  class="text-gray-400 text-xs cursor-pointer flex items-center"
+                  title="<%= item?.status_des %>"
+                >
+                  * <%= item?.status_des %>
+                </span>
+              </div>
+            </div>
+
+            <!-- Total Items -->
+            <div class="flex justify-between items-center mt-2">
+              <p class="text-sm text-gray-700">
+                Total Items: <%= item?.cart?.items?.length %>
+              </p>
             </div>
           </div>
-        </div>
-      </button>
-    </form>
-    <% }) %>
+        </button>
+      </a>
+      <% }) %>
+    </div>
+    <% } else { %>
+    <!-- No Orders Message -->
+    <div
+      class="flex items-center justify-center flex-col text-center mt-16 space-y-4"
+    >
+      <p class="text-base sm:text-lg font-medium text-gray-600">
+        You haven't placed any orders yet.
+      </p>
+    </div>
+    <% } %>
   </div>
-  <% } else { %>
-  <p class="text-center text-gray-500 text-lg mt-6">
-    You haven't placed any orders yet.
-  </p>
-  <% } %>
 </div>
