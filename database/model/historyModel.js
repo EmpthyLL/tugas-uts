@@ -9,31 +9,31 @@ class HistoryModel {
     this.model = "history";
     this.status = {
       1: {
-        label: "Completed",
+        label: "Order Completed",
         description: "The order has been successfully delivered.",
       },
       2: {
-        label: "Canceled",
+        label: "Order Canceled",
         description: "The order was canceled by the user or driver.",
       },
       3: {
-        label: "To Mart",
+        label: "Heading To Mart",
         description: "The driver is heading to the mart.",
       },
       4: {
-        label: "At Mart",
+        label: "Arrived At Mart",
         description: "The driver has arrived at the mart.",
       },
       5: {
-        label: "Processed",
+        label: "Order Processed",
         description: "The order has been picked and paid for.",
       },
       6: {
-        label: "To User",
+        label: "Heading To User",
         description: "The driver is heading to the user.",
       },
       7: {
-        label: "Arrived",
+        label: "Order Arrived",
         description: "The driver has arrived at the user's location.",
       },
     };
@@ -114,6 +114,8 @@ class HistoryModel {
     return {
       uuid: history?.uuid,
       status: history?.status,
+      status_name: this.status[history?.status].label,
+      status_des: this.status[history?.status].description,
       rating: history?.rating,
       created_at: history?.created_at,
       driver: {
