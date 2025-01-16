@@ -14,6 +14,7 @@ const orderButton = document.getElementById("order");
 const confirmButton = document.getElementById("confirm");
 const cancelButton = document.getElementById("cancel");
 let delivery;
+let total;
 
 const map = L.map("map").setView([3.5952, 98.678], 13);
 
@@ -97,6 +98,7 @@ function updateDeliveryAndTotal(distance, item) {
       .trim()
   );
   currTotal = currTotal.plus(deliveryCost);
+  total = currTotal;
 
   // Format to Rupiah (IDR)
   const rupiahFormatter = new Intl.NumberFormat("id-ID", {
@@ -153,7 +155,6 @@ function orderDriver(item) {
           updateDeliveryAndTotal(distance, item);
           orderButton.classList.add("hidden");
           confirmButton.classList.remove("hidden");
-          cancelButton.classList.add("hidden");
         }
       },
       () => {
@@ -172,21 +173,29 @@ async function confirmOrder() {
         </div>`;
   confirmButton.innerHTML = html;
   confirmButton.disabled = true;
-  const res = await axios.post("/api/order", { delivery });
+  const res = await axios.post("/api/order", { delivery, total });
   if (res.status === 201) {
-    window.location.reload();
-  }
-  else(res.status === 403){
-    window.location = "/sign-in";
+    window.location.reload(true);
+  } else if (res.status === 400) {
+    window.location.href = `/top-up?balance=${res.data.message}`;
+  } else if (res.status === 403) {
+    window.location.href = "/sign-in";
   }
 }
-async function cancelOrder(created_at) {
+async function cancelOrder(id, status) {
+  if (status === 5) {
+    return;
+  }
   const html = `<div class="flex items-center justify-center space-x-2">
-          <div class="h-6 w-6 animate-spin rounded-full border-4 border-green-300 border-t-transparent"> </div>
-          <span>Looking for Driver...</span>
+          <div class="h-6 w-6 animate-spin rounded-full border-4 border-gray-300 border-t-transparent"> </div>
+          <span>Canceling Order...</span>
         </div>`;
-  confirmButton.innerHTML = html;
-  confirmButton.disabled = true;
-  const res = await axios.delete("/api/order/", { delivery });
-  console.log(res.data);
+  cancelButton.innerHTML = html;
+  cancelButton.disabled = true;
+  const res = await axios.delete(`/api/order/${id}`);
+  if (res.status === 200) {
+    window.location.reload(true);
+  } else if (res.status === 403) {
+    window.location.href = "/sign-in";
+  }
 }
