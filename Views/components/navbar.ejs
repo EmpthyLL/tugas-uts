@@ -31,7 +31,7 @@
         <a
           href="/sign-in"
           type="button"
-          class="py-2 px-3 whitespace-nowrap inline-flex items-center gap-x-2 text-sm font-medium rounded-xl bg-white border border-gray-300 text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-white/10 dark:text-white dark:hover:text-white"
+          class="py-2 px-3 whitespace-nowrap inline-flex items-center gap-x-2 text-sm font-medium rounded-xl bg-white border border-gray-300 text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none "
         >
           Sign in
         </a>
@@ -64,13 +64,12 @@
 
             <!-- Dot -->
 
-            <% if (cart?.items?.length > 0 && menu.title === "Cart") { %>
 
             <span
-              class="absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white"
+              id="<%= menu.title %>Dot"
+              class="absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white <%= menu.title === 'Cart' && cart?.items?.length > 0 ? "" : "hidden"%>"
             ></span>
 
-            <% } %>
           </div>
 
           <% } %>
@@ -79,15 +78,15 @@
             data-popover
             id="<%= menu.title %>Big"
             role="tooltip"
-            class="absolute z-10 invisible inline-block w-80 max-h-96 overflow-y-auto text-sm text-gray-700 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 dark:text-gray-300 dark:border-gray-700 dark:bg-gray-800"
+            class="absolute z-10 invisible inline-block w-80 max-h-96 overflow-y-auto text-sm text-gray-700 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 "
           >
             <!-- Header -->
 
             <div
-              class="flex items-center justify-between px-4 py-3 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-700 dark:bg-gray-700"
+              class="flex items-center justify-between px-4 py-3 bg-gray-100 border-b border-gray-200 rounded-t-lg "
             >
               <h3
-                class="font-semibold text-lg gap-2 flex items-center text-gray-900 dark:text-white"
+                class="font-semibold text-lg gap-2 flex items-center text-gray-900 "
               >
                 <span class="text-slate-950"><%- menu.icon %></span>
 
@@ -104,7 +103,7 @@
 
               <% if (menu.title === "Cart") { %>
 
-              <div id="Cart-Pop">
+              <div id="Cart-Pop" class="min-h-32">
                 <% if (cart?.items?.length > 0) { %>
 
                 <div>
@@ -112,17 +111,17 @@
 
                   <a
                     href="/product/<%= item.id %>"
-                    class="flex gap-2 items-center m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
+                    class="flex gap-2 items-center m-2 bg-white rounded-lg shadow-md border border-gray-200 "
                   >
                     <img
                       src="<%- item.thumbnail %>"
                       alt="Product Image"
-                      class="w-16 h-16 rounded-md object-cover dark:border-gray-700"
+                      class="w-16 h-16 rounded-md object-cover "
                     />
 
                     <div class="flex-grow space-y-1">
                       <p
-                        class="text-base font-semibold text-gray-900 dark:text-white"
+                        class="text-base font-semibold text-gray-900 "
                       >
                         <%- item.title %>
                       </p>
@@ -159,10 +158,9 @@
                 <% } %>
               </div>
 
-              <% if (cart?.items?.length > 0 && menu.title === "Cart" ) { %>
-
               <div
-                class="sticky bottom-0 left-0 right-0 py-2 bg-white text-center shadow-md border rounded-t-lg"
+                id="cartViewAll"
+                class="sticky bottom-0 left-0 right-0 py-2 bg-white text-center shadow-md border rounded-t-lg <%= cart?.items?.length > 0 ? "" : "hidden" %>"
               >
                 <a
                   href="/cart"
@@ -170,8 +168,6 @@
                   >View All</a
                 >
               </div>
-
-              <% } %>
 
               <!-- History Section -->
 
@@ -273,7 +269,7 @@
 
               <% } else if (menu.title === "Notifications") { %>
 
-              <div>
+              <div class="min-h-32">
                 <% if (notification?.length > 0) { %>
 
                 <div>

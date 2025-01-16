@@ -153,44 +153,53 @@ function toggleButtons(productId, disable) {
 }
 async function UpdateCart() {
   try {
+    const viewall = document.getElementById("cartViewAll");
+    const cartdot = document.getElementById("CartDot");
     const response = await axios("/api/cart/view");
     const CartPop = document.getElementById("Cart-Pop");
     if (response.status === 403) {
       window.location.href = "/sign-in";
     }
     if (!response.data.cart || response.data.cart.items.length === 0) {
-      CartPop.innerHTML = "<p>Your cart is empty.</p>";
+      viewall.classList.add("hidden");
+      cartdot.classList.add("hidden");
+      CartPop.innerHTML = `<p 
+                  class="text-sm text-gray-500  flex justify-center items-center mt-2 mb-32" >
+                  Your cart is empty.
+                  </p>`;
       return;
     }
 
+    viewall.classList.remove("hidden");
+    cartdot.classList.remove("hidden");
     let navhtml = `<div>`;
     response.data.cart.items.forEach((item) => {
       navhtml += ` <a
                     href="/product/${item.id}"
-                    class="flex gap-2 items-center m-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
+                    class="flex gap-2 items-center m-2 bg-white  rounded-lg shadow-md border border-gray-200 "
                   >
                     <img
                       src="${item.thumbnail}"
                       alt="Product Image"
-                      class="w-16 h-16 rounded-md object-cover dark:border-gray-700"
+                      class="w-16 h-16 rounded-md object-cover "
                     />
                     <div class="flex-grow space-y-1">
                       <p
-                        class="text-base font-semibold text-gray-900 dark:text-white"
+                        class="text-base font-semibold text-gray-900 "
                       >
                         ${item.title}
                       </p>
                       <p
-                        class="text-xs text-gray-500 dark:text-gray-400 flex items-center"
+                        class="text-xs text-gray-500  flex items-center"
                       >
                         <span
-                          class="bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-200 px-2 py-0.5 rounded-full font-medium mr-2"
+                          class="bg-blue-100 text-blue-600   px-2 py-0.5 rounded-full font-medium mr-2"
                         >
                           Qty: ${item.quantity}
                         </span>
                       </p>
                       <p
-                        class="text-gray-800 dark:text-gray-200 font-bold text-lg whitespace-nowrap"
+                        class="text-gray-800  font-bold text-lg whitespace-nowrap"
                       >
                         ${format(item.price)}
                       </p>
@@ -223,7 +232,7 @@ async function updateShoppingCart() {
     const memberDiscount = document.getElementById("member_discount");
     const total = document.getElementById("total");
     if (!response.data.cart || response.data.cart.items.length === 0) {
-      shoppingBag.innerHTML = "<p>Your cart is currently empty.</p>";
+      shoppingBag.innerHTML = "<p >Your cart is currently empty.</p>";
       return;
     }
     subTotal.innerHTML = format(response.data.cart.cart_total);
