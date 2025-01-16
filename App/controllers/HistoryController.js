@@ -46,7 +46,7 @@ class HistoryController extends Controller {
 
   async getHistoryData(req, res) {
     try {
-      const history = await historyModel.getHistory(req.cookies.userId);
+      const history = await historyModel.getHistories(req.cookies.userId);
       if (!history) {
         return res.status(404).json({ message: "History not found" });
       }
