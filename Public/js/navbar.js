@@ -8,8 +8,10 @@ input.addEventListener("keydown", function (event) {
   }
 });
 input.addEventListener("input", function () {
+  const value = this.value;
   const trimmedValue = this.value.trim();
-  if (trimmedValue === "") {
+  console.log(value);
+  if (trimmedValue === "" && value !== trimmedValue) {
     form.submit();
   }
 });

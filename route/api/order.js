@@ -7,7 +7,7 @@ const app = express.Router();
 app.post("/", cektoken, (req, res) => {
   orderController.createOrder(req, res);
 });
-app.delete("/", cektoken, (req, res) => {
+app.delete("/:id", cektoken, (req, res) => {
   orderController.cancelOrder(req, res);
 });
 

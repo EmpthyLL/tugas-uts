@@ -5,7 +5,7 @@
     <%= user.fullname %> Order History
   </p>
 
-  <% if (history?.length > 0) { %>
+  <% if (history.length > 0) { %>
   <div class="space-y-6 mt-6">
     <% history?.forEach(item => { %>
     <form method="get" action="/history/<%= item.uuid %>">
@@ -15,8 +15,7 @@
         <div class="flex flex-col space-y-4 w-full">
           <!-- Tanggal -->
           <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
-            <%= new Date(item.date).toLocaleDateString('en-US', { month: 'long',
-            day: 'numeric', year: 'numeric' }) %>
+            <%= formatDate(item.created_at) %>
           </p>
 
           <!-- Logo -->
@@ -30,8 +29,8 @@
               <%= formatCurrency(item.cart.total) %>
             </p>
             <p class="text-sm text-gray-500 dark:text-gray-300">
-              <span class="font-medium"><%= driver.name %></span> | <%=
-              driver.plat_num %>
+              <span class="font-medium"><%= item.driver.name %></span> | <%=
+              item.driver.plat_num %>
             </p>
           </div>
 
@@ -41,24 +40,23 @@
               Total Items: <%= cart?.items?.length %>
             </p>
             <div>
-              <% if (item.status) { %> <% if (item.status.toLowerCase() ===
-              "completed") { %>
+              <% if (item.status) { %> <% if (item.status === 1) { %>
               <span
                 class="text-green-600 bg-green-100 dark:bg-green-900 px-3 py-1 rounded-lg text-sm font-medium"
               >
-                <%= item.status %>
+                <%= item.status_name %>
               </span>
-              <% } else if (item.status.toLowerCase() === "canceled") { %>
+              <% } else if (item.status === 2) { %>
               <span
-                class="text-yellow-600 bg-yellow-100 dark:bg-yellow-900 px-3 py-1 rounded-lg text-sm font-medium"
+                class="text-red-600 bg-red-100 dark:bg-red-900 px-3 py-1 rounded-lg text-sm font-medium"
               >
-                <%= item.status %>
+                <%= item.status_name %>
               </span>
               <% } else { %>
               <span
-                class="text-gray-500 bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-lg text-sm font-medium"
+                class="text-yellow-600 bg-yellow-100 dark:bg-yellow-900 px-3 py-1 rounded-lg text-sm font-medium"
               >
-                Unknown Status
+                <%= item.status_name %>
               </span>
               <% } %> <% } else { %>
               <span
