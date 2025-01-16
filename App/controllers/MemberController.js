@@ -26,20 +26,18 @@ class MemberController extends Controller {
   async becomeMember(req, res) {
     const is_member = await userModel.cekMemberStatus(req.cookies.userId);
     if (is_member) {
-      return res.status(400).json({ message: "User is already a member." });
+      return res.status(401).json({ message: "User is already a member." });
     }
     const price = req.body.price;
     const balance = await userModel.cekBalance(req.cookies.userId);
     if (price > balance) {
-      return res.status(200).json({
-        balance: false,
+      return res.status(400).json({
         message: "Oh no! Your balance is not enough to become a member.",
       });
     }
 
     await userModel.becomeMember(req.cookies.userId, price, req.params.type);
     return res.status(200).json({
-      balance: true,
       message: "Congratulation! You are now a member.",
     });
   }
