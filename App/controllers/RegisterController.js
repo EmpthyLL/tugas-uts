@@ -40,17 +40,6 @@ class RegisterController extends Controller {
   }
 
   sendOTP(req, res) {
-    if (
-      (this.step === 1 && !this.no_hp) ||
-      this.step === 0 ||
-      this.step === 2 ||
-      (this.step === 3 && !this.email)
-    ) {
-      return res.status(400).json({
-        message:
-          "OTP cannot be generated due to missing or invalid information.",
-      });
-    }
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     this.otp = otp;
     return res.status(200).json({
@@ -83,23 +72,27 @@ class RegisterController extends Controller {
       if (user) {
         throw new Error("Phone number is already registered.");
       }
-      res.redirect("/register/verify-number");
+      res.setHeader("Location", "/register/verify-number");
+      res.status(302).send();
     } catch (error) {
       req.flash("errors", [{ msg: error.message }]);
-      res.redirect("/register");
+      res.setHeader("Location", "/register");
+      res.status(302).send();
     }
   }
 
   step2(req, res) {
     this.no_hp = req.body.no_hp;
-    res.redirect("/register/user-data");
+    res.setHeader("Location", "/register/user-data");
+    res.status(302).send();
   }
 
   step3(req, res) {
     this.email = req.body.email;
     this.fullname = req.body.fullname;
     this.no_hp = req.body.no_hp;
-    res.redirect("/register/verify-email");
+    res.setHeader("Location", "/register/verify-email");
+    res.status(302).send();
   }
 
   async store(req, res) {
@@ -121,7 +114,8 @@ class RegisterController extends Controller {
     } catch (error) {
       req.flash("errors", [{ msg: error.message }]);
       console.log(error);
-      res.redirect("/register/user-data");
+      res.setHeader("Location", "/register/user-data");
+      res.status(302).send();
     }
   }
 }

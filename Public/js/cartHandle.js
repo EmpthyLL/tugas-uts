@@ -117,7 +117,7 @@ function updateCartDisplay(productId, quantity) {
     container.innerHTML = `
         <button
           onclick="addQuantity(event, '${productId}')"
-          class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center transition hover:bg-blue-600 shadow-md"
+          class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center transition hover:bg-blue-600 shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <!-- Plus Icon -->
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
@@ -130,6 +130,8 @@ function updateCartDisplay(productId, quantity) {
 
 function addQuantity(event, productId, quantity) {
   event.stopPropagation();
+  const button = event.currentTarget;
+  button.disabled = true;
   addToCart(productId, quantity);
 }
 
