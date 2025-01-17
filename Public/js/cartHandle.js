@@ -9,6 +9,30 @@ async function addToCart(productId) {
 
     const response = await axios.post(`/api/cart/add/${productId}`);
     if (response.status === 200 && response.data.item.quantity === 1) {
+      const container = document.getElementById(`quantity-${productId}`);
+      container.innerHTML = `
+      <div class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md">
+        <button
+          onclick="decreaseQuantity(event, '${productId}')"
+          class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <!-- Minus Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+          </svg>
+        </button>
+        <span id="quantity-display-${productId}" class="text-gray-800 font-semibold">1</span>
+        <button
+          onclick="increaseQuantity(event, '${productId}')"
+          class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <!-- Plus Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+        </button>
+      </div>
+    `;
       updateCartDisplay(productId, response.data.item.quantity);
       UpdateCart();
       if (document.getElementById("shopping-bag")) {
@@ -107,30 +131,6 @@ function updateCartDisplay(productId, quantity) {
 function addQuantity(event, productId, quantity) {
   event.stopPropagation();
   addToCart(productId, quantity);
-  const container = document.getElementById(`quantity-${productId}`);
-  container.innerHTML = `
-      <div class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md">
-        <button
-          onclick="decreaseQuantity(event, '${productId}')"
-          class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <!-- Minus Icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
-          </svg>
-        </button>
-        <span id="quantity-display-${productId}" class="text-gray-800 font-semibold">1</span>
-        <button
-          onclick="increaseQuantity(event, '${productId}')"
-          class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <!-- Plus Icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-        </button>
-      </div>
-    `;
 }
 
 function increaseQuantity(event, productId, quantity) {
