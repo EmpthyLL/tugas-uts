@@ -25,7 +25,7 @@ function startCountdown(button) {
 async function generateOtp() {
   const time = Math.floor(3000 + Math.random() * 3001).toString();
   const button = document.getElementById("resendButton");
-  const res = await axios.get("/api/auth/sendOTP");
+  const res = await axios.post("/api/auth/sendOTP");
   const { otp } = res.data;
   startCountdown(button);
   setTimeout(() => {

@@ -4,7 +4,7 @@ const cektoken = require("../../app/middlewares/cektoken");
 
 const app = express.Router();
 
-app.get("/sendOTP", (req, res) => {
+app.post("/sendOTP", (req, res) => {
   registerController.sendOTP(req, res);
 });
 app.post("/verifyOTP", (req, res) => {

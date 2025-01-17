@@ -36,10 +36,12 @@ class LoginController extends Controller {
       if (!user) {
         throw new Error("Phone number is not yet registered.");
       }
-      res.redirect("/sign-in/verify-account");
+      res.setHeader("Location", "/sign-in/verify-account");
+      res.status(302).send();
     } catch (error) {
       req.flash("errors", [{ msg: error.message }]);
-      res.redirect("/sign-in");
+      res.setHeader("Location", "/sign-in");
+      res.status(302).send();
     }
   }
   async verify(req, res) {
@@ -51,11 +53,13 @@ class LoginController extends Controller {
       setCookie(res, "auth_token", acc_token, { maxAge: 15 * 60 });
       setCookie(res, "userId", uuid, { maxAge: 7 * 60 * 60 * 24 });
 
-      res.redirect("/");
+      res.setHeader("Location", "/");
+      res.status(302).send();
     } catch (error) {
       console.log(error);
       req.flash("errors", [{ msg: error.message }]);
-      res.redirect("/sign-in/verify-account");
+      res.setHeader("Location", "/sign-in/verify-account");
+      res.status(302).send();
     }
   }
   async logout(req, res) {

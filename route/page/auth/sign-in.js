@@ -9,8 +9,6 @@ app.get("/", (req, res) => {
 });
 app.get("/verify-account", (req, res) => {
   loginController.step = 1;
-  registerController.step = 1;
-  registerController.no_hp = loginController.no_hp;
   registerController.otp = "";
   loginController.index(req, res);
 });
