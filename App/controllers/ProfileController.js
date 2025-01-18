@@ -89,13 +89,15 @@ class ProfileController extends Controller {
     this.email = req.body.email;
     userModel.editEmail(req.cookies.userId, this.email);
     req.flash("success", "Profile updated successfully!");
-    res.redirect("/profile");
+    res.setHeader("Location", "/profile");
+    res.status(302).send();
   }
   async editDataPhone(req, res) {
     this.no_hp = req.body.no_hp;
     userModel.editPhone(req.cookies.userId, this.no_hp);
     req.flash("success", "Profile updated successfully!");
-    res.redirect("/profile");
+    res.setHeader("Location", "/profile");
+    res.status(302).send();
   }
 }
 
