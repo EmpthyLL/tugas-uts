@@ -2,7 +2,6 @@ const loadingStates = {};
 
 async function addToCart(productId, button) {
   if (loadingStates[productId]) return; // Prevent double-clicks
-
   try {
     loadingStates[productId] = true;
     toggleButtons(productId, true); // Disable buttons

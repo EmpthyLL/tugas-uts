@@ -4,7 +4,7 @@ const userModel = require("./userModel");
 class NotifModel {
   constructor() {
     this.model = "notif";
-    this.status = {
+    this.notif = {
       1: {
         title: "Hello welcome!",
         body: "Let's get started.",
