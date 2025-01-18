@@ -1,6 +1,6 @@
 const loadingStates = {};
 
-async function addToCart(productId) {
+async function addToCart(productId, button) {
   if (loadingStates[productId]) return; // Prevent double-clicks
 
   try {
@@ -46,6 +46,7 @@ async function addToCart(productId) {
     }
   } finally {
     loadingStates[productId] = false;
+    button.disabled = false;
     toggleButtons(productId, false); // Enable buttons
   }
 }
@@ -128,11 +129,11 @@ function updateCartDisplay(productId, quantity) {
   }
 }
 
-function addQuantity(event, productId, quantity) {
+function addQuantity(event, productId) {
   event.stopPropagation();
   const button = event.currentTarget;
   button.disabled = true;
-  addToCart(productId, quantity);
+  addToCart(productId, event.currentTarget);
 }
 
 function increaseQuantity(event, productId, quantity) {
@@ -234,7 +235,10 @@ async function updateShoppingCart() {
     const memberDiscount = document.getElementById("member_discount");
     const total = document.getElementById("total");
     if (!response.data.cart || response.data.cart.items.length === 0) {
-      shoppingBag.innerHTML = "<p >Your cart is currently empty.</p>";
+      shoppingBag.innerHTML = `
+      <div class="text-center text-gray-500">
+        <p>Your cart is currently empty.</p>
+      </div>`;
       return;
     }
     subTotal.innerHTML = format(response.data.cart.cart_total);
