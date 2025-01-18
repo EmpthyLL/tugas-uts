@@ -90,7 +90,7 @@ include('../components/money') %> <% } %> <%-include('../components/categories')
             <% } else { %>
             <button
               onclick="addQuantity(event, '<%= product.id %>')"
-              class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center transition hover:bg-blue-600 shadow-md"
+              class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center transition hover:bg-blue-600 shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

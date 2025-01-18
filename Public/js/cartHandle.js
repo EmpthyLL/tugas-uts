@@ -1,6 +1,6 @@
 const loadingStates = {};
 
-async function addToCart(productId) {
+async function addToCart(productId, button) {
   if (loadingStates[productId]) return; // Prevent double-clicks
 
   try {
@@ -9,6 +9,30 @@ async function addToCart(productId) {
 
     const response = await axios.post(`/api/cart/add/${productId}`);
     if (response.status === 200 && response.data.item.quantity === 1) {
+      const container = document.getElementById(`quantity-${productId}`);
+      container.innerHTML = `
+      <div class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md">
+        <button
+          onclick="decreaseQuantity(event, '${productId}')"
+          class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <!-- Minus Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+          </svg>
+        </button>
+        <span id="quantity-display-${productId}" class="text-gray-800 font-semibold">1</span>
+        <button
+          onclick="increaseQuantity(event, '${productId}')"
+          class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <!-- Plus Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+        </button>
+      </div>
+    `;
       updateCartDisplay(productId, response.data.item.quantity);
       UpdateCart();
       if (document.getElementById("shopping-bag")) {
@@ -22,6 +46,7 @@ async function addToCart(productId) {
     }
   } finally {
     loadingStates[productId] = false;
+    button.disabled = false;
     toggleButtons(productId, false); // Enable buttons
   }
 }
@@ -93,7 +118,7 @@ function updateCartDisplay(productId, quantity) {
     container.innerHTML = `
         <button
           onclick="addQuantity(event, '${productId}')"
-          class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center transition hover:bg-blue-600 shadow-md"
+          class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center transition hover:bg-blue-600 shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <!-- Plus Icon -->
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
@@ -104,33 +129,11 @@ function updateCartDisplay(productId, quantity) {
   }
 }
 
-function addQuantity(event, productId, quantity) {
+function addQuantity(event, productId) {
   event.stopPropagation();
-  addToCart(productId, quantity);
-  const container = document.getElementById(`quantity-${productId}`);
-  container.innerHTML = `
-      <div class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md">
-        <button
-          onclick="decreaseQuantity(event, '${productId}')"
-          class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <!-- Minus Icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
-          </svg>
-        </button>
-        <span id="quantity-display-${productId}" class="text-gray-800 font-semibold">1</span>
-        <button
-          onclick="increaseQuantity(event, '${productId}')"
-          class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <!-- Plus Icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-        </button>
-      </div>
-    `;
+  const button = event.currentTarget;
+  button.disabled = true;
+  addToCart(productId, event.currentTarget);
 }
 
 function increaseQuantity(event, productId, quantity) {
@@ -232,7 +235,10 @@ async function updateShoppingCart() {
     const memberDiscount = document.getElementById("member_discount");
     const total = document.getElementById("total");
     if (!response.data.cart || response.data.cart.items.length === 0) {
-      shoppingBag.innerHTML = "<p >Your cart is currently empty.</p>";
+      shoppingBag.innerHTML = `
+      <div class="text-center text-gray-500">
+        <p>Your cart is currently empty.</p>
+      </div>`;
       return;
     }
     subTotal.innerHTML = format(response.data.cart.cart_total);
