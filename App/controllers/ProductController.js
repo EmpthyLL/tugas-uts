@@ -41,7 +41,7 @@ class ProductController extends Controller {
       this.renderView(res, this.view, options);
     } catch (error) {
       if (error.message === "Request failed with status code 404") {
-        this.handleError(res, "Product is not available", 404);
+        res.redirect("/");
       } else {
         console.log(error.message);
         this.handleError(res, "Failed to render product page", 500);

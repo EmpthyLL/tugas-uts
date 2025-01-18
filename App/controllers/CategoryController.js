@@ -27,8 +27,8 @@ class CategoryController extends Controller {
       // Get products and apply filters/sorting
       let products = response.data.products;
 
-      if (!products) {
-        throw new Error("No results found.");
+      if (products.length === 0) {
+        return res.redirect("/");
       }
 
       // Filter by brand if selected

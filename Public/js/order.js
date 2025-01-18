@@ -173,13 +173,17 @@ async function confirmOrder() {
         </div>`;
   confirmButton.innerHTML = html;
   confirmButton.disabled = true;
-  const res = await axios.post("/api/order", { delivery, total });
-  if (res.status === 201) {
-    window.location.reload(true);
-  } else if (res.status === 400) {
-    window.location.href = `/top-up?balance=${res.data.message}`;
-  } else if (res.status === 403) {
-    window.location.href = "/sign-in";
+  try {
+    const res = await axios.post("/api/order", { delivery, total });
+    if (res.status === 201) {
+      window.location.reload(true);
+    }
+  } catch (error) {
+    if (error.status === 400) {
+      window.location.href = `/top-up?balance=${error.response.data.message}`;
+    } else if (error.status === 403) {
+      window.location.href = "/sign-in";
+    }
   }
 }
 async function cancelOrder(id, status) {
@@ -192,10 +196,14 @@ async function cancelOrder(id, status) {
         </div>`;
   cancelButton.innerHTML = html;
   cancelButton.disabled = true;
-  const res = await axios.delete(`/api/order/${id}`);
-  if (res.status === 200) {
-    window.location.reload(true);
-  } else if (res.status === 403) {
-    window.location.href = "/sign-in";
+  try {
+    const res = await axios.delete(`/api/order/${id}`);
+    if (res.status === 200) {
+      window.location.reload(true);
+    }
+  } catch (error) {
+    if (error.status === 403) {
+      window.location.href = "/sign-in";
+    }
   }
 }
