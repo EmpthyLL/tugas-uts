@@ -170,9 +170,6 @@ class OrderController extends Controller {
     const sendStatusUpdate = async () => {
       const data = {
         status: currentStatus,
-        label: statusDescriptions[currentStatus].label,
-        description: statusDescriptions[currentStatus].description,
-        time: new Date().toLocaleTimeString(),
       };
 
       res.write(`data: ${JSON.stringify(data)}\n\n`);
