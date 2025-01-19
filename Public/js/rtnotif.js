@@ -25,7 +25,7 @@ eventSource.onmessage = async (event) => {
   }
   OrderStatus.innerHTML = `
             ${
-              order?.status === 1
+              data?.status === 1
                 ? `
               <span
                 class="flex gap-2 border border-green-400 items-center text-green-500 bg-green-100 px-3 py-1 rounded-lg text-sm font-semibold"
@@ -45,7 +45,7 @@ eventSource.onmessage = async (event) => {
                 </svg>
                 <%= order?.status_name %>
               </span>`
-                : order?.status === 2
+                : data?.status === 2
                 ? `
               <span
                 class="flex gap-2 items-center border border-red-400 text-red-500 bg-red-100 px-3 py-1 rounded-lg text-sm font-semibold"
