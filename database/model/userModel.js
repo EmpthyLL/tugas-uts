@@ -154,6 +154,7 @@ class UserModel {
 
     await this.purchase(uuid, price);
     await user.save();
+    return user.member_until;
   }
 }
 

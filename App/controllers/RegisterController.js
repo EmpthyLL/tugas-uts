@@ -1,3 +1,4 @@
+const notifModel = require("../../database/model/notifModel");
 const userModel = require("../../database/model/userModel");
 const { setCookie } = require("../../utils/cookie");
 const Controller = require("./Controller");
@@ -40,6 +41,11 @@ class RegisterController extends Controller {
   }
 
   sendOTP(req, res) {
+    if (req.cookies.userId && req.url.startsWith("/profile")) {
+      return res
+        .status(401)
+        .json({ message: "OTP is not allowed to be generate." });
+    }
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     this.otp = otp;
     return res.status(200).json({
@@ -109,6 +115,15 @@ class RegisterController extends Controller {
 
       setCookie(res, "auth_token", acc_token, { maxAge: 15 * 60 });
       setCookie(res, "userId", uuid, { maxAge: 7 * 60 * 60 * 24 });
+
+      const message = {
+        title: `Wellcome, ${full_name}!`,
+        body: "Explore our deals and enjoy shopping with us.",
+        navigate: "/",
+        category: "common",
+        type: "register",
+      };
+      await notifModel.addNotif(req.cookies.userId, message);
 
       res.redirect(`/`);
     } catch (error) {

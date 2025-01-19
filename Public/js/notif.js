@@ -1,32 +1,6 @@
-const fs = require("fs");
-const path = require("path");
-const { formatDate, formatCurrency } = require("../../utils/formater");
-const cartModel = require("../../database/model/cartModel");
-const historyModel = require("../../database/model/historyModel");
-const notifModel = require("../../database/model/notifModel");
-const userModel = require("../../database/model/userModel");
-
-class BaseController {
-  constructor() {
-    this.menus = [
-      {
-        title: "Cart",
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>`,
-        href: "/cart",
-      },
-      {
-        title: "History",
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-history"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>`,
-        href: "/history",
-      },
-      {
-        title: "Notifications",
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>`,
-        href: "/notification",
-      },
-    ];
-    this.notifIcon = {
-      home: `
+async function showNotification(e, category) {
+  const notifIcon = {
+    home: `
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -42,7 +16,7 @@ class BaseController {
                 d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
               />
             </svg>`,
-      register: `
+    register: `
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -62,7 +36,7 @@ class BaseController {
               <circle cx="9" cy="11" r="2" />
               <rect x="2" y="5" width="20" height="14" rx="2" />
             </svg>`,
-      becomemember: `<svg
+    becomemember: `<svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -77,7 +51,7 @@ class BaseController {
                   d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"
                 />
               </svg>`,
-      welcomemember: `
+    welcomemember: `
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -107,7 +81,7 @@ class BaseController {
                         d="M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z"
                       />
                     </svg>`,
-      profile: `<svg
+    profile: `<svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -122,7 +96,7 @@ class BaseController {
                     d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
                   />
                 </svg>`,
-      profileemail: `<svg
+    profileemail: `<svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
                       height="24"
@@ -138,7 +112,7 @@ class BaseController {
                       <circle cx="12" cy="12" r="4" />
                       <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8" />
                     </svg>`,
-      profilephone: `<svg
+    profilephone: `<svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
                       height="24"
@@ -155,7 +129,7 @@ class BaseController {
                         d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
                       />
                     </svg>`,
-      topup: `
+    topup: `
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -171,7 +145,7 @@ class BaseController {
                 d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"
               />
             </svg>`,
-      needtopup: `
+    needtopup: `
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -187,7 +161,7 @@ class BaseController {
                   d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"
                 />
               </svg>`,
-      inprocess: `
+    inprocess: `
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -202,7 +176,7 @@ class BaseController {
                       stroke-linejoin="round"
                       d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"
                     />`,
-      complete: `
+    complete: `
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -218,7 +192,7 @@ class BaseController {
                       d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75"
                     />
                   </svg>`,
-      cancel: `
+    cancel: `
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -234,7 +208,7 @@ class BaseController {
                       d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"
                     />
                   </svg>`,
-      confirm: `
+    confirm: `
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -250,7 +224,7 @@ class BaseController {
                     d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"
                   />
                 </svg>`,
-      store: `
+    store: `
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -271,7 +245,7 @@ class BaseController {
           <path d="M22 7v3a2 2 0 0 1-2 2a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7" />
         </svg>
       `,
-      arived: `
+    arived: `
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -293,70 +267,94 @@ class BaseController {
                 d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"
               />
             </svg>`,
-    };
-  }
+  };
+  const notifTab = document.querySelectorAll(".notifTab");
+  const notificationContent = document.getElementById("notificationContent");
+  const active =
+    "bg-gradient-to-r from-slate-600 to-slate-500 hover:from-slate-700 hover:to-slate-600 text-white font-semibold rounded-xl shadow-lg ring-2 ring-slate-600 focus:outline-none transition-all duration-300 ease-in-out transform scale-105";
+  notifTab.forEach((item) => item.classList.remove(...active.split(" ")));
+  e.currentTarget.classList.add(...active.split(" "));
+  const newParams = new URLSearchParams(window.location.search);
+  newParams.set("category", category);
 
-  async renderView(res, view, options) {
-    const layoutPath = path.join(
-      __dirname,
-      "../../views/components",
-      `${this.layout}.ejs`
-    );
-    const viewPath = path.join(__dirname, "../../views", `${view}.ejs`);
+  const newUrl = `${window.location.pathname}?${newParams.toString()}`;
+  window.history.pushState(null, "", newUrl);
 
-    try {
-      if (!fs.existsSync(viewPath) || !fs.existsSync(layoutPath)) {
-        throw new Error(`View "${view}" not found`);
+  try {
+    const res = await axios.get(`/api/notif/${category}`);
+    if (res.status === 200) {
+      let html = "";
+      if (res.data.data.length === 0) {
+        notificationContent.innerHTML = `
+            <p class="text-gray-600 text-center">
+              You don't have any notification right now.
+            </p>`;
+        return;
       }
-      const { user, cart, history, notification } = await this.getDefaultData(
-        options.req
-      );
-      res.render(view, {
-        ...options,
-        formatDate,
-        formatCurrency,
-        menus: this.menus,
-        notifIcon: this.notifIcon,
-        user,
-        cart,
-        history,
-        notification,
-        toastr: options.req.toastr,
+      res.data.data.forEach((item) => {
+        html += `
+    <a
+      href="${item.navigate}"
+      onclick="handleNotif(${item.id},${item.navigate})"
+      class="relative min-h-[84px] flex items-center space-x-4 p-4 bg-white rounded-lg shadow-md border border-gray-200 m-2 hover:bg-green-300 hover:bg-opacity-80 transition duration-200 ease-in-out"
+    >
+      <div
+        class="flex items-center justify-center aspect-square p-2 bg-lime-100 text-lime-500 rounded-full"
+      >
+        ${notifIcon[item.type]}
+      </div>
+
+      <!-- Text container -->
+      <div class="flex flex-col flex-1">
+        <p class="text-sm font-semibold text-gray-700">${item.title}</p>
+
+        <div class="flex justify-between items-end mt-1">
+          <p class="text-[12px] text-gray-700">${item.body}</p>
+          <p class="text-[12px] text-gray-400">
+            ${formatDate(item.created_at)}
+          </p>
+        </div>
+      </div>
+
+      ${
+        !item.is_read
+          ? `
+      <span
+        class="absolute top-2 right-2 w-3 h-3 bg-red-500 border border-white dark:border-gray-800 rounded-full"
+      ></span>`
+          : ""
+      }
+    </a>`;
       });
-    } catch (error) {
-      this.handleError(res, error.message, 404);
-    }
-  }
 
-  handleError(res, message = "Something went wrong", statusCode = 500) {
-    const title = {
-      4: "Web Page Error",
-      5: "Server Went Wrong",
-    };
-    res.status(statusCode);
-    res.render("error/error", {
-      layout: "error/error_view",
-      title: `${statusCode} ` + title[statusCode.toString()[0]],
-      code: statusCode.toString(),
-      message: `<b>Oh no!</b> ${message}`,
-    });
-  }
-  async getDefaultData(req, res) {
-    let user = null;
-    let cart = [];
-    let history = [];
-    let notification = [];
-    if (req.cookies.userId) {
-      user = await userModel.getUserByUUID(req.cookies.userId);
-      cart = await cartModel.getUserCartList(req.cookies.userId);
-      history = await historyModel.getHistories(req.cookies.userId);
-      notification = await notifModel.getNotif(req.cookies.userId);
-      if (cart.id) {
-        await cartModel.updatePrice(cart.id, user.is_member);
-      }
+      notificationContent.innerHTML = html;
     }
-    return { user, cart, history, notification };
+  } catch (error) {
+    if (error.status === 403) {
+      window.location.href = "/sign-in";
+    }
   }
 }
 
-module.exports = BaseController;
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleString("id-ID", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+async function handleNotif(e, id, navigate) {
+  e.preventDefault();
+  try {
+    await axios.post(`/api/notif/read/${id}`);
+    window.location.href = navigate;
+  } catch (error) {
+    if (error.status === 403) {
+      window.location.href = "/sign-in";
+    }
+  }
+}

@@ -26,6 +26,7 @@ const authApi = require("./api/auth");
 const cartApi = require("./api/cart");
 const purchaseApi = require("./api/purchase");
 const orderApi = require("./api/order");
+const notifApi = require("./api/notif");
 
 const app = express();
 const port = process.env.PORT;
@@ -75,6 +76,7 @@ app.use("/api/auth", authApi);
 app.use("/api/cart", cartApi);
 app.use("/api/purchase", purchaseApi);
 app.use("/api/order", orderApi);
+app.use("/api/notif", notifApi);
 
 app.use((req, res) => {
   res.status(404);

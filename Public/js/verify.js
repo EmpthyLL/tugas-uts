@@ -1,5 +1,18 @@
 function startCountdown(button) {
+  const savedTime = localStorage.getItem("countdownEndTime");
   let countdown = 300;
+
+  if (savedTime) {
+    countdown = Math.floor((savedTime - Date.now()) / 1000);
+    if (countdown <= 0) {
+      clearInterval(countdownInterval);
+      button.disabled = false;
+      button.textContent = "Resend OTP";
+      localStorage.removeItem("countdownEndTime");
+      return;
+    }
+  }
+
   button.disabled = true;
 
   const formatTime = (time) => {
@@ -10,6 +23,9 @@ function startCountdown(button) {
 
   button.textContent = `Resend OTP in ${formatTime(countdown)}`;
 
+  const countdownEndTime = Date.now() + countdown * 1000;
+  localStorage.setItem("countdownEndTime", countdownEndTime);
+
   countdownInterval = setInterval(() => {
     countdown--;
     button.textContent = `Resend OTP in ${formatTime(countdown)}`;
@@ -18,19 +34,30 @@ function startCountdown(button) {
       clearInterval(countdownInterval);
       button.disabled = false;
       button.textContent = "Resend OTP";
+      localStorage.removeItem("countdownEndTime");
+    } else {
+      localStorage.setItem("countdownEndTime", countdownEndTime);
     }
   }, 1000);
 }
 
 async function generateOtp() {
-  const time = Math.floor(3000 + Math.random() * 3001).toString();
+  const time = Math.floor(4000 + Math.random() * 4001).toString();
   const button = document.getElementById("resendButton");
-  const res = await axios.post("/api/auth/sendOTP");
-  const { otp } = res.data;
-  startCountdown(button);
-  setTimeout(() => {
-    alert(`Your OTP is: ${otp}`);
-  }, time);
+  try {
+    const res = await axios.post("/api/auth/sendOTP");
+    if (res.status === 200) {
+      const { otp } = res.data;
+      startCountdown(button);
+      setTimeout(() => {
+        alert(`Your OTP is: ${otp}`);
+      }, time);
+    }
+  } catch (error) {
+    if (error.status === 403) {
+      window.location.replace = "/";
+    }
+  }
 }
 
 function resendOtp(e) {

@@ -4,11 +4,11 @@ const cektoken = require("../../app/middlewares/cektoken");
 
 const app = express.Router();
 
-app.post("/", cektoken, (req, res) => {
-  orderController.createOrder(req, res);
+app.post("/", cektoken, async (req, res) => {
+  await orderController.createOrder(req, res);
 });
-app.delete("/:id", cektoken, (req, res) => {
-  orderController.cancelOrder(req, res);
+app.delete("/:id", cektoken, async (req, res) => {
+  await orderController.cancelOrder(req, res);
 });
 
 module.exports = app;

@@ -1,7 +1,7 @@
 const moment = require("moment");
 
 function formatDate(dateString) {
-  return moment(dateString).format("DD MMMM YYYY");
+  return moment(dateString).format("DD MMMM YYYY, hh:mm A");
 }
 
 function formatCurrency(number) {

@@ -73,6 +73,7 @@ CREATE TABLE notifications (
     title VARCHAR(255),
     body TEXT,
     navigate VARCHAR(255),
+    category VARCHAR(255),
     type VARCHAR(255),
     is_read BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

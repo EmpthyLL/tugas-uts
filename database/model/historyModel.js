@@ -55,7 +55,6 @@ class HistoryModel {
         },
       ],
     });
-
     return histories?.map((history) => ({
       uuid: history?.uuid,
       status: history?.status,
