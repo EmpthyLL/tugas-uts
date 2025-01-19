@@ -170,9 +170,6 @@ class OrderController extends Controller {
     const sendStatusUpdate = async () => {
       const data = {
         status: currentStatus,
-        label: statusDescriptions[currentStatus].label,
-        description: statusDescriptions[currentStatus].description,
-        time: new Date().toLocaleTimeString(),
       };
 
       res.write(`data: ${JSON.stringify(data)}\n\n`);
@@ -236,6 +233,7 @@ class OrderController extends Controller {
           type: "complete",
         };
         await notifModel.addNotif(req.cookies.userId, message);
+        await historyModel.updateStatus(req.cookies.userId, 1);
         res.write(
           `data: ${JSON.stringify({
             status: 1,
