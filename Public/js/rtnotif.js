@@ -152,8 +152,8 @@ async function updateHistory() {
                   <a
                     href="/${
                       item.status !== 1 || item.status !== 2
-                        ? "history"
-                        : "order"
+                        ? "order"
+                        : "history"
                     }/${item.uuid}"
                     class="flex items-center space-x-4 p-4 m-2 bg-white rounded-lg shadow-lg border border-gray-200 transition-transform hover:scale-105 hover:shadow-xl"
                   >
