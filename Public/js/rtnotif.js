@@ -1,4 +1,34 @@
 const eventSource = new EventSource("/api/order/status");
+const statusOrder = {
+  1: {
+    label: "Order Completed",
+    description: "The order has been successfully delivered.",
+  },
+  2: {
+    label: "Order Canceled",
+    description: "The order was canceled by the user or driver.",
+  },
+  3: {
+    label: "Heading To Mart",
+    description: "The driver is heading to the mart.",
+  },
+  4: {
+    label: "Arrived At Mart",
+    description: "The driver has arrived at the mart.",
+  },
+  5: {
+    label: "Order Processed",
+    description: "The order has been picked and paid for.",
+  },
+  6: {
+    label: "Heading To User",
+    description: "The driver is heading to the user.",
+  },
+  7: {
+    label: "Order Arrived",
+    description: "The driver has arrived at the user's location.",
+  },
+};
 const HistoryPop = document.getElementById("History-Pop");
 const HistoryDot = document.getElementById("HistoryDot");
 const NotifPop = document.getElementById("Notif-Pop");
@@ -24,9 +54,11 @@ eventSource.onmessage = async (event) => {
     rateDriver.classList.remove("hidden");
   }
   OrderStatus.innerHTML = `
-            ${
-              data?.status === 1
-                ? `
+            <!-- Dynamic Status -->
+            <div>
+              ${
+                data.status === 1
+                  ? `
               <span
                 class="flex gap-2 border border-green-400 items-center text-green-500 bg-green-100 px-3 py-1 rounded-lg text-sm font-semibold"
                 ><svg
@@ -43,10 +75,10 @@ eventSource.onmessage = async (event) => {
                 >
                   <path d="M20 6 9 17l-5-5" />
                 </svg>
-                <%= order?.status_name %>
+                ${statusOrder[data.status].label}
               </span>`
-                : data?.status === 2
-                ? `
+                  : data.status === 2
+                  ? `
               <span
                 class="flex gap-2 items-center border border-red-400 text-red-500 bg-red-100 px-3 py-1 rounded-lg text-sm font-semibold"
                 ><svg
@@ -65,9 +97,9 @@ eventSource.onmessage = async (event) => {
                   <path d="m15 9-6 6" />
                   <path d="m9 9 6 6" />
                 </svg>
-                <%= order?.status_name %>
+                ${statusOrder[data.status].label}
               </span>`
-                : `
+                  : `
               <span
                 class="flex gap-2 items-center border border-yellow-400 text-yellow-500 bg-yellow-100 px-3 py-1 rounded-lg text-sm font-semibold"
                 ><svg
@@ -85,9 +117,17 @@ eventSource.onmessage = async (event) => {
                   <circle cx="12" cy="12" r="10" />
                   <polyline points="12 6 12 12 16 14" />
                 </svg>
-                <%= order?.status_name %>
+                ${statusOrder[data.status].label}
               </span>`
-            }
+              }
+            </div>
+
+            <span
+              class="text-gray-400 text-xs cursor-pointer flex items-center"
+              title="${statusOrder[data.status].description}"
+              >* 
+                ${statusOrder[data.status].description}
+            </span>
   `;
   await Promise.allSettled([updateHistory(), updateNotif()]);
 };
