@@ -233,6 +233,7 @@ class OrderController extends Controller {
           type: "complete",
         };
         await notifModel.addNotif(req.cookies.userId, message);
+        await historyModel.updateStatus(req.cookies.userId, 1);
         res.write(
           `data: ${JSON.stringify({
             status: 1,
