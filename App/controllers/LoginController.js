@@ -64,7 +64,7 @@ class LoginController extends Controller {
       const joinMessage = {
         title: `Become a member!`,
         body: "Join our membership today  to get exclusive discount!",
-        navigate: "/",
+        navigate: "/become-member",
         category: "payment",
         type: "becomemember",
       };

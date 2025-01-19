@@ -16,6 +16,9 @@ app.get("/verify-email", (req, res) => {
   profileController.isEmail = true;
   profileController.layout = "plain";
   registerController.otp = "";
+  if (!profileController.email) {
+    res.redirect("/profile");
+  }
   profileController.index(req, res);
 });
 app.get("/verify-number", (req, res) => {
@@ -23,6 +26,9 @@ app.get("/verify-number", (req, res) => {
   profileController.isEmail = false;
   profileController.layout = "plain";
   registerController.otp = "";
+  if (!profileController.no_hp) {
+    res.redirect("/profile");
+  }
   profileController.index(req, res);
 });
 

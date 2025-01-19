@@ -3,8 +3,6 @@ const exlay = require("express-ejs-layouts");
 const session = require("express-session");
 const serveFavicon = require("serve-favicon");
 const cookieParser = require("cookie-parser");
-const { Server } = require("socket.io");
-const http = require("http");
 const path = require("path");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
@@ -30,8 +28,6 @@ const notifApi = require("./api/notif");
 
 const app = express();
 const port = process.env.PORT;
-const server = http.createServer(app);
-const io = new Server(server);
 
 app.set("view engine", "ejs");
 app.use(exlay);
@@ -53,13 +49,6 @@ app.use(
 app.use(flash());
 app.use(auth);
 sequelize.sync();
-io.on("connection", (socket) => {
-  console.log("A user connected");
-
-  socket.on("disconnect", () => {
-    console.log("A user disconnected");
-  });
-});
 
 app.use("/", indexPage);
 app.use("/sign-in", loginPage);

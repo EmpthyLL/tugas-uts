@@ -6,6 +6,9 @@ class NotifModel {
     this.model = "notif";
   }
   async getNotif(uuid) {
+    if (!uuid) {
+      return;
+    }
     const user = await userModel.getUserByUUID(uuid);
     const notifs = await Notifications.findAll({
       where: { user_id: user.id },
@@ -14,6 +17,9 @@ class NotifModel {
     return notifs;
   }
   async getNotifCategory(uuid, category) {
+    if (!uuid) {
+      return;
+    }
     const user = await userModel.getUserByUUID(uuid);
     const notifs = await Notifications.findAll({
       where: { user_id: user.id, category },
@@ -22,6 +28,9 @@ class NotifModel {
     return notifs;
   }
   async addNotif(uuid, message) {
+    if (!uuid) {
+      return;
+    }
     const user = await userModel.getUserByUUID(uuid);
     await Notifications.create({ user_id: user.id, ...message });
   }

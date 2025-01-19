@@ -12,6 +12,9 @@ class CartModel {
     return cart;
   }
   async getUserCart(uuid) {
+    if (!uuid) {
+      return;
+    }
     const user = await userModel.getUserByUUID(uuid);
     const cart = await Carts.findOne({
       where: { user_id: user.id, deleted_at: null },
@@ -19,6 +22,9 @@ class CartModel {
     return cart;
   }
   async getUserCartList(uuid) {
+    if (!uuid) {
+      return;
+    }
     const user = await userModel.getUserByUUID(uuid);
     const cart = await Carts.findOne({
       where: { user_id: user.id, deleted_at: null },
@@ -77,6 +83,9 @@ class CartModel {
     }));
   }
   async getCartItem(item_id, uuid) {
+    if (!uuid) {
+      return;
+    }
     const cart = await this.getUserCart(uuid);
     const item = await CartItems.findOne({
       where: { cart_id: cart.id, item_id },
@@ -84,6 +93,9 @@ class CartModel {
     return item;
   }
   async createCart(uuid) {
+    if (!uuid) {
+      return;
+    }
     const user = await userModel.getUserByUUID(uuid);
     await Carts.create({
       user_id: user.id,
@@ -97,6 +109,9 @@ class CartModel {
     return cart.id;
   }
   async addItem(uuid, item) {
+    if (!uuid) {
+      return;
+    }
     const user = await userModel.getUserByUUID(uuid);
     const { item_id, title, price, brand, category, thumbnail } = item;
     let cart = await this.getUserCart(uuid);
@@ -117,6 +132,9 @@ class CartModel {
     await this.updatePrice(cart.id, user.is_member);
   }
   async AddQuantity(itemId, uuid) {
+    if (!uuid) {
+      return;
+    }
     const user = await userModel.getUserByUUID(uuid);
     const cart = await this.getUserCart(uuid);
     let cartItem = await CartItems.findOne({
@@ -131,6 +149,9 @@ class CartModel {
     return cartItem.quantity;
   }
   async ReduceQuantity(itemId, uuid) {
+    if (!uuid) {
+      return;
+    }
     const user = await userModel.getUserByUUID(uuid);
     const cart = await this.getUserCart(uuid);
     let cartItem = await CartItems.findOne({

@@ -10,6 +10,9 @@ app.get("/", (req, res) => {
 app.get("/verify-account", (req, res) => {
   loginController.step = 1;
   registerController.otp = "";
+  if (!loginController.no_hp) {
+    res.redirect("/sign-in");
+  }
   loginController.index(req, res);
 });
 

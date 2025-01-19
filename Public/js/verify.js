@@ -152,7 +152,3 @@ async function handleSubmit(event) {
     });
   }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  generateOtp();
-});
