@@ -287,10 +287,17 @@
       <button
         id="cancel"
         onclick="cancelOrder('<%= order.uuid%>', '<%= order.status%>')"
-        class="w-full bg-gray-500/40 text-white py-3 rounded-lg font-semibold hover:bg-gray-700/40 transition duration-300 ease-in-out mt-5 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="w-full bg-gray-500/40 <%= order.status >= 5 || order.status === 1 || order.status === 2 ? "hidden" : ""%> text-white py-3 rounded-lg font-semibold hover:bg-gray-700/40 transition duration-300 ease-in-out mt-5 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Cancel Order
       </button>
+      <a
+      id="rateDriver"
+        href="/history/<%= order.uuid %>"
+        class="w-full block bg-blue-500 text-white py-3 <%= order.status !== 1 ? 'hidden' : '' %> rounded-lg font-semibold hover:bg-blue-600 transition duration-300 ease-in-out mt-5 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Rate Driver
+      </a>
       <% } %>
     </div>
   </div>

@@ -1,3 +1,4 @@
+const notifModel = require("../../database/model/notifModel");
 const userModel = require("../../database/model/userModel");
 const Controller = require("./Controller");
 
@@ -36,7 +37,26 @@ class MemberController extends Controller {
       });
     }
 
-    await userModel.becomeMember(req.cookies.userId, price, req.params.type);
+    const until = await userModel.becomeMember(
+      req.cookies.userId,
+      price,
+      req.params.type
+    );
+
+    const formattedDate = new Intl.DateTimeFormat("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    }).format(new Date(until));
+
+    const message = {
+      title: `!`,
+      body: `You are now a member until ${formattedDate}. Enjoy your benefits!`,
+      navigate: "/profile",
+      category: "payment",
+      type: "welcomemember",
+    };
+    await notifModel.addNotif(req.cookies.userId, message);
     return res.status(200).json({
       message: "Congratulation! You are now a member.",
     });

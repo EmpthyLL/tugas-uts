@@ -248,6 +248,10 @@ const Histories = sequelize.define(
       allowNull: false,
       defaultValue: 3,
     },
+    next_status: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
     rating: {
       type: DataTypes.INTEGER,
       allowNull: true,
@@ -294,6 +298,10 @@ const Notifications = sequelize.define(
       allowNull: false,
     },
     navigate: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    category: {
       type: DataTypes.STRING,
       allowNull: false,
     },

@@ -2,13 +2,12 @@ const loadingStates = {};
 
 async function addToCart(productId, button) {
   if (loadingStates[productId]) return; // Prevent double-clicks
-
   try {
     loadingStates[productId] = true;
     toggleButtons(productId, true); // Disable buttons
 
-    const response = await axios.post(`/api/cart/add/${productId}`);
-    if (response.status === 200 && response.data.item.quantity === 1) {
+    const res = await axios.post(`/api/cart/add/${productId}`);
+    if (res.status === 200 && res.data.item.quantity === 1) {
       const container = document.getElementById(`quantity-${productId}`);
       container.innerHTML = `
       <div class="flex items-center space-x-2 bg-gray-100 p-1 rounded-full shadow-md">
@@ -33,7 +32,7 @@ async function addToCart(productId, button) {
         </button>
       </div>
     `;
-      updateCartDisplay(productId, response.data.item.quantity);
+      updateCartDisplay(productId, res.data.item.quantity);
       UpdateCart();
       if (document.getElementById("shopping-bag")) {
         updateShoppingCart();
@@ -58,9 +57,9 @@ async function increment(productId, quantity) {
     loadingStates[productId] = true;
     toggleButtons(productId, true);
 
-    const response = await axios.post(`/api/cart/increment/${productId}`);
-    if (response.status === 200 && quantity !== response.data.quantity) {
-      updateCartDisplay(productId, response.data.quantity);
+    const res = await axios.post(`/api/cart/increment/${productId}`);
+    if (res.status === 200 && quantity !== res.data.quantity) {
+      updateCartDisplay(productId, res.data.quantity);
       if (document.getElementById("shopping-bag")) {
         updateShoppingCart();
       }
@@ -83,9 +82,9 @@ async function decrement(productId, quantity) {
     loadingStates[productId] = true;
     toggleButtons(productId, true);
 
-    const response = await axios.post(`/api/cart/decrement/${productId}`);
-    if (response.status === 200 && quantity !== response.data.quantity) {
-      updateCartDisplay(productId, response.data.quantity);
+    const res = await axios.post(`/api/cart/decrement/${productId}`);
+    if (res.status === 200 && quantity !== res.data.quantity) {
+      updateCartDisplay(productId, res.data.quantity);
       if (document.getElementById("shopping-bag")) {
         updateShoppingCart();
       }
@@ -159,12 +158,10 @@ function toggleButtons(productId, disable) {
 }
 async function UpdateCart() {
   try {
-    const viewall = document.getElementById("cartViewAll");
     const cartdot = document.getElementById("CartDot");
-    const response = await axios("/api/cart/view");
+    const res = await axios("/api/cart/view");
     const CartPop = document.getElementById("Cart-Pop");
-    if (!response.data.cart || response.data.cart.items.length === 0) {
-      viewall.classList.add("hidden");
+    if (!res.data.cart || res.data.cart.items.length === 0) {
       cartdot.classList.add("hidden");
       CartPop.innerHTML = `<p 
                   class="text-sm text-gray-500  flex justify-center items-center mt-2 mb-32" >
@@ -173,10 +170,9 @@ async function UpdateCart() {
       return;
     }
 
-    viewall.classList.remove("hidden");
     cartdot.classList.remove("hidden");
     let navhtml = `<div>`;
-    response.data.cart.items.forEach((item) => {
+    res.data.cart.items.forEach((item) => {
       navhtml += ` <a
                     href="/product/${item.id}"
                     class="flex gap-2 items-center m-2 bg-white  rounded-lg shadow-md border border-gray-200 "
@@ -209,7 +205,17 @@ async function UpdateCart() {
                     </div>
                   </a>`;
     });
-    navhtml += "</div>";
+    navhtml += `
+                  <div
+                    id="cartViewAll"
+                    class="sticky bottom-0 left-0 right-0 py-2 bg-white text-center shadow-md border rounded-t-lg "
+                  >
+                    <a
+                      href="/cart"
+                      class="text-blue-500 hover:text-blue-700 font-semibold"
+                      >View All</a
+                    >
+                  </div></div>`;
     CartPop.innerHTML = navhtml;
   } catch (error) {
     console.error("Error updating cart:", error);
@@ -228,28 +234,26 @@ function format(number) {
 
 async function updateShoppingCart() {
   try {
-    const response = await axios("/api/cart/view");
+    const res = await axios("/api/cart/view");
     const shoppingBag = document.getElementById("shopping-bag");
     const subTotal = document.getElementById("subtotal");
     const tax = document.getElementById("tax");
     const memberDiscount = document.getElementById("member_discount");
     const total = document.getElementById("total");
-    if (!response.data.cart || response.data.cart.items.length === 0) {
+    if (!res.data.cart || res.data.cart.items.length === 0) {
       shoppingBag.innerHTML = `
       <div class="text-center text-gray-500">
         <p>Your cart is currently empty.</p>
       </div>`;
       return;
     }
-    subTotal.innerHTML = format(response.data.cart.cart_total);
-    tax.innerHTML = format(response.data.cart.tax);
-    memberDiscount.innerHTML = `- ${format(
-      response.data.cart.member_discount
-    )}`;
-    total.innerHTML = format(response.data.cart.total);
+    subTotal.innerHTML = format(res.data.cart.cart_total);
+    tax.innerHTML = format(res.data.cart.tax);
+    memberDiscount.innerHTML = `- ${format(res.data.cart.member_discount)}`;
+    total.innerHTML = format(res.data.cart.total);
 
     let carthtml = "";
-    response.data.cart.items.forEach((item) => {
+    res.data.cart.items.forEach((item) => {
       carthtml += ` <div class="flex items-start border-b pb-4 mb-4" id="product-${item}">
     <a href="/product/${item.id}">
       <img

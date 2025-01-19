@@ -1,3 +1,4 @@
+const notifModel = require("../../database/model/notifModel");
 const userModel = require("../../database/model/userModel");
 const { setCookie } = require("../../utils/cookie");
 const Controller = require("./Controller");
@@ -40,8 +41,15 @@ class RegisterController extends Controller {
   }
 
   sendOTP(req, res) {
+    if (req.cookies.userId && req.url.startsWith("/profile")) {
+      return res
+        .status(401)
+        .json({ message: "OTP is not allowed to be generate." });
+    }
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expirationTime = Date.now() + 5 * 60 * 1000;
     this.otp = otp;
+    this.otpExpiration = expirationTime;
     return res.status(200).json({
       message: "OTP is generated",
       otp,
@@ -55,14 +63,24 @@ class RegisterController extends Controller {
         message: "Please enter the OTP sent to you.",
       });
     }
+    if (!this.otp || !this.otpExpiration) {
+      return res
+        .status(400)
+        .json({ message: "OTP has not been generated yet." });
+    }
+    if (Date.now() > this.otpExpiration) {
+      this.otp = null;
+      this.otpExpiration = null;
+      return res.status(400).json({ message: "OTP has expired." });
+    }
     if (otp !== this.otp) {
       return res.status(401).json({
         message: "Invalid OTP. Please try again.",
       });
     }
-    return res.status(200).json({
-      message: "OTP is matched",
-    });
+    this.otp = null;
+    this.expirationTime = null;
+    return res.status(200).json({ message: "OTP verified successfully!" });
   }
 
   async step1(req, res) {
@@ -109,6 +127,15 @@ class RegisterController extends Controller {
 
       setCookie(res, "auth_token", acc_token, { maxAge: 15 * 60 });
       setCookie(res, "userId", uuid, { maxAge: 7 * 60 * 60 * 24 });
+
+      const message = {
+        title: `Wellcome, ${full_name}!`,
+        body: "Explore our deals and enjoy shopping with us.",
+        navigate: "/",
+        category: "common",
+        type: "register",
+      };
+      await notifModel.addNotif(req.cookies.userId, message);
 
       res.redirect(`/`);
     } catch (error) {

@@ -8,6 +8,9 @@ class UserModel {
     this.model = "user";
   }
   async getUserByUUID(uuid) {
+    if (!uuid) {
+      return;
+    }
     const user = await Users.findOne({ where: { uuid } });
     return user || null;
   }
@@ -44,11 +47,17 @@ class UserModel {
     return { uuid, acc_token };
   }
   async removeRefToken(uuid) {
+    if (!uuid) {
+      return;
+    }
     const user = await this.getUserByUUID(uuid);
     user.refresh_token = null;
     await user.save();
   }
   async editBasicProfile(uuid, { profile_pic, fullname, gender, birth_date }) {
+    if (!uuid) {
+      return;
+    }
     const user = await this.getUserByUUID(uuid);
     if (!user) {
       return -1;
@@ -61,6 +70,9 @@ class UserModel {
     await user.save();
   }
   async editEmail(uuid, newEmail) {
+    if (!uuid) {
+      return;
+    }
     const user = await this.getUserByUUID(uuid);
     if (!user) {
       return -1;
@@ -69,6 +81,9 @@ class UserModel {
     await user.save();
   }
   async editPhone(uuid, newPhone) {
+    if (!uuid) {
+      return;
+    }
     const user = await this.getUserByUUID(uuid);
     if (!user) {
       return -1;
@@ -77,6 +92,9 @@ class UserModel {
     await user.save();
   }
   async cekBalance(uuid) {
+    if (!uuid) {
+      return;
+    }
     const user = await this.getUserByUUID(uuid);
     if (!user) {
       return -1;
@@ -85,6 +103,9 @@ class UserModel {
     return user.balance;
   }
   async purchase(uuid, price) {
+    if (!uuid) {
+      return;
+    }
     const user = await this.getUserByUUID(uuid);
     if (!user) {
       return -1;
@@ -95,6 +116,9 @@ class UserModel {
     user.save();
   }
   async topup(uuid, amount) {
+    if (!uuid) {
+      return;
+    }
     const user = await this.getUserByUUID(uuid);
     if (!user) {
       return -1;
@@ -104,6 +128,9 @@ class UserModel {
     await user.save();
   }
   async cekMemberStatus(uuid) {
+    if (!uuid) {
+      return;
+    }
     const user = await this.getUserByUUID(uuid);
     if (!user) {
       return -1;
@@ -127,6 +154,9 @@ class UserModel {
     return true;
   }
   async becomeMember(uuid, price, type) {
+    if (!uuid) {
+      return;
+    }
     const user = await this.getUserByUUID(uuid);
     if (!user) {
       return -1;
@@ -154,6 +184,7 @@ class UserModel {
 
     await this.purchase(uuid, price);
     await user.save();
+    return user.member_until;
   }
 }
 

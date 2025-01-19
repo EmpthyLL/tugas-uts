@@ -1,3 +1,4 @@
+const notifModel = require("../../database/model/notifModel");
 const userModel = require("../../database/model/userModel");
 const { setCookie, removeCookie } = require("../../utils/cookie");
 const Controller = require("./Controller");
@@ -53,10 +54,28 @@ class LoginController extends Controller {
       setCookie(res, "auth_token", acc_token, { maxAge: 15 * 60 });
       setCookie(res, "userId", uuid, { maxAge: 7 * 60 * 60 * 24 });
 
+      const welcomeMessage = {
+        title: `Welcome back, ${full_name}!`,
+        body: "Check out our latest deals and enjoy shopping!",
+        navigate: "/",
+        category: "common",
+        type: "home",
+      };
+      const joinMessage = {
+        title: `Become a member!`,
+        body: "Join our membership today  to get exclusive discount!",
+        navigate: "/become-member",
+        category: "payment",
+        type: "becomemember",
+      };
+      await Promise.allSettled([
+        notifModel.addNotif(req.cookies.userId, welcomeMessage),
+        notifModel.addNotif(req.cookies.userId, joinMessage),
+      ]);
+
       res.setHeader("Location", "/");
       res.status(302).send();
     } catch (error) {
-      console.log(error);
       req.flash("errors", [{ msg: error.message }]);
       res.setHeader("Location", "/sign-in/verify-account");
       res.status(302).send();

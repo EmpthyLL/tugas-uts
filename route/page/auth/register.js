@@ -15,6 +15,9 @@ app.get("/verify-number", (req, res) => {
   registerController.step = 1;
   registerController.isEmail = false;
   registerController.otp = "";
+  if (!registerController.no_hp) {
+    res.redirect("/register/input-number");
+  }
   registerController.index(req, res);
 });
 app.get("/user-data", (req, res) => {
@@ -26,6 +29,9 @@ app.get("/verify-email", (req, res) => {
   registerController.step = 3;
   registerController.isEmail = true;
   registerController.otp = "";
+  if (!registerController.no_hp || !registerController.email) {
+    res.redirect("/register/user-data");
+  }
   registerController.index(req, res);
 });
 
