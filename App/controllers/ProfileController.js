@@ -2,6 +2,7 @@ const Controller = require("./Controller");
 const fs = require("fs");
 const path = require("path");
 const userModel = require("../../database/model/userModel");
+const notifModel = require("../../database/model/notifModel");
 
 class ProfileController extends Controller {
   constructor() {
@@ -81,20 +82,52 @@ class ProfileController extends Controller {
       gender: req.body.gender || this.user.gender,
       birth_date: req.body.birth_date || this.user.birth_date,
     };
-    userModel.editBasicProfile(req.cookies.userId, data);
+    await userModel.editBasicProfile(req.cookies.userId, data);
+    const message = {
+      title: `Change Profile Data!`,
+      body: "Your profile data has been updated.",
+      navigate: "/profile",
+      category: "common",
+      type: "profile",
+    };
+    await notifModel.addNotif(req.cookies.userId, message);
     req.flash("success", "Profile updated successfully!");
     res.redirect("/profile");
   }
   async editDataEmail(req, res) {
+    this.user = await userModel.getUserByUUID(req.cookies.userId);
     this.email = req.body.email;
-    userModel.editEmail(req.cookies.userId, this.email);
+    await userModel.editEmail(
+      req.cookies.userId,
+      this.email || this.user.email
+    );
+    const message = {
+      title: `Change Email Data!`,
+      body: `Your email address data has been to ${this.email}.`,
+      navigate: "/profile",
+      category: "common",
+      type: "profile",
+    };
+    await notifModel.addNotif(req.cookies.userId, message);
     req.flash("success", "Profile updated successfully!");
     res.setHeader("Location", "/profile");
     res.status(302).send();
   }
   async editDataPhone(req, res) {
+    this.user = await userModel.getUserByUUID(req.cookies.userId);
     this.no_hp = req.body.no_hp;
-    userModel.editPhone(req.cookies.userId, this.no_hp);
+    await userModel.editPhone(
+      req.cookies.userId,
+      this.no_hp || this.user.no_hp
+    );
+    const message = {
+      title: `Change Number Data!`,
+      body: `Your phone number data has been to ${this.no_hp}.`,
+      navigate: "/profile",
+      category: "common",
+      type: "profile",
+    };
+    await notifModel.addNotif(req.cookies.userId, message);
     req.flash("success", "Profile updated successfully!");
     res.setHeader("Location", "/profile");
     res.status(302).send();

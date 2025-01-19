@@ -1,3 +1,4 @@
+const notifModel = require("../../database/model/notifModel");
 const userModel = require("../../database/model/userModel");
 const Controller = require("./Controller");
 
@@ -50,6 +51,15 @@ class TopupController extends Controller {
     }
 
     await userModel.topup(req.cookies.userId, amount);
+
+    const message = {
+      title: `Top-up successful!`,
+      body: `You have successfully topped up ${amount} via ${method}.`,
+      navigate: "/profile",
+      category: "payment",
+      type: "topup",
+    };
+    await notifModel.addNotif(req.cookies.userId, message);
 
     return res.status(200).json({
       success: true,

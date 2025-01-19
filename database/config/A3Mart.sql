@@ -61,6 +61,7 @@ CREATE TABLE histories (
     uuid CHAR(36) NOT NULL UNIQUE,
     driver_id INT REFERENCES drivers(id) ON DELETE CASCADE,
     status INT DEFAULT 3,
+    next_status TIMESTAMP DEFAULT null,
     rating INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -73,6 +74,7 @@ CREATE TABLE notifications (
     title VARCHAR(255),
     body TEXT,
     navigate VARCHAR(255),
+    category VARCHAR(50),
     type VARCHAR(255),
     is_read BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

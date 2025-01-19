@@ -39,6 +39,9 @@ class HistoryModel {
     };
   }
   async getHistories(uuid) {
+    if (!uuid) {
+      return;
+    }
     const user = await userModel.getUserByUUID(uuid);
     const histories = await Histories.findAll({
       where: { user_id: user.id },
@@ -55,7 +58,6 @@ class HistoryModel {
         },
       ],
     });
-
     return histories?.map((history) => ({
       uuid: history?.uuid,
       status: history?.status,
@@ -92,6 +94,9 @@ class HistoryModel {
     }));
   }
   async getHistory(id, uuid) {
+    if (!uuid) {
+      return;
+    }
     const user = await userModel.getUserByUUID(uuid);
     const history = await Histories.findOne({
       where: { uuid: id, user_id: user.id },
@@ -147,6 +152,9 @@ class HistoryModel {
     };
   }
   async createOrder(uuid, delivery, total) {
+    if (!uuid) {
+      return;
+    }
     const user = await userModel.getUserByUUID(uuid);
     let cart = await cartModel.getUserCart(uuid);
     cart.delivery = delivery;
@@ -164,12 +172,19 @@ class HistoryModel {
     await cartModel.deleteCart(cart.id);
   }
 
-  async updateStatus(id, status_num) {
-    const order = await Histories.findOne({ where: { id } });
+  async updateStatus(uuid, status_num, next_status) {
+    if (!uuid) {
+      return;
+    }
+    const order = await this.cekOnProccess(uuid);
     order.status = status_num;
+    order.next_status = next_status;
     await order.save();
   }
   async cancelOrder(uuid, id) {
+    if (!uuid) {
+      return;
+    }
     const user = await userModel.getUserByUUID(uuid);
     const cart = await cartModel.getCart(user.uuid);
     const order = await Histories.findOne({ where: { uuid: id } });
@@ -192,20 +207,30 @@ class HistoryModel {
     await order.save();
   }
   async rateDriver(id, rate, uuid) {
-    const history = await this.getHistory(id, uuid);
+    if (!uuid) {
+      return;
+    }
+    const user = await userModel.getUserByUUID(uuid);
+    const history = await Histories.findOne({
+      where: { uuid: id, user_id: user.id },
+      order: [["created_at", "DESC"]],
+    });
     history.rating = rate;
     await history.save();
   }
   async cekOnProccess(uuid) {
+    if (!uuid) {
+      return;
+    }
     const user = await userModel.getUserByUUID(uuid);
-    const histories = await Histories.findOne({
+    const history = await Histories.findOne({
       where: {
         user_id: user.id,
         status: { [Op.notIn]: [1, 2] },
       },
       order: [["created_at", "DESC"]],
     });
-    return histories;
+    return history;
   }
 }
 
