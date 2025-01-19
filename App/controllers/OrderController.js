@@ -1,5 +1,6 @@
 const cartModel = require("../../database/model/cartModel");
 const historyModel = require("../../database/model/historyModel");
+const notifModel = require("../../database/model/notifModel");
 const userModel = require("../../database/model/userModel");
 const Controller = require("./Controller");
 
@@ -225,7 +226,7 @@ class OrderController extends Controller {
         const nextUpdateTime = Math.max(delay - elapsedTime, 0);
         setTimeout(sendStatusUpdate, nextUpdateTime);
       } else {
-        message = {
+        const message = {
           title: `Order Completed`,
           body: "Your order is here. Go out and pick it up",
           navigate: `/history/${inProcces.uuid}`,
