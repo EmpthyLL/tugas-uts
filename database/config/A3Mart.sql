@@ -34,7 +34,7 @@ CREATE TABLE carts (
     total DECIMAL(15, 2) DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP DEFAULT NULL
+    deleted_at TIMESTAMP 
 );
 
 -- Cart items table (items in a cart)
@@ -61,7 +61,7 @@ CREATE TABLE histories (
     uuid CHAR(36) NOT NULL UNIQUE,
     driver_id INT REFERENCES drivers(id) ON DELETE CASCADE,
     status INT DEFAULT 3,
-    next_status TIMESTAMP DEFAULT null,
+    next_status TIMESTAMP ,
     rating INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
