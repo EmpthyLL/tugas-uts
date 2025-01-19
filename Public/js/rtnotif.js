@@ -6,6 +6,7 @@ const NotifDot = document.getElementById("NotifDot");
 const cancel = document.getElementById("cancel");
 const rateDriver = document.getElementById("rateDriver");
 const orderDot = document.getElementById("orderDot");
+const OrderStatus = document.getElementById("OrderStatus");
 
 eventSource.onmessage = async (event) => {
   const data = JSON.parse(event.data);
@@ -22,6 +23,72 @@ eventSource.onmessage = async (event) => {
   if (orderDot) {
     rateDriver.classList.remove("hidden");
   }
+  OrderStatus.innerHTML = `
+            ${
+              order?.status === 1
+                ? `
+              <span
+                class="flex gap-2 border border-green-400 items-center text-green-500 bg-green-100 px-3 py-1 rounded-lg text-sm font-semibold"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-check"
+                >
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+                <%= order?.status_name %>
+              </span>`
+                : order?.status === 2
+                ? `
+              <span
+                class="flex gap-2 items-center border border-red-400 text-red-500 bg-red-100 px-3 py-1 rounded-lg text-sm font-semibold"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-circle-x"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="m15 9-6 6" />
+                  <path d="m9 9 6 6" />
+                </svg>
+                <%= order?.status_name %>
+              </span>`
+                : `
+              <span
+                class="flex gap-2 items-center border border-yellow-400 text-yellow-500 bg-yellow-100 px-3 py-1 rounded-lg text-sm font-semibold"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-clock-4"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+                <%= order?.status_name %>
+              </span>`
+            }
+  `;
   await Promise.allSettled([updateHistory(), updateNotif()]);
 };
 
