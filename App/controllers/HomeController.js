@@ -1,6 +1,7 @@
 const { default: axios } = require("axios");
 const Controller = require("./Controller");
 const cartModel = require("../../database/model/cartModel");
+const historyModel = require("../../database/model/historyModel");
 
 class HomeController extends Controller {
   constructor() {
@@ -35,10 +36,16 @@ class HomeController extends Controller {
       if (member) {
         req.flash("member", member);
       }
+      const inProcces = await historyModel.cekOnProccess(req.cookies.userId);
+      let process = false;
+      if (inProcces) {
+        process = true;
+      }
       const options = {
         layout: `components/${this.layout}`,
         title: this.title,
         req,
+        process,
         categories,
         products,
         selectedBrand: this.brand,

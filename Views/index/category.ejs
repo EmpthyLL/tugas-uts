@@ -136,6 +136,7 @@ class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
               </button>
             </div>
             <% } else { %>
+              <% if (!process) { %>
             <button
               onclick="addQuantity(event, '<%= product.id %>')"
               class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center transition hover:bg-blue-600 shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
@@ -156,6 +157,7 @@ class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
                 />
               </svg>
             </button>
+              <% } %>
             <% } %>
           </div>
     <% } %>

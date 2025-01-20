@@ -1,6 +1,7 @@
 const { default: axios } = require("axios");
 const Controller = require("./Controller");
 const cartModel = require("../../database/model/cartModel");
+const historyModel = require("../../database/model/historyModel");
 
 class CartController extends Controller {
   constructor() {
@@ -11,6 +12,10 @@ class CartController extends Controller {
   }
 
   async index(req, res) {
+    const inProcces = await historyModel.cekOnProccess(req.cookies.userId);
+    if (inProcces) {
+      res.redirect("/order");
+    }
     try {
       const options = {
         layout: `components/${this.layout}`,

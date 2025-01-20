@@ -1,5 +1,6 @@
 const { default: axios } = require("axios");
 const Controller = require("./Controller");
+const historyModel = require("../../database/model/historyModel");
 
 class CategoryController extends Controller {
   constructor() {
@@ -59,6 +60,11 @@ class CategoryController extends Controller {
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
 
+      const inProcces = await historyModel.cekOnProccess(req.cookies.userId);
+      let process = false;
+      if (inProcces) {
+        process = true;
+      }
       const options = {
         layout: `components/${this.layout}`,
         title: `${title} Products`,
@@ -66,6 +72,7 @@ class CategoryController extends Controller {
         products,
         sortBy,
         order,
+        process,
         selectedBrand,
         brands: [
           ...new Set(

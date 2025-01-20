@@ -1,5 +1,6 @@
 const { default: axios } = require("axios");
 const Controller = require("./Controller");
+const historyModel = require("../../database/model/historyModel");
 
 class ProductController extends Controller {
   constructor() {
@@ -29,10 +30,16 @@ class ProductController extends Controller {
       const MAX_RECOMMENDED = 6;
       const limitedRelatedProducts = relatedProducts.slice(0, MAX_RECOMMENDED);
 
+      const inProcces = await historyModel.cekOnProccess(req.cookies.userId);
+      let process = false;
+      if (inProcces) {
+        process = true;
+      }
       const options = {
         layout: `components/${this.layout}`,
         title: `${product.title} - Product Detail`,
         req,
+        process,
         product,
         relatedProducts: limitedRelatedProducts,
         categoryName: product.category.toLowerCase().replace(/\s+/g, "-"),
