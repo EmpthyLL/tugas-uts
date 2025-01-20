@@ -169,7 +169,7 @@ class OrderController extends Controller {
     };
 
     const sendStatusUpdate = async () => {
-      if (currentStatus < 7) {
+      if (currentStatus < 7 && currentStatus !== 2) {
         let delay = 0;
 
         // Increment status
@@ -258,7 +258,7 @@ class OrderController extends Controller {
 
         // Schedule the next update
         setTimeout(sendStatusUpdate, delay);
-      } else if (currentStatus === 7) {
+      } else {
         // Final status update
         await historyModel.updateStatus(req.cookies.userId, 1);
         const message = {

@@ -119,7 +119,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   confirmButton.addEventListener("click", () => {
-    const topupMessage = `You are about to top up Rp${inputedAmount} using ${selectedMethod}.`;
+    const topupMessage = `You are about to top up ${formatCurrency(
+      Number(inputedAmount)
+    )} using ${selectedMethod}.`;
     document.getElementById("topup-message").textContent = topupMessage;
     confirmModal.classList.remove("hidden");
   });
@@ -143,3 +145,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+function formatCurrency(number) {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(number);
+}
