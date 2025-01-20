@@ -23,14 +23,13 @@ class OrderController extends Controller {
     try {
       const orderId = req.params.id;
       const cart = await cartModel.getUserCartList(req.cookies.userId);
-      let inProcces = {};
       if (orderId) {
         this.order = await historyModel.getHistory(orderId, req.cookies.userId);
         if (!this.order || this.order.status === 1 || this.order.status === 2) {
           return res.redirect("/order");
         }
       } else {
-        inProcces = await historyModel.cekOnProccess(req.cookies.userId);
+        const inProcces = await historyModel.cekOnProccess(req.cookies.userId);
         this.order = inProcces;
         if (inProcces) {
           return res.redirect(`/order/${inProcces.uuid}`);
@@ -142,29 +141,28 @@ class OrderController extends Controller {
     }
   }
   async updateStatus(req, res) {
-    let inProcces;
-
     if (req.cookies.userId) {
-      inProcces = await historyModel.cekOnProccess(req.cookies.userId);
+      const inProcces = await historyModel.cekOnProccess(req.cookies.userId);
       if (!inProcces) {
         return;
       }
+      this.order = inProcces;
     }
 
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Connection", "keep-alive");
 
-    let currentStatus = inProcces.status;
-    const processStartTime = inProcces.createdAt;
-
+    let currentStatus = this.order.status;
+    const processStartTime =
+      currentStatus === 3 ? this.order.created_at : this.order.next_status;
     const getElapsedTime = () => {
       const now = Date.now();
       return now - new Date(processStartTime).getTime();
     };
 
     const getRandomDelay = (status) => {
-      const { min, max } = this.delay[status] || { min: 3000, max: 5000 };
+      const { min, max } = this.delay[status];
       return Math.floor(Math.random() * (max - min + 1)) + min;
     };
 
@@ -184,7 +182,7 @@ class OrderController extends Controller {
         await historyModel.updateStatus(
           req.cookies.userId,
           currentStatus,
-          Date.now() + delay
+          processStartTime + delay
         );
 
         let message;
@@ -229,7 +227,7 @@ class OrderController extends Controller {
         const message = {
           title: `Order Completed`,
           body: "Your order is here. Go out and pick it up",
-          navigate: `/history/${inProcces.uuid}`,
+          navigate: `/history/${this.order.uuid}`,
           category: "order",
           type: "complete",
         };

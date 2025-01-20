@@ -186,7 +186,7 @@
                   <% history?.slice(0, 10)?.forEach(item => { %>
 
                   <a
-                    href="/<%= item.status !== 1 || item.status !== 2 ? "history" : "order" %>/<%= item.uuid %>"
+                    href="/<%= item.status !== 1 && item.status !== 2 ? "order" : "history" %>/<%= item.uuid %>"
                     class="flex items-center space-x-4 p-4 m-2 bg-white rounded-lg shadow-lg border border-gray-200 transition-transform hover:scale-105 hover:shadow-xl"
                   >
                     <div class="w-full">
@@ -321,7 +321,7 @@
                 <% if (notification?.length > 0) { %>
 
                 <div>
-                  <% notification?.forEach(notif => { %>
+                  <% notification?.slice(0, 10)?.forEach(notif => { %>
                 <a
                   href="<%= notif.navigate %>"
                   onclick="handleNotif(event, <%= notif.id %>,'<%= notif.navigate %>')"

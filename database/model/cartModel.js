@@ -118,6 +118,7 @@ class CartModel {
     if (!cart) {
       await this.createCart(uuid);
     }
+    cart = await this.getUserCart(uuid);
     await CartItems.create({
       cart_id: cart.id,
       item_id,
@@ -128,7 +129,6 @@ class CartModel {
       thumbnail,
       total: price * 10000,
     });
-    cart = await this.getUserCart(uuid);
     await this.updatePrice(cart.id, user.is_member);
   }
   async AddQuantity(itemId, uuid) {

@@ -172,7 +172,7 @@ async function UpdateCart() {
 
     cartdot.classList.remove("hidden");
     let navhtml = `<div>`;
-    res.data.cart.items.forEach((item) => {
+    res.data.cart?.slice(0, 10)?.items.forEach((item) => {
       navhtml += ` <a
                     href="/product/${item.id}"
                     class="flex gap-2 items-center m-2 bg-white  rounded-lg shadow-md border border-gray-200 "
