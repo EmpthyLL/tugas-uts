@@ -169,9 +169,6 @@ class OrderController extends Controller {
     };
 
     const sendStatusUpdate = async () => {
-      if (currentStatus === 2) {
-        return;
-      }
       if (currentStatus < 7 && currentStatus !== 2) {
         let delay = 0;
 
@@ -261,17 +258,19 @@ class OrderController extends Controller {
 
         // Schedule the next update
         setTimeout(sendStatusUpdate, delay);
-      } else if (currentStatus === 1) {
+      } else {
         // Final status update
-        await historyModel.updateStatus(req.cookies.userId, 1);
-        const message = {
-          title: `Order Completed`,
-          body: "Your order is here. Go out and pick it up",
-          navigate: `/history/${this.order.uuid}`,
-          category: "order",
-          type: "complete",
-        };
-        await notifModel.addNotif(req.cookies.userId, message);
+        if (this.order?.uuid) {
+          await historyModel.updateStatus(req.cookies.userId, 1);
+          const message = {
+            title: `Order Completed`,
+            body: "Your order is here. Go out and pick it up",
+            navigate: `/history`,
+            category: "order",
+            type: "complete",
+          };
+          await notifModel.addNotif(req.cookies.userId, message);
+        }
 
         const notif = await notifModel.getNotif(req.cookies.userId);
         const history = await historyModel.getHistories(req.cookies.userId);

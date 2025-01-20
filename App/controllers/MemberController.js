@@ -50,7 +50,7 @@ class MemberController extends Controller {
     }).format(new Date(until));
 
     const message = {
-      title: `!`,
+      title: `Welcome to our membership!`,
       body: `You are now a member until ${formattedDate}. Enjoy your benefits!`,
       navigate: "/profile",
       category: "payment",
