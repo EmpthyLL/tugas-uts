@@ -10,13 +10,13 @@ let price;
 let type;
 
 monthlyButton.addEventListener("click", function () {
-  priceDisplay.innerHTML = 25000;
+  priceDisplay.innerHTML = formatCurrency(25000);
   selectDisplay.innerHTML = "month";
   price = 25000;
   type = "month";
 });
 annualButton.addEventListener("click", function () {
-  priceDisplay.innerHTML = 275000;
+  priceDisplay.innerHTML = formatCurrency(275000);
   selectDisplay.innerHTML = "year";
   price = 275000;
   type = "year";
@@ -44,3 +44,12 @@ payButton.addEventListener("click", async function () {
     }
   }
 });
+
+function formatCurrency(number) {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(number);
+}
