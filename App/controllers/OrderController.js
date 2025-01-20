@@ -154,37 +154,60 @@ class OrderController extends Controller {
     res.setHeader("Connection", "keep-alive");
 
     let currentStatus = this.order.status;
-    const processStartTime =
-      currentStatus === 3 ? this.order.created_at : this.order.next_status;
-    const getElapsedTime = () => {
-      const now = Date.now();
-      return now - new Date(processStartTime).getTime();
-    };
+    let processStartTime =
+      currentStatus === 3
+        ? new Date(this.order.created_at).getTime()
+        : new Date(this.order.next_status).getTime();
 
+    // Utility to calculate elapsed time
+    const getElapsedTime = () => Date.now() - processStartTime;
+
+    // Utility to calculate random delay
     const getRandomDelay = (status) => {
       const { min, max } = this.delay[status];
       return Math.floor(Math.random() * (max - min + 1)) + min;
     };
 
     const sendStatusUpdate = async () => {
-      const data = {
-        status: currentStatus,
-      };
-
-      res.write(`data: ${JSON.stringify(data)}\n\n`);
-
       if (currentStatus < 7) {
+        let delay = 0;
+
+        // Increment status
         currentStatus++;
+        if (currentStatus === 3) {
+          // Introduce an initial delay for the first transition
+          delay = getRandomDelay(currentStatus);
+          processStartTime = new Date(this.order.created_at).getTime() + delay;
 
-        const elapsedTime = getElapsedTime();
-        const delay = getRandomDelay(currentStatus);
+          // Update status in the database
+          await historyModel.updateStatus(
+            req.cookies.userId,
+            currentStatus,
+            new Date(processStartTime)
+          );
 
-        await historyModel.updateStatus(
-          req.cookies.userId,
-          currentStatus,
-          processStartTime + delay
-        );
+          // Wait for the delay to complete
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        } else {
+          // For subsequent statuses
+          const elapsedTime = getElapsedTime();
+          delay = getRandomDelay(currentStatus);
 
+          processStartTime = Date.now() + delay;
+
+          // Update status in the database
+          await historyModel.updateStatus(
+            req.cookies.userId,
+            currentStatus,
+            new Date(processStartTime)
+          );
+
+          // Adjust for elapsed time if necessary
+          const nextUpdateTime = Math.max(delay - elapsedTime, 0);
+          await new Promise((resolve) => setTimeout(resolve, nextUpdateTime));
+        }
+
+        // Send notification
         let message;
         if (currentStatus === 4) {
           message = {
@@ -221,9 +244,23 @@ class OrderController extends Controller {
         }
         await notifModel.addNotif(req.cookies.userId, message);
 
-        const nextUpdateTime = Math.max(delay - elapsedTime, 0);
-        setTimeout(sendStatusUpdate, nextUpdateTime);
-      } else {
+        // Send updated data to the client
+        const notif = await notifModel.getNotif(req.cookies.userId);
+        const history = await historyModel.getHistories(req.cookies.userId);
+
+        const data = {
+          status: currentStatus,
+          notif,
+          history,
+        };
+
+        res.write(`data: ${JSON.stringify(data)}\n\n`);
+
+        // Schedule the next update
+        setTimeout(sendStatusUpdate, delay);
+      } else if (currentStatus === 7) {
+        // Final status update
+        await historyModel.updateStatus(req.cookies.userId, 1);
         const message = {
           title: `Order Completed`,
           body: "Your order is here. Go out and pick it up",
@@ -232,12 +269,15 @@ class OrderController extends Controller {
           type: "complete",
         };
         await notifModel.addNotif(req.cookies.userId, message);
-        await historyModel.updateStatus(req.cookies.userId, 1);
+
+        const notif = await notifModel.getNotif(req.cookies.userId);
+        const history = await historyModel.getHistories(req.cookies.userId);
+
         res.write(
           `data: ${JSON.stringify({
             status: 1,
-            label: "Order Completed",
-            description: "The order has been successfully delivered.",
+            notif,
+            history,
           })}\n\n`
         );
       }
