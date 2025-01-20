@@ -23,14 +23,13 @@ class OrderController extends Controller {
     try {
       const orderId = req.params.id;
       const cart = await cartModel.getUserCartList(req.cookies.userId);
-      let inProcces = {};
       if (orderId) {
         this.order = await historyModel.getHistory(orderId, req.cookies.userId);
         if (!this.order || this.order.status === 1 || this.order.status === 2) {
           return res.redirect("/order");
         }
       } else {
-        inProcces = await historyModel.cekOnProccess(req.cookies.userId);
+        const inProcces = await historyModel.cekOnProccess(req.cookies.userId);
         this.order = inProcces;
         if (inProcces) {
           return res.redirect(`/order/${inProcces.uuid}`);
@@ -142,51 +141,73 @@ class OrderController extends Controller {
     }
   }
   async updateStatus(req, res) {
-    let inProcces;
-
     if (req.cookies.userId) {
-      inProcces = await historyModel.cekOnProccess(req.cookies.userId);
+      const inProcces = await historyModel.cekOnProccess(req.cookies.userId);
       if (!inProcces) {
         return;
       }
+      this.order = inProcces;
     }
 
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Connection", "keep-alive");
 
-    let currentStatus = inProcces.status;
-    const processStartTime = inProcces.createdAt;
+    let currentStatus = this.order.status;
+    let processStartTime =
+      currentStatus === 3
+        ? new Date(this.order.created_at).getTime()
+        : new Date(this.order.next_status).getTime();
 
-    const getElapsedTime = () => {
-      const now = Date.now();
-      return now - new Date(processStartTime).getTime();
-    };
+    // Utility to calculate elapsed time
+    const getElapsedTime = () => Date.now() - processStartTime;
 
+    // Utility to calculate random delay
     const getRandomDelay = (status) => {
-      const { min, max } = this.delay[status] || { min: 3000, max: 5000 };
+      const { min, max } = this.delay[status];
       return Math.floor(Math.random() * (max - min + 1)) + min;
     };
 
     const sendStatusUpdate = async () => {
-      const data = {
-        status: currentStatus,
-      };
-
-      res.write(`data: ${JSON.stringify(data)}\n\n`);
-
       if (currentStatus < 7) {
+        let delay = 0;
+
+        // Increment status
         currentStatus++;
+        if (currentStatus === 3) {
+          // Introduce an initial delay for the first transition
+          delay = getRandomDelay(currentStatus);
+          processStartTime = new Date(this.order.created_at).getTime() + delay;
 
-        const elapsedTime = getElapsedTime();
-        const delay = getRandomDelay(currentStatus);
+          // Update status in the database
+          await historyModel.updateStatus(
+            req.cookies.userId,
+            currentStatus,
+            new Date(processStartTime)
+          );
 
-        await historyModel.updateStatus(
-          req.cookies.userId,
-          currentStatus,
-          Date.now() + delay
-        );
+          // Wait for the delay to complete
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        } else {
+          // For subsequent statuses
+          const elapsedTime = getElapsedTime();
+          delay = getRandomDelay(currentStatus);
 
+          processStartTime = Date.now() + delay;
+
+          // Update status in the database
+          await historyModel.updateStatus(
+            req.cookies.userId,
+            currentStatus,
+            new Date(processStartTime)
+          );
+
+          // Adjust for elapsed time if necessary
+          const nextUpdateTime = Math.max(delay - elapsedTime, 0);
+          await new Promise((resolve) => setTimeout(resolve, nextUpdateTime));
+        }
+
+        // Send notification
         let message;
         if (currentStatus === 4) {
           message = {
@@ -223,23 +244,40 @@ class OrderController extends Controller {
         }
         await notifModel.addNotif(req.cookies.userId, message);
 
-        const nextUpdateTime = Math.max(delay - elapsedTime, 0);
-        setTimeout(sendStatusUpdate, nextUpdateTime);
-      } else {
+        // Send updated data to the client
+        const notif = await notifModel.getNotif(req.cookies.userId);
+        const history = await historyModel.getHistories(req.cookies.userId);
+
+        const data = {
+          status: currentStatus,
+          notif,
+          history,
+        };
+
+        res.write(`data: ${JSON.stringify(data)}\n\n`);
+
+        // Schedule the next update
+        setTimeout(sendStatusUpdate, delay);
+      } else if (currentStatus === 7) {
+        // Final status update
+        await historyModel.updateStatus(req.cookies.userId, 1);
         const message = {
           title: `Order Completed`,
           body: "Your order is here. Go out and pick it up",
-          navigate: `/history/${inProcces.uuid}`,
+          navigate: `/history/${this.order.uuid}`,
           category: "order",
           type: "complete",
         };
         await notifModel.addNotif(req.cookies.userId, message);
-        await historyModel.updateStatus(req.cookies.userId, 1);
+
+        const notif = await notifModel.getNotif(req.cookies.userId);
+        const history = await historyModel.getHistories(req.cookies.userId);
+
         res.write(
           `data: ${JSON.stringify({
             status: 1,
-            label: "Order Completed",
-            description: "The order has been successfully delivered.",
+            notif,
+            history,
           })}\n\n`
         );
       }

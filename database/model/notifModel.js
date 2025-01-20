@@ -14,7 +14,16 @@ class NotifModel {
       where: { user_id: user.id },
       order: [["created_at", "DESC"]],
     });
-    return notifs;
+    return notifs?.map((item) => ({
+      id: item?.id,
+      title: item?.title,
+      body: item?.body,
+      naviagte: item?.navigate,
+      category: item?.category,
+      type: item?.type,
+      is_read: item?.is_read,
+      created_at: item?.created_at,
+    }));
   }
   async getNotifCategory(uuid, category) {
     if (!uuid) {

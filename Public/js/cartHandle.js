@@ -172,7 +172,7 @@ async function UpdateCart() {
 
     cartdot.classList.remove("hidden");
     let navhtml = `<div>`;
-    res.data.cart.items.forEach((item) => {
+    res.data.cart.items?.slice(0, 10)?.forEach((item) => {
       navhtml += ` <a
                     href="/product/${item.id}"
                     class="flex gap-2 items-center m-2 bg-white  rounded-lg shadow-md border border-gray-200 "
@@ -255,7 +255,7 @@ async function updateShoppingCart() {
     total.innerHTML = format(res.data.cart.total);
 
     let carthtml = "";
-    res.data.cart.items.forEach((item) => {
+    res.data.cart.items?.slice(0, 10)?.forEach((item) => {
       carthtml += ` <div class="flex items-start border-b pb-4 mb-4" id="product-${item}">
     <a href="/product/${item.id}">
       <img

@@ -26,7 +26,7 @@ const change = (clicked) => {
 
 async function submitRating(id) {
   try {
-    const res = await axios.post(`/api/history/rate/${id}`, {
+    const res = await axios.post(`/api/order/rate/${id}`, {
       rating: currentRating,
     });
     if (res.status === 200) {

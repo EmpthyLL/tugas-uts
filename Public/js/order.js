@@ -199,6 +199,8 @@ async function cancelOrder(id, status) {
   try {
     const res = await axios.delete(`/api/order/${id}`);
     if (res.status === 200) {
+      const NotifDot = document.getElementById("NotifDot");
+      NotifDot.classList.remove("hidden");
       window.location.reload(true);
     }
   } catch (error) {

@@ -16,7 +16,7 @@ app.delete("/:id", cektoken, async (req, res) => {
 app.post("/rate/:id", cektoken, async (req, res) => {
   await orderController.rateDriver(req, res);
 });
-app.get("/status", cektoken, (req, res) => {
-  orderController.updateStatus(req, res);
+app.get("/status", cektoken, async (req, res) => {
+  await orderController.updateStatus(req, res);
 });
 module.exports = app;
