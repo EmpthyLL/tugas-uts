@@ -7,7 +7,7 @@
   <div class="bg-white shadow-md border rounded-lg p-6">
     <% if (history.length > 0) { %>
     <!-- Orders List -->
-    <div class="space-y-6">
+    <div class="space-y-6" id="historyMenuCon">
       <% history?.forEach(item => { %>
       <a
         href="/<%= item.status !== 1 && item.status !== 2 ? "order" : "history" %>/<%= item.uuid %>"

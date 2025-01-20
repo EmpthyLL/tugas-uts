@@ -38,6 +38,7 @@ const rateDriver = document.getElementById("rateDriver");
 const orderDot = document.getElementById("orderDot");
 const OrderStatus = document.getElementById("OrderStatus");
 const notifCon = document.getElementById("notificationContent");
+const historyCon = document.getElementById("historyMenuCon");
 
 eventSource.onmessage = (event) => {
   const data = JSON.parse(event.data);
@@ -266,6 +267,150 @@ function updateHistory(data) {
                     >
                   </div></div>`;
   HistoryPop.innerHTML = navhtml;
+
+  menuHTML = "";
+  if (historyCon) {
+    data.forEach((item) => {
+      menuHTML += `
+      <a
+        href="/${
+          item.status !== 1 && item.status !== 2 ? "order" : "history"
+        }/${item.uuid}"
+        class="w-full flex flex-wrap md:flex-nowrap items-center gap-6 p-5 bg-gray-50 rounded-lg shadow-md border border-gray-200 transition-transform transform hover:scale-105 hover:shadow-lg"
+      >
+        <!-- Order Information -->
+        <div class="flex flex-col space-y-4 w-full">
+          <!-- Date -->
+          <p class="text-lg font-medium text-gray-600">
+            ${formatDate(item.created_at)}
+          </p>
+
+          <div class="flex flex-col md:flex-row gap-6 md:items-center">
+            <!-- Logo -->
+            <img
+              src="/img/A3Mart.png"
+              alt="Logo"
+              class="w-32 h-24 rounded-md"
+            />
+
+            <!-- Order Details -->
+            <div class="flex-1 space-y-1">
+              <p class="text-lg font-semibold text-gray-800">
+                ${formatCurrency(item.cart.total)}
+              </p>
+              <p class="text-sm text-gray-700">
+                Total Items: ${item.cart?.items?.length}
+              </p>
+              <p class="text-sm text-gray-500">
+                Driver:
+                <span class="font-medium">${item.driver.name}</span> | 
+                ${item.driver.plat_num}
+              </p>
+            </div>
+
+            <!-- Order Status -->
+            <div class="text-right flex flex-col gap-3">
+              ${
+                item?.status === 1
+                  ? `
+              <span
+                class="flex gap-2 border w-max border-green-400 items-center text-green-500 bg-green-100 px-3 py-1 rounded-lg text-sm font-semibold"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-check"
+                >
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+                ${item?.status_name}
+              </span>`
+                  : item?.status === 2
+                  ? `
+              <span
+                class="flex gap-2 items-center w-max border border-red-400 text-red-500 bg-red-100 px-3 py-1 rounded-lg text-sm font-semibold"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-circle-x"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="m15 9-6 6" />
+                  <path d="m9 9 6 6" />
+                </svg>
+                ${item?.status_name}
+              </span>`
+                  : `
+              <span
+                class="flex gap-2 items-center border w-max border-yellow-400 text-yellow-500 bg-yellow-100 px-3 py-1 rounded-lg text-sm font-semibold"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-clock-4"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+                ${item?.status_name}
+              </span>`
+              }
+              ${
+                item?.status === 1
+                  ? `
+              <span class="flex items-center gap-1">
+                ${
+                  item?.rating
+                    ? Array.from({ length: 5 })
+                        .map(
+                          (_, i) =>
+                            `<ion-icon name="star" class="text-xl ${
+                              i < item.rating
+                                ? "text-yellow-400"
+                                : "text-gray-400"
+                            }"></ion-icon>`
+                        )
+                        .join("")
+                    : Array.from({ length: 5 })
+                        .map(
+                          (_, i) =>
+                            `<ion-icon name="star" id="star${i}" class="text-xl text-gray-400 cursor-pointer" onclick="change(document.getElementById('star${i}'))"></ion-icon>`
+                        )
+                        .join("")
+                }
+              </span>`
+                  : ""
+              }
+            </div>
+          </div>
+        </div>
+      </a>
+                  `;
+      historyCon.innerHTML = menuHTML;
+    });
+  }
 }
 function updateNotif(data) {
   const notifIcon = {
@@ -589,9 +734,11 @@ function updateNotif(data) {
   let menuHTML = "";
   const currentUrl = new URL(window.location);
   const tab = currentUrl.searchParams.get("tab");
-  if (tab === "order" && notifCon) {
-    data.forEach((item) => {
-      menuHTML += `
+  if (tab === "order") {
+    data
+      .filter((item) => item.category === "order")
+      .forEach((item) => {
+        menuHTML += `
                 <a
                   href="${item.navigate}"
                   onclick="handleNotif(event,${item.id},'${item.navigate}')"
@@ -626,8 +773,8 @@ function updateNotif(data) {
                   }
                 </a>
                   `;
-      notifCon.innerHTML = menuHTML;
-    });
+        notifCon.innerHTML = menuHTML;
+      });
   }
 }
 
