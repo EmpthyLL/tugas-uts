@@ -152,3 +152,5 @@ async function handleSubmit(event) {
     });
   }
 }
+
+generateOtp();

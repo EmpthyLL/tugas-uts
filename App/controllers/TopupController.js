@@ -1,5 +1,6 @@
 const notifModel = require("../../database/model/notifModel");
 const userModel = require("../../database/model/userModel");
+const { formatCurrency } = require("../../utils/formater");
 const Controller = require("./Controller");
 
 class TopupController extends Controller {
@@ -54,7 +55,9 @@ class TopupController extends Controller {
 
     const message = {
       title: `Top-up successful!`,
-      body: `You have successfully topped up ${amount} via ${method}.`,
+      body: `You have successfully topped up ${formatCurrency(
+        amount
+      )} via ${method}.`,
       navigate: "/profile",
       category: "payment",
       type: "topup",

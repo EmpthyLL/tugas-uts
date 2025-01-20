@@ -177,9 +177,11 @@ class HistoryModel {
       return;
     }
     const order = await this.cekOnProccess(uuid);
-    order.status = status_num ?? 1;
-    order.next_status = next_status;
-    await order.save();
+    if (order) {
+      order.status = status_num;
+      order.next_status = next_status;
+      await order.save();
+    }
   }
   async cancelOrder(uuid, id) {
     if (!uuid) {

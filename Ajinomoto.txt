@@ -43,10 +43,6 @@ d) A3 Mart (Always Available Anywhere)
 
 - Select Category * 
 
-- Select Brand * 
-
-- Sort Product * 
-
 - Cookies * 
 
 - Set Profile Picture * 
@@ -126,4 +122,3 @@ Flow
 - Jika pesanan sudah selesai maka akan kembali ke menu utama 
 
 e) Untuk tugas ini, besar harapan kami bisa mendapatkan nilai A karena sudah mengikuti semua kriteria yang disebutkan oleh Bapak Guru. Meskipun masih banyak kekurangan dari tugas kita, kami berharap bisa mendapatkan nilai yang bagus untuk tugas kami.
-

@@ -165,8 +165,8 @@
     <p class="text-gray-700 font-bold my-3">Shopping List</p>
     <% data?.cart?.items?.forEach(item => { %>
     <div class="flex justify-between text-gray-500">
-      <p><%= data?.quantity %> X <%= data?.title %></p>
-      <p><%= formatCurrency(data?.price) %></p>
+      <p><%= item?.quantity %> X <%= item?.title %></p>
+      <p><%= formatCurrency(item?.price) %></p>
     </div>
     <hr class="my-3 border-gray-300" />
     <% }) %>
