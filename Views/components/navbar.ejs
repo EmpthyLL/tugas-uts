@@ -63,19 +63,22 @@
             </a>
 
             <!-- Dot -->
-
-            <span
+            <% if (menu.title === 'Cart') { %>
+              <span
               id="CartDot"
               class="absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white <%= menu.title === 'Cart' && cart?.items?.length > 0 ? "" : "hidden"%>"
             ></span>
+            <% } else if (menu.title === 'History') { %>
             <span
-              id="HistoryDot"
-              class="absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white <%= menu.title === 'History' && history?.find(item => item.rating === null && item.status === 1) ? "" : "hidden"%>"
-            ></span>
+            id="HistoryDot"
+            class="absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white <%= menu.title === 'History' && history?.find(item => item.rating === null && item.status === 1) ? "" : "hidden"%>"
+          ></span>
+          <% } else { %>
             <span
               id="NotifDot"
               class="absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white <%= menu.title === 'Notifications' && notification?.find(item => item.is_read === false) ? "" : "hidden"%>"
             ></span>
+            <% } %>
 
           </div>
 

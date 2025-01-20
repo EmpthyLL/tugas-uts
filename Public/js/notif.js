@@ -1,4 +1,3 @@
-let notifCurrTab = null;
 const notifIcon = {
   home: `
             <svg
@@ -275,7 +274,9 @@ async function showNotification(e, category) {
     "bg-gradient-to-r from-slate-600 to-slate-500 hover:from-slate-700 hover:to-slate-600 text-white font-semibold rounded-xl shadow-lg ring-2 ring-slate-600 focus:outline-none transition-all duration-300 ease-in-out transform scale-105";
   notifTab.forEach((item) => item.classList.remove(...active.split(" ")));
   e.currentTarget.classList.add(...active.split(" "));
-  notifCurrTab = category;
+  const currentUrl = new URL(window.location);
+  currentUrl.searchParams.set("tab", category);
+  window.history.pushState({}, "", currentUrl);
 
   try {
     const res = await axios.get(`/api/notif/${category}`);
@@ -335,7 +336,7 @@ async function showNotification(e, category) {
 
 function formatDate(dateString) {
   const date = new Date(dateString);
-  return date.toLocaleString("id-ID", {
+  return date.toLocaleString("en-US", {
     day: "2-digit",
     month: "long",
     year: "numeric",
