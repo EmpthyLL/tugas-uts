@@ -188,9 +188,8 @@ class HistoryModel {
       return;
     }
     const user = await userModel.getUserByUUID(uuid);
-    const cart = await cartModel.getCart(user.uuid);
+    const cart = await cartModel.getCart(uuid);
     const order = await Histories.findOne({ where: { uuid: id } });
-
     if (order.status === 2 || order.status === 1 || order.status === 5) {
       return order.status;
     }
