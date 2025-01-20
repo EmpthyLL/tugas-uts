@@ -37,6 +37,7 @@ const cancel = document.getElementById("cancel");
 const rateDriver = document.getElementById("rateDriver");
 const orderDot = document.getElementById("orderDot");
 const OrderStatus = document.getElementById("OrderStatus");
+const notifCon = document.getElementById("notificationContent");
 
 eventSource.onmessage = async (event) => {
   const data = JSON.parse(event.data);
@@ -51,7 +52,7 @@ eventSource.onmessage = async (event) => {
     }
   }
   if (orderDot) {
-    rateDriver.classList.remove("hidden");
+    orderDot.classList.remove("hidden");
   }
   OrderStatus.innerHTML = `
             <!-- Dynamic Status -->
@@ -139,7 +140,7 @@ eventSource.onerror = (error) => {
 async function updateHistory() {
   try {
     const res = await axios.get("/api/order");
-    if (!res.data.cart || res.data.cart.items.length === 0) {
+    if (!res.data.data || res.data.data.length === 0) {
       HistoryPop.innerHTML = `<p 
                   class="text-sm text-gray-500  flex justify-center items-center mt-2 mb-32" >
                   You haven't done any orders yet.
@@ -147,11 +148,11 @@ async function updateHistory() {
       return;
     }
     let navhtml = `<div>`;
-    res.data.forEach((item) => {
+    res.data.data?.slice(0, 10)?.forEach((item) => {
       navhtml += `
                   <a
                     href="/${
-                      item.status !== 1 || item.status !== 2
+                      item.status !== 1 && item.status !== 2
                         ? "order"
                         : "history"
                     }/${item.uuid}"
@@ -279,7 +280,7 @@ async function updateHistory() {
 async function updateNotif() {
   try {
     const res = await axios.get("/api/notif");
-    if (!res.data.cart || res.data.cart.items.length === 0) {
+    if (!res.data.data || res.data.data.length === 0) {
       NotifDot.classList.add("hidden");
       NotifPop.innerHTML = `<p 
                   class="text-sm text-gray-500  flex justify-center items-center mt-2 mb-32" >
@@ -289,7 +290,7 @@ async function updateNotif() {
     }
     NotifDot.classList.remove("hidden");
     let navhtml = `<div>`;
-    res.data.forEach((item) => {
+    res.data.data?.slice(0, 10)?.forEach((item) => {
       navhtml += `
                 <a
                   href="${item.navigate}"
@@ -335,6 +336,48 @@ async function updateNotif() {
                     >
                   </div></div>`;
     NotifPop.innerHTML = navhtml;
+
+    let menuHTML = "";
+    if (notifCurrTab === "order" && notifCon) {
+      res.data.data.forEach((item) => {
+        menuHTML += `
+                <a
+                  href="${item.navigate}"
+                  onclick="handleNotif(event,${item.id},'${item.navigate}')"
+                  class="relative min-h-[84px] flex items-center space-x-4 p-4 bg-white rounded-lg shadow-md border border-gray-200 m-2 hover:bg-green-300 hover:bg-opacity-80 transition duration-200 ease-in-out"
+                >
+                  <div
+                    class="flex items-center justify-center aspect-square p-2 bg-lime-100 text-lime-500 rounded-full"
+                  >
+                    ${notifIcon[item.type]}
+                  </div>
+
+                  <!-- Text container -->
+                  <div class="flex flex-col flex-1">
+                    <p class="text-sm font-semibold text-gray-700">${
+                      item.title
+                    }</p>
+
+                    <div class="flex justify-between items-end mt-1">
+                      <p class="text-[12px] text-gray-700">${item.body}</p>
+                      <p class="text-[12px] text-gray-400">
+                        ${formatDate(item.created_at)}
+                      </p>
+                    </div>
+                  </div>
+
+                  ${
+                    !item.is_read
+                      ? `<span
+                    class="absolute top-2 right-2 w-3 h-3 bg-red-500 border border-white dark:border-gray-800 rounded-full"
+                  ></span>`
+                      : ""
+                  }
+                </a>
+                  `;
+        notifCon.innerHTML = menuHTML;
+      });
+    }
   } catch (error) {
     if (error.status === 403) {
       window.location.href = "/sign-in";
